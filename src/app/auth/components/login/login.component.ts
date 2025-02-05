@@ -98,16 +98,16 @@ export class LoginComponent {
       error: (error: HttpErrorResponse) => {
 
         if (error.status == 401) {
-          this.errorMessage = "Usuario o contraseña incorrecto"
+          this.errorMessage = "Nombre de usuario o contraseña incorrectos."
           return
         }
-        this.errorMessage = "Error inesperado"
+        this.errorMessage = "Error inesperado."
         if (error.status == 403) {
 
-          this.errorMessage = "Usuario o contraseña incorrecto"
+          this.errorMessage = "Nombre de usuario o contraseña incorrectos."
         }
         if (error.status == 500) {
-          this.errorMessage = "Hubo un problema contactando al servidor, intente más tarde"
+          this.errorMessage = "Hubo un problema contactando al servidor, intente más tarde."
         }
         console.log("error at login", this.errorMessage)
       }

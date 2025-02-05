@@ -16,9 +16,10 @@
 body.dark {
     --primary: #2A3E5C;
     --placeholders: #b6b6b6;
-
+    --mdc-outlined-text-field-label-text-color: rgb(223, 223, 223);
     --mdc-outlined-text-field-outline-color: rgb(223, 223, 223);
-
+    --mdc-outlined-text-field-hover-outline-color: rgb(202, 202, 202);
+    --mdc-outlined-text-field-hover-label-text-color: rgb(202, 202, 202);
 }
 
 
@@ -45,6 +46,10 @@ body {
     color: #e7e7e7;
 }
 
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-right-style: hidden;
+}
+
 
 html,
 body {
@@ -55,6 +60,14 @@ body {
 
 /* CSS de Los Botones*/
 
+.bg-servicampo {
+    background-color: var(--primary) !important;
+}
+
+input::placeholder {
+    color: var(--placeholders) !important;
+
+}
 
 .elitsoft-btn-icon {
     color: var(--primary);
