@@ -11,8 +11,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { Swiper } from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
+import SwiperCore from 'swiper';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
+
 
 @Component({
   selector: 'app-login',
@@ -25,6 +28,7 @@ import { Navigation, Pagination } from 'swiper/modules';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+
   ],
   providers: [
     AuthService,
@@ -40,7 +44,7 @@ export class LoginComponent {
 
   images: string[] = ["1.jpg", "2.jpg", "3.jpg", "4.jpg"]
 
-  @ViewChild('swiperContainer') swiperContainer!: ElementRef;
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -57,18 +61,7 @@ export class LoginComponent {
   }
   ngAfterViewInit() {
     // Initialize Swiper with options
-    new Swiper(this.swiperContainer.nativeElement, {
-      modules: [Navigation, Pagination], // Include required modules
-      loop: true,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev'
-      }
-    });
+
   }
 
 

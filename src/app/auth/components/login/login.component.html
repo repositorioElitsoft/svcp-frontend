@@ -8,10 +8,12 @@
         </div>
     </button>
 
+
     <div class="lg:w-1/2 h-[60vh] w-full lg:h-screen">
         <div class="relative w-full h-full">
-            <swiper-container #swiperContainer speed="2500" loop="true" class="mySwiper" pagination="true"
-                pagination-clickable="true" slides-per-view="1" space-between="0" free-mode="true" autoplay-delay="3500"
+
+            <swiper-container speed="2500" loop="true" class="mySwiper" pagination="true" pagination-clickable="true"
+                slides-per-view="1" space-between="0" free-mode="true" autoplay-delay="3500"
                 autoplay-disable-on-interaction="false">
                 <swiper-slide *ngFor="let image of images">
                     <img [src]="getImageRoute(image)" alt="Placeholder Image"
