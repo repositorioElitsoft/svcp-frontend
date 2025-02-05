@@ -3,12 +3,6 @@ swiper-container {
     height: 100%;
 }
 
-@media (min-width: 1024px) {
-    .lg\:h-screen {
-        height: 100vh !important;
-    }
-}
-
 swiper-slide {
     text-align: center;
     font-size: 18px;
@@ -42,3 +36,9 @@ swiper-container::part(bullet) {
 }
 
 /* For the default (unfocused) outline */
+
+@media (min-width: 1024px) {
+    .lg\:h-screen {
+        height: 100vh !important;
+    }
+}
