@@ -1,36 +1,40 @@
-<app-titulo-dialogo title="Accesibilidad" icon="accessibility_new" [ref]="dialogRef"></app-titulo-dialogo>
+<app-titulo-dialogo [title]="'title' | translate" icon="accessibility_new" [ref]="dialogRef"></app-titulo-dialogo>
 <div class="w-[392px] h-[308px] dark:bg-neutral-800 flex flex-col items-stretch font-['Roboto']">
     <!-- Color Mode Section -->
     <div class="h-11 rounded-t-lg flex items-center px-3 gap-3">
         <mat-icon style="color: #4350AF;">color_lens</mat-icon>
-        <div class="text-lg text-[#616161] font-medium">Modo de color:</div>
+        <div class="text-lg text-[#616161] font-medium">{{ 'colorMode' | translate }}:</div>
     </div>
-
 
     <app-toggle-group [selectedValue]="initialMode" [options]="colorModes" (valueChange)="onColorModeChange($event)"
         [(ngModel)]="selectedColorMode"></app-toggle-group>
 
-    <app-toggle-group></app-toggle-group>
     <!-- Language Section -->
     <div class="flex-1 flex flex-col">
         <div class="h-11 flex items-center px-3 gap-3">
             <mat-icon style="color: #4350AF;">public</mat-icon>
-            <div class="text-lg text-[#424242] font-medium">Idioma</div>
+            <div class="text-lg text-[#424242] font-medium">{{ 'language' | translate }}</div>
         </div>
-        <input placeholder="Buscar Idioma" class="h-11 mb-2 bg-transparent flex items-center justify-between px-3">
-
+        <input placeholder="{{ 'searchLanguage' | translate }}"
+            class="h-11 mb-2 bg-transparent flex items-center justify-between px-3" [formControl]="languageControl"
+            [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onLanguageSelected($event)">
+            <mat-option *ngFor="let language of filteredLanguages | async" [value]="language">
+                {{ language }}
+            </mat-option>
+        </mat-autocomplete>
 
         <div class="flex">
-            <button class="flex-1 h-11 bg-servicampo text-white text-lg">Español</button>
-            <button class="flex-1 h-11"></button>
-            <button class="flex-1 h-11"></button>
+            <button class="flex-1 h-11 bg-servicampo text-white text-lg">
+                {{ selectedLanguage }}
+            </button>
         </div>
 
-        <div class="h-11  flex items-center px-3 gap-3">
+        <!-- Font Size Section -->
+        <div class="h-11 flex items-center px-3 gap-3">
             <mat-icon style="color: #4350AF;">text_fields</mat-icon>
-            <div class="text-lg text-[#424242] font-medium">Tamaño letra</div>
+            <div class="text-lg text-[#424242] font-medium">{{ 'fontSize' | translate }}</div>
         </div>
         <app-toggle-group [options]="fontSizes" [(ngModel)]="selectedFontSize"></app-toggle-group>
     </div>
-
 </div>
