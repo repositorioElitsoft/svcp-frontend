@@ -10,8 +10,8 @@
 
     <div class="lg:w-1/2 h-[60vh] w-full lg:h-screen">
         <div class="relative w-full h-full">
-            <swiper-container speed="2500" loop="true" class="mySwiper" pagination="true" pagination-clickable="true"
-                slides-per-view="1" space-between="0" free-mode="true" autoplay-delay="3500"
+            <swiper-container #swiperContainer speed="2500" loop="true" class="mySwiper" pagination="true"
+                pagination-clickable="true" slides-per-view="1" space-between="0" free-mode="true" autoplay-delay="3500"
                 autoplay-disable-on-interaction="false">
                 <swiper-slide *ngFor="let image of images">
                     <img [src]="getImageRoute(image)" alt="Placeholder Image"
@@ -19,7 +19,7 @@
                 </swiper-slide>
             </swiper-container>
 
-            <!-- Text Container -->
+
             <div class="z-50 absolute left-1/2 -translate-x-1/2 bottom-[8vh] lg:bottom-[6vh]">
                 <div class="h-[63px] flex-col justify-center items-center inline-flex">
                     <div class="text-center text-white text-[34px] font-medium font-['Roboto']">
@@ -31,11 +31,13 @@
                 </div>
             </div>
 
-            <!-- Image -->
+
             <img src="assets/servicampo.png"
                 class="z-50 absolute left-1/2 -translate-x-1/2 bottom-[16vh] lg:bottom-[18vh]" />
         </div>
     </div>
+
+
 
 
 

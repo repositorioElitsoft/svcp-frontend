@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
@@ -11,8 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import Swiper from 'swiper';
-
+import { Swiper } from 'swiper';
+import { Navigation, Pagination } from 'swiper/modules';
 
 @Component({
   selector: 'app-login',
@@ -35,12 +35,12 @@ import Swiper from 'swiper';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-
   form!: FormGroup
   errorMessage!: String
 
   images: string[] = ["1.jpg", "2.jpg", "3.jpg", "4.jpg"]
 
+  @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -52,7 +52,26 @@ export class LoginComponent {
       username: ['', [Validators.required]],
       password: ['', Validators.required]
     })
+
+
   }
+  ngAfterViewInit() {
+    // Initialize Swiper with options
+    new Swiper(this.swiperContainer.nativeElement, {
+      modules: [Navigation, Pagination], // Include required modules
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      }
+    });
+  }
+
+
   getImageRoute(image: string) {
     return `assets/${image}`
   }
