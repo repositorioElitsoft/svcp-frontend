@@ -17,10 +17,10 @@
             <div class="text-lg text-[#424242] font-medium">{{ 'language' | translate }}</div>
         </div>
         <input placeholder="{{ 'searchLanguage' | translate }}"
-            class="h-11 mb-2 bg-transparent flex items-center justify-between px-3" [formControl]="languageControl"
-            [matAutocomplete]="auto" />
+            class="h-11 mb-2 bg-transparent flex items-center justify-between px-3 text-lg"
+            [formControl]="languageControl" [matAutocomplete]="auto" />
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onLanguageSelected($event)">
-            <mat-option *ngFor="let language of filteredLanguages | async" [value]="language">
+            <mat-option *ngFor="let language of filteredLanguages | async" [value]="language" class="text-lg">
                 {{ language }}
             </mat-option>
         </mat-autocomplete>
@@ -36,6 +36,8 @@
             <mat-icon style="color: #4350AF;">text_fields</mat-icon>
             <div class="text-lg text-[#424242] font-medium">{{ 'fontSize' | translate }}</div>
         </div>
-        <app-toggle-group [options]="fontSizes" [(ngModel)]="selectedFontSize"></app-toggle-group>
+        <app-toggle-group [options]="fontSizes" [(ngModel)]="selectedFontSize" [selectedValue]=" this.selectedFontSize"
+            (valueChange)="onFontSizeChange($event)">
+        </app-toggle-group>
     </div>
 </div>

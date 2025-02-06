@@ -12,6 +12,7 @@ import { Observable } from 'rxjs'; // Para el MatAutocomplete
 import { startWith, map as rxjsMap } from 'rxjs/operators'; // Para el MatAutocomplete
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TituloDialogoComponent } from '../titulo-dialogo/titulo-dialogo.component';
+import { FontSizeService } from '../../../core/services/font-size.service';
 
 @Component({
   selector: 'app-dialogo-accesibilidad',
@@ -37,7 +38,8 @@ export class DialogoAccesibilidadComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogoAccesibilidadComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private themeService: ThemeService,
-    private translate: TranslateService// Inyecta TranslateService
+    private translate: TranslateService,
+    private fontSizeService: FontSizeService
   ) { }
 
   initialMode = '';
@@ -58,12 +60,8 @@ export class DialogoAccesibilidadComponent implements OnInit {
   ];
   selectedColorMode = 'light';
 
-  fontSizes = [
-    { value: 'small', label: 'A-' },
-    { value: 'medium', label: 'A' },
-    { value: 'large', label: 'A+' },
-  ];
-  selectedFontSize = localStorage.getItem('appFontSize') || 'medium';
+  fontSizes = this.fontSizeService.getFontSizes();
+  selectedFontSize!: string;
 
   // Nuevas propiedades para el selector de idioma
   languageControl = new FormControl();
@@ -72,30 +70,14 @@ export class DialogoAccesibilidadComponent implements OnInit {
   selectedLanguage: string = 'Español';
 
   ngOnInit() {
-    const option = localStorage.getItem('theme-option') ?? 'system';
-    this.initialMode = option;
-
-    // Configura el idioma inicial
-    const savedLanguage = localStorage.getItem('selectedLanguage') || 'es';
-    this.translate.use(savedLanguage);
-    this.selectedLanguage = this.getLanguageName(savedLanguage);
-
-    // Configura el MatAutocomplete
-    this.filteredLanguages = this.languageControl.valueChanges.pipe(
-      startWith(''),
-      rxjsMap((value) => this._filterLanguages(value))
-    );
-
-    this.translate.onLangChange.subscribe(() => {
-      this.colorModes = [
-        { value: 'light', label: this.translate.instant('colorModes.light') },
-        { value: 'dark', label: this.translate.instant('colorModes.dark') },
-        { value: 'system', label: this.translate.instant('colorModes.system') }
-      ];
-    });
-
+    this.loadThemeFromLocalStorage();
+    this.configureLanguageAutocomplete();
+    this.subscribeToLanguageChanges();
+    this.setSelectedLanguage();
+    this.selectedFontSize = this.fontSizeService.getSelectedFontSize();
 
   }
+
 
   // Filtra los idiomas para el MatAutocomplete
   private _filterLanguages(value: string): string[] {
@@ -173,7 +155,53 @@ export class DialogoAccesibilidadComponent implements OnInit {
 
   isDarkMode$ = this.themeState$.pipe(map((state) => state.mode === 'dark'));
 
-  onFontSizeChange(size: string) {
-    console.log('Selected font size:', size);
+  onFontSizeChange(newSize: string): void {
+    this.fontSizeService.onFontSizeChange(newSize);
+    this.selectedFontSize = newSize; // Actualizar el valor en el componente
   }
+
+  /**
+ * Carga la opción de tema desde localStorage.
+ */
+  private loadThemeFromLocalStorage(): void {
+    const option = localStorage.getItem('theme-option') ?? 'system';
+    this.initialMode = option;
+  }
+
+  /**
+
+  /**
+   * Configura el MatAutocomplete para los idiomas.
+   */
+  private configureLanguageAutocomplete(): void {
+    this.filteredLanguages = this.languageControl.valueChanges.pipe(
+      startWith(''),
+      rxjsMap((value) => this._filterLanguages(value))
+    );
+  }
+
+  /**
+   * Suscribe a los cambios de idioma para actualizar los modos de color.
+   */
+  private subscribeToLanguageChanges(): void {
+    this.translate.onLangChange.subscribe(() => {
+      this.colorModes = [
+        { value: 'light', label: this.translate.instant('colorModes.light') },
+        { value: 'dark', label: this.translate.instant('colorModes.dark') },
+        { value: 'system', label: this.translate.instant('colorModes.system') }
+      ];
+      console.log('Modos de color actualizados:', this.colorModes); // Depuración
+    });
+  }
+
+  /**
+   * Establece el idioma seleccionado en el botón.
+   */
+  private setSelectedLanguage(): void {
+    const currentLanguage = this.translate.currentLang; // Obtiene el idioma actual
+    this.selectedLanguage = this.getLanguageName(currentLanguage);
+    console.log('Idioma actual:', currentLanguage, 'Idioma seleccionado:', this.selectedLanguage);
+  }
+
+
 }

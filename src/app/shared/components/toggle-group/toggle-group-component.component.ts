@@ -40,6 +40,7 @@ export class ToggleGroupComponent implements ControlValueAccessor {
   @Input() selectedClass = 'bg-servicampo text-white';
   @Input() unselectedClass = 'bg-white dark:bg-neutral-800 text-[#9e9e9e]';
   @Input() hoverClass = 'hover:bg-gray-100';
+  @Input() textSizeClass: string = 'text-lg'; // Valor por defecto
 
   // Valor interno del componente que se sincronizará con el modelo
   selectedValue: any;
