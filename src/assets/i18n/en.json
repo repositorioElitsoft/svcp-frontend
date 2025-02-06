@@ -1,0 +1,22 @@
+{
+    "title": "Accessibility",
+    "colorMode": "Color Mode",
+    "language": "Language",
+    "searchLanguage": "Search Language",
+    "fontSize": "Font Size",
+    "colorModes": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    },
+    "login": {
+        "optimizeTime": "Optimize your time",
+        "oneClick": "in one click",
+        "welcome": "Welcome to Servicampo!",
+        "accessAccount": "Access your account to begin.",
+        "username": "Username",
+        "password": "Password",
+        "emptyField": "This field cannot be empty.",
+        "signIn": "Sign In"
+    }
+}

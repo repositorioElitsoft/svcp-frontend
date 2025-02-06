@@ -25,10 +25,10 @@
             <div class="z-50 absolute left-1/2 -translate-x-1/2 bottom-[8vh] lg:bottom-[6vh]">
                 <div class="h-[63px] flex-col justify-center items-center inline-flex">
                     <div class="text-center text-white text-[34px] font-medium font-['Roboto']">
-                        Optimiza tu tiempo
+                        {{ 'login.optimizeTime' | translate }}
                     </div>
                     <div class="self-stretch text-center text-white text-xl font-normal font-['Roboto']">
-                        en un clic
+                        {{ 'login.oneClick' | translate }}
                     </div>
                 </div>
             </div>
@@ -48,9 +48,9 @@
 
 
         <div class="">
-            <div class="text-[43px] font-medium font-['Roboto']">¡Bienvenido a Servicampo!</div>
-            <div class="self-stretch text-[#9e9e9e] text-[22px] font-normal font-['Roboto']">Accede a tu cuenta para
-                comenzar.</div>
+            <div class="text-[43px] font-medium font-['Roboto']"> {{ 'login.welcome' | translate }}</div>
+            <div class="self-stretch text-[#9e9e9e] text-[22px] font-normal font-['Roboto']">{{ 'login.accessAccount' |
+                translate }}</div>
         </div>
         <div class="my-[70px]"></div>
         <form (ngSubmit)="login()" [formGroup]="form" class="w-full">
@@ -61,11 +61,11 @@
 
             <div class="mb-4">
                 <mat-form-field appearance="outline" class="w-full dark:!text-gray-100 ">
-                    <mat-label>Usuario</mat-label>
+                    <mat-label>{{ 'login.username' | translate }}</mat-label>
                     <input matInput type="email" formControlName="username" id="username"
                         placeholder="Ingresa tu usuario" class="w-full dark:!text-gray-100  bg-transparent " required>
                     <mat-error *ngIf="form.get('username')?.hasError('required')">
-                        Este campo no puede estar vacío.
+                        {{ 'login.emptyField' | translate }}
                     </mat-error>
                 </mat-form-field>
 
@@ -74,19 +74,18 @@
             <div class="mb-4">
 
                 <mat-form-field appearance="outline" class="w-full dark:!text-gray-100">
-                    <mat-label>Contraseña</mat-label>
+                    <mat-label>{{ 'login.password' | translate }}</mat-label>
                     <input matInput type="password" formControlName="password" id="password" placeholder="••••••••"
                         class="w-full dark:!text-gray-100" required>
                     <mat-error *ngIf="form.get('password')?.hasError('required')">
-                        Este campo no puede estar vacío.
-                    </mat-error>
+                        {{ 'login.emptyField' | translate }} </mat-error>
                 </mat-form-field>
 
             </div>
 
             <button type="submit" class="elitsoft-btn !py-3 rounded px-4 w-full"
                 style="display: block; margin: 0 auto;">
-                Ingresar</button>
+                {{ 'login.signIn' | translate }}</button>
 
             <div class="error-message  text-red-500 py-2 px-4 rounded-lg text-center" *ngIf="errorMessage">{{
                 errorMessage }}</div>

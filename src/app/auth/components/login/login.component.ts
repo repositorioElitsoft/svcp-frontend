@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import SwiperCore from 'swiper';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
@@ -28,6 +29,7 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    TranslateModule
 
   ],
   providers: [
@@ -49,6 +51,7 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private translate: TranslateService,
     private errorService: ErrorsService,
     private dialog: MatDialog
   ) {

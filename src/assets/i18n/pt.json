@@ -3,5 +3,20 @@
     "colorMode": "Modo de Cor",
     "language": "Idioma",
     "searchLanguage": "Buscar Idioma",
-    "fontSize": "Tamanho da Fonte"
+    "fontSize": "Tamanho da Fonte",
+    "colorModes": {
+        "light": "Claro",
+        "dark": "Escuro",
+        "system": "Sistema"
+    },
+    "login": {
+        "optimizeTime": "Otimize seu tempo",
+        "oneClick": "em um clique",
+        "welcome": "Bem-vindo ao Servicampo!",
+        "accessAccount": "Acesse sua conta para começar.",
+        "username": "Usuário",
+        "password": "Senha",
+        "emptyField": "Este campo não pode estar vazio.",
+        "signIn": "Entrar"
+    }
 }

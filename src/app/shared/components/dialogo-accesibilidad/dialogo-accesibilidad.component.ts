@@ -11,6 +11,7 @@ import { FormControl } from '@angular/forms'; // Para el MatAutocomplete
 import { Observable } from 'rxjs'; // Para el MatAutocomplete
 import { startWith, map as rxjsMap } from 'rxjs/operators'; // Para el MatAutocomplete
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { TituloDialogoComponent } from '../titulo-dialogo/titulo-dialogo.component';
 
 @Component({
   selector: 'app-dialogo-accesibilidad',
@@ -23,7 +24,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ToggleGroupComponent,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    TranslateModule
+    TranslateModule,
+    TituloDialogoComponent
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -35,7 +37,7 @@ export class DialogoAccesibilidadComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogoAccesibilidadComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private themeService: ThemeService,
-    private translate: TranslateService // Inyecta TranslateService
+    private translate: TranslateService// Inyecta TranslateService
   ) { }
 
   initialMode = '';
@@ -50,9 +52,9 @@ export class DialogoAccesibilidadComponent implements OnInit {
   ];
 
   colorModes = [
-    { value: 'light', label: 'Claro' },
-    { value: 'dark', label: 'Oscuro' },
-    { value: 'system', label: 'Sistema' },
+    { value: 'light', label: this.translate.instant('colorModes.light') },
+    { value: 'dark', label: this.translate.instant('colorModes.dark') },
+    { value: 'system', label: this.translate.instant('colorModes.system') }
   ];
   selectedColorMode = 'light';
 
@@ -61,7 +63,7 @@ export class DialogoAccesibilidadComponent implements OnInit {
     { value: 'medium', label: 'A' },
     { value: 'large', label: 'A+' },
   ];
-  selectedFontSize = 'medium';
+  selectedFontSize = localStorage.getItem('appFontSize') || 'medium';
 
   // Nuevas propiedades para el selector de idioma
   languageControl = new FormControl();
@@ -83,6 +85,16 @@ export class DialogoAccesibilidadComponent implements OnInit {
       startWith(''),
       rxjsMap((value) => this._filterLanguages(value))
     );
+
+    this.translate.onLangChange.subscribe(() => {
+      this.colorModes = [
+        { value: 'light', label: this.translate.instant('colorModes.light') },
+        { value: 'dark', label: this.translate.instant('colorModes.dark') },
+        { value: 'system', label: this.translate.instant('colorModes.system') }
+      ];
+    });
+
+
   }
 
   // Filtra los idiomas para el MatAutocomplete
