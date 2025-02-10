@@ -13,7 +13,6 @@ env:
   DEPLOYMENT_NAME: 'frontend'            # Nombre de tu despliegue en Kubernetes (obténlo con: kubectl get deployments)
   REPOSITORY: 'frontend'                 # Nombre de tu repositorio en Artifact Registry
   IMAGE: 'frontend'
-  # NOTA: Ya no se utiliza WORKLOAD_IDENTITY_PROVIDER, ya que usaremos un Service Account.
 
 jobs:
   build-deploy:
@@ -29,8 +28,6 @@ jobs:
       - name: 'Checkout Code'
         uses: actions/checkout@v4
 
-      # Autenticación con Google Cloud usando Service Account.
-      # Guarda el archivo JSON de tu Service Account en GitHub Secrets con el nombre GCP_SERVICE_ACCOUNT.
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: google-github-actions/auth@v2
@@ -61,4 +58,3 @@ jobs:
           kubectl set image deployment/${{ env.DEPLOYMENT_NAME }} angular-app=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:${{ github.sha }}
           kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }}
           kubectl get services -o wide
-
