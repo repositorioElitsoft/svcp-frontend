@@ -1,0 +1,32 @@
+<div [ngClass]="{
+    'w-[6vw]': !isExpanded,
+    'w-[18vw]': isExpanded
+  }" class="mx-16 my-8 
+    py-6 px-8
+    relative shadow-2xl rounded-lg h-[90vh] bg-white text-2xl transition-all duration-300 ease-in-out">
+
+    <div class="flex items-center gap-4 mb-16">
+        <img class="w-[70px] " src="assets/servi_circ96.png">
+        <div [ngClass]="{
+            'w-14 opacity-0': !isExpanded,
+            'w-full opacity-100': isExpanded
+          }"
+            class="overflow-hidden text-5xl text-black font-semibold whitespace-nowrap transition-all duration-300 ease-in-out px-4">
+            Servicampo
+        </div>
+    </div>
+
+    <div (click)="onExpandPressed()" class="absolute top-8 -right-8
+    hover:cursor-pointer
+
+    rounded-full shadow-2xl w-14 h-14 bg-white flex items-center justify-center ">
+        <mat-icon class="text-black  text-xl  transition-transform duration-300" [ngClass]="{'rotate-180': isExpanded}">
+            keyboard_arrow_right
+        </mat-icon>
+    </div>
+
+    <app-expansion-panel [isShrinked]="true" #panel></app-expansion-panel>
+    <app-expansion-panel [isShrinked]="true" #panel></app-expansion-panel>
+    <app-expansion-panel [isShrinked]="true" #panel></app-expansion-panel>
+
+</div>

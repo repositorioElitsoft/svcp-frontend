@@ -1,0 +1,30 @@
+<div class="w-full mb-4">
+    <!-- Panel header -->
+    <div [ngClass]="{'w-20 h-20 rounded-full': isShrinked, 'h-20 rounded-t-lg': !isShrinked}"
+        class="bg-white text-black p-6 transition-all duration-300 flex justify-between items-center cursor-pointer hover:bg-gray-50"
+        (click)="handleClick()">
+        <div class="flex items-center justify-center"
+            [ngClass]="{'w-full h-full': isShrinked, 'w-10 h-10': !isShrinked}">
+            <mat-icon class="text-black transform scale-[1.8]">
+                assessment
+            </mat-icon>
+        </div>
+        <h2 class="text-xl font-medium flex-1 ml-4 whitespace-nowrap overflow-hidden" [ngClass]="{
+            'opacity-0 w-0 hidden': isShrinked,
+            'w-full opacity-100': !isShrinked
+        }">Expansion Panel Title</h2>
+        <mat-icon *ngIf="!isShrinked" class="transition-transform duration-300 scale-125"
+            [ngClass]="{'rotate-180': isExpanded, 'hidden': isShrinked}">
+            keyboard_arrow_up
+        </mat-icon>
+    </div>
+    <!-- Panel content -->
+    <div *ngIf="!isShrinked"
+        class="bg-white shadow-md rounded-b-lg overflow-hidden transition-[height] duration-300 ease-in-out"
+        [style.height.px]="contentHeight">
+        <div #content class="p-4">
+            <p>This is the panel content. You can put any content here.</p>
+            <p class="mt-4">It will smoothly expand and collapse like a drawer.</p>
+        </div>
+    </div>
+</div>
