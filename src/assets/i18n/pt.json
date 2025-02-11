@@ -18,5 +18,8 @@
         "password": "Senha",
         "emptyField": "Este campo não pode estar vazio.",
         "signIn": "Entrar"
+    },
+    "home": {
+        "placeholder-search": "Digite uma pesquisa"
     }
 }

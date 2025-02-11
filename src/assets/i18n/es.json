@@ -18,5 +18,8 @@
         "password": "Contraseña",
         "emptyField": "Este campo no puede estar vacío.",
         "signIn": "Ingresar"
+    },
+    "home": {
+        "placeholder-search": "Ingrese una búsqueda"
     }
 }

@@ -1,0 +1,5 @@
+<mat-form-field appearance="outline" class="w-full max-w-md">
+    <mat-label>{{ 'home.placeholder-search' | translate }}</mat-label>
+    <input matInput [(ngModel)]="query" (keyup.enter)="realizarBusqueda()">
+    <mat-icon matSuffix class="cursor-pointer" (click)="realizarBusqueda()">search</mat-icon>
+</mat-form-field>

@@ -1,1 +1,36 @@
-<p>home works!</p>
+<section class="pb-[2%]"></section>
+<div class="flex h-screen">
+    <!-- Sidebar (10% en pantallas grandes, oculta en móviles) -->
+    <mat-sidenav mode="side" opened class="hidden md:flex bg-green-500 p-4 h-full md:flex-[0_0_10%]">
+        Sidebar
+    </mat-sidenav>
+
+    <!-- Contenedor Principal (100% en móviles, 90% en pantallas grandes) -->
+    <div class="flex flex-col w-full md:flex-[0_0_90%]">
+        <!-- Header -->
+        <header class="h-16 bg-yellow-400 flex items-center px-4 shadow-md">
+            <!-- Columna Izquierda (Dashboard) - Fondo azul claro -->
+            <div class="flex-1 bg-blue-300 h-full flex items-center px-4">
+                <h1 class="text-lg font-bold">Dashboard</h1>
+            </div>
+
+            <!-- Columna Derecha (Búsqueda + 2 Botones) - Fondo gris claro -->
+            <div class="flex-1 bg-gray-300 h-full flex justify-end items-center gap-4 px-4">
+                <div class="flex-[0_0_50%]">
+                    <app-busqueda (buscar)="ejecutarBusqueda($event)"></app-busqueda>
+                </div>
+                <button class="flex-[0_0_25%] bg-blue-500 text-white px-4 py-2 rounded">Botón 1</button>
+                <button class="flex-[0_0_25%] bg-red-500 text-white px-4 py-2 rounded">Botón 2</button>
+            </div>
+        </header>
+
+
+
+
+        <!-- Contenido (Columna en móviles, dos columnas en pantallas grandes) -->
+        <div class="flex flex-grow flex-col md:flex-row">
+            <section class="bg-purple-300 p-4 flex-1">Contenido Principal</section>
+            <aside class="bg-lime-400 p-4 flex-1">Sección Adicional</aside>
+        </div>
+    </div>
+</div>

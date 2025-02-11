@@ -18,5 +18,8 @@
         "password": "Password",
         "emptyField": "This field cannot be empty.",
         "signIn": "Sign In"
+    },
+    "home": {
+        "placeholder-search": "Enter a search"
     }
 }
