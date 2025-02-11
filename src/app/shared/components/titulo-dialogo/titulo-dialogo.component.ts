@@ -19,6 +19,7 @@ export class TituloDialogoComponent {
   @Input() icon: string = "";
   @Input() ref!: MatDialogRef<any>
   @Input() closeData: any
+  @Input() fontSizeClass: string = 'text-lg'; // Valor por defecto
 
   close() {
     if (this.closeData) {
