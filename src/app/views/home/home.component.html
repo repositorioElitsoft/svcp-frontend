@@ -1,36 +1,63 @@
-<section class="pb-[2%]"></section>
-<div class="flex h-screen">
+<!-- Header -->
+<header class="h-16 flex items-center px-4   dark:bg-neutral-800">
+    <!-- Columna Izquierda (Dashboard) - Fondo azul claro -->
+    <div class="flex-1 h-full flex items-center px-4 ">
+        <h1 class="text-lg font-bold"></h1>
+    </div>
+
+    <!-- Columna Derecha (Búsqueda + 2 Botones) - Sin fondo -->
+    <div class="flex-1 h-full flex justify-end items-center px-2 gap-6">
+        <!-- Contenedor del buscador que ocupa el 80% -->
+        <div class="w-[80%] h-full hidden md:flex items-center">
+            <div class="w-full flex-grow"> <!-- Añadido flex-grow -->
+                <app-busqueda (buscar)="ejecutarBusqueda($event)"></app-busqueda>
+            </div>
+        </div>
+        <div class="w-[10%] h-full flex items-center">
+            <app-theme-toggle></app-theme-toggle>
+        </div>
+
+        <div class="w-[10%] h-full flex items-center">
+            <app-perfil></app-perfil>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="flex h-screen  dark:bg-neutral-800">
     <!-- Sidebar (10% en pantallas grandes, oculta en móviles) -->
-    <mat-sidenav mode="side" opened class="hidden md:flex bg-green-500 p-4 h-full md:flex-[0_0_10%]">
-        Sidebar
+    <mat-sidenav mode="side" opened class="hidden md:flex p-4 h-full md:flex-[0_0_10%]">
+
     </mat-sidenav>
 
     <!-- Contenedor Principal (100% en móviles, 90% en pantallas grandes) -->
-    <div class="flex flex-col w-full md:flex-[0_0_90%]">
-        <!-- Header -->
-        <header class="h-16 bg-yellow-400 flex items-center px-4 shadow-md">
-            <!-- Columna Izquierda (Dashboard) - Fondo azul claro -->
-            <div class="flex-1 bg-blue-300 h-full flex items-center px-4">
-                <h1 class="text-lg font-bold">Dashboard</h1>
-            </div>
-
-            <!-- Columna Derecha (Búsqueda + 2 Botones) - Fondo gris claro -->
-            <div class="flex-1 bg-gray-300 h-full flex justify-end items-center gap-4 px-4">
-                <div class="flex-[0_0_50%]">
-                    <app-busqueda (buscar)="ejecutarBusqueda($event)"></app-busqueda>
-                </div>
-                <button class="flex-[0_0_25%] bg-blue-500 text-white px-4 py-2 rounded">Botón 1</button>
-                <button class="flex-[0_0_25%] bg-red-500 text-white px-4 py-2 rounded">Botón 2</button>
-            </div>
-        </header>
-
-
+    <div class="flex flex-col w-full md:flex-[0_0_90%] dark:bg-neutral-800">
 
 
         <!-- Contenido (Columna en móviles, dos columnas en pantallas grandes) -->
         <div class="flex flex-grow flex-col md:flex-row">
-            <section class="bg-purple-300 p-4 flex-1">Contenido Principal</section>
-            <aside class="bg-lime-400 p-4 flex-1">Sección Adicional</aside>
+            <section class=" p-4 flex-1">
+
+                <div class="w-[936px] h-[175px]"> <!-- Define la altura del contenedor principal -->
+                    <swiper-container speed="2500" loop="true" class="mySwiper w-full h-full" pagination="true"
+                        pagination-clickable="true" slides-per-view="1" space-between="0" free-mode="true"
+                        autoplay-delay="3500" autoplay-disable-on-interaction="false">
+
+                        <swiper-slide *ngFor="let image of images" class="w-full h-full">
+                            <!-- Forzar tamaño en las diapositivas -->
+                            <img [src]="getImageRoute(image)" alt="Placeholder Image"
+                                class="w-full h-full object-cover transition-transform duration-300 transform-gpu hover:scale-110">
+                            <!-- La imagen se ajusta al contenedor -->
+                        </swiper-slide>
+
+                    </swiper-container>
+                </div>
+
+                <br>
+                <app-titulo-parametrizado></app-titulo-parametrizado>
+            </section>
+            <aside class="p-4 flex-1"><app-calendario-evento></app-calendario-evento></aside>
         </div>
     </div>
 </div>

@@ -1,0 +1,32 @@
+<div class="w-[72px] h-[36px] relative rounded-full border border-[#C2C2C2] cursor-pointer" (click)="toggleTheme()">
+    <!-- Círculo que se mueve (cambia de color según el modo) -->
+    <div class="w-9 h-9 absolute rounded-full transition-all duration-300 ease-in-out" [ngClass]="{
+            'bg-[#FDE047]': currentMode === 'light',
+            'bg-[#4350AF]': currentMode === 'dark'
+        }" [ngStyle]="{ left: currentMode === 'light' ? '36px' : '0px' }">
+    </div>
+
+    <!-- Ícono del sol (siempre a la derecha) -->
+    <div class="absolute right-0 transition-all duration-300 ease-in-out">
+        <svg width="36" height="37" viewBox="0 0 36 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M17.9999 23.5293C20.9915 23.5293 23.4166 21.1042 23.4166 18.1127C23.4166 15.1211 20.9915 12.696 17.9999 12.696C15.0084 12.696 12.5833 15.1211 12.5833 18.1127C12.5833 21.1042 15.0084 23.5293 17.9999 23.5293Z"
+                [attr.stroke]="currentMode === 'light' ? '#F9FAFB' : 'white'" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path
+                d="M23.9501 24.0627L23.8417 23.9544M23.8417 12.271L23.9501 12.1627L23.8417 12.271ZM12.0501 24.0627L12.1584 23.9544L12.0501 24.0627ZM18.0001 9.84602V9.77936V9.84602ZM18.0001 26.446V26.3794V26.446ZM9.73341 18.1127H9.66675H9.73341ZM26.3334 18.1127H26.2667H26.3334ZM12.1584 12.271L12.0501 12.1627L12.1584 12.271Z"
+                [attr.stroke]="currentMode === 'light' ? '#F9FAFB' : 'white'" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </svg>
+    </div>
+
+    <!-- Ícono de la luna (siempre a la izquierda) -->
+    <div class="absolute left-0 transition-all duration-300 ease-in-out">
+        <svg width="36" height="37" viewBox="0 0 36 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M9.69158 18.4627C9.99158 22.7544 13.6332 26.246 17.9916 26.4377C21.0666 26.571 23.8166 25.1377 25.4666 22.8794C26.1499 21.9544 25.7832 21.3377 24.6416 21.546C24.0832 21.646 23.5082 21.6877 22.9082 21.6627C18.8332 21.496 15.4999 18.0877 15.4832 14.0627C15.4749 12.9794 15.6999 11.9544 16.1082 11.021C16.5582 9.9877 16.0166 9.49603 14.9749 9.9377C11.6749 11.3294 9.41658 14.6544 9.69158 18.4627Z"
+                [attr.stroke]="currentMode === 'light' ? '#030712' : 'white'" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </svg>
+    </div>
+</div>

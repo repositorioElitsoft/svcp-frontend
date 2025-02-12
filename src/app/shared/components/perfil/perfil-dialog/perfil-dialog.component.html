@@ -1,0 +1,42 @@
+<div class="p-4  w-full dark:bg-neutral-800 ">
+    <div class="flex items-center mb-4">
+        <img src="assets/perfil.png" class="w-16 h-16 rounded-lg mr-4" alt="Perfil">
+        <div>
+            <h2 class="text-xl font-semibold">José Rodríguez</h2>
+            <p class="text-lg ">{{ 'perfil.rol' | translate }}</p>
+        </div>
+    </div>
+    <hr class="border-gray-300 my-2">
+
+    <div class="space-y-2">
+        <button mat-button class="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded-lg">
+            <span class="flex items-center">
+                <mat-icon>person</mat-icon>
+                <span class="ml-3">
+                    <p class="text-lg ">{{ 'perfil.myprofile' | translate }}</p>
+                </span>
+            </span>
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+
+        <button mat-button class="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded-lg">
+            <span class="flex items-center">
+                <mat-icon>settings</mat-icon>
+                <span class="ml-3">
+                    <p class="text-lg "> {{ 'perfil.settings' | translate }}</p>
+                </span>
+            </span>
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+    </div>
+
+    <hr class="border-gray-300 my-2">
+
+    <button mat-button class="flex items-center w-full text-left  hover:bg-red-50 p-2 rounded-lg"
+        (click)="cerrarSesion()">
+        <mat-icon>logout</mat-icon>
+        <span class="ml-3">
+            <p class="text-lg "> {{ 'perfil.logout' | translate }}</p>
+        </span>
+    </button>
+</div>

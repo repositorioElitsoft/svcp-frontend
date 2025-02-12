@@ -20,6 +20,13 @@
         "signIn": "Entrar"
     },
     "home": {
-        "placeholder-search": "Digite uma pesquisa"
+        "placeholder-search": "Digite uma pesquisa",
+        "welcome": "Olá"
+    },
+    "perfil": {
+        "myprofile": "Meu Perfil",
+        "rol": "Admin",
+        "settings": "Configurações",
+        "logout": "Sair"
     }
 }

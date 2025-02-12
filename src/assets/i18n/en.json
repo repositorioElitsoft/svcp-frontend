@@ -20,6 +20,13 @@
         "signIn": "Sign In"
     },
     "home": {
-        "placeholder-search": "Enter a search"
+        "placeholder-search": "Enter a search",
+        "welcome": "Hello"
+    },
+    "perfil": {
+        "myprofile": "My Profile",
+        "rol": "Admin",
+        "settings": "Settings",
+        "logout": "Logout"
     }
 }
