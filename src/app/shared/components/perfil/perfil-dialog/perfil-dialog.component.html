@@ -9,31 +9,36 @@
     <hr class="border-gray-300 my-2">
 
     <div class="space-y-2">
-        <button mat-button class="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded-lg">
+        <button mat-button
+            class="group flex items-center justify-between w-full text-left hover:bg-blue-100 p-2 rounded-lg">
             <span class="flex items-center">
-                <mat-icon>person</mat-icon>
+                <mat-icon class="group-hover:ml-2">person</mat-icon> <!-- Icono ajustado a la derecha en hover -->
                 <span class="ml-3">
-                    <p class="text-lg ">{{ 'perfil.myprofile' | translate }}</p>
+                    <p class="text-lg group-hover:text-blue-600">{{ 'perfil.myprofile' | translate }}</p>
+                    <!-- Texto azul en hover -->
                 </span>
             </span>
-            <mat-icon>chevron_right</mat-icon>
+            <mat-icon class="group-hover:mr-4 transition-all duration-300">chevron_right</mat-icon>
+            <!-- Flecha se mueve hacia el centro al hacer hover -->
         </button>
 
-        <button mat-button class="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded-lg">
+        <button mat-button
+            class="group flex items-center justify-between w-full text-left hover:bg-blue-100 p-2 rounded-lg">
             <span class="flex items-center">
-                <mat-icon>settings</mat-icon>
+                <mat-icon class="group-hover:ml-2">settings</mat-icon>
                 <span class="ml-3">
-                    <p class="text-lg "> {{ 'perfil.settings' | translate }}</p>
+                    <p class="text-lg group-hover:text-blue-600"> {{ 'perfil.settings' | translate }}</p>
                 </span>
             </span>
-            <mat-icon>chevron_right</mat-icon>
+            <mat-icon class="group-hover:mr-4 transition-all duration-300">chevron_right</mat-icon>
+            <!-- Flecha se mueve hacia el centro al hacer hover -->
         </button>
+
     </div>
 
     <hr class="border-gray-300 my-2">
 
-    <button mat-button class="flex items-center w-full text-left  hover:bg-red-50 p-2 rounded-lg"
-        (click)="cerrarSesion()">
+    <button mat-button class="flex items-center w-full text-left  rounded-lg" (click)="cerrarSesion()">
         <mat-icon>logout</mat-icon>
         <span class="ml-3">
             <p class="text-lg "> {{ 'perfil.logout' | translate }}</p>
