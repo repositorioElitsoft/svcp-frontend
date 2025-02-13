@@ -8,7 +8,6 @@ import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme
 import { PerfilComponent } from '../../shared/components/perfil/perfil.component';
 import { CalendarioEventoComponent } from '../../shared/components/calendario-evento/calendario-evento.component';
 import { TituloParametrizadoComponent } from '../../shared/components/titulo-parametrizado/titulo-parametrizado.component';
-import { CarouselHomeComponent } from '../../shared/components/carousel-home/carousel-home.component';
 
 // Configuración de Swiper
 Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
@@ -24,7 +23,6 @@ Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
     PerfilComponent,
     CalendarioEventoComponent,
     TituloParametrizadoComponent,
-    CarouselHomeComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // Agregar esto para evitar errores con Swiper
   templateUrl: './home.component.html',

@@ -17,12 +17,14 @@
     </div>
 </header>
 
+<!-- Separador -->
+<div class="h-[26px] w-full dark:bg-neutral-800 "></div>
+
 <!-- Contenedor Principal -->
 <div class="flex flex-col md:flex-row h-screen dark:bg-neutral-800 w-full ">
     <!-- Sidebar (Oculto en móviles) -->
     <mat-sidenav mode="side" opened class="hidden md:flex p-4 h-full md:w-[10%]">
     </mat-sidenav>
-
     <!-- Sección Principal -->
     <div class="flex flex-col w-full md:w-[90%] dark:bg-neutral-800 p-4">
         <!-- Secciones apiladas en móviles, en dos columnas en escritorio -->
@@ -38,8 +40,13 @@
                         </swiper-slide>
                     </swiper-container>
                 </div>
-                <br>
+                <!-- Separador -->
+                <div class="h-[26px] w-full "></div>
+
                 <app-titulo-parametrizado></app-titulo-parametrizado> <!-- No se toca el overflow -->
+
+                <!-- Separador -->
+                <div class="h-[26px] w-full "></div>
             </section>
 
             <!-- Calendario de Eventos -->
