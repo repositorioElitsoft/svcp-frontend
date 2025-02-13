@@ -8,6 +8,7 @@ import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme
 import { PerfilComponent } from '../../shared/components/perfil/perfil.component';
 import { CalendarioEventoComponent } from '../../shared/components/calendario-evento/calendario-evento.component';
 import { TituloParametrizadoComponent } from '../../shared/components/titulo-parametrizado/titulo-parametrizado.component';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 
 // Configuración de Swiper
 Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
@@ -19,6 +20,7 @@ Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
     CommonModule,
     MatSidenavModule,
     BusquedaComponent,
+    SidebarComponent,
     ThemeToggleComponent,
     PerfilComponent,
     CalendarioEventoComponent,

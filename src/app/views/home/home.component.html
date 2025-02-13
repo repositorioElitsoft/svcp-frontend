@@ -1,24 +1,35 @@
 <!-- Header -->
-<header class="h-16 flex items-center px-4 bg-white dark:bg-neutral-800 w-full ">
-    <!-- Botón de menú para móviles -->
-    <button class="md:hidden p-2">
-        <i class="fas fa-bars"></i> <!-- Ícono de menú -->
-    </button>
+<header class="h-16 flex items-center px-4 dark:bg-neutral-800">
+    <!-- Izquierda (Botón menú en móvil) -->
+    <div class="flex-1 h-full flex items-center px-4">
+        <button class="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-neutral-700">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+    </div>
 
-    <!-- Contenedor flexible -->
-    <div class="flex w-full justify-between items-center">
-        <h1 class="text-lg font-bold">Dashboard</h1>
+    <!-- Derecha (Búsqueda en desktop, botones en móvil) -->
+    <div class="flex-1 h-full flex justify-end items-center px-2 gap-4">
+        <!-- Buscador (Oculto en móvil, visible en desktop) -->
+        <div class="hidden md:flex w-[80%] h-full items-center">
+            <div class="w-full flex-grow">
+                <app-busqueda (buscar)="ejecutarBusqueda($event)"></app-busqueda>
+            </div>
+        </div>
 
-        <!-- Controles (Buscar, Modo oscuro, Perfil) -->
-        <div class="flex items-center gap-4">
+        <!-- Contenedor de botones en móvil (para que se alineen bien) -->
+        <div class="flex items-center gap-2 md:gap-6">
             <app-theme-toggle></app-theme-toggle>
             <app-perfil></app-perfil>
         </div>
     </div>
 </header>
 
+
 <!-- Separador -->
 <div class="h-[26px] w-full dark:bg-neutral-800 "></div>
+
 
 <!-- Contenedor Principal -->
 <div class="flex flex-col md:flex-row h-screen dark:bg-neutral-800 w-full ">
