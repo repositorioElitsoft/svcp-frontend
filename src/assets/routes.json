@@ -1,0 +1,195 @@
+[
+    {
+        "icon": "construction",
+        "title": "sideBar.maintainers",
+        "permission": "access.maintainers",
+        "menus": [
+            {
+                "type": "group",
+                "permission": "access.serviceManagement",
+                "title": "sideBar.serviceManagement",
+                "menus": [
+                    {
+                        "permission": "access.services",
+                        "title": "sideBar.services",
+                        "link": "portal/maintainers/servicios-view"
+                    },
+                    {
+                        "permission": "access.jobs",
+                        "title": "sideBar.jobs",
+                        "link": "portal/maintainers/trabajos-view"
+                    },
+                    {
+                        "permission": "access.tasks",
+                        "title": "sideBar.tasks",
+                        "link": "portal/maintainers/tareas-view"
+                    },
+                    {
+                        "permission": "access.jobAssignment",
+                        "title": "sideBar.jobAssignment",
+                        "link": "portal/assignment-trabajos/trabajos-view"
+                    },
+                    {
+                        "permission": "access.taskAssignment",
+                        "title": "sideBar.taskAssignment",
+                        "link": "portal/assignment-tareas/tareas-view"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "permission": "access.productManagemenet",
+                "title": "sideBar.productManagemenet",
+                "menus": [
+                    {
+                        "permission": "access.products",
+                        "title": "sideBar.products",
+                        "link": "portal/maintainers/productos-view"
+                    },
+                    {
+                        "permission": "access.productTypes",
+                        "title": "sideBar.productTypes",
+                        "link": "portal/maintainers/tipos-productos-view"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "title": "sideBar.geography",
+                "permission": "access.geography",
+                "menus": [
+                    {
+                        "permission": "access.zones",
+                        "title": "sideBar.zones",
+                        "link": "portal/maintainers/zonas-view"
+                    },
+                    {
+                        "permission": "access.sectors",
+                        "title": "sideBar.sectors",
+                        "link": "portal/maintainers/sectores-view"
+                    },
+                    {
+                        "permission": "access.communes",
+                        "title": "sideBar.communes",
+                        "link": "portal/maintainers/comunas-view"
+                    },
+                    {
+                        "permission": "access.regions",
+                        "title": "sideBar.regions",
+                        "link": "portal/maintainers/regiones-view"
+                    },
+                    {
+                        "permission": "access.countries",
+                        "title": "sideBar.countries",
+                        "link": "portal/maintainers/paises-view"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "icon": "person_edit",
+        "permission": "access.userManagement",
+        "title": "sideBar.userManagement",
+        "menus": [
+            {
+                "type": "item",
+                "permission": "access.employees",
+                "title": "sideBar.employees",
+                "link": "portal/maintainers/empleados-view"
+            },
+            {
+                "type": "item",
+                "permission": "access.employeeTypes",
+                "title": "sideBar.employeeTypes",
+                "link": "portal/maintainers/tipos-empleados-view"
+            },
+            {
+                "type": "item",
+                "permission": "access.roles",
+                "title": "sideBar.roles",
+                "link": "portal/maintainers/roles-view"
+            },
+            {
+                "type": "item",
+                "permission": "access.permissionAssignment",
+                "title": "sideBar.permissionAssignment",
+                "link": "portal/assignment-permisos/permisos-view"
+            },
+            {
+                "type": "item",
+                "permission": "access.roleAssignment",
+                "title": "sideBar.roleAssignment",
+                "link": "portal/assignment-roles/roles-view"
+            }
+        ]
+    },
+    {
+        "icon": "groups",
+        "permission": "access.clients",
+        "title": "sideBar.clients",
+        "menus": [
+            {
+                "type": "item",
+                "permission": "access.clients",
+                "title": "sideBar.clients",
+                "link": "portal/maintainers/clientes-view"
+            },
+            {
+                "type": "item",
+                "permission": "access.clientTypes",
+                "title": "sideBar.clientTypes",
+                "link": "portal/maintainers/tipos-clientes-view"
+            },
+            {
+                "type": "item",
+                "permission": "access.clientClassification",
+                "title": "sideBar.clientClassification",
+                "link": "portal/maintainers/clasificacion-clientes-view"
+            },
+            {
+                "type": "item",
+                "permission": "access.commercialGroupings",
+                "title": "sideBar.commercialGroupings",
+                "link": "portal/maintainers/agrupaciones-comerciales-view"
+            },
+            {
+                "type": "item",
+                "permission": "access.clientSegmentations",
+                "title": "sideBar.clientSegmentations",
+                "link": "portal/maintainers/segmentaciones-clientes-view"
+            },
+            {
+                "type": "item",
+                "permission": "access.locations",
+                "title": "sideBar.locations",
+                "link": "portal/maintainers/locaciones-view"
+            }
+        ]
+    },
+    {
+        "icon": "description",
+        "permission": "access.contracts",
+        "title": "sideBar.contracts",
+        "menus": [
+            {
+                "permission": "access.contractManagement",
+                "type": "item",
+                "title": "sideBar.contractManagement",
+                "link": "portal/contract/contract"
+            },
+            {
+                "permission": "access.scheduler",
+                "type": "item",
+                "title": "sideBar.scheduler",
+                "link": "portal/contract/schedule"
+            },
+            {
+                "permission": "access.workOrderReport",
+                "type": "item",
+                "title": "sideBar.workOrderReport",
+                "link": "portal/employee-view"
+            }
+        ]
+    }
+]

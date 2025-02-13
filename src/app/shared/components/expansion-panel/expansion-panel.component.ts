@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-expansion-panel',
   standalone: true,
   imports: [
     MatIconModule,
-    CommonModule
+    CommonModule,
+    TranslateModule
   ],
   templateUrl: './expansion-panel.component.html',
   styleUrl: './expansion-panel.component.css'
@@ -15,6 +17,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class ExpansionPanelComponent {
   @ViewChild('content') content!: ElementRef;
   @Input() isShrinked = false;
+  @Input() icon = "";
+  @Input() title = "";
   @Output() onShrinkClick = new EventEmitter<void>();
 
   @Input() isExpanded = false;
@@ -40,8 +44,13 @@ export class ExpansionPanelComponent {
     }
   }
 
-  private toggleExpand() {
+  toggleExpand() {
     this.isExpanded = !this.isExpanded;
+    this.calculateHeight();
+  }
+
+  shrink() {
+    this.isExpanded = false;
     this.calculateHeight();
   }
 

@@ -1,32 +1,66 @@
+<div [ngClass]="{'hidden':isExpanded}" (click)="onExpandPressed()" class="lg:hidden fixed top-0 left-0 mx-4 mt-8 text-6xl text-black  hover:cursor-pointer 
+    dark:bg-neutral-800 bg-white shadow-2xl w-28 h-28 flex text-center justify-center items-center">
+    <span class="material-symbols-outlined scale-[3.0]">
+        menu
+    </span>
+</div>
+
 <div [ngClass]="{
-    'w-[6vw]': !isExpanded,
-    'w-[18vw]': isExpanded
-  }" class="mx-16 my-8 
-    py-6 px-8
-    relative shadow-2xl rounded-lg h-[90vh] bg-white text-2xl transition-all duration-300 ease-in-out">
+    'w-[0%] -translate-x-40 lg:translate-x-0 lg:w-[150px]': !isExpanded,
+    'w-[100%] translate-x-0 lg:w-[500px]': isExpanded
+  }"
+    class="lg:mx-16 lg:my-8 
+    py-6 px-8 
+    border-white dark:border
+    relative shadow-2xl rounded-[2.0rem] h-screen lg:h-[90vh] dark:bg-neutral-800 bg-white text-2xl transition-all duration-300 ease-in-out">
 
     <div class="flex items-center gap-4 mb-16">
-        <img class="w-[70px] " src="assets/servi_circ96.png">
+        <img class="w-[70px] " [src]="img">
         <div [ngClass]="{
             'w-14 opacity-0': !isExpanded,
             'w-full opacity-100': isExpanded
           }"
-            class="overflow-hidden text-5xl text-black font-semibold whitespace-nowrap transition-all duration-300 ease-in-out px-4">
-            Servicampo
+            class="overflow-hidden  text-5xl dark:text-neutral-100 text-black font-semibold whitespace-nowrap transition-all duration-300 ease-in-out px-4">
+            {{title}}
+        </div>
+        <div class="hover:cursor-pointer  lg:hidden" (click)="onExpandPressed()">
+            <span class="text-black text-4xl material-symbols-outlined">
+                close
+            </span>
         </div>
     </div>
 
     <div (click)="onExpandPressed()" class="absolute top-8 -right-8
-    hover:cursor-pointer
-
-    rounded-full shadow-2xl w-14 h-14 bg-white flex items-center justify-center ">
-        <mat-icon class="text-black  text-xl  transition-transform duration-300" [ngClass]="{'rotate-180': isExpanded}">
+    hover:cursor-pointer 
+    hidden lg:flex border-white dark:border 
+    rounded-full shadow-2xl w-14 h-14 bg-white dark:bg-neutral-800  items-center justify-center ">
+        <mat-icon class="text-black dark:text-neutral-100  text-xl  transition-transform duration-300" [ngClass]="{
+            'rotate-180': isExpanded
+        }">
             keyboard_arrow_right
         </mat-icon>
     </div>
 
-    <app-expansion-panel [isShrinked]="true" #panel></app-expansion-panel>
-    <app-expansion-panel [isShrinked]="true" #panel></app-expansion-panel>
-    <app-expansion-panel [isShrinked]="true" #panel></app-expansion-panel>
+    <div class="overflow-y-auto h-[70vh]">
+        @for (menu of menus; track $index) {
+        <app-expansion-panel (onShrinkClick)="handleShrink($index)" [icon]="menu.icon" [title]="menu.title"
+            [isShrinked]="true" #panel>
+            @for (submenu of menu.menus; track $index) {
+            @if(submenu.type === "item"){
+            <app-sidebar-item-link [link]="submenu.link" [title]="submenu.title"></app-sidebar-item-link>
+            }
+            @if(submenu.type === "group"){
+            <div class="text-neutral-600 mb-10 font-medium text-2xl">
+                {{ submenu.title | translate}}
+            </div>
+            @for (subsubmenu of submenu.menus; track $index) {
+            <app-sidebar-item-link [link]="subsubmenu.link" [title]="subsubmenu.title"></app-sidebar-item-link>
+            }
+            }
+            }
+
+        </app-expansion-panel>
+        }
+    </div>
 
 </div>
