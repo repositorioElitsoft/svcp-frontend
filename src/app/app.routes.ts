@@ -20,7 +20,7 @@ export const routes: Routes = [
     },
     {
         path: "portal",
-        canActivate: [authGuard],
+        canActivate: [/*authGuard*/],
         children: [
             {
                 path: "",

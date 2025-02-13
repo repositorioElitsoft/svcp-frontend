@@ -1,6 +1,7 @@
-<div [ngClass]="{'hidden':isExpanded}" (click)="onExpandPressed()" class="lg:hidden fixed top-0 left-0 mx-4 mt-8 text-6xl text-black  hover:cursor-pointer 
-    dark:bg-neutral-800 bg-white shadow-2xl w-28 h-28 flex text-center justify-center items-center">
-    <span class="material-symbols-outlined scale-[3.0]">
+<div [ngClass]="{'hidden':isExpanded}" (click)="onExpandPressed()"
+    class="lg:hidden fixed top-0 left-0  mx-4 mt-2 text-6xl dark:text-white text-black  hover:cursor-pointer 
+   dark:border border-white rounded-2xl dark:bg-neutral-800 bg-white shadow-2xl w-16 h-16 flex text-center justify-center items-center">
+    <span class="material-symbols-outlined scale-[2.0]">
         menu
     </span>
 </div>
@@ -10,9 +11,9 @@
     'w-[100%] translate-x-0 lg:w-[500px]': isExpanded
   }"
     class="lg:mx-16 lg:my-8 
-    py-6 px-8 
+    py-6 px-8 fixed top-0 left-0
     border-white dark:border
-    relative shadow-2xl rounded-[2.0rem] h-screen lg:h-[90vh] dark:bg-neutral-800 bg-white text-2xl transition-all duration-300 ease-in-out">
+    z-[999] shadow-2xl rounded-[2.0rem] h-screen lg:h-[90vh] dark:bg-neutral-800 bg-white text-2xl transition-all duration-300 ease-in-out">
 
     <div class="flex items-center gap-4 mb-16">
         <img class="w-[70px] " [src]="img">
@@ -24,7 +25,7 @@
             {{title}}
         </div>
         <div class="hover:cursor-pointer  lg:hidden" (click)="onExpandPressed()">
-            <span class="text-black text-4xl material-symbols-outlined">
+            <span class="text-black dark:text-white text-4xl material-symbols-outlined">
                 close
             </span>
         </div>
