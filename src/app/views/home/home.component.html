@@ -1,63 +1,50 @@
 <!-- Header -->
-<header class="h-16 flex items-center px-4   dark:bg-neutral-800">
-    <!-- Columna Izquierda (Dashboard) - Fondo azul claro -->
-    <div class="flex-1 h-full flex items-center px-4 ">
-        <h1 class="text-lg font-bold"></h1>
-    </div>
+<header class="h-16 flex items-center px-4 bg-white dark:bg-neutral-800 w-full ">
+    <!-- Botón de menú para móviles -->
+    <button class="md:hidden p-2">
+        <i class="fas fa-bars"></i> <!-- Ícono de menú -->
+    </button>
 
-    <!-- Columna Derecha (Búsqueda + 2 Botones) - Sin fondo -->
-    <div class="flex-1 h-full flex justify-end items-center px-2 gap-6">
-        <!-- Contenedor del buscador que ocupa el 80% -->
-        <div class="w-[80%] h-full hidden md:flex items-center">
-            <div class="w-full flex-grow"> <!-- Añadido flex-grow -->
-                <app-busqueda (buscar)="ejecutarBusqueda($event)"></app-busqueda>
-            </div>
-        </div>
-        <div class="w-[10%] h-full flex items-center">
+    <!-- Contenedor flexible -->
+    <div class="flex w-full justify-between items-center">
+        <h1 class="text-lg font-bold">Dashboard</h1>
+
+        <!-- Controles (Buscar, Modo oscuro, Perfil) -->
+        <div class="flex items-center gap-4">
             <app-theme-toggle></app-theme-toggle>
-        </div>
-
-        <div class="w-[10%] h-full flex items-center">
             <app-perfil></app-perfil>
         </div>
     </div>
-
 </header>
 
-
-<div class="flex h-screen  dark:bg-neutral-800">
-    <!-- Sidebar (10% en pantallas grandes, oculta en móviles) -->
-    <mat-sidenav mode="side" opened class="hidden md:flex p-4 h-full md:flex-[0_0_10%]">
-
+<!-- Contenedor Principal -->
+<div class="flex flex-col md:flex-row h-screen dark:bg-neutral-800 w-full ">
+    <!-- Sidebar (Oculto en móviles) -->
+    <mat-sidenav mode="side" opened class="hidden md:flex p-4 h-full md:w-[10%]">
     </mat-sidenav>
 
-    <!-- Contenedor Principal (100% en móviles, 90% en pantallas grandes) -->
-    <div class="flex flex-col w-full md:flex-[0_0_90%] dark:bg-neutral-800">
-
-
-        <!-- Contenido (Columna en móviles, dos columnas en pantallas grandes) -->
-        <div class="flex flex-grow flex-col md:flex-row">
-            <section class=" p-4 flex-1">
-
-                <div class="w-[936px] h-[175px]"> <!-- Define la altura del contenedor principal -->
-                    <swiper-container speed="2500" loop="true" class="mySwiper w-full h-full" pagination="true"
+    <!-- Sección Principal -->
+    <div class="flex flex-col w-full md:w-[90%] dark:bg-neutral-800 p-4">
+        <!-- Secciones apiladas en móviles, en dos columnas en escritorio -->
+        <div class="flex flex-col md:flex-row gap-4">
+            <section class="w-full md:w-1/2 overflow-hidden">
+                <div class="w-full h-[175px]">
+                    <swiper-container speed="2500" loop="true" class="mySwiper" pagination="true"
                         pagination-clickable="true" slides-per-view="1" space-between="0" free-mode="true"
                         autoplay-delay="3500" autoplay-disable-on-interaction="false">
-
-                        <swiper-slide *ngFor="let image of images" class="w-full h-full">
-                            <!-- Forzar tamaño en las diapositivas -->
+                        <swiper-slide *ngFor="let image of images">
                             <img [src]="getImageRoute(image)" alt="Placeholder Image"
-                                class="w-full h-full object-cover transition-transform duration-300 transform-gpu hover:scale-110">
-                            <!-- La imagen se ajusta al contenedor -->
+                                class="object-cover object-top w-full h-full transition-transform duration-300 transform-gpu">
                         </swiper-slide>
-
                     </swiper-container>
                 </div>
-
                 <br>
-                <app-titulo-parametrizado></app-titulo-parametrizado>
+                <app-titulo-parametrizado></app-titulo-parametrizado> <!-- No se toca el overflow -->
             </section>
-            <aside class="p-4 flex-1"><app-calendario-evento></app-calendario-evento></aside>
+
+            <!-- Calendario de Eventos -->
+            <aside class="w-full md:w-1/2">
+                <app-calendario-evento></app-calendario-evento>
+            </aside>
         </div>
     </div>
-</div>
