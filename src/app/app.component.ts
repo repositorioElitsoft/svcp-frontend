@@ -28,6 +28,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // Cargar el tamaño de fuente desde el servicio
     this.selectedFontSize = this.fontSizeService.getSelectedFontSize();
+
+
+
   }
 
   private configureLanguage() {

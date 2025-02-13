@@ -12,6 +12,28 @@
 
     --base-font-size: 0px;
     --bg-neutral-800: #252525;
+
+
+    --main-h: 220;
+    --main-s: 14%;
+    --main-l: 96%;
+    /* Lightest (100) */
+
+
+    /*rgb hue valor           s saturation       light luz  */
+    --main-50: hsl(var(--main-h), var(--main-s), 98%);
+    --main-100: hsl(var(--main-h), var(--main-s), 96%);
+    --main-200: hsl(var(--main-h), var(--main-s), 90%);
+    --main-300: hsl(var(--main-h), var(--main-s), 80%);
+    --main-400: hsl(var(--main-h), var(--main-s), 70%);
+    --main-500: hsl(var(--main-h), var(--main-s), 60%);
+    --main-600: hsl(var(--main-h), var(--main-s), 50%);
+    --main-700: hsl(var(--main-h), var(--main-s), 40%);
+    --main-800: hsl(var(--main-h), var(--main-s), 30%);
+    --main-900: hsl(var(--main-h), var(--main-s), 20%);
+
+
+
 }
 
 .text-xs {
