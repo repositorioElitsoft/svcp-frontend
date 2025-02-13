@@ -1,0 +1,72 @@
+<div class="calendar-wrapper">
+    <div class="calendar bg-white dark:bg-neutral-800 dark:border-2 dark:border-white">
+        <div class="calendar-header ">
+            <div class="month-selector" (click)="toggleMonthSelector()">
+                {{ months[currentMonth.getMonth()] }} {{ currentMonth.getFullYear() }}
+                <span class="dropdown-arrow">▼</span>
+            </div>
+            <div class="navigation  dark:bg-neutral-800">
+                <button class="nav-button" (click)="navigateMonth(-1)">
+                    <div data-svg-wrapper>
+                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 12.2254L6 8.2254L10 4.2254" stroke="#A5A5A5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </button>
+                <button class="nav-button" (click)="navigateMonth(1)">
+                    <div data-svg-wrapper style="transform: rotate(180deg)">
+                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 12.2254L6 8.2254L10 4.2254" stroke="#A5A5A5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="month-year-selector " *ngIf="showMonthSelector">
+            <div class="selector-grid ">
+                <div class="selector-column ">
+                    <div class="selector-title">Mes</div>
+                    <div class="selector-item" *ngFor="let month of months; let i = index" (click)="selectMonth(i)">
+                        {{ month }}
+                    </div>
+                </div>
+                <div class="selector-column">
+                    <div class="selector-title">Año</div>
+                    <div class="selector-item" *ngFor="let year of years" (click)="selectYear(year)">
+                        {{ year }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="calendar-grid  dark:bg-neutral-800">
+            <div class="weekday" *ngFor="let day of weekDays">{{ day }}</div>
+            <div *ngFor="let day of calendarDays" class="day" [class.other-month]="!day.isCurrentMonth"
+                [class.today]="day.isToday" [class.has-events]="day.hasEvents" (click)="selectDate(day.date)">
+                {{ day.date.getDate() }}
+            </div>
+        </div>
+    </div>
+
+    <div class="events-panel bg-white dark:bg-neutral-800 dark:border-2 dark:border-white" *ngIf="events.length">
+        <h2>Eventos</h2>
+        <div class="event-date ">
+            <div class="date-number  ">{{ selectedDate | date:'dd' }}</div>
+            <div class="date-day  ">{{ selectedDate | date:'EEE' | lowercase }}</div>
+        </div>
+        <div class="events-list">
+            <div class="event " *ngFor="let event of events.slice(0, 5)">
+                {{ event.title }}
+            </div>
+        </div>
+        <div class="ver-mas " *ngIf="events.length > 5">
+            Ver más
+            <svg width="20" height="20" viewBox="0 0 20 20">
+                <path d="M10 17L17 10L10 3" stroke="#007BFF" fill="none" stroke-width="2" />
+            </svg>
+        </div>
+    </div>
+</div>

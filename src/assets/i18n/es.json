@@ -52,5 +52,15 @@
         "userManagement": "Gestión de Usuarios",
         "contracts": "Contratos",
         "geography": "Geografía"
+    },
+    "home": {
+        "placeholder-search": "Ingrese una búsqueda",
+        "welcome": "Hola"
+    },
+    "perfil": {
+        "myprofile": "Mi Perfil",
+        "rol": "Administrador",
+        "settings": "Configuraciones",
+        "logout": "Cerrar Sesión"
     }
 }

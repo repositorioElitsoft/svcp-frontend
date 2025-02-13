@@ -1,0 +1,9 @@
+<div
+    class="w-full h-[52.23px] px-3 py-2 rounded-lg border-2 border-[#C2C2C2] flex justify-between items-center dark:!text-gray-100">
+    <input [(ngModel)]="query" (input)="realizarBusqueda()" type="text"
+        class="w-full h-full bg-transparent border-0 outline-none text-[#757575] text-lg font-roboto font-normal dark:text-[#ccc]"
+        [placeholder]="'home.placeholder-search' | translate" />
+    <div>
+        <mat-icon class="text-[#757575] dark:text-[#ccc]">search</mat-icon>
+    </div>
+</div>

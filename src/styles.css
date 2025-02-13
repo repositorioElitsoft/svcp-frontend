@@ -212,3 +212,51 @@ input::placeholder {
     box-shadow: none;
     border-color: #9e9e9e;
 }
+
+
+
+/*CSS del Swiper*/
+swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+
+
+/* For active pagination bullet */
+swiper-container::part(bullet-active) {
+    background-color: white;
+    width: 12px;
+}
+
+/* For inactive pagination bullets */
+swiper-container::part(bullet) {
+    background-color: gray;
+    opacity: 1;
+}
+
+/* For the default (unfocused) outline */
+
+@media (min-width: 1024px) {
+    .lg\:h-screen {
+        height: 100vh !important;
+    }
+}
