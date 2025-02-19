@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TableData, TableDataService } from "../../../core/services/table-data.service";
-import { SharedTableComponent } from "../../../shared/shared-table/shared-table.component";
+import { SharedTableComponent } from "../../../shared/components/shared-table/shared-table.component";
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { OpcionesMantenedorComponent } from "../../../shared/components/opciones-mantenedor/opciones-mantenedor.component";
