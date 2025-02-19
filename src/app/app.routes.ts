@@ -3,6 +3,7 @@ import { LoginComponent } from './auth/components/login/login.component';
 import { authGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './views/home/home.component';
 import { TestComponent } from './views/test/test.component';
+import { ClasificacionClienteComponent } from './views/mantenedores/clasificacion-cliente/clasificacion-cliente.component';
 
 export const routes: Routes = [
     {
@@ -30,6 +31,15 @@ export const routes: Routes = [
             {
                 path: "home",
                 component: HomeComponent
+            },
+            {
+                path: "mantenedores",
+                children: [
+                    {
+                        path: "clasificacion-clientes",
+                        component: ClasificacionClienteComponent
+                    }
+                ]
             }
         ]
     }

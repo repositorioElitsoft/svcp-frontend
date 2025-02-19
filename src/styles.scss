@@ -266,6 +266,49 @@ swiper-slide img {
 }
 
 
+/* 🔹 Cambia la variable global que controla el color del checkbox seleccionado */
+:root {
+    --mdc-checkbox-selected-icon-color: #65548f !important;
+    --mdc-checkbox-selected-checkmark-color: white !important;
+    --mdc-checkbox-selected-hover-icon-color: #65548f !important;
+    --mdc-checkbox-selected-pressed-icon-color: #65548f !important;
+}
+
+/* ✅ Aplica el color directamente al checkbox cuando está marcado o en estado indeterminado */
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control[data-indeterminate="true"]:enabled~.mdc-checkbox__background {
+    border-color: #65548f !important;
+    background-color: #65548f !important;
+}
+
+/* ✅ Cambia el color del checkmark (✔) */
+.mdc-checkbox__checkmark-path {
+    stroke: white !important;
+}
+
+/* ✅ Cambia el color del mixedmark (cuando el checkbox está en estado indeterminado) */
+.mdc-checkbox__mixedmark {
+    background-color: white !important;
+}
+
+/* ✅ Cambia el color del hover */
+.mdc-checkbox:hover .mdc-checkbox__background {
+    border-color: #65548f !important;
+}
+
+/* ✅ Cambia el efecto de onda (ripple effect) */
+.mat-mdc-checkbox.mat-accent .mat-ripple-element {
+    background-color: #65548f40 !important;
+    /* 25% de opacidad */
+}
+
+/* ✅ Elimina cualquier color rosado del checkbox nativo */
+.mdc-checkbox .mdc-checkbox__native-control {
+    accent-color: #65548f !important;
+}
+
+
 
 /* For active pagination bullet */
 swiper-container::part(bullet-active) {
