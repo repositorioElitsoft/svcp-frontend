@@ -28,16 +28,15 @@ import { MatButtonModule } from "@angular/material/button"
 
       <div class="flex items-center gap-2">
         <button 
-          mat-icon-button 
-          class="text-gray-600 hover:text-gray-800"
+          class="elitsoft-btn-icon"
           (click)="onConfig()"
         >
           <mat-icon>settings</mat-icon>
         </button>
 
         <button 
-          mat-icon-button 
-          class="text-gray-600 hover:text-red-600"
+         
+          class="elitsoft-btn-icon"
           (click)="onEliminar()"
         >
           <mat-icon>delete</mat-icon>

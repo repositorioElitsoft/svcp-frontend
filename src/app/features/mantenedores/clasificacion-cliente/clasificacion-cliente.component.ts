@@ -5,6 +5,7 @@ import { SharedTableComponent } from "../../../shared/components/shared-table/sh
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { OpcionesMantenedorComponent } from "../../../shared/components/opciones-mantenedor/opciones-mantenedor.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-clasificacion-cliente",
@@ -16,8 +17,8 @@ import { OpcionesMantenedorComponent } from "../../../shared/components/opciones
 export class ClasificacionClienteComponent implements OnInit {
   displayedColumns: string[] = ["name", "age", "email"];
   dataSource: TableData[] = []; // Ahora usa la interfaz TableData
-
-  constructor(private tableDataService: TableDataService, private cdr: ChangeDetectorRef) { }
+  titulo: string = 'Clasificación de Clientes'; // Puedes cambiarlo dinámicamente
+  constructor(private tableDataService: TableDataService, private cdr: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
     this.tableDataService.getData().subscribe((data: TableData[]) => {
@@ -49,6 +50,10 @@ export class ClasificacionClienteComponent implements OnInit {
 
   eliminarServicio() {
     console.log('Eliminando servicio...');
+  }
+
+  volver() {
+    this.router.navigate(['/portal/home']);
   }
 
 }
