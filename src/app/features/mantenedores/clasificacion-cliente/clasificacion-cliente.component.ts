@@ -59,7 +59,19 @@ export class ClasificacionClienteComponent implements OnInit {
   }
 
   onEditSelected(id: string) {
-    console.log("Editar seleccionado:", id);
+    const dialogRef = this.dialog.open(ClasificacionClienteFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: true,
+        object: this.dataSource.find(item => item.id === id)
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Editar seleccionado:", result);
+      }
+    });
   }
 
 
