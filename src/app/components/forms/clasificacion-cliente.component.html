@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    
+				<mat-form-field appearance="outline" class="full-width">
+				<mat-label>id</mat-label>
+				<input matInput formControlName="id" placeholder="id">
+				<mat-error *ngIf="form.get(id)?.invalid">Text is required</mat-error>
+				</mat-form-field>
+				
+
+				<mat-form-field appearance="outline" class="full-width">
+				<mat-label>descripcionClasificacionCliente</mat-label>
+				<input matInput formControlName="descripcionClasificacionCliente" placeholder="descripcionClasificacionCliente">
+				<mat-error *ngIf="form.get(descripcionClasificacionCliente)?.invalid">Text is required</mat-error>
+				</mat-form-field>
+				
+   
+
+  
+  
+    <!-- Submit Button -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+      {{ "send" | translate }}
+    </button>
+</form>
+  
