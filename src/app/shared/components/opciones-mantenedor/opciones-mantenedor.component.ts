@@ -17,28 +17,22 @@ import { MatButtonModule } from "@angular/material/button"
           {{ botonAgregar.texto }}
         </button>
 
-        <button 
+        <button [disabled]="!hasSelection"
           class="elitsoft-btn"
-          (click)="onExportar()"
-        >
-          <mat-icon >download</mat-icon>
+          (click)="onExportar()">
+          <mat-icon>download</mat-icon>
           Exporta excel
         </button>
       </div>
 
       <div class="flex items-center gap-2">
-        <button 
-          class="elitsoft-btn-icon"
-          (click)="onConfig()"
-        >
+        <button class="elitsoft-btn-icon" (click)="onConfig()">
           <mat-icon>settings</mat-icon>
         </button>
 
-        <button 
-         
+        <button [disabled]="!hasSelection"
           class="elitsoft-btn-icon"
-          (click)="onEliminar()"
-        >
+          (click)="onEliminar()">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
@@ -49,12 +43,10 @@ import { MatButtonModule } from "@angular/material/button"
     :host {
       display: block;
     }
-
     .mat-mdc-flat-button,
     .mat-mdc-stroked-button {
       line-height: 40px;
     }
-
     .mat-mdc-button-base {
       --mdc-typography-button-letter-spacing: 0;
       --mdc-typography-button-text-transform: none;
@@ -67,30 +59,33 @@ export class OpcionesMantenedorComponent {
   @Input() botonExportar = { texto: "Exporta excel", accion: () => { } }
   @Input() botonConfig = { accion: () => { } }
   @Input() botonEliminar = { accion: () => { } }
+  @Input() hasSelection = false;
+  @Input() selectedData: any[] = []; // Recibe los datos seleccionados
 
-  @Output() agregar = new EventEmitter<void>()
-  @Output() exportar = new EventEmitter<void>()
-  @Output() config = new EventEmitter<void>()
-  @Output() eliminar = new EventEmitter<void>()
+  @Output() agregar = new EventEmitter<void>();
+  @Output() exportar = new EventEmitter<any[]>(); // Emitimos los datos seleccionados para exportar
+  @Output() config = new EventEmitter<void>();
+  @Output() eliminar = new EventEmitter<any[]>(); // Emitimos los datos seleccionados para eliminar
 
   onAgregar() {
-    this.botonAgregar.accion()
-    this.agregar.emit()
+    this.botonAgregar.accion();
+    this.agregar.emit();
   }
 
   onExportar() {
-    this.botonExportar.accion()
-    this.exportar.emit()
+    this.botonExportar.accion();
+    console.log("Exportando datos:", this.selectedData); // Verificar datos antes de exportar
+    this.exportar.emit(this.selectedData); // Emitimos la data seleccionada
   }
 
   onConfig() {
-    this.botonConfig.accion()
-    this.config.emit()
+    this.botonConfig.accion();
+    this.config.emit();
   }
 
   onEliminar() {
-    this.botonEliminar.accion()
-    this.eliminar.emit()
+    this.botonEliminar.accion();
+    console.log("Eliminando:", this.selectedData); // Verificar datos antes de emitir
+    this.eliminar.emit(this.selectedData); // Emitimos la data seleccionada
   }
 }
-

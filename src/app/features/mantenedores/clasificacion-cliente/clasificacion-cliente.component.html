@@ -11,7 +11,11 @@
         </div>
         <div class="flex space-x-2">
             <!-- Botones y Acciones -->
-            <app-opciones-mantenedor></app-opciones-mantenedor>
+            <app-opciones-mantenedor [hasSelection]="hasSelection" [selectedData]="selectedData"
+                (agregar)="agregarServicio()" (exportar)="exportarExcel($event)" (eliminar)="eliminarServicio($event)">
+            </app-opciones-mantenedor>
+
+
         </div>
     </div>
 
@@ -19,14 +23,9 @@
     <div class="bg-white p-4 rounded-lg ">
         <app-shared-table [displayedColumns]="displayedColumns" [dataSource]="dataSource"
             (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
-            (editSelected)="onEditSelected($event)"></app-shared-table>
+            (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"></app-shared-table>
     </div>
-    <!-- Pagination Section -->
-    <div class="p-2 rounded-lg shadow-md flex justify-between items-center mt-4">
-        <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons
-            class="custom-paginator">
-        </mat-paginator>
-    </div>
+
 
 
 </div>

@@ -7,6 +7,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { OpcionesMantenedorComponent } from "../../../shared/components/opciones-mantenedor/opciones-mantenedor.component";
 import { Router } from "@angular/router";
 
+
 @Component({
   selector: "app-clasificacion-cliente",
   standalone: true,
@@ -18,6 +19,8 @@ export class ClasificacionClienteComponent implements OnInit {
   displayedColumns: string[] = ["name", "age", "email"];
   dataSource: TableData[] = []; // Ahora usa la interfaz TableData
   titulo: string = 'Clasificación de Clientes'; // Puedes cambiarlo dinámicamente
+  hasSelection = false;
+  selectedData: any[] = []; // Almacena la data seleccionada
   constructor(private tableDataService: TableDataService, private cdr: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
@@ -26,6 +29,12 @@ export class ClasificacionClienteComponent implements OnInit {
       this.cdr.detectChanges();
     });
   }
+
+  onSelectionChange(selectedItems: any[]) {
+    this.hasSelection = selectedItems.length > 0;
+    this.selectedData = selectedItems; // Guardamos la data seleccionada
+  }
+
 
   onDeleteSelected(ids: string[]) {
     console.log("Eliminar seleccionados:", ids);
@@ -44,16 +53,20 @@ export class ClasificacionClienteComponent implements OnInit {
     console.log('Agregar servicio');
   }
 
-  exportarExcel() {
-    console.log('Exportando Excel...');
+  exportarExcel(selectedItems: TableData[]) {
+    console.log("Exportando los siguientes elementos:", selectedItems);
+    // Aquí podrías implementar la lógica de exportación (ej. convertir a CSV o Excel)
   }
 
-  eliminarServicio() {
-    console.log('Eliminando servicio...');
+  eliminarServicio(selectedItems: TableData[]) {
+    console.log("Eliminando los siguientes elementos:", selectedItems);
+    this.dataSource = this.dataSource.filter(item => !selectedItems.includes(item)); // Eliminar de la lista
+    this.hasSelection = false;
   }
 
   volver() {
     this.router.navigate(['/portal/home']);
   }
+
 
 }
