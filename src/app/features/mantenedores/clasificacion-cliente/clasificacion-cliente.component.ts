@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 import { ClasificacionClienteFormComponent } from "../../../shared/components/forms/clasificacion-cliente.component";
 import { ExportarDocService } from "../../../core/services/exportar-doc.service";
+import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 
 
 @Component({
@@ -86,10 +87,26 @@ export class ClasificacionClienteComponent implements OnInit {
   }
 
   eliminarServicio(selectedItems: TableData[]) {
-    console.log("Eliminando los siguientes elementos:", selectedItems);
-    this.dataSource = this.dataSource.filter(item => !selectedItems.includes(item)); // Eliminar de la lista
-    this.hasSelection = false;
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      width: '600px',
+      height: '400px',
+      data: {
+        titulo: 'Eliminación individual',
+        mensaje: `¿Estás seguro que deseas eliminar ${selectedItems.length > 1 ? 'los elementos seleccionados' : 'el elemento'}? Esta acción no se puede deshacer`,
+        textoBotonCancelar: 'Cancelar',
+        textoBotonConfirmar: 'Eliminar'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmado => {
+      if (confirmado) {
+        console.log("Eliminando los siguientes elementos:", selectedItems);
+        this.dataSource = this.dataSource.filter(item => !selectedItems.includes(item));
+        this.hasSelection = false;
+      }
+    });
   }
+
 
   volver() {
     this.router.navigate(['/portal/home']);

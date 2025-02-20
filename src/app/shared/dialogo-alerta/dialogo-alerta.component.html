@@ -1,0 +1,48 @@
+<div class="rounded-2xl bg-white relative">
+    <!-- Contenido principal -->
+    <div class="p-8">
+        <!-- Botón cerrar (ahora correctamente a la derecha) -->
+        <button mat-icon-button class="absolute top-0 right-0 text-gray-400 hover:text-gray-600" (click)="onNoClick()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Ícono central -->
+        <div class="flex justify-center mb-6">
+            <div data-svg-wrapper style="position: relative">
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="48" height="48" rx="24" fill="#F2ADAA" />
+                    <rect x="4" y="4" width="48" height="48" rx="24" stroke="#FACFCD" stroke-width="8" />
+                    <path
+                        d="M23 37C22.45 37 21.9792 36.8042 21.5875 36.4125C21.1958 36.0208 21 35.55 21 35V22H20V20H25V19H31V20H36V22H35V35C35 35.55 34.8042 36.0208 34.4125 36.4125C34.0208 36.8042 33.55 37 33 37H23ZM33 22H23V35H33V22ZM25 33H27V24H25V33ZM29 33H31V24H29V33Z"
+                        fill="#C0392B" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Título -->
+        <h2 class="text-2xl font-medium text-center mb-4">
+            {{data.titulo}}
+        </h2>
+
+        <!-- Mensaje -->
+        <p class="text-center text-gray-600 mb-6">
+            {{data.mensaje}}
+        </p>
+    </div>
+
+    <!-- Línea divisoria -->
+    <div class="border-t border-gray-100"></div>
+
+    <!-- Botones -->
+    <div class="grid grid-cols-2 gap-4 p-4">
+        <button class="elitsoft-btn flex justify-center items-center" (click)="onNoClick()">
+            {{data.textoBotonCancelar}}
+        </button>
+        <button class="elitsoft-btn flex justify-center items-center" (click)="onConfirm()">
+            {{data.textoBotonConfirmar}}
+        </button>
+    </div>
+</div>
