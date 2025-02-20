@@ -4,27 +4,24 @@ import { MatIconModule } from "@angular/material/icon"
 import { MatButtonModule } from "@angular/material/button"
 
 @Component({
-    selector: "app-opciones-mantenedor",
-    standalone: true,
-    imports: [CommonModule, MatIconModule, MatButtonModule],
-    template: `
+  selector: "app-opciones-mantenedor",
+  standalone: true,
+  imports: [CommonModule, MatIconModule, MatButtonModule],
+  template: `
     <div class="flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <button 
-          mat-flat-button 
-          class="bg-[#4355B9] text-white hover:bg-[#3a489e] h-10 px-4"
-          (click)="onAgregar()"
-        >
-          <mat-icon class="mr-2 !h-4 !w-4 text-lg">add</mat-icon>
+          class="elitsoft-btn"
+          (click)="onAgregar()">
+          <mat-icon>add</mat-icon>
           {{ botonAgregar.texto }}
         </button>
 
         <button 
-          mat-stroked-button 
-          class="border-[#4355B9] text-[#4355B9] hover:bg-[#4355B9]/5 h-10 px-4"
+          class="elitsoft-btn"
           (click)="onExportar()"
         >
-          <mat-icon class="mr-2 !h-4 !w-4 text-lg">download</mat-icon>
+          <mat-icon >download</mat-icon>
           Exporta excel
         </button>
       </div>
@@ -48,8 +45,8 @@ import { MatButtonModule } from "@angular/material/button"
       </div>
     </div>
   `,
-    styles: [
-        `
+  styles: [
+    `
     :host {
       display: block;
     }
@@ -64,37 +61,37 @@ import { MatButtonModule } from "@angular/material/button"
       --mdc-typography-button-text-transform: none;
     }
   `,
-    ],
+  ],
 })
 export class OpcionesMantenedorComponent {
-    @Input() botonAgregar = { texto: "Agregar servicio", accion: () => { } }
-    @Input() botonExportar = { texto: "Exporta excel", accion: () => { } }
-    @Input() botonConfig = { accion: () => { } }
-    @Input() botonEliminar = { accion: () => { } }
+  @Input() botonAgregar = { texto: "Agregar servicio", accion: () => { } }
+  @Input() botonExportar = { texto: "Exporta excel", accion: () => { } }
+  @Input() botonConfig = { accion: () => { } }
+  @Input() botonEliminar = { accion: () => { } }
 
-    @Output() agregar = new EventEmitter<void>()
-    @Output() exportar = new EventEmitter<void>()
-    @Output() config = new EventEmitter<void>()
-    @Output() eliminar = new EventEmitter<void>()
+  @Output() agregar = new EventEmitter<void>()
+  @Output() exportar = new EventEmitter<void>()
+  @Output() config = new EventEmitter<void>()
+  @Output() eliminar = new EventEmitter<void>()
 
-    onAgregar() {
-        this.botonAgregar.accion()
-        this.agregar.emit()
-    }
+  onAgregar() {
+    this.botonAgregar.accion()
+    this.agregar.emit()
+  }
 
-    onExportar() {
-        this.botonExportar.accion()
-        this.exportar.emit()
-    }
+  onExportar() {
+    this.botonExportar.accion()
+    this.exportar.emit()
+  }
 
-    onConfig() {
-        this.botonConfig.accion()
-        this.config.emit()
-    }
+  onConfig() {
+    this.botonConfig.accion()
+    this.config.emit()
+  }
 
-    onEliminar() {
-        this.botonEliminar.accion()
-        this.eliminar.emit()
-    }
+  onEliminar() {
+    this.botonEliminar.accion()
+    this.eliminar.emit()
+  }
 }
 
