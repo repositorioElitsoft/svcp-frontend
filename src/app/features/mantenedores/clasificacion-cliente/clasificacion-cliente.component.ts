@@ -6,6 +6,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { OpcionesMantenedorComponent } from "../../../shared/components/opciones-mantenedor/opciones-mantenedor.component";
 import { Router } from "@angular/router";
+import { MatDialog } from "@angular/material/dialog";
+import { ClasificacionClienteFormComponent } from "../../../shared/components/forms/clasificacion-cliente.component";
 
 
 @Component({
@@ -21,7 +23,7 @@ export class ClasificacionClienteComponent implements OnInit {
   titulo: string = 'Clasificación de Clientes'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
-  constructor(private tableDataService: TableDataService, private cdr: ChangeDetectorRef, private router: Router) { }
+  constructor(private tableDataService: TableDataService, private cdr: ChangeDetectorRef, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.tableDataService.getData().subscribe((data: TableData[]) => {
@@ -40,8 +42,20 @@ export class ClasificacionClienteComponent implements OnInit {
     console.log("Eliminar seleccionados:", ids);
   }
 
-  onViewSelected(id: string) {
-    console.log("Ver seleccionado:", id);
+  onViewSelected(id: string): void {
+    const dialogRef = this.dialog.open(ClasificacionClienteFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: true,
+        object: this.dataSource.find(item => item.id === id)
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Ver seleccionado:", result);
+      }
+    });
   }
 
   onEditSelected(id: string) {
