@@ -8,6 +8,7 @@ import { OpcionesMantenedorComponent } from "../../../shared/components/opciones
 import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 import { ClasificacionClienteFormComponent } from "../../../shared/components/forms/clasificacion-cliente.component";
+import { ExportarDocService } from "../../../core/services/exportar-doc.service";
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ClasificacionClienteComponent implements OnInit {
   titulo: string = 'Clasificación de Clientes'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
-  constructor(private tableDataService: TableDataService, private cdr: ChangeDetectorRef, private router: Router, public dialog: MatDialog) { }
+  constructor(private tableDataService: TableDataService, private cdr: ChangeDetectorRef, private router: Router, public dialog: MatDialog, private exportService: ExportarDocService) { }
 
   ngOnInit() {
     this.tableDataService.getData().subscribe((data: TableData[]) => {
@@ -81,7 +82,7 @@ export class ClasificacionClienteComponent implements OnInit {
 
   exportarExcel(selectedItems: TableData[]) {
     console.log("Exportando los siguientes elementos:", selectedItems);
-    // Aquí podrías implementar la lógica de exportación (ej. convertir a CSV o Excel)
+    this.exportService.exportToExcel(selectedItems, this.titulo);
   }
 
   eliminarServicio(selectedItems: TableData[]) {
@@ -93,6 +94,7 @@ export class ClasificacionClienteComponent implements OnInit {
   volver() {
     this.router.navigate(['/portal/home']);
   }
+
 
 
 }
