@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from '../../../environments/environment';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ClasificacionCliente } from '../../core/models/clasificacion-cliente.model';
 
@@ -12,15 +12,24 @@ export class ClasificacionClienteService {
     readonly url = `${environment.apiUrl}`
     constructor(private http: HttpClient) { }
 
+    headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+    });
+
     buscar(clasificacionClienteId: number): Observable<ClasificacionCliente> {
         return this.http.get<ClasificacionCliente>(`${this.url}clasificacioncliente/${clasificacionClienteId}`);
     }
     buscarTodos(): Observable<ClasificacionCliente[]> {
-        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificacioncliente/`);
+        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificacioncliente`, { headers: this.headers });
     }
     borrar(clasificacionClienteId: number): Observable<any> {
         return this.http.delete<any>(`${this.url}clasificacioncliente/${clasificacionClienteId}`);
     }
+
+    borrarTodos(ids: number[]): Observable<any> {
+        return this.http.delete<any>(`${this.url}clasificacioncliente/`, { headers: this.headers, body: ids });
+    }
+
     actualizar(clasificacionClienteId: number, clasificacionCliente: ClasificacionCliente): Observable<ClasificacionCliente> {
         return this.http.put<ClasificacionCliente>(`${this.url}clasificacioncliente/${clasificacionClienteId}`, clasificacionCliente);
     }

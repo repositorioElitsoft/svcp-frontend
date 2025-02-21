@@ -7,11 +7,12 @@ import { MatIconModule } from "@angular/material/icon";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { BehaviorSubject } from "rxjs";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: "app-shared-table",
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatCheckboxModule, MatButtonModule, MatIconModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatCheckboxModule, MatButtonModule, MatIconModule, TranslateModule, MatPaginatorModule],
   templateUrl: "./shared-table.component.html",
   styleUrls: ["./shared-table.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush, // Optimización

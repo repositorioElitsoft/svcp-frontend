@@ -12,6 +12,7 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { ClasificacionClienteService } from "../../../core/services/clasificacion-cliente.service";
 import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model";
+import { forkJoin } from "rxjs";
 
 
 @Component({
@@ -101,25 +102,49 @@ export class ClasificacionClienteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
-        console.log("Eliminando los siguientes elementos:", selectedItems);
-        this.dataSource = this.dataSource.filter(item => !selectedItems.includes(item));
-        this.hasSelection = false;
+        const ids = selectedItems.map(item => item.id);
+        console.log("Datos a enviar para eliminar:", { ids: ids });
+
+        this.clasificacionClienteService.borrarTodos(ids).subscribe({
+          next: () => {
+            console.log("Elementos eliminados exitosamente:", ids);
+            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
+            this.hasSelection = false;
+          },
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+          }
+        });
       }
     });
   }
+
 
 
   volver() {
     this.router.navigate(['/portal/home']);
   }
 
-
   obtenerDatos() {
     this.clasificacionClienteService.buscarTodos().subscribe((data: ClasificacionCliente[]) => {
+      console.log("Datos recibidos:", data);
       this.dataSource = data;
       // Obtener las columnas dinámicamente
-      this.displayedColumns = Object.keys(data).concat("acciones"); // Agrega una columna extra para acciones
+      if (data.length > 0) {
+        // Obtener las claves del primer objeto en el array
+        this.displayedColumns = Object.keys(data[0]); // Sin transformación
+
+      }
       this.cdr.detectChanges();
     });
   }
+  // Método para transformar el nombre de la columna a un formato más legible
+  transformarNombreColumna(columna: string): string {
+    return columna
+      .replace(/([A-Z])/g, ' $1') // Separa las mayúsculas con un espacio
+      .replace(/^./, str => str.toUpperCase()) // Capitaliza la primera letra
+      .trim(); // Elimina espacios innecesarios
+  }
 }
+
+
