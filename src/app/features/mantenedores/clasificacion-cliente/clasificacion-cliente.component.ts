@@ -22,7 +22,7 @@ import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente
   styleUrl: "./clasificacion-cliente.component.css",
 })
 export class ClasificacionClienteComponent implements OnInit {
-  displayedColumns: string[] = ["name", "age", "email"];
+  displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: ClasificacionCliente[] = []; // Ahora usa la interfaz Clasificacion Cliente
   titulo: string = 'Clasificación de Clientes'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
@@ -32,13 +32,9 @@ export class ClasificacionClienteComponent implements OnInit {
     private clasificacionClienteService: ClasificacionClienteService) { }
 
   ngOnInit() {
-    const clasificacionClienteId = 1; // Replace with the actual ID you want to use
-    this.clasificacionClienteService.buscar(clasificacionClienteId).subscribe((data: ClasificacionCliente) => {
-      this.dataSource = [data];
-      this.cdr.detectChanges();
-    });
-  }
+    this.obtenerDatos();
 
+  }
   onSelectionChange(selectedItems: any[]) {
     this.hasSelection = selectedItems.length > 0;
     this.selectedData = selectedItems; // Guardamos la data seleccionada
@@ -118,5 +114,12 @@ export class ClasificacionClienteComponent implements OnInit {
   }
 
 
-
+  obtenerDatos() {
+    this.clasificacionClienteService.buscarTodos().subscribe((data: ClasificacionCliente[]) => {
+      this.dataSource = data;
+      // Obtener las columnas dinámicamente
+      this.displayedColumns = Object.keys(data).concat("acciones"); // Agrega una columna extra para acciones
+      this.cdr.detectChanges();
+    });
+  }
 }

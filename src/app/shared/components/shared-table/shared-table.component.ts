@@ -28,7 +28,7 @@ export class SharedTableComponent {
 
   selection = new SelectionModel<any>(true, []);
   pageSize = 5;  // Tamaño por defecto para la paginación
-
+  emptyMessage: string = "No hay datos disponibles.";
   dataSourceSubject = new BehaviorSubject<any[]>([]);
 
   // Getter dinámico para evitar problemas con @Input()
@@ -86,8 +86,13 @@ export class SharedTableComponent {
   }
 
   ngAfterViewInit() {
-    this.paginator.page.subscribe(() => this.onPageChange(this.paginator.page));
+    if (this.paginator) {
+      this.paginator.page.subscribe(() => this.onPageChange(this.paginator.page));
+    } else {
+      console.warn("Paginator is not available yet.");
+    }
   }
+
 
   // Método para notificar cambios en la selección
   private notifySelectionChange() {
