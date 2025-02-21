@@ -10,6 +10,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { ClasificacionClienteFormComponent } from "../../../shared/components/forms/clasificacion-cliente.component";
 import { ExportarDocService } from "../../../core/services/exportar-doc.service";
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
+import { ClasificacionClienteService } from "../../../core/services/clasificacion-cliente.service";
+import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model";
 
 
 @Component({
@@ -21,15 +23,18 @@ import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-al
 })
 export class ClasificacionClienteComponent implements OnInit {
   displayedColumns: string[] = ["name", "age", "email"];
-  dataSource: TableData[] = []; // Ahora usa la interfaz TableData
+  dataSource: ClasificacionCliente[] = []; // Ahora usa la interfaz Clasificacion Cliente
   titulo: string = 'Clasificación de Clientes'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
-  constructor(private tableDataService: TableDataService, private cdr: ChangeDetectorRef, private router: Router, public dialog: MatDialog, private exportService: ExportarDocService) { }
+  constructor(private cdr: ChangeDetectorRef,
+    private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
+    private clasificacionClienteService: ClasificacionClienteService) { }
 
   ngOnInit() {
-    this.tableDataService.getData().subscribe((data: TableData[]) => {
-      this.dataSource = [...data];
+    const clasificacionClienteId = 1; // Replace with the actual ID you want to use
+    this.clasificacionClienteService.buscar(clasificacionClienteId).subscribe((data: ClasificacionCliente) => {
+      this.dataSource = [data];
       this.cdr.detectChanges();
     });
   }
@@ -49,7 +54,7 @@ export class ClasificacionClienteComponent implements OnInit {
       width: '400px',
       data: {
         esActualizar: true,
-        object: this.dataSource.find(item => item.id === id)
+        object: this.dataSource.find(item => item.id === Number(id))
       }
     });
 
@@ -65,7 +70,7 @@ export class ClasificacionClienteComponent implements OnInit {
       width: '400px',
       data: {
         esActualizar: true,
-        object: this.dataSource.find(item => item.id === id)
+        object: this.dataSource.find(item => item.id === Number(id))
       }
     });
 
@@ -86,7 +91,7 @@ export class ClasificacionClienteComponent implements OnInit {
     this.exportService.exportToExcel(selectedItems, this.titulo);
   }
 
-  eliminarServicio(selectedItems: TableData[]) {
+  eliminarServicio(selectedItems: ClasificacionCliente[]) {
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       width: '600px',
       height: '400px',

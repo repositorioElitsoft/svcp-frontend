@@ -13,19 +13,19 @@ export class ClasificacionClienteService {
     constructor(private http: HttpClient) { }
 
     buscar(clasificacionClienteId: number): Observable<ClasificacionCliente> {
-        return this.http.get<ClasificacionCliente>(`${this.url}clasificaciones-clientes/${clasificacionClienteId}`);
+        return this.http.get<ClasificacionCliente>(`${this.url}clasificacioncliente/${clasificacionClienteId}`);
     }
     buscarTodos(): Observable<ClasificacionCliente[]> {
-        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificaciones-clientes/`);
+        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificacioncliente/`);
     }
     borrar(clasificacionClienteId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}clasificaciones-clientes/${clasificacionClienteId}`);
+        return this.http.delete<any>(`${this.url}clasificacioncliente/${clasificacionClienteId}`);
     }
     actualizar(clasificacionClienteId: number, clasificacionCliente: ClasificacionCliente): Observable<ClasificacionCliente> {
-        return this.http.put<ClasificacionCliente>(`${this.url}clasificaciones-clientes/${clasificacionClienteId}`, clasificacionCliente);
+        return this.http.put<ClasificacionCliente>(`${this.url}clasificacioncliente/${clasificacionClienteId}`, clasificacionCliente);
     }
     crear(clasificacionCliente: ClasificacionCliente): Observable<ClasificacionCliente> {
-        return this.http.post<ClasificacionCliente>(`${this.url}clasificaciones-clientes`, clasificacionCliente);
+        return this.http.post<ClasificacionCliente>(`${this.url}clasificacioncliente`, clasificacionCliente);
     }
 
 }
