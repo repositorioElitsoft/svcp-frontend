@@ -20,7 +20,9 @@ export class ClasificacionClienteService {
         return this.http.get<ClasificacionCliente>(`${this.url}clasificacioncliente/${clasificacionClienteId}`);
     }
     buscarTodos(): Observable<ClasificacionCliente[]> {
+
         return this.http.get<ClasificacionCliente[]>(`${this.url}clasificacioncliente`, { headers: this.headers });
+
     }
     borrar(clasificacionClienteId: number): Observable<any> {
         return this.http.delete<any>(`${this.url}clasificacioncliente/${clasificacionClienteId}`);

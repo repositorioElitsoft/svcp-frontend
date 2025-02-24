@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild, ViewChildren, QueryList, ElementRef, ChangeDetectorRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatTableModule } from "@angular/material/table";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -24,13 +24,21 @@ export class SharedTableComponent {
   @Output() viewSelected = new EventEmitter<string>();
   @Output() editSelected = new EventEmitter<string>();
   @Output() selectionChange = new EventEmitter<any[]>(); // Nuevo Output para notificar cambios en la selección
+  @Output() sort = new EventEmitter<{ selectedColumnName: string, currentSortType: string }>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;  // Paginador como input
+  @ViewChildren('sortHeader') sortHeaders!: QueryList<ElementRef>
 
   selection = new SelectionModel<any>(true, []);
   pageSize = 5;  // Tamaño por defecto para la paginación
   emptyMessage: string = "No hay datos disponibles.";
   dataSourceSubject = new BehaviorSubject<any[]>([]);
+
+  currentSortType = '';
+  currentSortIndex = -1;
+
+  constructor(private cdr: ChangeDetectorRef) { }
+
 
   // Getter dinámico para evitar problemas con @Input()
   get allColumns(): string[] {
@@ -42,6 +50,32 @@ export class SharedTableComponent {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.length;
     return numSelected === numRows;
+  }
+
+  onSort(selectedColumnName: string, columnIndex: number) {
+
+    this.sortHeaders.forEach((header, i) => {
+      const element = header.nativeElement;
+      if (i === columnIndex) {
+        this.currentSortType = element.getAttribute('sortType') || '';
+        if (this.currentSortType === 'asc') {
+          this.currentSortType = "dsc"
+          element.setAttribute('sortType', 'dsc');
+        } else if (this.currentSortType === 'dsc') {
+          this.currentSortType = "asc"
+          element.setAttribute('sortType', 'asc');
+        } else {
+          this.currentSortType = "asc"
+          element.setAttribute('sortType', 'asc');
+        }
+      } else {
+        element.setAttribute('sortType', '');
+      }
+    });
+    this.currentSortIndex = columnIndex;
+    this.cdr.detectChanges();
+    console.log("sorts ", { selectedColumnName, currentSortType: this.currentSortType })
+    this.sort.emit({ selectedColumnName, currentSortType: this.currentSortType });
   }
 
   // Seleccionar o deseleccionar todas las filas
