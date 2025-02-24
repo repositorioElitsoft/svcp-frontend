@@ -84,8 +84,8 @@ export class ClasificacionClienteComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.clcl_dsc) {
-          console.error("Descripción no válida:", result.clcl_dsc);
+        if (!result.clasificacionClienteDesc) {
+          console.error("Descripción no válida:", result.clasificacionClienteDesc);
           return;
         }
 

@@ -15,7 +15,6 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ClasificacionCliente } from '../../../core/models/clasificacion-cliente.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 
@@ -55,7 +54,7 @@ export class ClasificacionClienteFormComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       id: [null],
-      descripcionClasificacionCliente: [
+      clasificacionClienteDesc: [
         this.data?.object?.clasificacionClienteDesc || 'Sin descripción', // Valor predeterminado actualizado
         Validators.required,
       ], // Valor predeterminado
@@ -70,7 +69,7 @@ export class ClasificacionClienteFormComponent implements OnInit {
       console.log("Objeto recibido:", this.data.object);
 
       // Si 'clasificacionClienteDesc' es null o vacío, se maneja con 'Sin descripción'
-      const descripcionClasificacionCliente = this.data.object.clasificacionClienteDesc || 'Sin descripción';
+      const clasificacionClienteDesc = this.data.object.clasificacionClienteDesc || 'Sin descripción';
 
       // Verificar si 'id' está presente y no es null
       const id = this.data.object.id !== null ? this.data.object.id : null; // Asignar null si no existe
@@ -78,7 +77,7 @@ export class ClasificacionClienteFormComponent implements OnInit {
       // Aplicar valores a través de patchValue
       this.form.patchValue({
         id: id,
-        descripcionClasificacionCliente: descripcionClasificacionCliente,
+        clasificacionClienteDesc: clasificacionClienteDesc,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -93,7 +92,7 @@ export class ClasificacionClienteFormComponent implements OnInit {
     if (this.form.valid) {
       const formData = {
         id: this.form.value.id,
-        clcl_dsc: this.form.value.descripcionClasificacionCliente, // Asegúrate de que este sea el campo correcto
+        clasificacionClienteDesc: this.form.value.clasificacionClienteDesc, // Asegúrate de que este sea el campo correcto
       };
 
       console.log("Datos mapeados para enviar:", formData);
