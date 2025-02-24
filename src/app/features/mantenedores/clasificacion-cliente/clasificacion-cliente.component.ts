@@ -29,6 +29,11 @@ export class ClasificacionClienteComponent implements OnInit {
   titulo: string = 'Clasificación de Clientes'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
+  pageNumber = 0
+  totalPages = 0
+  pageSize = 5;
+  totalElements = 0;
+
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private clasificacionClienteService: ClasificacionClienteService) { }
@@ -164,22 +169,53 @@ export class ClasificacionClienteComponent implements OnInit {
     this.router.navigate(['/portal/home']);
   }
 
-  // obtenerDatos() {
-  //   this.clasificacionClienteService.buscarFiltrado({
-  //     pageNumber: 0,
-  //     pageSize: 0,
-  //     sortField: 'id',
-  //     sortDirection: 'asc'
-  //   }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
-  //     console.log("Datos recibidos:", data);
-  //     this.dataSource = data.content.flat();
-  //     if (data.content.length > 0) {
-  //       this.displayedColumns = Object.keys(data.content[0]); // Sin transformación
-  //     }
-  //     this.cdr.detectChanges();
-  //   });
-  // }
+  sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
 
+    this.clasificacionClienteService.buscarFiltrado({
+      pageNumber: 0,
+      pageSize: 0,
+      sortField: sortData.selectedColumnName,
+      sortDirection: sortData.currentSortType
+    }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
+      console.log("Datos recibidos:", data);
+      this.dataSource = data.content.flat();
+      if (data.content.length > 0) {
+        this.displayedColumns = Object.keys(data.content[0]); // Sin transformación
+      }
+      this.cdr.detectChanges();
+    });
+
+  }
+
+  onPageChanged(newPage: number) {
+    console.log("Página cambiada", newPage);
+    this.pageNumber = newPage
+
+  }
+
+  obtenerDatos() {
+    this.clasificacionClienteService.buscarFiltrado({
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
+      sortField: 'id',
+      sortDirection: 'asc'
+    }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
+      console.log("Datos recibidos:", data);
+
+      this.pageNumber = data.pageNumber
+      this.totalPages = data.totalPages
+      this.pageSize = data.pageSize;
+      this.totalElements = data.totalElements;
+
+      this.dataSource = data.content.flat();
+      if (data.content.length > 0) {
+        this.displayedColumns = Object.keys(data.content[0]); // Sin transformación
+      }
+      this.cdr.detectChanges();
+    });
+  }
+
+  /*
   obtenerDatos() {
     this.clasificacionClienteService.buscarTodos().subscribe((data: ClasificacionCliente[]) => {
       console.log("Datos recibidos:", data);
@@ -190,7 +226,7 @@ export class ClasificacionClienteComponent implements OnInit {
       this.cdr.detectChanges();
     }
     );
-  }
+  }*/
 
   // Método para transformar el nombre de la columna a un formato más legible
   transformarNombreColumna(columna: string): string {

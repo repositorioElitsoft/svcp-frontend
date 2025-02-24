@@ -20,17 +20,23 @@ import { TranslateModule } from "@ngx-translate/core";
 export class SharedTableComponent {
   @Input() displayedColumns: string[] = [];
   @Input() dataSource: any[] = [];
+  @Input() totalElements: number = 0;
+  @Input() pageNumber = 0
+  @Input() totalPages = 0
+  @Input() pageSize = 5;  // Tamaño por defecto para la paginación
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() viewSelected = new EventEmitter<string>();
   @Output() editSelected = new EventEmitter<string>();
   @Output() selectionChange = new EventEmitter<any[]>(); // Nuevo Output para notificar cambios en la selección
   @Output() sort = new EventEmitter<{ selectedColumnName: string, currentSortType: string }>();
 
+  @Output() pageChanged = new EventEmitter<number>();
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;  // Paginador como input
   @ViewChildren('sortHeader') sortHeaders!: QueryList<ElementRef>
 
   selection = new SelectionModel<any>(true, []);
-  pageSize = 5;  // Tamaño por defecto para la paginación
+
   emptyMessage: string = "No hay datos disponibles.";
   dataSourceSubject = new BehaviorSubject<any[]>([]);
 
@@ -52,7 +58,12 @@ export class SharedTableComponent {
     return numSelected === numRows;
   }
 
-  onSort(selectedColumnName: string, columnIndex: number) {
+  protected onPageChanged(newPage: number) {
+    this.pageChanged.emit(newPage);
+  }
+
+
+  protected onSort(selectedColumnName: string, columnIndex: number) {
 
     this.sortHeaders.forEach((header, i) => {
       const element = header.nativeElement;
@@ -74,7 +85,6 @@ export class SharedTableComponent {
     });
     this.currentSortIndex = columnIndex;
     this.cdr.detectChanges();
-    console.log("sorts ", { selectedColumnName, currentSortType: this.currentSortType })
     this.sort.emit({ selectedColumnName, currentSortType: this.currentSortType });
   }
 
@@ -108,25 +118,12 @@ export class SharedTableComponent {
     this.editSelected.emit(id);
   }
 
-  // Manejar cambios de página
-  onPageChange(event: any) {
-    const startIndex = event.pageIndex * event.pageSize;
-    const endIndex = startIndex + event.pageSize;
-    this.dataSourceSubject.next(this.dataSource.slice(startIndex, endIndex));
-  }
 
   // Actualizar el dataSource con paginación
   ngOnChanges() {
     this.dataSourceSubject.next(this.dataSource.slice(0, this.pageSize));  // Mostrar solo las primeras filas
   }
 
-  ngAfterViewInit() {
-    if (this.paginator) {
-      this.paginator.page.subscribe(() => this.onPageChange(this.paginator.page));
-    } else {
-      console.warn("Paginator is not available yet.");
-    }
-  }
 
 
   // Método para notificar cambios en la selección
