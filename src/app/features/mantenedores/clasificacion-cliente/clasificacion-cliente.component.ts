@@ -98,7 +98,11 @@ export class ClasificacionClienteComponent implements OnInit {
 
         // Actualización del servicio
         this.clasificacionClienteService.actualizar(formData.id, formData).pipe(
-          tap(response => console.log("Respuesta del servicio:", response)),
+          tap(response => {
+            console.log("Respuesta del servicio:", response);
+            // Llamar a obtenerDatos() para actualizar la tabla
+            this.obtenerDatos();
+          }),
           catchError(error => {
             console.error("Error en el servicio:", error);
             return throwError(error);

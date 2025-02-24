@@ -53,7 +53,7 @@ export class ClasificacionClienteFormComponent implements OnInit {
     this.form = this.fb.group({
       id: [null],
       clasificacionClienteDesc: [
-        this.data?.object?.clasificacionClienteDesc || 'Sin descripción',
+        this.data?.object?.clasificacionClienteDesc || '',
         Validators.required,
       ],
     });
