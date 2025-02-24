@@ -13,6 +13,7 @@ import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-al
 import { ClasificacionClienteService } from "../../../core/services/clasificacion-cliente.service";
 import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model";
 import { forkJoin } from "rxjs";
+import { PagedResponse } from "../../../core/models/paged-content.models";
 
 
 @Component({
@@ -63,11 +64,14 @@ export class ClasificacionClienteComponent implements OnInit {
   }
 
   onEditSelected(id: string) {
+    const selectedObject = this.dataSource.find(item => item.id === Number(id));
+    console.log('Selected Object:', selectedObject); // Verifica el objeto encontrado
+
     const dialogRef = this.dialog.open(ClasificacionClienteFormComponent, {
       width: '400px',
       data: {
         esActualizar: true,
-        object: this.dataSource.find(item => item.id === Number(id))
+        object: selectedObject
       }
     });
 
@@ -125,19 +129,34 @@ export class ClasificacionClienteComponent implements OnInit {
     this.router.navigate(['/portal/home']);
   }
 
+  // obtenerDatos() {
+  //   this.clasificacionClienteService.buscarFiltrado({
+  //     pageNumber: 0,
+  //     pageSize: 0,
+  //     sortField: 'id',
+  //     sortDirection: 'asc'
+  //   }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
+  //     console.log("Datos recibidos:", data);
+  //     this.dataSource = data.content.flat();
+  //     if (data.content.length > 0) {
+  //       this.displayedColumns = Object.keys(data.content[0]); // Sin transformación
+  //     }
+  //     this.cdr.detectChanges();
+  //   });
+  // }
+
   obtenerDatos() {
     this.clasificacionClienteService.buscarTodos().subscribe((data: ClasificacionCliente[]) => {
       console.log("Datos recibidos:", data);
       this.dataSource = data;
-      // Obtener las columnas dinámicamente
       if (data.length > 0) {
-        // Obtener las claves del primer objeto en el array
         this.displayedColumns = Object.keys(data[0]); // Sin transformación
-
       }
       this.cdr.detectChanges();
-    });
+    }
+    );
   }
+
   // Método para transformar el nombre de la columna a un formato más legible
   transformarNombreColumna(columna: string): string {
     return columna

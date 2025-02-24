@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ClasificacionCliente } from '../../core/models/clasificacion-cliente.model';
 
@@ -35,6 +35,20 @@ export class ClasificacionClienteService {
     }
     crear(clasificacionCliente: ClasificacionCliente): Observable<ClasificacionCliente> {
         return this.http.post<ClasificacionCliente>(`${this.url}clasificacioncliente`, clasificacionCliente);
+    }
+
+    buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
+        console.log("filtros", filtros)
+        let params = new HttpParams(filtros);
+        // Recorrer los filtros y agregar los que tengan valor
+        for (let key in filtros) {
+            if (filtros.hasOwnProperty(key)) {
+                params = params.append(key, filtros[key]);
+            }
+        }
+        console.log("params", params)
+        // Hacer la solicitud GET con los parámetros dinámicos
+        return this.http.get(`${this.url}core/filter/clasificacionCliente`, { params });
     }
 
 }
