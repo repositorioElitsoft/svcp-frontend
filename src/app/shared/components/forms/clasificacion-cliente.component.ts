@@ -14,30 +14,29 @@ import {
   MatDialogClose,
   MatDialogContent,
   MatDialogRef,
-
 } from '@angular/material/dialog';
-import { ClasificacionCliente } from '../../../core/models/clasificacion-cliente.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
-
-/*modelsImports*/
-
-
+import { ClasificacionCliente } from '../../../core/models/clasificacion-cliente.model';
 
 @Component({
   selector: 'app-clasificacionCliente-create-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatButtonModule,
-    MatFormFieldModule,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    MatFormFieldModule,
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
     MatError,
-    TranslateModule, TituloDialogoComponent],
+    TranslateModule,
+    TituloDialogoComponent,
+  ],
   templateUrl: `./clasificacion-cliente.component.html`,
-  styles: []
+  styles: [],
 })
 export class ClasificacionClienteFormComponent implements OnInit {
   form!: FormGroup;
@@ -46,22 +45,38 @@ export class ClasificacionClienteFormComponent implements OnInit {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
 
-
   constructor(
     private fb: FormBuilder,
-    private clasificacionClienteService: ClasificacionClienteService,
-
+    private clasificacionClienteService: ClasificacionClienteService
   ) {
+    // Tipando el FormGroup
     this.form = this.fb.group({
       id: [null],
-      descripcionClasificacionCliente: [null, Validators.required],
+      clasificacionClienteDesc: [
+        this.data?.object?.clasificacionClienteDesc || '',
+        Validators.required,
+      ],
     });
   }
 
   ngOnInit() {
-    console.log(this.data);  // Verifica qué datos están llegando
-    if (this.esActualizar() && this.data.object) {
-      this.form.patchValue(this.data.object);
+    console.log("Datos recibidos en el formulario:", this.data);
+
+    // Verificar si 'data.object' existe y tiene el campo 'clasificacionClienteDesc'
+    if (this.esActualizar() && this.data?.object) {
+      console.log("Objeto recibido:", this.data.object);
+
+      const clasificacionClienteDesc = this.data.object.clasificacionClienteDesc || 'Sin descripción';
+      const id = this.data.object.id !== null ? this.data.object.id : null;
+
+      this.form.patchValue({
+        id: id,
+        clasificacionClienteDesc: clasificacionClienteDesc,
+      });
+
+      console.log("Datos en el formulario después de patchValue:", this.form.value);
+    } else {
+      console.error("No se recibió un objeto válido en 'data'");
     }
   }
 
@@ -69,12 +84,17 @@ export class ClasificacionClienteFormComponent implements OnInit {
     console.log("Formulario enviado:", this.form.value);
 
     if (this.form.valid) {
-      this.dialogRef.close(this.form.value);  // Solo retorna los datos al padre
+      const formData: ClasificacionCliente = {
+        id: this.form.value.id,
+        clasificacionClienteDesc: this.form.value.clasificacionClienteDesc,
+      };
+
+      console.log("Datos mapeados para enviar:", formData);
+
+      // Cierra el formulario con los datos correctos
+      this.dialogRef.close(formData);
     } else {
       console.log("Formulario no válido");
     }
   }
-
-
-
 }

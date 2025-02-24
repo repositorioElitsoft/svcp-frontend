@@ -12,7 +12,7 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { ClasificacionClienteService } from "../../../core/services/clasificacion-cliente.service";
 import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model";
-import { forkJoin } from "rxjs";
+import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 
 
@@ -70,7 +70,7 @@ export class ClasificacionClienteComponent implements OnInit {
 
   onEditSelected(id: string) {
     const selectedObject = this.dataSource.find(item => item.id === Number(id));
-    console.log('Selected Object:', selectedObject); // Verifica el objeto encontrado
+    console.log('Selected Object:', selectedObject);
 
     if (!selectedObject) {
       console.error("No se encontró el objeto a editar.");
@@ -89,15 +89,30 @@ export class ClasificacionClienteComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        // Llamar al servicio para actualizar el objeto en la BD
-        this.clasificacionClienteService.actualizar(result.id, result).subscribe(
-          (response) => {
-            console.log("Cliente actualizado con éxito:", response);
-          },
-          (error) => {
-            console.error("Error al actualizar cliente:", error);
-          }
-        );
+        // Validación de los datos recibidos, ahora con la interfaz ClasificacionCliente
+        if (!result.clasificacionClienteDesc) {
+          console.error("Descripción no válida:", result.clasificacionClienteDesc);
+          return;
+        }
+
+        // Verificar que el objeto tiene los campos necesarios
+        const formData: ClasificacionCliente = {
+          id: result.id,
+          clasificacionClienteDesc: result.clasificacionClienteDesc
+        };
+
+        // Actualización del servicio
+        this.clasificacionClienteService.actualizar(formData.id, formData).pipe(
+          tap(response => {
+            console.log("Respuesta del servicio:", response);
+            // Llamar a obtenerDatos() para actualizar la tabla
+            this.obtenerDatos();
+          }),
+          catchError(error => {
+            console.error("Error en el servicio:", error);
+            return throwError(error);
+          })
+        ).subscribe();
       }
     });
   }
@@ -236,13 +251,7 @@ export class ClasificacionClienteComponent implements OnInit {
       .trim(); // Elimina espacios innecesarios
   }
 
-  agregarMasivo() {
 
-  }
-
-  editarMasivo() {
-
-  }
 
 
 }
