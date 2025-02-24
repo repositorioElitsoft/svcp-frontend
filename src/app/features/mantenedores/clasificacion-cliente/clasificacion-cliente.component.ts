@@ -65,7 +65,7 @@ export class ClasificacionClienteComponent implements OnInit {
 
   onEditSelected(id: string) {
     const selectedObject = this.dataSource.find(item => item.id === Number(id));
-    console.log('Selected Object:', selectedObject); // Verifica el objeto encontrado
+    console.log('Selected Object:', selectedObject);
 
     if (!selectedObject) {
       console.error("No se encontró el objeto a editar.");
@@ -84,15 +84,18 @@ export class ClasificacionClienteComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        // Llamar al servicio para actualizar el objeto en la BD
+        if (!result.clcl_dsc) {
+          console.error("Descripción no válida:", result.clcl_dsc);
+          return;
+        }
+
         this.clasificacionClienteService.actualizar(result.id, result).pipe(
           tap(response => console.log("Respuesta del servicio:", response)),
           catchError(error => {
             console.error("Error en el servicio:", error);
-            return throwError(error); // Importa throwError desde rxjs
+            return throwError(error);
           })
         ).subscribe();
-
       }
     });
   }
