@@ -67,6 +67,11 @@ export class ClasificacionClienteComponent implements OnInit {
     const selectedObject = this.dataSource.find(item => item.id === Number(id));
     console.log('Selected Object:', selectedObject); // Verifica el objeto encontrado
 
+    if (!selectedObject) {
+      console.error("No se encontró el objeto a editar.");
+      return;
+    }
+
     const dialogRef = this.dialog.open(ClasificacionClienteFormComponent, {
       width: '400px',
       data: {
@@ -77,15 +82,45 @@ export class ClasificacionClienteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Editar seleccionado:", result);
+        console.log("Datos editados recibidos:", result);
+
+        // Llamar al servicio para actualizar el objeto en la BD
+        this.clasificacionClienteService.actualizar(result.id, result).subscribe(
+          (response) => {
+            console.log("Cliente actualizado con éxito:", response);
+          },
+          (error) => {
+            console.error("Error al actualizar cliente:", error);
+          }
+        );
+      }
+    });
+  }
+
+  agregarServicio() {
+    const dialogRef = this.dialog.open(ClasificacionClienteFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: false,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Datos recibidos del formulario:", result);
+        this.clasificacionClienteService.crear(result).subscribe(
+          (response) => {
+            console.log("Cliente creado con éxito:", response);
+          },
+          (error) => {
+            console.error("Error al crear cliente:", error);
+          }
+        );
       }
     });
   }
 
 
-  agregarServicio() {
-    console.log('Agregar servicio');
-  }
 
   exportarExcel(selectedItems: TableData[]) {
     console.log("Exportando los siguientes elementos:", selectedItems);
@@ -164,6 +199,15 @@ export class ClasificacionClienteComponent implements OnInit {
       .replace(/^./, str => str.toUpperCase()) // Capitaliza la primera letra
       .trim(); // Elimina espacios innecesarios
   }
-}
 
+  agregarMasivo() {
+
+  }
+
+  editarMasivo() {
+
+  }
+
+
+}
 

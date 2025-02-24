@@ -53,7 +53,7 @@ export class ClasificacionClienteFormComponent implements OnInit {
 
   ) {
     this.form = this.fb.group({
-      id: [null, Validators.required],
+      id: [null],
       descripcionClasificacionCliente: [null, Validators.required],
     });
   }
@@ -66,38 +66,15 @@ export class ClasificacionClienteFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Formulario enviado:", this.form.value);  // Verifica los datos del formulario antes de enviar
+    console.log("Formulario enviado:", this.form.value);
 
     if (this.form.valid) {
-      const formData = this.form.value as ClasificacionCliente;
-
-      if (!this.esActualizar()) {
-        console.log("Creando nueva entidad:", formData);  // Verifica los datos a crear
-        this.clasificacionClienteService.crear(formData).subscribe({
-          next: (clasificacionCliente: ClasificacionCliente) => {
-            console.log("Entidad creada:", clasificacionCliente);
-            this.dialogRef.close(clasificacionCliente);  // Cierra el diálogo pasando los datos creados
-          },
-          error: (error) => {
-            console.error("Error al crear entidad:", error);  // Manejo de errores
-          }
-        });
-      } else {
-        console.log("Actualizando entidad con ID:", formData.id);  // Verifica los datos a actualizar
-        this.clasificacionClienteService.actualizar(formData.id, formData).subscribe({
-          next: (clasificacionCliente: ClasificacionCliente) => {
-            console.log("Entidad actualizada:", clasificacionCliente);
-            this.dialogRef.close(clasificacionCliente);  // Cierra el diálogo pasando los datos actualizados
-          },
-          error: (error) => {
-            console.error("Error al actualizar entidad:", error);  // Manejo de errores
-          }
-        });
-      }
+      this.dialogRef.close(this.form.value);  // Solo retorna los datos al padre
     } else {
-      console.log("Formulario no válido");  // Si el formulario no es válido, lo indicamos
+      console.log("Formulario no válido");
     }
   }
+
 
 
 }
