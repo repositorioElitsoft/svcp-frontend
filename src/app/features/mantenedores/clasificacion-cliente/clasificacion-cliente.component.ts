@@ -12,7 +12,7 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { ClasificacionClienteService } from "../../../core/services/clasificacion-cliente.service";
 import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model";
-import { forkJoin } from "rxjs";
+import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 
 
@@ -85,14 +85,14 @@ export class ClasificacionClienteComponent implements OnInit {
         console.log("Datos editados recibidos:", result);
 
         // Llamar al servicio para actualizar el objeto en la BD
-        this.clasificacionClienteService.actualizar(result.id, result).subscribe(
-          (response) => {
-            console.log("Cliente actualizado con éxito:", response);
-          },
-          (error) => {
-            console.error("Error al actualizar cliente:", error);
-          }
-        );
+        this.clasificacionClienteService.actualizar(result.id, result).pipe(
+          tap(response => console.log("Respuesta del servicio:", response)),
+          catchError(error => {
+            console.error("Error en el servicio:", error);
+            return throwError(error); // Importa throwError desde rxjs
+          })
+        ).subscribe();
+
       }
     });
   }
@@ -200,13 +200,7 @@ export class ClasificacionClienteComponent implements OnInit {
       .trim(); // Elimina espacios innecesarios
   }
 
-  agregarMasivo() {
 
-  }
-
-  editarMasivo() {
-
-  }
 
 
 }
