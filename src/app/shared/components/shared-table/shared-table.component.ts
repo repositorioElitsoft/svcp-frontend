@@ -127,7 +127,7 @@ export class SharedTableComponent {
 
 
   // Método para notificar cambios en la selección
-  private notifySelectionChange() {
+  notifySelectionChange() {
     // Emitir los datos seleccionados como un array
     this.selectionChange.emit(this.selection.selected);
   }
