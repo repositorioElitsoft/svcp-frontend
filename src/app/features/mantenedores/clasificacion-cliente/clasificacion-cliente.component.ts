@@ -208,29 +208,29 @@ export class ClasificacionClienteComponent implements OnInit {
 
   }
 
-  obtenerDatos() {
-    this.clasificacionClienteService.buscarFiltrado({
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize,
-      sortField: 'id',
-      sortDirection: 'asc'
-    }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
-      console.log("Datos recibidos:", data);
+  /*obtenerDatos() {
+     this.clasificacionClienteService.buscarFiltrado({
+       pageNumber: this.pageNumber,
+       pageSize: this.pageSize,
+       sortField: 'id',
+       sortDirection: 'asc'
+     }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
+       console.log("Datos recibidos:", data);
+ 
+       this.pageNumber = data.pageNumber
+       this.totalPages = data.totalPages
+       this.pageSize = data.pageSize;
+       this.totalElements = data.totalElements;
+ 
+       this.dataSource = data.content.flat();
+       if (data.content.length > 0) {
+         this.displayedColumns = Object.keys(data.content[0]); // Sin transformación
+       }
+       this.cdr.detectChanges();
+     });
+   }*/
 
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
 
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]); // Sin transformación
-      }
-      this.cdr.detectChanges();
-    });
-  }
-
-  /*
   obtenerDatos() {
     this.clasificacionClienteService.buscarTodos().subscribe((data: ClasificacionCliente[]) => {
       console.log("Datos recibidos:", data);
@@ -241,7 +241,7 @@ export class ClasificacionClienteComponent implements OnInit {
       this.cdr.detectChanges();
     }
     );
-  }*/
+  }
 
   // Método para transformar el nombre de la columna a un formato más legible
   transformarNombreColumna(columna: string): string {
