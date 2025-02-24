@@ -17,8 +17,7 @@ import {
 } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
-
-/*modelsImports*/
+import { ClasificacionCliente } from '../../../core/models/clasificacion-cliente.model';
 
 @Component({
   selector: 'app-clasificacionCliente-create-form',
@@ -29,8 +28,6 @@ import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.compone
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
@@ -52,12 +49,13 @@ export class ClasificacionClienteFormComponent implements OnInit {
     private fb: FormBuilder,
     private clasificacionClienteService: ClasificacionClienteService
   ) {
+    // Tipando el FormGroup
     this.form = this.fb.group({
       id: [null],
       clasificacionClienteDesc: [
-        this.data?.object?.clasificacionClienteDesc || 'Sin descripción', // Valor predeterminado actualizado
+        this.data?.object?.clasificacionClienteDesc || 'Sin descripción',
         Validators.required,
-      ], // Valor predeterminado
+      ],
     });
   }
 
@@ -68,13 +66,9 @@ export class ClasificacionClienteFormComponent implements OnInit {
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
-      // Si 'clasificacionClienteDesc' es null o vacío, se maneja con 'Sin descripción'
       const clasificacionClienteDesc = this.data.object.clasificacionClienteDesc || 'Sin descripción';
+      const id = this.data.object.id !== null ? this.data.object.id : null;
 
-      // Verificar si 'id' está presente y no es null
-      const id = this.data.object.id !== null ? this.data.object.id : null; // Asignar null si no existe
-
-      // Aplicar valores a través de patchValue
       this.form.patchValue({
         id: id,
         clasificacionClienteDesc: clasificacionClienteDesc,
@@ -90,9 +84,9 @@ export class ClasificacionClienteFormComponent implements OnInit {
     console.log("Formulario enviado:", this.form.value);
 
     if (this.form.valid) {
-      const formData = {
+      const formData: ClasificacionCliente = {
         id: this.form.value.id,
-        clasificacionClienteDesc: this.form.value.clasificacionClienteDesc, // Asegúrate de que este sea el campo correcto
+        clasificacionClienteDesc: this.form.value.clasificacionClienteDesc,
       };
 
       console.log("Datos mapeados para enviar:", formData);

@@ -84,12 +84,20 @@ export class ClasificacionClienteComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
+        // Validación de los datos recibidos, ahora con la interfaz ClasificacionCliente
         if (!result.clasificacionClienteDesc) {
           console.error("Descripción no válida:", result.clasificacionClienteDesc);
           return;
         }
 
-        this.clasificacionClienteService.actualizar(result.id, result).pipe(
+        // Verificar que el objeto tiene los campos necesarios
+        const formData: ClasificacionCliente = {
+          id: result.id,
+          clasificacionClienteDesc: result.clasificacionClienteDesc
+        };
+
+        // Actualización del servicio
+        this.clasificacionClienteService.actualizar(formData.id, formData).pipe(
           tap(response => console.log("Respuesta del servicio:", response)),
           catchError(error => {
             console.error("Error en el servicio:", error);
