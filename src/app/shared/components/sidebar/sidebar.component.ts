@@ -48,7 +48,7 @@ export class SidebarComponent {
 
   private checkRoute() {
     this.show = this.router.url !== '/login';
-    console.log("show ", this.show)
+
 
   }
 
