@@ -35,7 +35,7 @@ Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
 export class HomeComponent {
 
   images: string[] = [
-    "sliderhome1.png", "sliderhome2.png", "sliderhome3.png", "sliderhome4.png"
+    "sliderhome1.png", "sliderhome2.png", "sliderhome3.png"
   ];
 
   ejecutarBusqueda(query: string) {
