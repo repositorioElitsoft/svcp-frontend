@@ -1,5 +1,5 @@
 <!-- Header -->
-<header class="h-16 flex items-center px-4 dark:bg-neutral-800">
+<header class="h-16 flex items-center px-4 dark:bg-neutral-800" [ngClass]="{'hidden': !show}">
     <!-- Izquierda (Botón menú en móvil) -->
     <div class="flex-1 h-full flex items-center px-4">
         <button class="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-neutral-700">

@@ -90,11 +90,11 @@ export class LoginComponent {
         //    return;
         //  }
 
-        
-          localStorage.setItem("token", JSON.stringify(authentication))
-          this.router.navigate(['/']).then(() => {
-          //window.location.reload();
-          });
+
+        localStorage.setItem("token", JSON.stringify(authentication))
+        this.router.navigate(['/']).then(() => {
+          window.location.reload();
+        });
         //})
 
 
