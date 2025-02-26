@@ -89,23 +89,19 @@ export class ClasificacionClienteComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        // Validación de los datos recibidos, ahora con la interfaz ClasificacionCliente
         if (!result.clasificacionClienteDesc) {
           console.error("Descripción no válida:", result.clasificacionClienteDesc);
           return;
         }
 
-        // Verificar que el objeto tiene los campos necesarios
         const formData: ClasificacionCliente = {
           id: result.id,
           clasificacionClienteDesc: result.clasificacionClienteDesc
         };
 
-        // Actualización del servicio
         this.clasificacionClienteService.actualizar(formData.id, formData).pipe(
           tap(response => {
             console.log("Respuesta del servicio:", response);
-            // Llamar a obtenerDatos() para actualizar la tabla
             this.obtenerDatos();
           }),
           catchError(error => {
@@ -185,21 +181,7 @@ export class ClasificacionClienteComponent implements OnInit {
   }
 
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-
-    this.clasificacionClienteService.buscarFiltrado({
-      pageNumber: 0,
-      pageSize: 0,
-      sortField: sortData.selectedColumnName,
-      sortDirection: sortData.currentSortType
-    }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
-      console.log("Datos recibidos:", data);
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]); // Sin transformación
-      }
-      this.cdr.detectChanges();
-    });
-
+    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
   }
 
   onPageChanged(newPage: number) {
@@ -208,51 +190,34 @@ export class ClasificacionClienteComponent implements OnInit {
 
   }
 
-  /*obtenerDatos() {
-     this.clasificacionClienteService.buscarFiltrado({
-       pageNumber: this.pageNumber,
-       pageSize: this.pageSize,
-       sortField: 'id',
-       sortDirection: 'asc'
-     }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
-       console.log("Datos recibidos:", data);
- 
-       this.pageNumber = data.pageNumber
-       this.totalPages = data.totalPages
-       this.pageSize = data.pageSize;
-       this.totalElements = data.totalElements;
- 
-       this.dataSource = data.content.flat();
-       if (data.content.length > 0) {
-         this.displayedColumns = Object.keys(data.content[0]); // Sin transformación
-       }
-       this.cdr.detectChanges();
-     });
-   }*/
-
-
-  obtenerDatos() {
-    this.clasificacionClienteService.buscarTodos().subscribe((data: ClasificacionCliente[]) => {
+  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc') {
+    this.clasificacionClienteService.buscarFiltrado({
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
+      sortField: sortField,
+      sortDirection: sortDirection
+    }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
       console.log("Datos recibidos:", data);
-      this.dataSource = data;
-      if (data.length > 0) {
-        this.displayedColumns = Object.keys(data[0]); // Sin transformación
+
+      this.pageNumber = data.pageNumber
+      this.totalPages = data.totalPages
+      this.pageSize = data.pageSize;
+      this.totalElements = data.totalElements;
+
+      this.dataSource = data.content.flat();
+      if (data.content.length > 0) {
+        this.displayedColumns = Object.keys(data.content[0]);
       }
       this.cdr.detectChanges();
-    }
-    );
+    });
   }
 
-  // Método para transformar el nombre de la columna a un formato más legible
   transformarNombreColumna(columna: string): string {
     return columna
-      .replace(/([A-Z])/g, ' $1') // Separa las mayúsculas con un espacio
-      .replace(/^./, str => str.toUpperCase()) // Capitaliza la primera letra
-      .trim(); // Elimina espacios innecesarios
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, str => str.toUpperCase())
+      .trim();
   }
-
-
-
 
 }
 
