@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import 'swiper/swiper-bundle.css';
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'ngx-toastr/toastr';
 
 :root {
     --primary: #3F51B5;
@@ -234,6 +235,43 @@ input::placeholder {
     box-shadow: none;
     border-color: #9e9e9e;
 }
+
+
+
+
+
+
+.elitsoft-warn2 {
+    background-color: red;
+    color: #ffffff;
+    border: 0.0625em solid #ff0000;
+    display: inline-flex;
+    border-radius: 0.25em;
+    padding: 0.5em 2em;
+    font-size: 0.875em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    white-space: nowrap;
+    gap: 0.5em;
+}
+
+.elitsoft-warn2:hover {
+    background-color: white;
+    ;
+    color: red;
+    border: 0.0625em solid transparent;
+    box-shadow: 0 0.25em 0.75em rgba(63, 81, 181, 0.2);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.elitsoft-warn2:disabled {
+    background-color: #9e9e9e;
+    color: rgba(0, 0, 0, 0.38);
+    cursor: not-allowed;
+    box-shadow: none;
+    border-color: #9e9e9e;
+}
+
 
 
 

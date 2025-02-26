@@ -15,6 +15,7 @@ import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente
 import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
+import { ToastrService } from "ngx-toastr";
 
 
 @Component({
@@ -37,7 +38,7 @@ export class ClasificacionClienteComponent implements OnInit {
 
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
-    private clasificacionClienteService: ClasificacionClienteService) { }
+    private clasificacionClienteService: ClasificacionClienteService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.obtenerDatos();
@@ -164,11 +165,15 @@ export class ClasificacionClienteComponent implements OnInit {
         this.clasificacionClienteService.borrarTodos(ids).subscribe({
           next: () => {
             console.log("Elementos eliminados exitosamente:", ids);
+            this.toastr.success("Elementos eliminados exitosamente:");
+
             this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
             this.hasSelection = false;
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
+            this.toastr.error("Error al eliminar elementos:", err);
+
           }
         });
       }

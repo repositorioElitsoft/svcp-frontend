@@ -6,6 +6,7 @@ import { routes } from './app.routes';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { provideToastr } from 'ngx-toastr';
 
 // Función para cargar los archivos de traducción
 export function HttpLoaderFactory(http: HttpClient) {
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimations(),
+    provideToastr(),
     provideHttpClient(),
     // Configuración de @ngx-translate
     ...TranslateModule.forRoot({
