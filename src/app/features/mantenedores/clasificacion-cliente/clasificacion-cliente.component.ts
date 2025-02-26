@@ -16,12 +16,13 @@ import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { ToastrService } from "ngx-toastr";
+import { TranslateModule } from "@ngx-translate/core";
 
 
 @Component({
   selector: "app-clasificacion-cliente",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
   templateUrl: "./clasificacion-cliente.component.html",
   styleUrl: "./clasificacion-cliente.component.css",
 })

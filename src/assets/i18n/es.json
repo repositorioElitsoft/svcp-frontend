@@ -62,5 +62,11 @@
         "rol": "Administrador",
         "settings": "Configuraciones",
         "logout": "Cerrar Sesión"
+    },
+    "table": {
+        "actions": "Acciones"
+    },
+    "clasificacion-cliente": {
+        "titulo": "Clasificación de Clientes"
     }
 }
