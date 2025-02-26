@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -19,7 +20,6 @@ export class AuthService {
     }
 
     isAuthenticatedUser() {
-
         if (this.getToken()) {
             try {
                 const token = jwtDecode(String(this.getToken()));
@@ -36,7 +36,7 @@ export class AuthService {
     getToken(): string | null {
         return localStorage.getItem("token");
     }
-    logout() { }
+   
     getUserId(): number | null {
         const usuario: any = this.getUserId();
         return usuario?.id ?? null;
@@ -49,7 +49,7 @@ export class AuthService {
     login(username: string, password: string): Observable<any> {
         const body = { username, password };
         console.log("url", this.url)
-        return this.http.post(`${this.url}api/v1/auth/login`, body);
+        return this.http.post(`${this.url}auth/login`, body);
     };
 
 }

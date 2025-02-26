@@ -83,18 +83,19 @@ export class LoginComponent {
     this.authService.login(credentials.username, credentials.password).subscribe({
       next: (authentication) => {
 
-        this.errorService.getLoginError(credentials.username).subscribe((e: any) => {
-          console.log("Mi errorcito", e.message)
-          if (e.message) {
-            this.errorMessage = e.message
-            return;
-          }
+        //this.errorService.getLoginError(credentials.username).subscribe((e: any) => {
+        //  console.log("Mi errorcito", e.message)
+        //  if (e.message) {
+        //    this.errorMessage = e.message
+        //    return;
+        //  }
 
-          localStorage.setItem("token", authentication.Authorization)
+        
+          localStorage.setItem("token", JSON.stringify(authentication))
           this.router.navigate(['/']).then(() => {
-            window.location.reload();
+          //window.location.reload();
           });
-        })
+        //})
 
 
       },
