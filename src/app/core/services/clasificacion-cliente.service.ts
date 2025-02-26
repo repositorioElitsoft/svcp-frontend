@@ -29,7 +29,7 @@ export class ClasificacionClienteService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}clasificacioncliente/`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}clasificacioncliente/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(clasificacionClienteId: number, clasificacionCliente: ClasificacionCliente): Observable<ClasificacionCliente> {
