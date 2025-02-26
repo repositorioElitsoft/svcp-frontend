@@ -1,11 +1,12 @@
-<div *ngIf="selection.selected.length > 0" class="flex items-center space-x-2 p-2 text-gray-700">
-    <span>{{ selection.selected.length }} seleccionados</span>
-    <button mat-icon-button (click)="selection.clear(); notifySelectionChange();">
-        <mat-icon class="text-red-500">close</mat-icon>
-    </button>
-</div>
-
 <div class="overflow-x-auto">
+    <div *ngIf="selection.selected.length > 0"
+        class="inline-flex items-center space-x-2 p-2 text-gray-700 h-11 px-3 py-2  bg-gray-100 rounded-lg justify-start items-center gap-[30px] w-full">
+        <span>{{ selection.selected.length }} seleccionados</span>
+        <button mat-icon-button (click)="selection.clear(); notifySelectionChange();">
+            <mat-icon class="text-red-500">close</mat-icon>
+        </button>
+    </div>
+    <div class="m-4"></div>
     <table mat-table [dataSource]="dataSource" class="w-full" *ngIf="dataSource.length > 0; else noDataTemplate">
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
@@ -64,8 +65,10 @@
             {{ emptyMessage }}
         </div>
     </ng-template>
+
+    <div class="m-4"></div>
     <!-- Paginador -->
-    <div class="w-full bg-gray-100 flex justify-between text-neutral-600 px-4 pt-2">
+    <div class="w-full bg-gray-100 flex justify-between text-neutral-600 px-4 pt-2  rounded-lg">
         <div>
             {{ pageSize}} de {{ totalElements }}
         </div>
