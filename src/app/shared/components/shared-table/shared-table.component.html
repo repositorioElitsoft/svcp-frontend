@@ -1,7 +1,7 @@
 <div class="overflow-x-auto">
     <div *ngIf="selection.selected.length > 0"
         class="inline-flex items-center space-x-2 p-2 text-gray-700 h-11 px-3 py-2  bg-gray-100 rounded-lg justify-start items-center gap-[30px] w-full">
-        <span>{{ selection.selected.length }} seleccionados</span>
+        <span>{{ 'table.seleccionados' | translate: { count: selection.selected.length } }}</span>
         <button mat-icon-button (click)="selection.clear(); notifySelectionChange();">
             <mat-icon class="text-red-500">close</mat-icon>
         </button>

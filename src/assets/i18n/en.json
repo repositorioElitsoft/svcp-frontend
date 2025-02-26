@@ -64,9 +64,19 @@
         "logout": "Logout"
     },
     "table": {
-        "actions": "Actions"
+        "actions": "Actions",
+        "seleccionados": "{{count}} selected"
     },
     "clasificacion-cliente": {
-        "titulo": "Client Classification"
+        "titulo": "Client Classification",
+        "volver": "Back"
+    },
+    "opciones-mantenedor": {
+        "botonAgregar": {
+            "texto": "Add New"
+        },
+        "botonExportar": {
+            "texto": "Export to Excel"
+        }
     }
 }

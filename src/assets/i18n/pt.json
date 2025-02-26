@@ -66,6 +66,15 @@
         "actions": "Ações"
     },
     "clasificacionCliente": {
-        "titulo": "Classificação de Clientes"
+        "titulo": "Classificação de Clientes",
+        "volver": "Voltar"
+    },
+    "opciones-mantenedor": {
+        "botonAgregar": {
+            "texto": "Adicionar"
+        },
+        "botonExportar": {
+            "texto": "Exportar para Excel"
+        }
     }
 }

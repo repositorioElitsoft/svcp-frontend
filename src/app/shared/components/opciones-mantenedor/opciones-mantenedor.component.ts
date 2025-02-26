@@ -2,28 +2,28 @@ import { CommonModule } from "@angular/common"
 import { Component, EventEmitter, Input, Output } from "@angular/core"
 import { MatIconModule } from "@angular/material/icon"
 import { MatButtonModule } from "@angular/material/button"
+import { TranslateModule } from "@ngx-translate/core"
 
 @Component({
   selector: "app-opciones-mantenedor",
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, TranslateModule],
   template: `
     <div class="flex items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <button 
-          class="elitsoft-btn"
-          (click)="onAgregar()">
-          <mat-icon>add</mat-icon>
-          {{ botonAgregar.texto }}
-        </button>
+    <div class="flex items-center gap-3">
+     <button class="elitsoft-btn" (click)="onAgregar()">
+    <mat-icon>add</mat-icon>
+    {{ 'opciones-mantenedor.botonAgregar.texto' | translate }}
+      </button>
 
-        <button [disabled]="!hasSelection"
-          class="elitsoft-btn"
-          (click)="onExportar()">
-          <mat-icon>download</mat-icon>
-          Exporta excel
-        </button>
-      </div>
+     <button [disabled]="!hasSelection"
+    class="elitsoft-btn"
+    (click)="onExportar()">
+    <mat-icon>download</mat-icon>
+    {{ 'opciones-mantenedor.botonExportar.texto' | translate }}
+     </button>
+    </div>
+
 
       <div class="flex items-center gap-2">
         <!-- <button class="elitsoft-btn-icon" (click)="onConfig()">
