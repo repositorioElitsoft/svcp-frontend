@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ExpansionPanelComponent } from "../expansion-panel/expansion-panel.component";
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SidebarItemLinkComponent } from "../sidebar-item-link/sidebar-item-link.component";
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -28,16 +28,30 @@ export class SidebarComponent {
   isExpanded: boolean = false;
 
   menus: any = []
+  show = true
   @Input() title: string = ""
   @Input() img: string = ""
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
 
     this.http.get('/assets/routes.json').subscribe((data) => {
       this.menus = data;
 
     });
   }
+
+
+  ngOnInit(): void {
+    this.checkRoute();
+    this.router.events.subscribe(() => this.checkRoute());
+  }
+
+  private checkRoute() {
+    this.show = this.router.url !== '/login';
+    console.log("show ", this.show)
+
+  }
+
 
   handleShrink(index: number) {
     console.log("attemp to shink", index)

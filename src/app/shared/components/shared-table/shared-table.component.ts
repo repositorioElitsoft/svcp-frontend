@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild, ViewChildren, QueryList, ElementRef, ChangeDetectorRef } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild, ViewChildren, QueryList, ElementRef, ChangeDetectorRef, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatTableModule } from "@angular/material/table";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -8,6 +8,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { BehaviorSubject } from "rxjs";
 import { TranslateModule } from "@ngx-translate/core";
+
 
 @Component({
   selector: "app-shared-table",
@@ -42,6 +43,7 @@ export class SharedTableComponent {
 
   currentSortType = '';
   currentSortIndex = -1;
+  show = true
 
   constructor(private cdr: ChangeDetectorRef) { }
 
