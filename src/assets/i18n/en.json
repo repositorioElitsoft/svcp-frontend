@@ -67,6 +67,6 @@
         "actions": "Actions"
     },
     "clasificacion-cliente": {
-        titulo: "Client Classification"
+        "titulo": "Client Classification"
     }
 }
