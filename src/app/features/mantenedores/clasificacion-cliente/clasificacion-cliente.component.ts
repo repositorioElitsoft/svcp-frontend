@@ -220,12 +220,12 @@ export class ClasificacionClienteComponent implements OnInit {
     });
   }
 
-  transformarNombreColumna(columna: string): string {
-    return columna
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/^./, str => str.toUpperCase())
-      .trim();
-  }
+  // transformarNombreColumna(columna: string): string {
+  //   return columna
+  //     .replace(/([A-Z])/g, ' $1')
+  //     .replace(/^./, str => str.toUpperCase())
+  //     .trim();
+  // }
 
 }
 
