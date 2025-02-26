@@ -2,13 +2,13 @@ import { Injectable } from "@angular/core";
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Sector } from '../../core/models/sector.model';
+import { Trabajo } from '../../core/models/trabajo.model';
 
 @Injectable({
     providedIn: 'root',
     deps: [HttpClient]
 })
-export class SectorService {
+export class TrabajoService {
     readonly url = `${environment.apiUrl}`
     constructor(private http: HttpClient) { }
 
@@ -16,28 +16,28 @@ export class SectorService {
         'Content-Type': 'application/json'
     });
 
-    buscar(sectorId: number): Observable<Sector> {
-        return this.http.get<Sector>(`${this.url}sector/${sectorId}`);
+    buscar(trabajoId: number): Observable<Trabajo> {
+        return this.http.get<Trabajo>(`${this.url}trabajo/${trabajoId}`);
     }
 
-    buscarTodos(): Observable<Sector[]> {
-        return this.http.get<Sector[]>(`${this.url}sector`, { headers: this.headers });
+    buscarTodos(): Observable<Trabajo[]> {
+        return this.http.get<Trabajo[]>(`${this.url}trabajo`, { headers: this.headers });
     }
 
-    borrar(sectorId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}sector/${sectorId}`);
+    borrar(trabajoId: number): Observable<any> {
+        return this.http.delete<any>(`${this.url}trabajo/${trabajoId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}sector/`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}trabajo/`, { headers: this.headers, body: ids });
     }
 
-    actualizar(sectorId: number, sector: Sector): Observable<Sector> {
-        return this.http.put<Sector>(`${this.url}sector/${sectorId}`, sector);
+    actualizar(trabajoId: number, trabajo: Trabajo): Observable<Trabajo> {
+        return this.http.put<Trabajo>(`${this.url}trabajo/${trabajoId}`, trabajo);
     }
 
-    crear(sector: Sector): Observable<Sector> {
-        return this.http.post<Sector>(`${this.url}sector`, sector);
+    crear(trabajo: Trabajo): Observable<Trabajo> {
+        return this.http.post<Trabajo>(`${this.url}trabajo`, trabajo);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class SectorService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/sector`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/trabajo`, { params, headers: this.headers });
     }
 }

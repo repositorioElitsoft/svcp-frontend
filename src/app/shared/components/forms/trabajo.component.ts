@@ -4,12 +4,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SectorService } from '../../../core/services/sector.service';
+import { TrabajoService } from '../../../core/services/trabajo.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 
-import { ZonaService } from '../../../core/services/zona.service';
-				import { Zona } from '../../../core/models/zona.model'; 
-				
+
 
 import {
   MAT_DIALOG_DATA,
@@ -21,10 +19,10 @@ import {
 } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
-import { Sector } from '../../../core/models/sector.model';
+import { Trabajo } from '../../../core/models/trabajo.model';
 
 @Component({
-  selector: 'app-sector-create-form',
+  selector: 'app-trabajo-create-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -39,43 +37,41 @@ import { Sector } from '../../../core/models/sector.model';
     TranslateModule,
     TituloDialogoComponent,
   ],
-  templateUrl: `./sector.component.html`,
+  templateUrl: `./trabajo.component.html`,
   styles: [],
 })
-export class SectorFormComponent implements OnInit {
+export class TrabajoFormComponent implements OnInit {
   form!: FormGroup;
 
-  readonly dialogRef = inject(MatDialogRef<SectorFormComponent>);
+  readonly dialogRef = inject(MatDialogRef<TrabajoFormComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
 
-  zona: Zona[] = [];
+  
 
   constructor(
     private fb: FormBuilder,
-    private sectorService: SectorService,
-    private zonaService: ZonaService,
+    private trabajoService: TrabajoService,
+    
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
        id: [null, Validators.required],
-  descripcionSector: [null, Validators.required],
-  zona: [{}, Validators.required],
+  descripcionTrabajo: [null, Validators.required],
     });
   }
 
   ngOnInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'sectorDesc'
+    // Verificar si 'data.object' existe y tiene el campo 'trabajoDesc'
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
 
       this.form.patchValue({
        id: this.data.object.id,
-descripcionSector: this.data.object.descripcionSector,
-zona: this.data.object.zona,
+descripcionTrabajo: this.data.object.descripcionTrabajo,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -84,23 +80,15 @@ zona: this.data.object.zona,
     }
 
     
-					this.zonaService.buscarTodos().subscribe({
-						next:(zona :Zona[])=>{
-							console.log("created entity ", zona)
-							this.zona = zona
-						}
-					})
-				
   }
 
   onSubmit() {
     console.log("Formulario enviado:", this.form.value);
 
     if (this.form.valid) {
-      const formData: Sector = {
+      const formData: Trabajo = {
        id: this.form.value.id,
-descripcionSector: this.form.value.descripcionSector,
-zona: this.form.value.zona,
+descripcionTrabajo: this.form.value.descripcionTrabajo,
       };
 
       console.log("Datos mapeados para enviar:", formData);
