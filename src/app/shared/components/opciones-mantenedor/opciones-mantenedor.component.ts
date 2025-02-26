@@ -26,9 +26,9 @@ import { MatButtonModule } from "@angular/material/button"
       </div>
 
       <div class="flex items-center gap-2">
-        <button class="elitsoft-btn-icon" (click)="onConfig()">
+        <!-- <button class="elitsoft-btn-icon" (click)="onConfig()">
           <mat-icon>settings</mat-icon>
-        </button>
+        </button> -->
 
         <button [disabled]="!hasSelection"
           class="elitsoft-btn-icon"

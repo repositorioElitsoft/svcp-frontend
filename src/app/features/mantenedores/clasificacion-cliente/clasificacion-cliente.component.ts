@@ -164,16 +164,14 @@ export class ClasificacionClienteComponent implements OnInit {
 
         this.clasificacionClienteService.borrarTodos(ids).subscribe({
           next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
             this.toastr.success("Elementos eliminados exitosamente:");
-
             this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
+            this.obtenerDatos();
             this.hasSelection = false;
           },
           error: err => {
-            console.error("Error al eliminar elementos:", err);
-            this.toastr.error("Error al eliminar elementos:", err);
-
+            const errorMessage = err?.message || err?.error?.message || 'Error desconocido';
+            this.toastr.error("Error al eliminar elementos: " + errorMessage);
           }
         });
       }

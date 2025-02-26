@@ -17,7 +17,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimations(),
-    provideToastr(),
+    provideToastr({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-center',
+      preventDuplicates: true
+    }),
     provideHttpClient(),
     // Configuración de @ngx-translate
     ...TranslateModule.forRoot({
