@@ -145,7 +145,7 @@
                 "type": "item",
                 "permission": "access.clientClassification",
                 "title": "sideBar.clientClassification",
-                "link": "portal/maintainers/clasificacion-clientes-view"
+                "link": "portal/mantenedores/clasificacion-clientes"
             },
             {
                 "type": "item",
