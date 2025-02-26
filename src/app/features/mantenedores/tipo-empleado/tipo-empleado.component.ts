@@ -87,14 +87,14 @@ export class TipoEmpleadoComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.tipoEmpleadoDesc) {
-          console.error("Descripción no válida:", result.tipoEmpleadoDesc);
+        if (!result.descripcionTipoEmpleado) {
+          console.error("Descripción no válida:", result.descripcionTipoEmpleado);
           return;
         }
 
         const formData: TipoEmpleado = {
           id: result.id,
-          tipoEmpleadoDesc: result.tipoEmpleadoDesc
+          descripcionTipoEmpleado: result.descripcionTipoEmpleado
         };
 
         this.tipoEmpleadoService.actualizar(formData.id, formData).pipe(

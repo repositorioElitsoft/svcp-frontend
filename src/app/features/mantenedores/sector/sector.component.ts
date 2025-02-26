@@ -87,14 +87,15 @@ export class SectorComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.sectorDesc) {
-          console.error("Descripción no válida:", result.sectorDesc);
+        if (!result.descripcionSector) {
+          console.error("Descripción no válida:", result.descripcionSector);
           return;
         }
 
         const formData: Sector = {
           id: result.id,
-          sectorDesc: result.sectorDesc
+          descripcionSector: result.descripcionSector,
+          zona: { id: 1, descripcionZona: '' }
         };
 
         this.sectorService.actualizar(formData.id, formData).pipe(

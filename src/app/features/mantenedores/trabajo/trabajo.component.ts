@@ -87,14 +87,14 @@ export class TrabajoComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.trabajoDesc) {
-          console.error("Descripción no válida:", result.trabajoDesc);
+        if (!result.descripcionTrabajo) {
+          console.error("Descripción no válida:", result.descripcionTrabajo);
           return;
         }
 
         const formData: Trabajo = {
           id: result.id,
-          trabajoDesc: result.trabajoDesc
+          descripcionTrabajo: result.descripcionTrabajo
         };
 
         this.trabajoService.actualizar(formData.id, formData).pipe(

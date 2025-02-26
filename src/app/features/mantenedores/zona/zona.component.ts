@@ -87,14 +87,14 @@ export class ZonaComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.zonaDesc) {
-          console.error("Descripción no válida:", result.zonaDesc);
+        if (!result.descripcionZona) {
+          console.error("Descripción no válida:", result.descripcionZona);
           return;
         }
 
         const formData: Zona = {
           id: result.id,
-          zonaDesc: result.zonaDesc
+          descripcionZona: result.descripcionZona
         };
 
         this.zonaService.actualizar(formData.id, formData).pipe(
