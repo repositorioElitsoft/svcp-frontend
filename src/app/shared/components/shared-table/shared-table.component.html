@@ -7,7 +7,25 @@
         </button>
     </div>
     <div class="m-4"></div>
+
+
+    <div class="grid grid-cols-3 gap-4 rounded-t-lg bg-gray-100 overflow-hidden">
+        <div class="col-span-1 w-full p-4">
+            <app-busqueda></app-busqueda>
+
+        </div>
+
+        <div class=" col-span-1 w-full">
+            <!-- Contenido de la columna 2 (20%) -->
+        </div>
+        <div class="col-span-1 w-full">
+            <!-- Contenido de la columna 3 (60%) -->
+        </div>
+    </div>
+
+
     <table mat-table [dataSource]="dataSource" class="w-full" *ngIf="dataSource.length > 0; else noDataTemplate">
+
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
@@ -68,7 +86,7 @@
 
     <div class="m-4"></div>
     <!-- Paginador -->
-    <div class="w-full bg-gray-100 flex justify-between text-neutral-600 px-4 pt-2  rounded-lg">
+    <div class="w-full bg-gray-100 h-11 flex justify-between text-neutral-600 px-4 pt-2  rounded-lg">
         <div>
             {{ pageSize}} de {{ totalElements }}
         </div>

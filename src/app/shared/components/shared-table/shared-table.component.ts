@@ -9,11 +9,12 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { BehaviorSubject, filter } from "rxjs";
 import { TranslateModule } from "@ngx-translate/core";
 import { NavigationEnd, Router } from "@angular/router";
+import { BusquedaComponent } from "../busqueda/busqueda.component";
 
 @Component({
   selector: "app-shared-table",
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatCheckboxModule, MatButtonModule, MatIconModule, TranslateModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatCheckboxModule, MatButtonModule, MatIconModule, TranslateModule, MatPaginatorModule, BusquedaComponent],
   templateUrl: "./shared-table.component.html",
   styleUrls: ["./shared-table.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush, // Optimización

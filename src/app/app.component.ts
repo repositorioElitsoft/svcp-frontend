@@ -4,12 +4,13 @@ import { ThemeService } from './core/services/theme.service';
 import { TranslateService } from '@ngx-translate/core'; // Importa TranslateService
 import { FontSizeService } from './core/services/font-size.service';
 import { SidebarComponent } from "./shared/components/sidebar/sidebar.component";
+import { HeadTableComponent } from './shared/head-table/head-table.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SidebarComponent],
+  imports: [RouterOutlet, SidebarComponent, HeadTableComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Corrige el nombre del archivo de estilos
 })
