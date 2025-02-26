@@ -61,5 +61,11 @@
         "rol": "Admin",
         "settings": "Configurações",
         "logout": "Sair"
+    },
+    "table": {
+        "actions": "Ações"
+    },
+    "clasificacionCliente": {
+        "titulo": "Classificação de Clientes"
     }
 }
