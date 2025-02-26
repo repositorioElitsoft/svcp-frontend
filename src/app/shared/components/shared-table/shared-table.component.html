@@ -79,13 +79,13 @@
                 (click)="onPageChanged(pageNumber -1)">
                 arrow_left
             </button>
-            {{ pageNumber +1 }} / {{ totalPages +1}}
-            <button [disabled]="pageNumber === totalPages" class="material-symbols-outlined hover:cursor-pointer"
+            {{ pageNumber +1 }} / {{ totalPages}}
+            <button [disabled]="pageNumber === totalPages -1" class="material-symbols-outlined hover:cursor-pointer"
                 (click)="onPageChanged(pageNumber +1)">
                 arrow_right
             </button>
-            <button [disabled]="pageNumber === totalPages" class="material-symbols-outlined hover:cursor-pointer"
-                (click)="onPageChanged(totalPages)">
+            <button [disabled]="pageNumber === totalPages -1" class="material-symbols-outlined hover:cursor-pointer"
+                (click)="onPageChanged(totalPages -1)">
                 keyboard_double_arrow_right
             </button>
         </div>

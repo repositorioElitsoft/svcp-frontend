@@ -50,7 +50,7 @@ export class ClasificacionClienteService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/clasificacionCliente`, { params });
+        return this.http.get(`${this.url}core/filter/clasificacioncliente`, { params, headers: this.headers, });
     }
 
 }

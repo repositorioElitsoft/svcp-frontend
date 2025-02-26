@@ -187,7 +187,7 @@ export class ClasificacionClienteComponent implements OnInit {
   onPageChanged(newPage: number) {
     console.log("Página cambiada", newPage);
     this.pageNumber = newPage
-
+    this.obtenerDatos();
   }
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc') {
