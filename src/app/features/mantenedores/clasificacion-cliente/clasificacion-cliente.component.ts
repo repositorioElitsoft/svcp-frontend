@@ -129,9 +129,13 @@ export class ClasificacionClienteComponent implements OnInit {
         this.clasificacionClienteService.crear(result).subscribe(
           (response) => {
             console.log("Cliente creado con éxito:", response);
+            this.toastr.success("se ha agregado una nueva clasificación de cliente");
+            this.obtenerDatos();
           },
           (error) => {
             console.error("Error al crear cliente:", error);
+            this.toastr.error("problemas al eliminar clasificación");
+
           }
         );
       }
@@ -203,25 +207,23 @@ export class ClasificacionClienteComponent implements OnInit {
     }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
       console.log("Datos recibidos:", data);
 
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
+      this.pageNumber = data.pageNumber;
+      this.totalPages = data.totalPages;
       this.pageSize = data.pageSize;
       this.totalElements = data.totalElements;
 
       this.dataSource = data.content.flat();
       if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]);
+        this.displayedColumns = this.getDisplayedColumns(data.content[0]);
       }
       this.cdr.detectChanges();
     });
   }
 
-  transformarNombreColumna(columna: string): string {
-    return columna
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/^./, str => str.toUpperCase())
-      .trim();
+  private getDisplayedColumns(row: any): string[] {
+    return Object.keys(row).filter(key => key !== 'id'); // Ocultamos la columna 'id'
   }
+
 
 }
 

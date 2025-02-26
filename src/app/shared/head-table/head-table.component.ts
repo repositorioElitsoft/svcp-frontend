@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ThemeToggleComponent } from '../components/theme-toggle/theme-toggle.component';
 import { PerfilComponent } from '../components/perfil/perfil.component';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-head-table',
@@ -12,10 +13,16 @@ import { Router } from '@angular/router';
   styleUrl: './head-table.component.css'
 })
 export class HeadTableComponent {
-
   show = true
+  menus: any = []
 
-  constructor(private router: Router) { }
+
+  constructor(private http: HttpClient, private router: Router) {
+    this.http.get('/assets/routes.json').subscribe((data) => {
+      this.menus = data;
+
+    });
+  }
   ngOnInit(): void {
     this.checkRoute();
     this.router.events.subscribe(() => this.checkRoute());
