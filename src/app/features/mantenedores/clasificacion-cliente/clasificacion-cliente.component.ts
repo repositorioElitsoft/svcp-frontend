@@ -14,12 +14,13 @@ import { ClasificacionClienteService } from "../../../core/services/clasificacio
 import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model";
 import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
+import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 
 
 @Component({
   selector: "app-clasificacion-cliente",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, MatPaginatorModule, OpcionesMantenedorComponent],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
   templateUrl: "./clasificacion-cliente.component.html",
   styleUrl: "./clasificacion-cliente.component.css",
 })

@@ -9,6 +9,7 @@ import { PerfilComponent } from '../../shared/components/perfil/perfil.component
 import { CalendarioEventoComponent } from '../../shared/components/calendario-evento/calendario-evento.component';
 import { TituloParametrizadoComponent } from '../../shared/components/titulo-parametrizado/titulo-parametrizado.component';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { HeadTableComponent } from '../../shared/head-table/head-table.component';
 
 // Configuración de Swiper
 Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
@@ -20,6 +21,7 @@ Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
     CommonModule,
     MatSidenavModule,
     BusquedaComponent,
+    HeadTableComponent,
     SidebarComponent,
     ThemeToggleComponent,
     PerfilComponent,
@@ -36,11 +38,11 @@ export class HomeComponent {
     "sliderhome1.png", "sliderhome2.png", "sliderhome3.png", "sliderhome4.png"
   ];
 
-
   ejecutarBusqueda(query: string) {
     console.log('Buscando:', query);
     // Aquí llamas al servicio para obtener resultados del backend
   }
+
 
   getImageRoute(image: string) {
     return `assets/${image}`;  // Asegúrate de que las imágenes están en la carpeta 'assets/'
