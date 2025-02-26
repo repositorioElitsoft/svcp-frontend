@@ -6,9 +6,9 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, filter } from "rxjs";
 import { TranslateModule } from "@ngx-translate/core";
-
+import { NavigationEnd, Router } from "@angular/router";
 
 @Component({
   selector: "app-shared-table",
@@ -72,9 +72,9 @@ export class SharedTableComponent {
       if (i === columnIndex) {
         this.currentSortType = element.getAttribute('sortType') || '';
         if (this.currentSortType === 'asc') {
-          this.currentSortType = "dsc"
-          element.setAttribute('sortType', 'dsc');
-        } else if (this.currentSortType === 'dsc') {
+          this.currentSortType = "desc"
+          element.setAttribute('sortType', 'desc');
+        } else if (this.currentSortType === 'desc') {
           this.currentSortType = "asc"
           element.setAttribute('sortType', 'asc');
         } else {

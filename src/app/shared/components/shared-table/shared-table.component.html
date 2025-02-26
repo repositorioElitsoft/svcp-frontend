@@ -29,7 +29,7 @@
                     {{ column | translate }}
                     <span (click)="onSort(column, i)" #sortHeader sortType=""
                         class="material-symbols-outlined hover:cursor-pointer">
-                        @if(currentSortIndex === i && currentSortType === "dsc"){
+                        @if(currentSortIndex === i && currentSortType === "desc"){
                         keyboard_arrow_down
                         }
                         @if(currentSortIndex === i && currentSortType === "asc"){
