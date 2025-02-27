@@ -10,6 +10,8 @@ import { ZonaComponent } from './features/mantenedores/zona/zona.component';
 import { TipoClienteComponent } from './features/mantenedores/tipo-cliente/tipo-cliente.component';
 import { TipoProductoComponent } from './features/mantenedores/tipo-producto/tipo-producto.component';
 import { TipoServicioComponent } from './features/mantenedores/tipo-servicio/tipo-servicio.component';
+import { SegmentacionClienteComponent } from './features/mantenedores/segmentacion-cliente/segmentacion-cliente.component';
+import { AgrupacionComercialComponent } from './features/mantenedores/agrupacion-comercial/agrupacion-comercial.component';
 
 export const routes: Routes = [
     {
@@ -68,6 +70,16 @@ export const routes: Routes = [
                     {
                         path: "tipos-productos",
                         component: TipoProductoComponent
+                    }
+                    ,
+                    {
+                        path: "segmentaciones-clientes",
+                        component: SegmentacionClienteComponent
+                    }
+                    ,
+                    {
+                        path: "agrupaciones-comerciales",
+                        component: AgrupacionComercialComponent
                     }
                     /*ruta_nueva*/
                 ]

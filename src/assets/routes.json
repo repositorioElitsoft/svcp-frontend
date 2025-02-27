@@ -12,7 +12,7 @@
                     {
                         "permission": "access.services",
                         "title": "sideBar.services",
-                        "link": "portal/maintainers/servicios-view"
+                        "link": "portal/mantenedores/servicios"
                     },
                     {
                         "permission": "access.services",
@@ -22,22 +22,22 @@
                     {
                         "permission": "access.jobs",
                         "title": "sideBar.jobs",
-                        "link": "portal/maintainers/trabajos-view"
+                        "link": "portal/mantenedores/trabajos"
                     },
                     {
                         "permission": "access.tasks",
                         "title": "sideBar.tasks",
-                        "link": "portal/maintainers/tareas-view"
+                        "link": "portal/mantenedores/tareas"
                     },
                     {
                         "permission": "access.jobAssignment",
                         "title": "sideBar.jobAssignment",
-                        "link": "portal/assignment-trabajos/trabajos-view"
+                        "link": "portal/assignment-trabajos/trabajos"
                     },
                     {
                         "permission": "access.taskAssignment",
                         "title": "sideBar.taskAssignment",
-                        "link": "portal/assignment-tareas/tareas-view"
+                        "link": "portal/assignment-tareas/tareas"
                     }
                 ]
             },
@@ -49,12 +49,12 @@
                     {
                         "permission": "access.products",
                         "title": "sideBar.products",
-                        "link": "portal/maintainers/productos-view"
+                        "link": "portal/mantenedores/productos"
                     },
                     {
                         "permission": "access.productTypes",
                         "title": "sideBar.productTypes",
-                        "link": "portal/maintainers/tipos-productos-view"
+                        "link": "portal/mantenedores/tipos-productos"
                     }
                 ]
             },
@@ -66,27 +66,27 @@
                     {
                         "permission": "access.zones",
                         "title": "sideBar.zones",
-                        "link": "portal/mantenedores/zonas-view"
+                        "link": "portal/mantenedores/zonas"
                     },
                     {
                         "permission": "access.sectors",
                         "title": "sideBar.sectors",
-                        "link": "portal/mantenedores/sectores-view"
+                        "link": "portal/mantenedores/sectores"
                     },
                     {
                         "permission": "access.communes",
                         "title": "sideBar.communes",
-                        "link": "portal/mantenedores/comunas-view"
+                        "link": "portal/mantenedores/comunas"
                     },
                     {
                         "permission": "access.regions",
                         "title": "sideBar.regions",
-                        "link": "portal/mantenedores/regiones-view"
+                        "link": "portal/mantenedores/regiones"
                     },
                     {
                         "permission": "access.countries",
                         "title": "sideBar.countries",
-                        "link": "portal/mantenedores/paises-view"
+                        "link": "portal/mantenedores/paises"
                     }
                 ]
             }
@@ -101,31 +101,31 @@
                 "type": "item",
                 "permission": "access.employees",
                 "title": "sideBar.employees",
-                "link": "portal/mantenedores/empleados-view"
+                "link": "portal/mantenedores/empleados"
             },
             {
                 "type": "item",
                 "permission": "access.employeeTypes",
                 "title": "sideBar.employeeTypes",
-                "link": "portal/mantenedores/tipos-empleados-view"
+                "link": "portal/mantenedores/tipos-empleados"
             },
             {
                 "type": "item",
                 "permission": "access.roles",
                 "title": "sideBar.roles",
-                "link": "portal/mantenedores/roles-view"
+                "link": "portal/mantenedores/roles"
             },
             {
                 "type": "item",
                 "permission": "access.permissionAssignment",
                 "title": "sideBar.permissionAssignment",
-                "link": "portal/assignment-permisos/permisos-view"
+                "link": "portal/assignment-permisos/permisos"
             },
             {
                 "type": "item",
                 "permission": "access.roleAssignment",
                 "title": "sideBar.roleAssignment",
-                "link": "portal/assignment-roles/roles-view"
+                "link": "portal/assignment-roles/roles"
             }
         ]
     },
@@ -138,7 +138,7 @@
                 "type": "item",
                 "permission": "access.clients",
                 "title": "sideBar.clients",
-                "link": "portal/mantenedores/clientes-view"
+                "link": "portal/mantenedores/clientes"
             },
             {
                 "type": "item",
@@ -156,19 +156,19 @@
                 "type": "item",
                 "permission": "access.commercialGroupings",
                 "title": "sideBar.commercialGroupings",
-                "link": "portal/mantenedores/agrupaciones-comerciales-view"
+                "link": "portal/mantenedores/agrupaciones-comerciales"
             },
             {
                 "type": "item",
                 "permission": "access.clientSegmentations",
                 "title": "sideBar.clientSegmentations",
-                "link": "portal/mantenedores/segmentaciones-clientes-view"
+                "link": "portal/mantenedores/segmentaciones-clientes"
             },
             {
                 "type": "item",
                 "permission": "access.locations",
                 "title": "sideBar.locations",
-                "link": "portal/mantenedores/locaciones-view"
+                "link": "portal/mantenedores/locaciones"
             }
         ]
     },
@@ -193,7 +193,7 @@
                 "permission": "access.workOrderReport",
                 "type": "item",
                 "title": "sideBar.workOrderReport",
-                "link": "portal/employee-view"
+                "link": "portal/employee"
             }
         ]
     }
