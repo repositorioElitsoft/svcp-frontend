@@ -15,6 +15,11 @@
                         "link": "portal/maintainers/servicios-view"
                     },
                     {
+                        "permission": "access.services",
+                        "title": "sideBar.serviceType",
+                        "link": "portal/mantenedores/tipos-servicios"
+                    },
+                    {
                         "permission": "access.jobs",
                         "title": "sideBar.jobs",
                         "link": "portal/maintainers/trabajos-view"

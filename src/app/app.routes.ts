@@ -9,6 +9,7 @@ import { TrabajoComponent } from './features/mantenedores/trabajo/trabajo.compon
 import { TipoEmpleadoComponent } from './features/mantenedores/tipo-empleado/tipo-empleado.component';
 import { ZonaComponent } from './features/mantenedores/zona/zona.component';
 import { TipoClienteComponent } from './features/mantenedores/tipo-cliente/tipo-cliente.component';
+import { TipoServicioComponent } from './features/mantenedores/tipo-servicio/tipo-servicio.component';
 
 export const routes: Routes = [
     {
@@ -51,6 +52,10 @@ export const routes: Routes = [
                     {
                         path: "tipos-clientes",
                         component: TipoClienteComponent
+                    },
+                    {
+                        path: "tipos-servicios",
+                        component: TipoServicioComponent
                     },
                     {
                         path: "trabajos",

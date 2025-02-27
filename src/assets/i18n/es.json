@@ -21,6 +21,7 @@
     },
     "sideBar": {
         "services": "Servicios",
+        "serviceType": "Tipo de Servicios",
         "jobs": "Trabajos",
         "tasks": "Tareas",
         "jobAssignment": "Asignación de Trabajos",

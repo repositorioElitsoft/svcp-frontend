@@ -21,6 +21,7 @@
     },
     "sideBar": {
         "services": "Services",
+        "serviceType": "Service Type",
         "jobs": "Jobs",
         "tasks": "Tasks",
         "jobAssignment": "Job Assignment",
