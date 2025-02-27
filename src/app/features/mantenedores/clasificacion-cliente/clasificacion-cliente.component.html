@@ -6,11 +6,11 @@
             <!-- Botón regresar -->
             <button class="elitsoft-btn" (click)="volver()">
                 <mat-icon>arrow_back</mat-icon>
-                {{ 'clasificacionCliente.volver' | translate }}
+                {{ 'mantenedores.volver' | translate }}
             </button>
 
             <!-- Titulo -->
-            <h1 class="text-xl">{{ 'clasificacionCliente.titulo' | translate }}</h1>
+            <h1 class="text-xl">{{ 'mantenedores.clasificacionCliente.titulo' | translate }}</h1>
 
         </div>
         <div class="flex space-x-2">
@@ -25,11 +25,11 @@
 
     <!-- Table Section -->
     <div class="bg-white p-4 rounded-lg ">
-        <app-shared-table [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
-            [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
-            (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
-            (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-            (selectionChange)="onSelectionChange($event)"></app-shared-table>
+        <app-shared-table [translationGroup]="'mantenedores.clasificacionCliente'" [displayedColumns]="displayedColumns"
+            [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
+            [totalPages]="totalPages" [pageSize]="pageSize" (deleteSelected)="onDeleteSelected($event)"
+            (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
+            (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"></app-shared-table>
     </div>
 
 

@@ -26,6 +26,7 @@ export class SharedTableComponent {
   @Input() pageNumber = 0
   @Input() totalPages = 0
   @Input() pageSize = 5;  // Tamaño por defecto para la paginación
+  @Input() translationGroup = ""
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() viewSelected = new EventEmitter<string>();
   @Output() editSelected = new EventEmitter<string>();
@@ -47,6 +48,11 @@ export class SharedTableComponent {
   show = true
 
   constructor(private cdr: ChangeDetectorRef) { }
+
+
+  protected getTranslationGroup(column: string) {
+    return this.translationGroup ? `${this.translationGroup}.${column}` : column
+  }
 
 
   // Getter dinámico para evitar problemas con @Input()

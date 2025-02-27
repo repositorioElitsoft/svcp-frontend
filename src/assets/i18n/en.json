@@ -67,16 +67,21 @@
         "actions": "Actions",
         "seleccionados": "{{count}} selected"
     },
-    "clasificacion-cliente": {
-        "titulo": "Client Classification",
-        "volver": "Back"
-    },
     "opciones-mantenedor": {
         "botonAgregar": {
             "texto": "Add New"
         },
         "botonExportar": {
             "texto": "Export to Excel"
+        }
+    },
+    "mantenedores": {
+        "volver": "Back",
+        "id": "Id",
+        "clasificacion-cliente": {
+            "id": "Id",
+            "titulo": "Client Classification",
+            "clasificacionClienteDesc": "Client Classification Description"
         }
     }
 }

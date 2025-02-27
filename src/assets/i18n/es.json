@@ -78,5 +78,10 @@
         "botonExportar": {
             "texto": "Exportar a Excel"
         }
+    },
+    "mantenedores": {
+        "sector": "Sector",
+        "descripcionSector": "Descripción Sector",
+        "zona": "Zona"
     }
 }
