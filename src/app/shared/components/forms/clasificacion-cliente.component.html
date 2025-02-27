@@ -1,25 +1,30 @@
-<app-titulo-dialogo title="Agregar Clasificación de Clientes" icon="task" [ref]="dialogRef"></app-titulo-dialogo>
+<app-titulo-dialogo
+	[title]="(esActualizar() ? 'mantenedores.formularios.clasificacionCliente.tituloEditar' : 'mantenedores.formularios.clasificacionCliente.tituloAgregar') | translate"
+	icon="task" [ref]="dialogRef">
+</app-titulo-dialogo>
 
 <mat-dialog-content class="!p-0">
 	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
 		<mat-form-field appearance="outline" class="w-full">
-			<mat-label>Descripción Clasificación Cliente</mat-label>
-			<input matInput formControlName="clasificacionClienteDesc" placeholder="Ingrese la descripción"
+			<mat-label>{{ 'mantenedores.formularios.clasificacionCliente.label' | translate }}</mat-label>
+			<input matInput formControlName="clasificacionClienteDesc"
+				[attr.placeholder]="'mantenedores.formularios.clasificacionCliente.descripcion' | translate"
 				class="w-full">
 			<mat-error *ngIf="form.get('clasificacionClienteDesc')?.hasError('required')" class="text-red-500">
-				Este campo es requerido
+				{{ 'mantenedores.formularios.clasificacionCliente.campoRequerido' | translate }}
 			</mat-error>
 		</mat-form-field>
 		<div class="grid grid-cols-2 gap-4 w-full">
 			<button type="button" (click)="dialogRef.close()"
 				class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">
-				Cancelar
+				{{ 'mantenedores.formularios.clasificacionCliente.botonCancelar' | translate }}
 			</button>
 			<button type="submit" [disabled]="form.invalid"
 				class="elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
-				{{ esActualizar() ? 'Actualizar' : 'Guardar' }}
+				{{ (esActualizar() ? 'mantenedores.formularios.clasificacionCliente.actualizar' :
+				'mantenedores.formularios.clasificacionCliente.guardar') |
+				translate }}
 			</button>
 		</div>
-
 	</form>
 </mat-dialog-content>

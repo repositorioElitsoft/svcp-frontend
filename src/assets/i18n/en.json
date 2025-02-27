@@ -100,6 +100,17 @@
             "botonAgregar": "Save",
             "actualizar": "Update",
             "guardar": "Save"
+        },
+        "clasificacionCliente": {
+            "tituloEditar": "Edit Client Classification",
+            "tituloAgregar": "Create Client Classification",
+            "label": "Client Classification Description",
+            "descripcion": "Enter the description of the client classification",
+            "campoRequerido": "This field is required",
+            "botonCancelar": "Cancel",
+            "botonAgregar": "Save",
+            "actualizar": "Update",
+            "guardar": "Save"
         }
     }
 }

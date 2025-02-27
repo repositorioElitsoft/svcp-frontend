@@ -97,6 +97,17 @@
                 "botonAgregar": "Salvar",
                 "actualizar": "Atualizar",
                 "guardar": "Salvar"
+            },
+            "clasificacionCliente": {
+                "tituloEditar": "Editar Classificação do Cliente",
+                "tituloAgregar": "Adicionar Classificação do Cliente",
+                "label": "Descrição da Classificação do Cliente",
+                "descripcion": "Digite a descrição da classificação do cliente",
+                "campoRequerido": "Este campo é obrigatório",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
             }
         }
     }
