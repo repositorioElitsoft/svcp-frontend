@@ -78,7 +78,7 @@
     "mantenedores": {
         "volver": "Back",
         "id": "Id",
-        "clasificacion-cliente": {
+        "clasificacionCliente": {
             "id": "Id",
             "titulo": "Client Classification",
             "clasificacionClienteDesc": "Client Classification Description"
