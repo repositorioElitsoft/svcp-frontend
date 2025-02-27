@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/components/login/login.component';
 import { authGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './features/home/home.component';
-import { TestComponent } from './views/test/test.component';
 import { ClasificacionClienteComponent } from './features/mantenedores/clasificacion-cliente/clasificacion-cliente.component';
 import { SectorComponent } from './features/mantenedores/sector/sector.component';
 import { TrabajoComponent } from './features/mantenedores/trabajo/trabajo.component';
@@ -13,10 +12,6 @@ import { TipoProductoComponent } from './features/mantenedores/tipo-producto/tip
 import { TipoServicioComponent } from './features/mantenedores/tipo-servicio/tipo-servicio.component';
 
 export const routes: Routes = [
-    {
-        path: "test",
-        component: TestComponent
-    },
     {
         path: "",
         redirectTo: "portal",

@@ -200,6 +200,11 @@
                 "botonAgregar": "Save",
                 "actualizar": "Update",
                 "guardar": "Save"
+            },
+            "toastr": {
+                "success": "Operation successful",
+                "error": "Operation failed",
+                "invalid_description": "Invalid description"
             }
         }
     }

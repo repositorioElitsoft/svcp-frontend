@@ -143,6 +143,11 @@
                 "botonAgregar": "Guardar",
                 "actualizar": "Actualizar",
                 "guardar": "Guardar"
+            },
+            "toastr": {
+                "success": "Operación exitosa",
+                "error": "Error en la operación",
+                "invalid_description": "Descripción no válida"
             }
         }
     }
