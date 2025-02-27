@@ -1,5 +1,3 @@
-<app-head-table></app-head-table>
-<br>
 <div class="container mx-auto p-4 bg-white">
     <!-- Header Section -->
     <div class="bg-white p-4 rounded-lg  flex justify-between items-center mb-4">
@@ -23,11 +21,11 @@
 
     <!-- Table Section -->
     <div class="bg-white p-4 rounded-lg ">
-        <app-shared-table [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
-            [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
-            (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
-            (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-            (selectionChange)="onSelectionChange($event)"></app-shared-table>
+        <app-shared-table [translationGroup]="'mantenedores.clasificacionCliente'" [displayedColumns]="displayedColumns"
+            [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
+            [totalPages]="totalPages" [pageSize]="pageSize" (deleteSelected)="onDeleteSelected($event)"
+            (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
+            (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"></app-shared-table>
     </div>
 
 

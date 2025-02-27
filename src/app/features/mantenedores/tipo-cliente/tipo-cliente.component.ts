@@ -15,18 +15,19 @@ import { TipoCliente } from "../../../core/models/tipo-cliente.model";
 import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: "app-tipo-cliente",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
   templateUrl: "./tipo-cliente.component.html",
   styleUrl: "./tipo-cliente.component.css",
 })
 export class TipoClienteComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: TipoCliente[] = []; // Ahora usa la interfaz Tipo cliente
-  titulo: string = 'Tipo cliente'; // Puedes cambiarlo dinámicamente
+  titulo: string = 'Tipo de Clientes'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0

@@ -80,6 +80,11 @@
             "id": "Id",
             "titulo": "Classificação de Clientes",
             "clasificacionClienteDesc": "Descrição da Classificação de Clientes"
+        },
+        "tipoCliente": {
+            "id": "Id",
+            "titulo": "Tipo de Cliente",
+            "clasificacionClienteDesc": "Descrição do Tipo de Cliente"
         }
     }
 }
