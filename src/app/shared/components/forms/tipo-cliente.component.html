@@ -1,4 +1,7 @@
-<app-titulo-dialogo title="Agregar Tipo Cliente" icon="task" [ref]="dialogRef"></app-titulo-dialogo>
+<app-titulo-dialogo [title]="esActualizar() ? 'Editar Tipo Cliente' : 'Agregar Tipo Cliente'" icon="task"
+	[ref]="dialogRef">
+</app-titulo-dialogo>
+
 
 <mat-dialog-content class="!p-0">
 	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">

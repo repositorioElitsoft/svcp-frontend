@@ -84,7 +84,7 @@
         "tipoCliente": {
             "id": "Id",
             "titulo": "Tipo de Cliente",
-            "clasificacionClienteDesc": "Descrição do Tipo de Cliente"
+            "nombre": "Descrição do Tipo de Cliente"
         }
     }
 }
