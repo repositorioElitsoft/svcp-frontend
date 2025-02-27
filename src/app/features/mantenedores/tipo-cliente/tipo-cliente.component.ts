@@ -95,7 +95,7 @@ export class TipoClienteComponent implements OnInit {
 
         const formData: TipoCliente = {
           id: result.id,
-          descripcionTipoCliente: result.descripcionTipoCliente
+          nombre: result.nombre
         };
 
         this.tipoClienteService.actualizar(formData.id, formData).pipe(

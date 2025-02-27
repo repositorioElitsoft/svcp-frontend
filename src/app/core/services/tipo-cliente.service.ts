@@ -29,7 +29,7 @@ export class TipoClienteService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipocliente/`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}tipocliente/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(tipoClienteId: number, tipoCliente: TipoCliente): Observable<TipoCliente> {

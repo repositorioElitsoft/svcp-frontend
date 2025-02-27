@@ -6,9 +6,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TipoClienteService } from '../../../core/services/tipo-cliente.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
-
-
-
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -46,18 +43,15 @@ export class TipoClienteFormComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<TipoClienteFormComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
-
-  
-
   constructor(
     private fb: FormBuilder,
     private tipoClienteService: TipoClienteService,
-    
+
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-       id: [null, Validators.required],
-  descripcionTipoCliente: [null, Validators.required],
+      id: [null],  // No requerido en modo creación
+      nombre: [null, Validators.required],  // Siempre requerido
     });
   }
 
@@ -70,16 +64,14 @@ export class TipoClienteFormComponent implements OnInit {
 
 
       this.form.patchValue({
-       id: this.data.object.id,
-descripcionTipoCliente: this.data.object.descripcionTipoCliente,
+        id: this.data.object.id,
+        nombre: this.data.object.nombre,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
     } else {
       console.error("No se recibió un objeto válido en 'data'");
     }
-
-    
   }
 
   onSubmit() {
@@ -87,8 +79,8 @@ descripcionTipoCliente: this.data.object.descripcionTipoCliente,
 
     if (this.form.valid) {
       const formData: TipoCliente = {
-       id: this.form.value.id,
-descripcionTipoCliente: this.form.value.descripcionTipoCliente,
+        id: this.form.value.id,
+        nombre: this.form.value.nombre,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -100,3 +92,9 @@ descripcionTipoCliente: this.form.value.descripcionTipoCliente,
     }
   }
 }
+
+
+
+
+
+
