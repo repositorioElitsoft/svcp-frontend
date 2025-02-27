@@ -47,17 +47,17 @@ export class TipoServicioFormComponent implements OnInit {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
 
-  
+
 
   constructor(
     private fb: FormBuilder,
     private tipoServicioService: TipoServicioService,
-    
+
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-       id: [null, Validators.required],
-  descripcionTipoServicio: [null, Validators.required],
+      id: [null],
+      descripcionTipoServicio: [null, Validators.required],
     });
   }
 
@@ -70,8 +70,8 @@ export class TipoServicioFormComponent implements OnInit {
 
 
       this.form.patchValue({
-       id: this.data.object.id,
-descripcionTipoServicio: this.data.object.descripcionTipoServicio,
+        id: this.data.object.id,
+        descripcionTipoServicio: this.data.object.descripcionTipoServicio,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -79,7 +79,7 @@ descripcionTipoServicio: this.data.object.descripcionTipoServicio,
       console.error("No se recibió un objeto válido en 'data'");
     }
 
-    
+
   }
 
   onSubmit() {
@@ -87,8 +87,8 @@ descripcionTipoServicio: this.data.object.descripcionTipoServicio,
 
     if (this.form.valid) {
       const formData: TipoServicio = {
-       id: this.form.value.id,
-descripcionTipoServicio: this.form.value.descripcionTipoServicio,
+        id: this.form.value.id,
+        descripcionTipoServicio: this.form.value.descripcionTipoServicio,
       };
 
       console.log("Datos mapeados para enviar:", formData);

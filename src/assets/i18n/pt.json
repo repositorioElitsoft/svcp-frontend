@@ -103,6 +103,11 @@
             "titulo": "Tipo de Produto",
             "descripcionTipoProduto": "Descrição do Tipo de Produto"
         },
+        "tipoServicio": {
+            "id": "Id",
+            "titulo": "Tipo de Serviço",
+            "descripcionTipoServicio": "Descrição do Tipo de Serviço"
+        },
         "formularios": {
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
