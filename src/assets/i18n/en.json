@@ -88,5 +88,18 @@
             "titulo": "Client Type",
             "clasificacionClienteDesc": "Client Classification Description"
         }
+    },
+    "formularios": {
+        "tipoCliente": {
+            "tituloEditar": "Edit Client Type",
+            "tituloAgregar": "Create Client Type",
+            "label": "Client Type Description",
+            "descripcion": "Enter the description of the client type",
+            "campoRequerido": "This field is required",
+            "botonCancelar": "Cancel",
+            "botonAgregar": "Save",
+            "actualizar": "Update",
+            "guardar": "Save"
+        }
     }
 }

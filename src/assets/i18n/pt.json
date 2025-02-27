@@ -85,6 +85,19 @@
             "id": "Id",
             "titulo": "Tipo de Cliente",
             "nombre": "Descrição do Tipo de Cliente"
+        },
+        "formularios": {
+            "tipoCliente": {
+                "tituloEditar": "Editar Tipo de Cliente",
+                "tituloAgregar": "Criar Tipo de Cliente",
+                "label": "Descrição do Tipo de Cliente",
+                "descripcion": "Digite a descrição do tipo de cliente",
+                "campoRequerido": "Este campo é obrigatório",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
+            }
         }
     }
 }

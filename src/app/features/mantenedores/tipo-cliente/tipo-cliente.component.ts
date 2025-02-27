@@ -88,8 +88,8 @@ export class TipoClienteComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.descripcionTipoCliente) {
-          console.error("Descripción no válida:", result.descripcionTipoCliente);
+        if (!result.nombre) {
+          console.error("Descripción no válida:", result.nombre);
           return;
         }
 
@@ -126,6 +126,7 @@ export class TipoClienteComponent implements OnInit {
         this.tipoClienteService.crear(result).subscribe(
           (response) => {
             console.log("Cliente creado con éxito:", response);
+            this.obtenerDatos('id', 'desc'); // Aquí forzamos el orden descendente solo en esta llamada
           },
           (error) => {
             console.error("Error al crear cliente:", error);
@@ -134,6 +135,7 @@ export class TipoClienteComponent implements OnInit {
       }
     });
   }
+
 
   exportarExcel(selectedItems: TableData[]) {
     console.log("Exportando los siguientes elementos:", selectedItems);

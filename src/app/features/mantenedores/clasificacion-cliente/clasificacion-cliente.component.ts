@@ -131,7 +131,7 @@ export class ClasificacionClienteComponent implements OnInit {
           (response) => {
             console.log("Cliente creado con éxito:", response);
             this.toastr.success("se ha agregado una nueva clasificación de cliente");
-            this.obtenerDatos();
+            this.obtenerDatos('id', 'desc');
           },
           (error) => {
             console.error("Error al crear cliente:", error);
