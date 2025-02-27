@@ -90,6 +90,12 @@
             "descripcionSector": "Sector Description",
             "zona": "Zone"
         },
+        "zona": {
+            "id": "Id",
+            "titulo": "Zonas",
+            "descripcionZona": "Zona Description",
+            "zona": "Zone"
+        },
         "tipoEmpleado": {
             "id": "Id",
             "titulo": "Employee Type",

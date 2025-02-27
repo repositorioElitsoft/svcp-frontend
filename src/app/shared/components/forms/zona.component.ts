@@ -47,17 +47,17 @@ export class ZonaFormComponent implements OnInit {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
 
-  
+
 
   constructor(
     private fb: FormBuilder,
     private zonaService: ZonaService,
-    
+
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-       id: [null, Validators.required],
-  descripcionZona: [null, Validators.required],
+      id: [null],
+      descripcionZona: [null, Validators.required],
     });
   }
 
@@ -70,8 +70,8 @@ export class ZonaFormComponent implements OnInit {
 
 
       this.form.patchValue({
-       id: this.data.object.id,
-descripcionZona: this.data.object.descripcionZona,
+        id: this.data.object.id,
+        descripcionZona: this.data.object.descripcionZona,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -79,7 +79,7 @@ descripcionZona: this.data.object.descripcionZona,
       console.error("No se recibió un objeto válido en 'data'");
     }
 
-    
+
   }
 
   onSubmit() {
@@ -87,8 +87,8 @@ descripcionZona: this.data.object.descripcionZona,
 
     if (this.form.valid) {
       const formData: Zona = {
-       id: this.form.value.id,
-descripcionZona: this.form.value.descripcionZona,
+        id: this.form.value.id,
+        descripcionZona: this.form.value.descripcionZona,
       };
 
       console.log("Datos mapeados para enviar:", formData);
