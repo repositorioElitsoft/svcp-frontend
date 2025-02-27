@@ -12,7 +12,7 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { TipoServicioService } from "../../../core/services/tipo-servicio.service";
 import { TipoServicio } from "../../../core/models/tipo-servicio.model";
-import { catchError, forkJoin, tap, throwError } from "rxjs";
+import { catchError, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
@@ -130,7 +130,7 @@ export class TipoServicioComponent implements OnInit {
 
 
   /*********************************** CRUD   - DELETE ***********************************/
-  eliminarServicio(selectedItems: TipoServicio[]) {
+  eliminar(selectedItems: TipoServicio[]) {
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       width: '600px',
       height: '400px',
