@@ -15,11 +15,12 @@ import { TipoServicio } from "../../../core/models/tipo-servicio.model";
 import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: "app-tipo-servicio",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
   templateUrl: "./tipo-servicio.component.html",
   styleUrl: "./tipo-servicio.component.css",
 })
@@ -125,6 +126,7 @@ export class TipoServicioComponent implements OnInit {
         this.tipoServicioService.crear(result).subscribe(
           (response) => {
             console.log("Cliente creado con éxito:", response);
+            this.obtenerDatos('id', 'desc');
           },
           (error) => {
             console.error("Error al crear cliente:", error);
@@ -161,6 +163,7 @@ export class TipoServicioComponent implements OnInit {
             console.log("Elementos eliminados exitosamente:", ids);
             this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
             this.hasSelection = false;
+            this.obtenerDatos();
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);

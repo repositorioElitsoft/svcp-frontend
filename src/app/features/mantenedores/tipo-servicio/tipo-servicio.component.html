@@ -4,30 +4,26 @@
         <div class="flex items-center space-x-2">
             <!-- Botón regresar -->
             <button class="elitsoft-btn" (click)="volver()">
-                <mat-icon>arrow_back</mat-icon> Volver
+                <mat-icon>arrow_back</mat-icon>
+                {{ 'mantenedores.volver' | translate }}
             </button>
             <!-- Titulo -->
-            <h1 class="text-xl ">{{ titulo }}</h1>
+            <h1 class="text-xl">{{ 'mantenedores.tipoServicio.titulo' | translate }}</h1>
         </div>
         <div class="flex space-x-2">
             <!-- Botones y Acciones -->
             <app-opciones-mantenedor [hasSelection]="hasSelection" [selectedData]="selectedData"
                 (agregar)="agregarServicio()" (exportar)="exportarExcel($event)" (eliminar)="eliminarServicio($event)">
             </app-opciones-mantenedor>
-
-
         </div>
     </div>
 
     <!-- Table Section -->
     <div class="bg-white p-4 rounded-lg ">
-        <app-shared-table [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
-            [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
-            (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
-            (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-            (selectionChange)="onSelectionChange($event)"></app-shared-table>
+        <app-shared-table [translationGroup]="'mantenedores.tipoServicio'" [displayedColumns]="displayedColumns"
+            [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
+            [totalPages]="totalPages" [pageSize]="pageSize" (deleteSelected)="onDeleteSelected($event)"
+            (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
+            (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"></app-shared-table>
     </div>
-
-
-
 </div>
