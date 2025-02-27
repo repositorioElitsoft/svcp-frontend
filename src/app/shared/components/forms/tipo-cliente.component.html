@@ -1,20 +1,28 @@
-<app-titulo-dialogo title="Agregar Tipocliente" icon="task" [ref]="dialogRef"></app-titulo-dialogo>
+<app-titulo-dialogo
+	[title]="(esActualizar() ? 'mantenedores.formularios.tipoCliente.tituloEditar' : 'mantenedores.formularios.tipoCliente.tituloAgregar') | translate"
+	icon="task" [ref]="dialogRef">
+</app-titulo-dialogo>
 
 <mat-dialog-content class="!p-0">
 	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
 		<mat-form-field appearance="outline" class="w-full">
-			<mat-label>Descripción Tipocliente</mat-label>
-			<input matInput formControlName="%e%Desc" placeholder="Ingrese la descripción" class="w-full">
-			<mat-error *ngIf="form.get('%e%Desc')?.hasError('required')" class="text-red-500">
-				Este campo es requerido
+			<mat-label>{{ 'mantenedores.formularios.tipoCliente.label' | translate }}</mat-label>
+			<input matInput formControlName="nombre"
+				[attr.placeholder]="'mantenedores.formularios.tipoCliente.descripcion' | translate" class="w-full">
+			<mat-error *ngIf="form.get('nombre')?.hasError('required')" class="text-red-500">
+				{{ 'mantenedores.formularios.tipoCliente.campoRequerido' | translate }}
 			</mat-error>
 		</mat-form-field>
 		<div class="grid grid-cols-2 gap-4 w-full">
-			<button type="button" (click)="dialogRef.close()" class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">
-				Cancelar
+			<button type="button" (click)="dialogRef.close()"
+				class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">
+				{{ 'mantenedores.formularios.tipoCliente.botonCancelar' | translate }}
 			</button>
-			<button type="submit" [disabled]="form.invalid" class="elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
-				{{ esActualizar() ? 'Actualizar' : 'Guardar' }}
+			<button type="submit" [disabled]="form.invalid"
+				class="elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
+				{{ (esActualizar() ? 'mantenedores.formularios.tipoCliente.actualizar' :
+				'mantenedores.formularios.tipoCliente.guardar') |
+				translate }}
 			</button>
 		</div>
 	</form>

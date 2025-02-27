@@ -61,27 +61,27 @@
                     {
                         "permission": "access.zones",
                         "title": "sideBar.zones",
-                        "link": "portal/maintainers/zonas-view"
+                        "link": "portal/mantenedores/zonas-view"
                     },
                     {
                         "permission": "access.sectors",
                         "title": "sideBar.sectors",
-                        "link": "portal/maintainers/sectores-view"
+                        "link": "portal/mantenedores/sectores-view"
                     },
                     {
                         "permission": "access.communes",
                         "title": "sideBar.communes",
-                        "link": "portal/maintainers/comunas-view"
+                        "link": "portal/mantenedores/comunas-view"
                     },
                     {
                         "permission": "access.regions",
                         "title": "sideBar.regions",
-                        "link": "portal/maintainers/regiones-view"
+                        "link": "portal/mantenedores/regiones-view"
                     },
                     {
                         "permission": "access.countries",
                         "title": "sideBar.countries",
-                        "link": "portal/maintainers/paises-view"
+                        "link": "portal/mantenedores/paises-view"
                     }
                 ]
             }
@@ -96,19 +96,19 @@
                 "type": "item",
                 "permission": "access.employees",
                 "title": "sideBar.employees",
-                "link": "portal/maintainers/empleados-view"
+                "link": "portal/mantenedores/empleados-view"
             },
             {
                 "type": "item",
                 "permission": "access.employeeTypes",
                 "title": "sideBar.employeeTypes",
-                "link": "portal/maintainers/tipos-empleados-view"
+                "link": "portal/mantenedores/tipos-empleados-view"
             },
             {
                 "type": "item",
                 "permission": "access.roles",
                 "title": "sideBar.roles",
-                "link": "portal/maintainers/roles-view"
+                "link": "portal/mantenedores/roles-view"
             },
             {
                 "type": "item",
@@ -133,13 +133,13 @@
                 "type": "item",
                 "permission": "access.clients",
                 "title": "sideBar.clients",
-                "link": "portal/maintainers/clientes-view"
+                "link": "portal/mantenedores/clientes-view"
             },
             {
                 "type": "item",
                 "permission": "access.clientTypes",
                 "title": "sideBar.clientTypes",
-                "link": "portal/maintainers/tipos-clientes-view"
+                "link": "portal/mantenedores/tipos-clientes"
             },
             {
                 "type": "item",
@@ -151,19 +151,19 @@
                 "type": "item",
                 "permission": "access.commercialGroupings",
                 "title": "sideBar.commercialGroupings",
-                "link": "portal/maintainers/agrupaciones-comerciales-view"
+                "link": "portal/mantenedores/agrupaciones-comerciales-view"
             },
             {
                 "type": "item",
                 "permission": "access.clientSegmentations",
                 "title": "sideBar.clientSegmentations",
-                "link": "portal/maintainers/segmentaciones-clientes-view"
+                "link": "portal/mantenedores/segmentaciones-clientes-view"
             },
             {
                 "type": "item",
                 "permission": "access.locations",
                 "title": "sideBar.locations",
-                "link": "portal/maintainers/locaciones-view"
+                "link": "portal/mantenedores/locaciones-view"
             }
         ]
     },

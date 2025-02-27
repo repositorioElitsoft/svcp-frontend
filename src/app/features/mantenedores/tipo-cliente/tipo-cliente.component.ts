@@ -15,18 +15,19 @@ import { TipoCliente } from "../../../core/models/tipo-cliente.model";
 import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: "app-tipo-cliente",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
   templateUrl: "./tipo-cliente.component.html",
   styleUrl: "./tipo-cliente.component.css",
 })
 export class TipoClienteComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: TipoCliente[] = []; // Ahora usa la interfaz Tipo cliente
-  titulo: string = 'Tipo cliente'; // Puedes cambiarlo dinámicamente
+  titulo: string = 'Tipo de Clientes'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
@@ -87,14 +88,14 @@ export class TipoClienteComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.descripcionTipoCliente) {
-          console.error("Descripción no válida:", result.descripcionTipoCliente);
+        if (!result.nombre) {
+          console.error("Descripción no válida:", result.nombre);
           return;
         }
 
         const formData: TipoCliente = {
           id: result.id,
-          descripcionTipoCliente: result.descripcionTipoCliente
+          nombre: result.nombre
         };
 
         this.tipoClienteService.actualizar(formData.id, formData).pipe(
@@ -125,6 +126,7 @@ export class TipoClienteComponent implements OnInit {
         this.tipoClienteService.crear(result).subscribe(
           (response) => {
             console.log("Cliente creado con éxito:", response);
+            this.obtenerDatos('id', 'desc'); // Aquí forzamos el orden descendente solo en esta llamada
           },
           (error) => {
             console.error("Error al crear cliente:", error);
@@ -133,6 +135,7 @@ export class TipoClienteComponent implements OnInit {
       }
     });
   }
+
 
   exportarExcel(selectedItems: TableData[]) {
     console.log("Exportando los siguientes elementos:", selectedItems);

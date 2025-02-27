@@ -65,16 +65,39 @@
     "table": {
         "actions": "Ações"
     },
-    "clasificacionCliente": {
-        "titulo": "Classificação de Clientes",
-        "volver": "Voltar"
-    },
     "opciones-mantenedor": {
         "botonAgregar": {
             "texto": "Adicionar"
         },
         "botonExportar": {
             "texto": "Exportar para Excel"
+        }
+    },
+    "mantenedores": {
+        "volver": "Voltar",
+        "id": "Id",
+        "clasificacionCliente": {
+            "id": "Id",
+            "titulo": "Classificação de Clientes",
+            "clasificacionClienteDesc": "Descrição da Classificação de Clientes"
+        },
+        "tipoCliente": {
+            "id": "Id",
+            "titulo": "Tipo de Cliente",
+            "nombre": "Descrição do Tipo de Cliente"
+        },
+        "formularios": {
+            "tipoCliente": {
+                "tituloEditar": "Editar Tipo de Cliente",
+                "tituloAgregar": "Criar Tipo de Cliente",
+                "label": "Descrição do Tipo de Cliente",
+                "descripcion": "Digite a descrição do tipo de cliente",
+                "campoRequerido": "Este campo é obrigatório",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
+            }
         }
     }
 }

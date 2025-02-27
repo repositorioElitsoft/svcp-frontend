@@ -67,10 +67,6 @@
         "actions": "Acciones",
         "seleccionados": "{{count}} seleccionados"
     },
-    "clasificacion-cliente": {
-        "titulo": "Clasificación de Clientes",
-        "volver": "Volver"
-    },
     "opciones-mantenedor": {
         "botonAgregar": {
             "texto": "Agregar"
@@ -80,8 +76,30 @@
         }
     },
     "mantenedores": {
-        "sector": "Sector",
-        "descripcionSector": "Descripción Sector",
-        "zona": "Zona"
+        "volver": "Volver",
+        "id": "Id",
+        "clasificacionCliente": {
+            "id": "Id",
+            "titulo": "Clasificación de Clientes",
+            "clasificacionClienteDesc": "Descripción de Clasificación de Clientes"
+        },
+        "tipoCliente": {
+            "id": "Id",
+            "titulo": "Tipo de Cliente",
+            "clasificacionClienteDesc": "Descripción Tipo Cliente"
+        },
+        "formularios": {
+            "tipoCliente": {
+                "tituloEditar": "Editar Tipo de Cliente",
+                "tituloAgregar": "Crear Tipo de Cliente",
+                "label": "Descripción del Tipo de Cliente",
+                "descripcion": "Ingrese la descripción del tipo de cliente",
+                "campoRequerido": "Este campo es requerido",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Guardar",
+                "actualizar": "Actualizar",
+                "guardar": "Guardar"
+            }
+        }
     }
 }
