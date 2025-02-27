@@ -179,5 +179,15 @@
                 "guardar": "Salvar"
             }
         }
+    },
+    "alertas": {
+        "eliminacionIndividualTitulo": "Exclusão individual",
+        "eliminacionIndividualMensaje": "Tem certeza de que deseja excluir {count, plural, =1 {o item} other {os itens selecionados}}? Esta ação não pode ser desfeita.",
+        "cancelar": "Cancelar",
+        "eliminar": "Excluir",
+        "toastr": {
+            "success": "Operação bem-sucedida",
+            "error": "Operação falhou"
+        }
     }
 }

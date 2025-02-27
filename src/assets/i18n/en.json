@@ -187,5 +187,15 @@
                 "guardar": "Save"
             }
         }
+    },
+    "alertas": {
+        "eliminacionIndividualTitulo": "Individual Deletion",
+        "eliminacionIndividualMensaje": "Are you sure you want to delete {count, plural, =1 {the item} other {the selected items}}? This action cannot be undone.",
+        "cancelar": "Cancel",
+        "eliminar": "Delete",
+        "toastr": {
+            "success": "Operation successful",
+            "error": "Operation failed"
+        }
     }
 }

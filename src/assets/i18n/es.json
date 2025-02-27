@@ -172,5 +172,15 @@
                 "guardar": "Guardar"
             }
         }
+    },
+    "alertas": {
+        "eliminacionIndividualTitulo": "Eliminación individual",
+        "eliminacionIndividualMensaje": "¿Estás seguro que deseas eliminar {count, plural, =1 {el elemento} other {los elementos seleccionados}}? Esta acción no se puede deshacer.",
+        "cancelar": "Cancelar",
+        "eliminar": "Eliminar",
+        "toastr": {
+            "success": "Operación exitosa",
+            "error": "Operación fallida"
+        }
     }
 }
