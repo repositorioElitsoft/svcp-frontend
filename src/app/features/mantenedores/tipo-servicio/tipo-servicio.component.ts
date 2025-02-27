@@ -42,14 +42,15 @@ export class TipoServicioComponent implements OnInit {
   ngOnInit() {
     this.obtenerDatos();
   }
+
+
+  /********************************** TABLA - SHARED TABLE **********************************/
   onSelectionChange(selectedItems: any[]) {
     this.hasSelection = selectedItems.length > 0;
     this.selectedData = selectedItems; // Guardamos la data seleccionada
   }
 
-  onDeleteSelected(ids: string[]) {
-    console.log("Eliminar seleccionados:", ids);
-  }
+
 
   onViewSelected(id: string): void {
     const dialogRef = this.dialog.open(TipoServicioFormComponent, {
@@ -67,6 +68,126 @@ export class TipoServicioComponent implements OnInit {
     });
   }
 
+  onDeleteSelected(ids: string[]) {
+    console.log("Eliminar seleccionados:", ids);
+  }
+
+  exportarExcel(selectedItems: TableData[]) {
+    console.log("Exportando los siguientes elementos:", selectedItems);
+    this.exportService.exportToExcel(selectedItems, this.titulo);
+  }
+
+  volver() {
+    this.router.navigate(['/portal/home']);
+  }
+  sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
+    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+  }
+
+  onPageChanged(newPage: number) {
+    console.log("Página cambiada", newPage);
+    this.pageNumber = newPage
+    this.obtenerDatos();
+  }
+
+  buscar(busqueda: string) {
+    this.obtenerDatos("",)
+  }
+
+
+
+  /********************************** TABLA - SHARED TABLE **********************************/
+
+
+  /*********************************** CRUD   - GET ***********************************/
+
+  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc') {
+    this.tipoServicioService.buscarFiltrado({
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
+      sortField: sortField,
+      sortDirection: sortDirection
+    }).subscribe((data: PagedResponse<TipoServicio[]>) => {
+      console.log("Datos recibidos:", data);
+
+      this.pageNumber = data.pageNumber
+      this.totalPages = data.totalPages
+      this.pageSize = data.pageSize;
+      this.totalElements = data.totalElements;
+
+      this.dataSource = data.content.flat();
+      if (data.content.length > 0) {
+        this.displayedColumns = Object.keys(data.content[0]);
+      }
+      this.cdr.detectChanges();
+    });
+  }
+
+
+
+
+
+  /*********************************** CRUD   - DELETE ***********************************/
+  eliminarServicio(selectedItems: TipoServicio[]) {
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      width: '600px',
+      height: '400px',
+      data: {
+        titulo: 'Eliminación individual',
+        mensaje: `¿Estás seguro que deseas eliminar ${selectedItems.length > 1 ? 'los elementos seleccionados' : 'el elemento'}? Esta acción no se puede deshacer`,
+        textoBotonCancelar: 'Cancelar',
+        textoBotonConfirmar: 'Eliminar'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmado => {
+      if (confirmado) {
+        const ids = selectedItems.map(item => item.id);
+        console.log("Datos a enviar para eliminar:", { ids: ids });
+
+        this.tipoServicioService.borrarTodos(ids).subscribe({
+          next: () => {
+            console.log("Elementos eliminados exitosamente:", ids);
+            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
+            this.hasSelection = false;
+            this.obtenerDatos();
+          },
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+          }
+        });
+      }
+    });
+  }
+
+  /* **********************************CRUD   - CREATE ***********************************/
+
+  agregarServicio() {
+    const dialogRef = this.dialog.open(TipoServicioFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: false,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Datos recibidos del formulario:", result);
+        this.tipoServicioService.crear(result).subscribe(
+          (response) => {
+            console.log("Cliente creado con éxito:", response);
+            this.obtenerDatos('id', 'desc');
+          },
+          (error) => {
+            console.error("Error al crear cliente:", error);
+          }
+        );
+      }
+    });
+  }
+
+
+  /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
   onEditSelected(id: string) {
     const selectedObject = this.dataSource.find(item => item.id === Number(id));
     console.log('Selected Object:', selectedObject);
@@ -112,107 +233,7 @@ export class TipoServicioComponent implements OnInit {
     });
   }
 
-  agregarServicio() {
-    const dialogRef = this.dialog.open(TipoServicioFormComponent, {
-      width: '400px',
-      data: {
-        esActualizar: false,
-      }
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log("Datos recibidos del formulario:", result);
-        this.tipoServicioService.crear(result).subscribe(
-          (response) => {
-            console.log("Cliente creado con éxito:", response);
-            this.obtenerDatos('id', 'desc');
-          },
-          (error) => {
-            console.error("Error al crear cliente:", error);
-          }
-        );
-      }
-    });
-  }
 
-  exportarExcel(selectedItems: TableData[]) {
-    console.log("Exportando los siguientes elementos:", selectedItems);
-    this.exportService.exportToExcel(selectedItems, this.titulo);
-  }
 
-  eliminarServicio(selectedItems: TipoServicio[]) {
-    const dialogRef = this.dialog.open(DialogAlertaComponent, {
-      width: '600px',
-      height: '400px',
-      data: {
-        titulo: 'Eliminación individual',
-        mensaje: `¿Estás seguro que deseas eliminar ${selectedItems.length > 1 ? 'los elementos seleccionados' : 'el elemento'}? Esta acción no se puede deshacer`,
-        textoBotonCancelar: 'Cancelar',
-        textoBotonConfirmar: 'Eliminar'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        const ids = selectedItems.map(item => item.id);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
-
-        this.tipoServicioService.borrarTodos(ids).subscribe({
-          next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
-            this.hasSelection = false;
-            this.obtenerDatos();
-          },
-          error: err => {
-            console.error("Error al eliminar elementos:", err);
-          }
-        });
-      }
-    });
-  }
-
-  volver() {
-    this.router.navigate(['/portal/home']);
-  }
-
-  sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
-  }
-
-  onPageChanged(newPage: number) {
-    console.log("Página cambiada", newPage);
-    this.pageNumber = newPage
-    this.obtenerDatos();
-  }
-
-  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc') {
-    this.tipoServicioService.buscarFiltrado({
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize,
-      sortField: sortField,
-      sortDirection: sortDirection
-    }).subscribe((data: PagedResponse<TipoServicio[]>) => {
-      console.log("Datos recibidos:", data);
-
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
-
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]);
-      }
-      this.cdr.detectChanges();
-    });
-  }
-
-  transformarNombreColumna(columna: string): string {
-    return columna
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/^./, str => str.toUpperCase())
-      .trim();
-  }
 }
