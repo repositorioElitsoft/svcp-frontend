@@ -1,4 +1,6 @@
-<app-titulo-dialogo title="Agregar Zona" icon="task" [ref]="dialogRef"></app-titulo-dialogo>
+<app-titulo-dialogo
+	[title]="(esActualizar() ? 'mantenedores.formularios.zona.tituloEditar' : 'mantenedores.formularios.zona.tituloAgregar') | translate"
+	icon="task" [ref]="dialogRef"></app-titulo-dialogo>
 
 <mat-dialog-content class="!p-0">
 	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
@@ -6,17 +8,19 @@
 			<mat-label>Descripción Zona</mat-label>
 			<input matInput formControlName="descripcionZona" placeholder="Ingrese la descripción" class="w-full">
 			<mat-error *ngIf="form.get('descripcionZona')?.hasError('required')" class="text-red-500">
-				Este campo es requerido
+				{{ 'mantenedores.formularios.campoRequerido' | translate }}
 			</mat-error>
 		</mat-form-field>
 		<div class="grid grid-cols-2 gap-4 w-full">
 			<button type="button" (click)="dialogRef.close()"
 				class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">
-				Cancelar
+				{{ 'mantenedores.formularios.botonCancelar' | translate }}
 			</button>
 			<button type="submit" [disabled]="form.invalid"
 				class="elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
-				{{ esActualizar() ? 'Actualizar' : 'Guardar' }}
+				{{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
+				'mantenedores.formularios.guardar') |
+				translate }}
 			</button>
 		</div>
 	</form>

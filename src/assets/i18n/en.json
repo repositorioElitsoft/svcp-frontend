@@ -117,43 +117,41 @@
             "descripcionTipoServicio": "Service Type Description"
         },
         "formularios": {
+            "campoRequerido": "This field is required",
+            "botonCancelar": "Cancel",
+            "botonAgregar": "Save",
+            "actualizar": "Update",
+            "guardar": "Save",
             "toastr": {
                 "success": "Operation successful",
                 "error": "Operation failed",
                 "invalid_description": "Invalid description"
             },
+            "zona": {
+                "tituloEditar": "Edit Zone",
+                "tituloAgregar": "Create Zone",
+                "label": "Zone Description",
+                "descripcion": "Enter the description of the zone"
+            },
             "sector": {
                 "tituloEditar": "Edit Sector",
                 "tituloAgregar": "Create Sector",
                 "label": "Sector Description",
-                "descripcion": "Enter the description of the sector",
-                "campoRequerido": "This field is required",
-                "botonCancelar": "Cancel",
-                "botonAgregar": "Save",
-                "actualizar": "Update",
-                "guardar": "Save"
+                "descripcion": "Enter the description of the sector"
             },
             "tipoEmpleado": {
                 "tituloEditar": "Edit Client Type",
                 "tituloAgregar": "Create Client Type",
                 "label": "Client Type Description",
                 "descripcion": "Enter the description of the client type",
-                "campoRequerido": "This field is required",
-                "botonCancelar": "Cancel",
-                "botonAgregar": "Save",
-                "actualizar": "Update",
-                "guardar": "Save"
+                "campoRequerido": "This field is required"
             },
             "tipoProducto": {
                 "tituloEditar": "Edit Product Type",
                 "tituloAgregar": "Create Product Type",
                 "label": "Product Type Description",
                 "descripcion": "Enter the description of the product type",
-                "campoRequerido": "This field is required",
-                "botonCancelar": "Cancel",
-                "botonAgregar": "Save",
-                "actualizar": "Update",
-                "guardar": "Save"
+                "campoRequerido": "This field is required"
             },
             "tipoCliente": {
                 "tituloEditar": "Edit Client Type",

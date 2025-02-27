@@ -109,6 +109,42 @@
             "descripcionTipoServicio": "Descrição do Tipo de Serviço"
         },
         "formularios": {
+            "campoRequerido": "Este campo é obrigatório",
+            "botonCancelar": "Cancelar",
+            "botonAgregar": "Salvar",
+            "actualizar": "Atualizar",
+            "guardar": "Salvar",
+            "toastr": {
+                "success": "Operação bem-sucedida",
+                "error": "Falha na operação",
+                "invalid_description": "Descrição inválida"
+            },
+            "zona": {
+                "tituloEditar": "Editar Zona",
+                "tituloAgregar": "Criar Zona",
+                "label": "Descrição da Zona",
+                "descripcion": "Insira a descrição da zona"
+            },
+            "sector": {
+                "tituloEditar": "Editar Setor",
+                "tituloAgregar": "Criar Setor",
+                "label": "Descrição do Setor",
+                "descripcion": "Insira a descrição do setor"
+            },
+            "tipoEmpleado": {
+                "tituloEditar": "Editar Tipo de Cliente",
+                "tituloAgregar": "Criar Tipo de Cliente",
+                "label": "Descrição do Tipo de Cliente",
+                "descripcion": "Insira a descrição do tipo de cliente",
+                "campoRequerido": "Este campo é obrigatório"
+            },
+            "tipoProducto": {
+                "tituloEditar": "Editar Tipo de Produto",
+                "tituloAgregar": "Criar Tipo de Produto",
+                "label": "Descrição do Tipo de Produto",
+                "descripcion": "Insira a descrição do tipo de produto",
+                "campoRequerido": "Este campo é obrigatório"
+            },
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Criar Tipo de Cliente",
