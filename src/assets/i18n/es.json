@@ -67,10 +67,6 @@
         "actions": "Acciones",
         "seleccionados": "{{count}} seleccionados"
     },
-    "clasificacion-cliente": {
-        "titulo": "Clasificación de Clientes",
-        "volver": "Volver"
-    },
     "opciones-mantenedor": {
         "botonAgregar": {
             "texto": "Agregar"
@@ -80,8 +76,12 @@
         }
     },
     "mantenedores": {
-        "sector": "Sector",
-        "descripcionSector": "Descripción Sector",
-        "zona": "Zona"
+        "volver": "Volver",
+        "id": "Id",
+        "clasificacionCliente": {
+            "id": "Id",
+            "titulo": "Clasificación de Clientes",
+            "clasificacionClienteDesc": "Descripción de Clasificación de Clientes"
+        }
     }
 }
