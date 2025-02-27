@@ -82,6 +82,22 @@
             "id": "Id",
             "titulo": "Client Classification",
             "clasificacionClienteDesc": "Client Classification Description"
+        },
+        "sector": {
+            "id": "Id",
+            "titulo": "Sectors",
+            "descripcionSector": "Sector Description",
+            "zona": "Zone"
+        },
+        "tipoEmpleado": {
+            "id": "Id",
+            "titulo": "Employee Type",
+            "descripcionTipoEmpleado": "Employee Type Description"
+        },
+        "tipoProducto": {
+            "id": "Id",
+            "titulo": "Producto Type",
+            "descripcionTipoProducto": "Product Type Description"
         }
     }
 }

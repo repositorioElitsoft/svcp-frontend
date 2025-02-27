@@ -15,11 +15,12 @@ import { Sector } from "../../../core/models/sector.model";
 import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: "app-sector",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
+  imports: [TranslateModule, CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
   templateUrl: "./sector.component.html",
   styleUrl: "./sector.component.css",
 })
@@ -51,6 +52,7 @@ export class SectorComponent implements OnInit {
   }
 
   onViewSelected(id: string): void {
+
     const dialogRef = this.dialog.open(SectorFormComponent, {
       width: '400px',
       data: {
@@ -125,6 +127,7 @@ export class SectorComponent implements OnInit {
         console.log("Datos recibidos del formulario:", result);
         this.sectorService.crear(result).subscribe(
           (response) => {
+            this.obtenerDatos('id', 'desc');
             console.log("Cliente creado con éxito:", response);
           },
           (error) => {

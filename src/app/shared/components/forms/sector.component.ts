@@ -8,8 +8,8 @@ import { SectorService } from '../../../core/services/sector.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 
 import { ZonaService } from '../../../core/services/zona.service';
-				import { Zona } from '../../../core/models/zona.model'; 
-				
+import { Zona } from '../../../core/models/zona.model';
+
 
 import {
   MAT_DIALOG_DATA,
@@ -22,6 +22,8 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { Sector } from '../../../core/models/sector.model';
+import { MatOption } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-sector-create-form',
@@ -30,10 +32,12 @@ import { Sector } from '../../../core/models/sector.model';
     CommonModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatSelectModule,
     MatButtonModule,
     MatFormFieldModule,
     MatDialogContent,
     MatDialogActions,
+    MatOption,
     MatDialogClose,
     MatError,
     TranslateModule,
@@ -58,9 +62,9 @@ export class SectorFormComponent implements OnInit {
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-       id: [null, Validators.required],
-  descripcionSector: [null, Validators.required],
-  zona: [{}, Validators.required],
+      id: [null,],
+      descripcionSector: [null, Validators.required],
+      zona: [{}, Validators.required],
     });
   }
 
@@ -73,9 +77,9 @@ export class SectorFormComponent implements OnInit {
 
 
       this.form.patchValue({
-       id: this.data.object.id,
-descripcionSector: this.data.object.descripcionSector,
-zona: this.data.object.zona,
+        id: this.data.object.id,
+        descripcionSector: this.data.object.descripcionSector,
+        zona: this.data.object.zona,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -83,14 +87,14 @@ zona: this.data.object.zona,
       console.error("No se recibió un objeto válido en 'data'");
     }
 
-    
-					this.zonaService.buscarTodos().subscribe({
-						next:(zona :Zona[])=>{
-							console.log("created entity ", zona)
-							this.zona = zona
-						}
-					})
-				
+
+    this.zonaService.buscarTodos().subscribe({
+      next: (zona: Zona[]) => {
+        console.log("created entity ", zona)
+        this.zona = zona
+      }
+    })
+
   }
 
   onSubmit() {
@@ -98,9 +102,9 @@ zona: this.data.object.zona,
 
     if (this.form.valid) {
       const formData: Sector = {
-       id: this.form.value.id,
-descripcionSector: this.form.value.descripcionSector,
-zona: this.form.value.zona,
+        id: this.form.value.id,
+        descripcionSector: this.form.value.descripcionSector,
+        zona: this.form.value.zona,
       };
 
       console.log("Datos mapeados para enviar:", formData);
