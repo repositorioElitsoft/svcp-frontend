@@ -111,6 +111,11 @@
             "descripcionTipoServicio": "Descripción Tipo de Servicio"
         },
         "formularios": {
+            "toastr": {
+                "success": "Operação bem-sucedida",
+                "error": "Erro na operação",
+                "invalid_description": "Descrição inválida"
+            },
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Agregar Tipo de Cliente",
@@ -143,11 +148,6 @@
                 "botonAgregar": "Guardar",
                 "actualizar": "Actualizar",
                 "guardar": "Guardar"
-            },
-            "toastr": {
-                "success": "Operación exitosa",
-                "error": "Error en la operación",
-                "invalid_description": "Descripción no válida"
             }
         }
     }

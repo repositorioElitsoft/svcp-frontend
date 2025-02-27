@@ -175,13 +175,24 @@ export class TipoServicioComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
+
+        // Validación de la descripción (si es necesaria)
+        if (!result.descripcionTipoServicio) {
+          this.toastr.error(this.translate.instant('toastr.invalid_description'));
+          return;
+        }
+
         this.tipoServicioService.crear(result).subscribe(
           (response) => {
-            console.log("Cliente creado con éxito:", response);
-            this.obtenerDatos('id', 'desc');
+            // Mensaje de éxito desde el frontend
+            this.toastr.success(this.translate.instant('toastr.create_success'));
+            this.obtenerDatos('id', 'desc'); // Recargar los datos
           },
           (error) => {
-            console.error("Error al crear cliente:", error);
+            // Mensaje de error desde el backend o genérico
+            const errorMessage = error.error?.message || this.translate.instant('toastr.create_error');
+            this.toastr.error(errorMessage);
+            console.error("Error al crear servicio:", error);
           }
         );
       }

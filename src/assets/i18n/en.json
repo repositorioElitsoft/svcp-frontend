@@ -168,6 +168,11 @@
             "descripcionTipoServicio": "Service Type Description"
         },
         "formularios": {
+            "toastr": {
+                "success": "Operation successful",
+                "error": "Operation failed",
+                "invalid_description": "Invalid description"
+            },
             "tipoCliente": {
                 "tituloEditar": "Edit Client Type",
                 "tituloAgregar": "Create Client Type",
@@ -200,11 +205,6 @@
                 "botonAgregar": "Save",
                 "actualizar": "Update",
                 "guardar": "Save"
-            },
-            "toastr": {
-                "success": "Operation successful",
-                "error": "Operation failed",
-                "invalid_description": "Invalid description"
             }
         }
     }
