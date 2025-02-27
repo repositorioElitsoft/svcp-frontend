@@ -15,7 +15,8 @@ import { TipoServicio } from "../../../core/models/tipo-servicio.model";
 import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-tipo-servicio",
@@ -37,6 +38,7 @@ export class TipoServicioComponent implements OnInit {
 
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
+    private translate: TranslateService, private toastr: ToastrService,
     private tipoServicioService: TipoServicioService) { }
 
   ngOnInit() {
@@ -173,13 +175,24 @@ export class TipoServicioComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
+
+        // Validación de la descripción (si es necesaria)
+        if (!result.descripcionTipoServicio) {
+          this.toastr.error(this.translate.instant('toastr.invalid_description'));
+          return;
+        }
+
         this.tipoServicioService.crear(result).subscribe(
           (response) => {
-            console.log("Cliente creado con éxito:", response);
-            this.obtenerDatos('id', 'desc');
+            // Mensaje de éxito desde el frontend
+            this.toastr.success(this.translate.instant('toastr.create_success'));
+            this.obtenerDatos('id', 'desc'); // Recargar los datos
           },
           (error) => {
-            console.error("Error al crear cliente:", error);
+            // Mensaje de error desde el backend o genérico
+            const errorMessage = error.error?.message || this.translate.instant('toastr.create_error');
+            this.toastr.error(errorMessage);
+            console.error("Error al crear servicio:", error);
           }
         );
       }
@@ -190,13 +203,9 @@ export class TipoServicioComponent implements OnInit {
   /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
   onEditSelected(id: string) {
     const selectedObject = this.dataSource.find(item => item.id === Number(id));
-    console.log('Selected Object:', selectedObject);
-
     if (!selectedObject) {
-      console.error("No se encontró el objeto a editar.");
       return;
     }
-
     const dialogRef = this.dialog.open(TipoServicioFormComponent, {
       width: '400px',
       data: {
@@ -207,10 +216,8 @@ export class TipoServicioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Datos editados recibidos:", result);
-
         if (!result.descripcionTipoServicio) {
-          console.error("Descripción no válida:", result.descripcionTipoServicio);
+          this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
           return;
         }
 
@@ -221,18 +228,20 @@ export class TipoServicioComponent implements OnInit {
 
         this.tipoServicioService.actualizar(formData.id, formData).pipe(
           tap(response => {
-            console.log("Respuesta del servicio:", response);
+            // Mensaje de éxito desde el frontend
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
             this.obtenerDatos();
           }),
           catchError(error => {
-            console.error("Error en el servicio:", error);
+            // Mensaje de error desde el backend
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
             return throwError(error);
           })
         ).subscribe();
       }
     });
   }
-
 
 
 

@@ -103,7 +103,7 @@
         "tipoCliente": {
             "id": "Id",
             "titulo": "Tipo de Cliente",
-            "clasificacionClienteDesc": "Descripción Tipo Cliente"
+            "nombre": "Descripción Tipo Cliente"
         },
         "tipoServicio": {
             "id": "Id",
@@ -111,6 +111,11 @@
             "descripcionTipoServicio": "Descripción Tipo de Servicio"
         },
         "formularios": {
+            "toastr": {
+                "success": "Operação bem-sucedida",
+                "error": "Erro na operação",
+                "invalid_description": "Descrição inválida"
+            },
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Agregar Tipo de Cliente",

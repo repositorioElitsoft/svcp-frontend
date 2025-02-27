@@ -34,9 +34,6 @@ export class HeadTableComponent {
       case '/login':
         this.show = false;
         break;
-      case '/portal/home':
-        this.show = false;
-        break;
       default:
         this.show = true
     }
