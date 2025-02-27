@@ -87,6 +87,11 @@
             "titulo": "Tipo de Cliente",
             "nombre": "Descrição do Tipo de Cliente"
         },
+        "tipoServicio": {
+            "id": "Id",
+            "titulo": "Tipo de Serviço",
+            "descripcionTipoServicio": "Descrição do Tipo de Serviço"
+        },
         "formularios": {
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",

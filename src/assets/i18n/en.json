@@ -105,12 +105,17 @@
             "titulo": "Client Type",
             "clasificacionClienteDesc": "Client Classification Description"
         },
+        "tipoServicio": {
+            "id": "Id",
+            "titulo": "Service Type",
+            "descripcionTipoServicio": "Service Type Description"
+        },
         "formularios": {
             "tipoCliente": {
                 "tituloEditar": "Edit Client Type",
                 "tituloAgregar": "Create Client Type",
                 "label": "Client Type Description",
-                "descripcion": "Enter the description of the client type",
+                "descripcion": "Enter the description of client type",
                 "campoRequerido": "This field is required",
                 "botonCancelar": "Cancel",
                 "botonAgregar": "Save",
@@ -121,7 +126,7 @@
                 "tituloEditar": "Edit Client Classification",
                 "tituloAgregar": "Create Client Classification",
                 "label": "Client Classification Description",
-                "descripcion": "Enter the description of the client classification",
+                "descripcion": "Enter the description of  client classification",
                 "campoRequerido": "This field is required",
                 "botonCancelar": "Cancel",
                 "botonAgregar": "Save",
@@ -131,8 +136,8 @@
             "tipoServicio": {
                 "tituloEditar": "Edit Service Type",
                 "tituloAgregar": "Add Service Type",
-                "label": "Description of the Service Type",
-                "descripcion": "Enter the description of the service type",
+                "label": "Description of  Service Type",
+                "descripcion": "Enter the description of service type",
                 "campoRequerido": "This field is required",
                 "botonCancelar": "Cancel",
                 "botonAgregar": "Save",
