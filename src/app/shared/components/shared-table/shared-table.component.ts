@@ -49,6 +49,26 @@ export class SharedTableComponent {
 
   constructor(private cdr: ChangeDetectorRef) { }
 
+  getField(value: any) {
+    if (typeof value !== 'object' || value === null) {
+      return value;
+    }
+    for (const key in value) {
+      if (Object.prototype.hasOwnProperty.call(value, key)) {
+        if (key.toLowerCase().includes("desc")) {
+          return value[key];
+        }
+      }
+    }
+    for (const key in value) {
+      if (Object.prototype.hasOwnProperty.call(value, key)) {
+        if (key.toLowerCase().includes("nombre")) {
+          return value[key];
+        }
+      }
+    }
+    return "";
+  }
 
   protected getTranslationGroup(column: string) {
     return this.translationGroup ? `${this.translationGroup}.${column}` : column
