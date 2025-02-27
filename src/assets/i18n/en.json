@@ -21,6 +21,7 @@
     },
     "sideBar": {
         "services": "Services",
+        "serviceType": "Service Type",
         "jobs": "Jobs",
         "tasks": "Tasks",
         "jobAssignment": "Job Assignment",
@@ -111,6 +112,28 @@
             "tituloAgregar": "Create Client Type",
             "label": "Client Type Description",
             "descripcion": "Enter the description of the client type",
+            "campoRequerido": "This field is required",
+            "botonCancelar": "Cancel",
+            "botonAgregar": "Save",
+            "actualizar": "Update",
+            "guardar": "Save"
+        },
+        "clasificacionCliente": {
+            "tituloEditar": "Edit Client Classification",
+            "tituloAgregar": "Create Client Classification",
+            "label": "Client Classification Description",
+            "descripcion": "Enter the description of the client classification",
+            "campoRequerido": "This field is required",
+            "botonCancelar": "Cancel",
+            "botonAgregar": "Save",
+            "actualizar": "Update",
+            "guardar": "Save"
+        },
+        "tipoServicio": {
+            "tituloEditar": "Edit Service Type",
+            "tituloAgregar": "Add Service Type",
+            "label": "Description of the Service Type",
+            "descripcion": "Enter the description of the service type",
             "campoRequerido": "This field is required",
             "botonCancelar": "Cancel",
             "botonAgregar": "Save",

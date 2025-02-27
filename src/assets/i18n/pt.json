@@ -21,6 +21,7 @@
     },
     "sideBar": {
         "services": "Serviços",
+        "serviceType": "Tipo de Serviços",
         "jobs": "Trabalhos",
         "tasks": "Tarefas",
         "jobAssignment": "Atribuição de Trabalhos",
@@ -92,6 +93,28 @@
                 "tituloAgregar": "Criar Tipo de Cliente",
                 "label": "Descrição do Tipo de Cliente",
                 "descripcion": "Digite a descrição do tipo de cliente",
+                "campoRequerido": "Este campo é obrigatório",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
+            },
+            "clasificacionCliente": {
+                "tituloEditar": "Editar Classificação do Cliente",
+                "tituloAgregar": "Adicionar Classificação do Cliente",
+                "label": "Descrição da Classificação do Cliente",
+                "descripcion": "Digite a descrição da classificação do cliente",
+                "campoRequerido": "Este campo é obrigatório",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
+            },
+            "tipoServicio": {
+                "tituloEditar": "Editar Tipo de Serviço",
+                "tituloAgregar": "Adicionar Tipo de Serviço",
+                "label": "Descrição do Tipo de Serviço",
+                "descripcion": "Digite a descrição do tipo de serviço",
                 "campoRequerido": "Este campo é obrigatório",
                 "botonCancelar": "Cancelar",
                 "botonAgregar": "Salvar",

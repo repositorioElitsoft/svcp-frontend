@@ -21,6 +21,7 @@
     },
     "sideBar": {
         "services": "Servicios",
+        "serviceType": "Tipo de Servicios",
         "jobs": "Trabajos",
         "tasks": "Tareas",
         "jobAssignment": "Asignación de Trabajos",
@@ -91,10 +92,32 @@
         "formularios": {
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
-                "tituloAgregar": "Crear Tipo de Cliente",
+                "tituloAgregar": "Agregar Tipo de Cliente",
                 "label": "Descripción del Tipo de Cliente",
                 "descripcion": "Ingrese la descripción del tipo de cliente",
                 "campoRequerido": "Este campo es requerido",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Guardar",
+                "actualizar": "Actualizar",
+                "guardar": "Guardar"
+            },
+            "clasificacionCliente": {
+                "tituloEditar": "Editar Clasifición Cliente",
+                "tituloAgregar": "Agregar Clasificación Cliente",
+                "label": "Descripción de la Clasificación Cliente",
+                "descripcion": "Ingrese la descripción del la clasificación cliente",
+                "campoRequerido": "Este campo es requerido",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Guardar",
+                "actualizar": "Actualizar",
+                "guardar": "Guardar"
+            },
+            "tipoServicio": {
+                "tituloEditar": "Editar Tipo de Servicio",
+                "tituloAgregar": "Agregar Tipo de Servicio",
+                "label": "Descripción del Tipo de Servicio",
+                "descripcion": "Ingrese la descripción del tipo de servicio",
+                "campoRequerido": "Este campo es obligatorio",
                 "botonCancelar": "Cancelar",
                 "botonAgregar": "Guardar",
                 "actualizar": "Actualizar",
