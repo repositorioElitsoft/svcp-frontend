@@ -11,8 +11,7 @@
 
     <div class="grid grid-cols-3 gap-4 rounded-t-lg bg-gray-100 overflow-hidden">
         <div class="col-span-1 w-full p-4">
-            <app-busqueda></app-busqueda>
-
+            <app-busqueda (buscar)="buscarEvent($event)"></app-busqueda>
         </div>
 
         <div class=" col-span-1 w-full">

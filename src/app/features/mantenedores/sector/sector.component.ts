@@ -42,6 +42,11 @@ export class SectorComponent implements OnInit {
   ngOnInit() {
     this.obtenerDatos();
   }
+
+  buscar(busqueda: string) {
+    this.obtenerDatos("",)
+  }
+
   onSelectionChange(selectedItems: any[]) {
     this.hasSelection = selectedItems.length > 0;
     this.selectedData = selectedItems; // Guardamos la data seleccionada

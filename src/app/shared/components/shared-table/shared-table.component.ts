@@ -32,7 +32,7 @@ export class SharedTableComponent {
   @Output() editSelected = new EventEmitter<string>();
   @Output() selectionChange = new EventEmitter<any[]>(); // Nuevo Output para notificar cambios en la selección
   @Output() sort = new EventEmitter<{ selectedColumnName: string, currentSortType: string }>();
-
+  @Output() buscar = new EventEmitter<string>();
   @Output() pageChanged = new EventEmitter<number>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;  // Paginador como input
@@ -52,6 +52,10 @@ export class SharedTableComponent {
 
   protected getTranslationGroup(column: string) {
     return this.translationGroup ? `${this.translationGroup}.${column}` : column
+  }
+
+  protected buscarEvent(busqueda: string) {
+    this.buscar.emit(busqueda);
   }
 
 

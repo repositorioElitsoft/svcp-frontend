@@ -87,6 +87,22 @@
             "titulo": "Tipo de Cliente",
             "nombre": "Descrição do Tipo de Cliente"
         },
+        "sector": {
+            "id": "Id",
+            "titulo": "Setores",
+            "descripcionSector": "Descrição do Setor",
+            "zona": "Zona"
+        },
+        "tipoEmpleado": {
+            "id": "Id",
+            "titulo": "Tipo de Empregado",
+            "descripcionTipoEmpleado": "Descrição do Tipo de Empregado"
+        },
+        "tipoProduto": {
+            "id": "Id",
+            "titulo": "Tipo de Produto",
+            "descripcionTipoProduto": "Descrição do Tipo de Produto"
+        },
         "formularios": {
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",

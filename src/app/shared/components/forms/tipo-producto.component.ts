@@ -56,7 +56,7 @@ export class TipoProductoFormComponent implements OnInit {
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-      id: [null, Validators.required],
+      id: [null,],
       descripcionTipoProducto: [null, Validators.required],
     });
   }
