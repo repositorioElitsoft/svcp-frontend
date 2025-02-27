@@ -222,7 +222,7 @@ export class ClasificacionClienteComponent implements OnInit {
   }
 
   private getDisplayedColumns(row: any): string[] {
-    return Object.keys(row).filter(key => key !== 'id'); // Ocultamos la columna 'id'
+    return Object.keys(row).filter(key => key !== '0'); // Ocultamos la columna 'id'
   }
 
 
