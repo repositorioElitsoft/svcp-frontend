@@ -103,7 +103,7 @@
         "tipoCliente": {
             "id": "Id",
             "titulo": "Tipo de Cliente",
-            "clasificacionClienteDesc": "Descripción Tipo Cliente"
+            "nombre": "Descripción Tipo Cliente"
         },
         "tipoServicio": {
             "id": "Id",
