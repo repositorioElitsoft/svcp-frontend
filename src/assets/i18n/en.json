@@ -112,6 +112,17 @@
             "botonAgregar": "Save",
             "actualizar": "Update",
             "guardar": "Save"
+        },
+        "tipoServicio": {
+            "tituloEditar": "Edit Service Type",
+            "tituloAgregar": "Add Service Type",
+            "label": "Description of the Service Type",
+            "descripcion": "Enter the description of the service type",
+            "campoRequerido": "This field is required",
+            "botonCancelar": "Cancel",
+            "botonAgregar": "Save",
+            "actualizar": "Update",
+            "guardar": "Save"
         }
     }
 }

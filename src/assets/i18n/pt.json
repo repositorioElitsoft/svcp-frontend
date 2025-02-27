@@ -109,6 +109,17 @@
                 "botonAgregar": "Salvar",
                 "actualizar": "Atualizar",
                 "guardar": "Salvar"
+            },
+            "tipoServicio": {
+                "tituloEditar": "Editar Tipo de Serviço",
+                "tituloAgregar": "Adicionar Tipo de Serviço",
+                "label": "Descrição do Tipo de Serviço",
+                "descripcion": "Digite a descrição do tipo de serviço",
+                "campoRequerido": "Este campo é obrigatório",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
             }
         }
     }
