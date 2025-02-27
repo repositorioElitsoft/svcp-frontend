@@ -131,14 +131,22 @@ export class TipoServicioComponent implements OnInit {
 
   /*********************************** CRUD   - DELETE ***********************************/
   eliminar(selectedItems: TipoServicio[]) {
+    const count = selectedItems.length;
+
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       width: '600px',
       height: '400px',
       data: {
-        titulo: 'Eliminación individual',
-        mensaje: `¿Estás seguro que deseas eliminar ${selectedItems.length > 1 ? 'los elementos seleccionados' : 'el elemento'}? Esta acción no se puede deshacer`,
-        textoBotonCancelar: 'Cancelar',
-        textoBotonConfirmar: 'Eliminar'
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
       }
     });
 
@@ -153,15 +161,16 @@ export class TipoServicioComponent implements OnInit {
             this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
             this.hasSelection = false;
             this.obtenerDatos();
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
           }
         });
       }
     });
   }
-
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -178,19 +187,19 @@ export class TipoServicioComponent implements OnInit {
 
         // Validación de la descripción (si es necesaria)
         if (!result.descripcionTipoServicio) {
-          this.toastr.error(this.translate.instant('toastr.invalid_description'));
+          this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
           return;
         }
 
         this.tipoServicioService.crear(result).subscribe(
           (response) => {
             // Mensaje de éxito desde el frontend
-            this.toastr.success(this.translate.instant('toastr.create_success'));
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
             this.obtenerDatos('id', 'desc'); // Recargar los datos
           },
           (error) => {
             // Mensaje de error desde el backend o genérico
-            const errorMessage = error.error?.message || this.translate.instant('toastr.create_error');
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
             this.toastr.error(errorMessage);
             console.error("Error al crear servicio:", error);
           }
