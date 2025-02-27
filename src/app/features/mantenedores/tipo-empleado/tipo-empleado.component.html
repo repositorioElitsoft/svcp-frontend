@@ -9,7 +9,7 @@
                 <mat-icon>arrow_back</mat-icon> Volver
             </button>
             <!-- Titulo -->
-            <h1 class="text-xl ">{{ titulo }}</h1>
+            <h1 class="text-xl ">{{ 'mantenedores.tipoEmpleado.titulo' | translate }}</h1>
         </div>
         <div class="flex space-x-2">
             <!-- Botones y Acciones -->
@@ -23,11 +23,11 @@
 
     <!-- Table Section -->
     <div class="bg-white p-4 rounded-lg ">
-        <app-shared-table [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
-            [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
-            (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
-            (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-            (selectionChange)="onSelectionChange($event)"></app-shared-table>
+        <app-shared-table [translationGroup]="'mantenedores.tipoEmpleado'" [displayedColumns]="displayedColumns"
+            [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
+            [totalPages]="totalPages" [pageSize]="pageSize" (deleteSelected)="onDeleteSelected($event)"
+            (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
+            (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"></app-shared-table>
     </div>
 
 
