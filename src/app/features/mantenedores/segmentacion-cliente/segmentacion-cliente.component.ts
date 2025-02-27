@@ -87,14 +87,14 @@ export class SegmentacionClienteComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.segmentacionClienteDesc) {
-          console.error("Descripción no válida:", result.segmentacionClienteDesc);
+        if (!result.descripcion) {
+          console.error("Descripción no válida:", result.descripcion);
           return;
         }
 
         const formData: SegmentacionCliente = {
           id: result.id,
-          segmentacionClienteDesc: result.segmentacionClienteDesc
+          descripcion: result.descripcion
         };
 
         this.segmentacionClienteService.actualizar(formData.id, formData).pipe(

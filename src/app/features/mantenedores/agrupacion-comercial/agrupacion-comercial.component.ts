@@ -87,14 +87,14 @@ export class AgrupacionComercialComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.agrupacionComercialDesc) {
-          console.error("Descripción no válida:", result.agrupacionComercialDesc);
+        if (!result.nombreGrupoComercial) {
+          console.error("Descripción no válida:", result.nombreGrupoComercial);
           return;
         }
 
         const formData: AgrupacionComercial = {
           id: result.id,
-          agrupacionComercialDesc: result.agrupacionComercialDesc
+          nombreGrupoComercial: result.nombreGrupoComercial
         };
 
         this.agrupacionComercialService.actualizar(formData.id, formData).pipe(

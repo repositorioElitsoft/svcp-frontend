@@ -87,14 +87,14 @@ export class TipoServicioComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.tipoServicioDesc) {
-          console.error("Descripción no válida:", result.tipoServicioDesc);
+        if (!result.descripcionTipoServicio) {
+          console.error("Descripción no válida:", result.descripcionTipoServicio);
           return;
         }
 
         const formData: TipoServicio = {
           id: result.id,
-          tipoServicioDesc: result.tipoServicioDesc
+          descripcionTipoServicio: result.descripcionTipoServicio
         };
 
         this.tipoServicioService.actualizar(formData.id, formData).pipe(

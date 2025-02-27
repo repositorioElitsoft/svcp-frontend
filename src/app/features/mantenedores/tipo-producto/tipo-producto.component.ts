@@ -87,14 +87,14 @@ export class TipoProductoComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.tipoProductoDesc) {
-          console.error("Descripción no válida:", result.tipoProductoDesc);
+        if (!result.descripcionTipoProducto) {
+          console.error("Descripción no válida:", result.descripcionTipoProducto);
           return;
         }
 
         const formData: TipoProducto = {
           id: result.id,
-          tipoProductoDesc: result.tipoProductoDesc
+          descripcionTipoProducto: result.descripcionTipoProducto
         };
 
         this.tipoProductoService.actualizar(formData.id, formData).pipe(

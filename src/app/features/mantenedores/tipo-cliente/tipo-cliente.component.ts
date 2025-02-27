@@ -87,14 +87,14 @@ export class TipoClienteComponent implements OnInit {
       if (result) {
         console.log("Datos editados recibidos:", result);
 
-        if (!result.tipoClienteDesc) {
-          console.error("Descripción no válida:", result.tipoClienteDesc);
+        if (!result.descripcionTipoCliente) {
+          console.error("Descripción no válida:", result.descripcionTipoCliente);
           return;
         }
 
         const formData: TipoCliente = {
           id: result.id,
-          tipoClienteDesc: result.tipoClienteDesc
+          descripcionTipoCliente: result.descripcionTipoCliente
         };
 
         this.tipoClienteService.actualizar(formData.id, formData).pipe(
