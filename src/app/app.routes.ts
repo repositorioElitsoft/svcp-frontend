@@ -9,6 +9,7 @@ import { TrabajoComponent } from './features/mantenedores/trabajo/trabajo.compon
 import { TipoEmpleadoComponent } from './features/mantenedores/tipo-empleado/tipo-empleado.component';
 import { ZonaComponent } from './features/mantenedores/zona/zona.component';
 import { TipoClienteComponent } from './features/mantenedores/tipo-cliente/tipo-cliente.component';
+import { TipoProductoComponent } from './features/mantenedores/tipo-producto/tipo-producto.component';
 import { TipoServicioComponent } from './features/mantenedores/tipo-servicio/tipo-servicio.component';
 
 export const routes: Routes = [
@@ -66,8 +67,12 @@ export const routes: Routes = [
                         component: SectorComponent
                     },
                     {
-                        path: "zona",
+                        path: "zonas",
                         component: ZonaComponent
+                    },
+                    {
+                        path: "tipos-productos",
+                        component: TipoProductoComponent
                     }
                     /*ruta_nueva*/
                 ]

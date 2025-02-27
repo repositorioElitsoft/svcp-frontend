@@ -15,11 +15,12 @@ import { TipoEmpleado } from "../../../core/models/tipo-empleado.model";
 import { catchError, forkJoin, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: "app-tipo-empleado",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
+  imports: [TranslateModule, CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
   templateUrl: "./tipo-empleado.component.html",
   styleUrl: "./tipo-empleado.component.css",
 })

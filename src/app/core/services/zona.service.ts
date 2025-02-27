@@ -17,27 +17,27 @@ export class ZonaService {
     });
 
     buscar(zonaId: number): Observable<Zona> {
-        return this.http.get<Zona>(`${this.url}zonas/${zonaId}`);
+        return this.http.get<Zona>(`${this.url}zona/${zonaId}`);
     }
 
     buscarTodos(): Observable<Zona[]> {
-        return this.http.get<Zona[]>(`${this.url}zonas`, { headers: this.headers });
+        return this.http.get<Zona[]>(`${this.url}zona`, { headers: this.headers });
     }
 
     borrar(zonaId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}zonas/${zonaId}`);
+        return this.http.delete<any>(`${this.url}zona/${zonaId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}zonas/`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}zona/`, { headers: this.headers, body: ids });
     }
 
     actualizar(zonaId: number, zona: Zona): Observable<Zona> {
-        return this.http.put<Zona>(`${this.url}zonas/${zonaId}`, zona);
+        return this.http.put<Zona>(`${this.url}zona/${zonaId}`, zona);
     }
 
     crear(zona: Zona): Observable<Zona> {
-        return this.http.post<Zona>(`${this.url}zonas`, zona);
+        return this.http.post<Zona>(`${this.url}zona`, zona);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class ZonaService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/zonas`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/zona`, { params, headers: this.headers });
     }
 }

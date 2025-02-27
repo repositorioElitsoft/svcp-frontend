@@ -124,6 +124,7 @@ export class TipoProductoComponent implements OnInit {
         console.log("Datos recibidos del formulario:", result);
         this.tipoProductoService.crear(result).subscribe(
           (response) => {
+            this.obtenerDatos("id", "desc");
             console.log("Cliente creado con éxito:", response);
           },
           (error) => {

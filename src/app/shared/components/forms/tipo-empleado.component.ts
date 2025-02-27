@@ -56,7 +56,7 @@ export class TipoEmpleadoFormComponent implements OnInit {
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-      id: [null, Validators.required],
+      id: [null,],
       descripcionTipoEmpleado: [null, Validators.required],
     });
   }
@@ -65,7 +65,7 @@ export class TipoEmpleadoFormComponent implements OnInit {
     if (this.esActualizar() && this.data?.object) {
       this.form.patchValue({
         id: this.data.object.id,
-        nombre: this.data.object.nombre,
+        descripcionTipoEmpleado: this.data.object.descripcionTipoEmpleado,
       });
 
       // Si estamos editando, hacemos que 'id' sea obligatorio

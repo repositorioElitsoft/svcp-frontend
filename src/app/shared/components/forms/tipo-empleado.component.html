@@ -6,9 +6,10 @@
 <mat-dialog-content class="!p-0">
 	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
 		<mat-form-field appearance="outline" class="w-full">
-			<mat-label>Descripción Tipoempleado</mat-label>
-			<input matInput formControlName="%e%Desc" placeholder="Ingrese la descripción" class="w-full">
-			<mat-error *ngIf="form.get('%e%Desc')?.hasError('required')" class="text-red-500">
+			<mat-label>Descripción Tipo Empleado</mat-label>
+			<input matInput formControlName="descripcionTipoEmpleado" placeholder="Ingrese la descripción"
+				class="w-full">
+			<mat-error *ngIf="form.get('descripcionTipoEmpleado')?.hasError('required')" class="text-red-500">
 				Este campo es requerido
 			</mat-error>
 		</mat-form-field>
