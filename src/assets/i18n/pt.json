@@ -112,7 +112,7 @@
             "id": "Id",
             "titulo": "Grupo Comercial",
             "nombreGrupoComercial": "Descrição do Grupo Comercial"
-        },        
+        },
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Segmentação de Clientes",
@@ -209,13 +209,12 @@
                 "botonAgregar": "Salvar",
                 "actualizar": "Atualizar",
                 "guardar": "Salvar"
-            } 
-
+            }
         }
     },
     "alertas": {
         "eliminacionIndividualTitulo": "Exclusão individual",
-        "eliminacionIndividualMensaje": "Tem certeza de que deseja excluir {count, plural, =1 {o item} other {os itens selecionados}}? Esta ação não pode ser desfeita.",
+        "eliminacionIndividualMensaje": "Você tem certeza de que deseja excluir {{count}} item(s)? Esta ação não pode ser desfeita.",
         "cancelar": "Cancelar",
         "eliminar": "Excluir",
         "toastr": {

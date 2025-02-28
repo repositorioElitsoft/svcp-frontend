@@ -114,7 +114,7 @@
             "id": "Id",
             "titulo": "Agrupación Comercial",
             "nombreGrupoComercial": "Descripción Agrupación Comercial"
-        },        
+        },
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Segmentación de Cliente",
@@ -202,12 +202,12 @@
                 "botonAgregar": "Guardar",
                 "actualizar": "Actualizar",
                 "guardar": "Guardar"
-            }                        
+            }
         }
     },
     "alertas": {
-        "eliminacionIndividualTitulo": "Eliminación individual",
-        "eliminacionIndividualMensaje": "¿Estás seguro que deseas eliminar {count, plural, =1 {el elemento} other {los elementos seleccionados}}? Esta acción no se puede deshacer.",
+        "eliminacionIndividualTitulo": "Eliminar",
+        "eliminacionIndividualMensaje": "¿Estás seguro de que deseas eliminar {{count}} objeto(s)? Esta acción no se puede deshacer.",
         "cancelar": "Cancelar",
         "eliminar": "Eliminar",
         "toastr": {
