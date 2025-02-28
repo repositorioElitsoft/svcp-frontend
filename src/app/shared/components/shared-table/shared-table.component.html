@@ -1,6 +1,6 @@
-<div class="overflow-x-auto">
+<div class="overflow-x-auto ">
     <div *ngIf="selection.selected.length > 0"
-        class="inline-flex items-center space-x-2 p-2 text-gray-700 h-11 px-3 py-2  bg-gray-100 rounded-lg justify-start items-center gap-[30px] w-full">
+        class="inline-flex items-center space-x-2 p-2 text-gray-700 h-11 px-3 py-2  dark:bg-neutral-500  bg-gray-100 rounded-lg justify-start items-center gap-[30px] w-full">
         <span>{{ 'table.seleccionados' | translate: { count: selection.selected.length } }}</span>
         <button mat-icon-button (click)="selection.clear(); notifySelectionChange();">
             <mat-icon class="text-red-500">close</mat-icon>
@@ -9,7 +9,7 @@
     <div class="m-4"></div>
 
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 rounded-t-lg bg-gray-100 overflow-hidden">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 rounded-t-lg bg-gray-100 overflow-hidden dark:bg-neutral-800  ">
         <div class="col-span-1 w-full p-4">
             <app-busqueda (buscar)="buscarEvent($event)"></app-busqueda>
         </div>
@@ -89,7 +89,8 @@
 
     <div class="m-4"></div>
     <!-- Paginador -->
-    <div class="w-full bg-gray-100 h-11 flex justify-between text-neutral-600 px-4 pt-2  rounded-lg">
+    <div
+        class="w-full bg-gray-100 h-11 flex justify-between text-neutral-600 px-4 pt-2  rounded-lg dark:bg-neutral-500">
         <div>
             {{ pageSize}} de {{ totalElements }}
         </div>
