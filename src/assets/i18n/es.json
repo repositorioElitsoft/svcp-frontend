@@ -111,32 +111,54 @@
             "descripcionTipoServicio": "Descripción Tipo de Servicio"
         },
         "formularios": {
+            "campoRequerido": "Este campo es obligatorio",
+            "botonCancelar": "Cancelar",
+            "botonAgregar": "Guardar",
+            "actualizar": "Actualizar",
+            "guardar": "Guardar",
             "toastr": {
-                "success": "Operação bem-sucedida",
-                "error": "Erro na operação",
-                "invalid_description": "Descrição inválida"
+                "success": "Operación exitosa",
+                "error": "Operación fallida",
+                "invalid_description": "Descripción inválida"
+            },
+            "zona": {
+                "tituloEditar": "Editar Zona",
+                "tituloAgregar": "Crear Zona",
+                "label": "Descripción de la Zona",
+                "descripcion": "Ingrese la descripción de la zona"
+            },
+            "sector": {
+                "tituloEditar": "Editar Sector",
+                "tituloAgregar": "Crear Sector",
+                "label": "Descripción del Sector",
+                "descripcion": "Ingrese la descripción del sector"
+            },
+            "tipoEmpleado": {
+                "tituloEditar": "Editar Tipo de Cliente",
+                "tituloAgregar": "Crear Tipo de Cliente",
+                "label": "Descripción del Tipo de Cliente",
+                "descripcion": "Ingrese la descripción del tipo de cliente",
+                "campoRequerido": "Este campo es obligatorio"
+            },
+            "tipoProducto": {
+                "tituloEditar": "Editar Tipo de Producto",
+                "tituloAgregar": "Crear Tipo de Producto",
+                "label": "Descripción del Tipo de Producto",
+                "descripcion": "Ingrese la descripción del tipo de producto",
+                "campoRequerido": "Este campo es obligatorio"
             },
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Agregar Tipo de Cliente",
                 "label": "Descripción del Tipo de Cliente",
-                "descripcion": "Ingrese la descripción del tipo de cliente",
-                "campoRequerido": "Este campo es requerido",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Guardar",
-                "actualizar": "Actualizar",
-                "guardar": "Guardar"
+                "descripcion": "Ingrese la descripción del tipo de cliente"
             },
             "clasificacionCliente": {
                 "tituloEditar": "Editar Clasifición Cliente",
                 "tituloAgregar": "Agregar Clasificación Cliente",
                 "label": "Descripción de la Clasificación Cliente",
                 "descripcion": "Ingrese la descripción del la clasificación cliente",
-                "campoRequerido": "Este campo es requerido",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Guardar",
-                "actualizar": "Actualizar",
-                "guardar": "Guardar"
+                "campoRequerido": "Este campo es requerido"
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Servicio",
