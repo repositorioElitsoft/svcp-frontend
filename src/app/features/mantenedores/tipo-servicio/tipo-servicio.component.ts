@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TableData, TableDataService } from "../../../core/services/table-data.service";
 import { SharedTableComponent } from "../../../shared/components/shared-table/shared-table.component";
@@ -35,7 +35,7 @@ export class TipoServicioComponent implements OnInit {
   totalPages = 0
   pageSize = 5;
   totalElements = 0;
-
+  @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -160,8 +160,33 @@ export class TipoServicioComponent implements OnInit {
             console.log("Elementos eliminados exitosamente:", ids);
             this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
             this.hasSelection = false;
+
+            // Actualizar las propiedades de paginación
+            this.totalElements -= ids.length;
+            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
+
+            // Ajustar pageNumber si es necesario
+            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
+              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
+            }
+
+            // Recargar los datos
             this.obtenerDatos();
+
+            // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+
+            // Limpiar selecciones en el componente hijo
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.selection.clear();
+            }
+
+            // Depurar el estado del paginador
+            console.log("Estado del paginador después de eliminar:", {
+              pageNumber: this.pageNumber,
+              totalElements: this.totalElements,
+              totalPages: this.totalPages
+            });
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
