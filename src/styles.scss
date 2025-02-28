@@ -359,6 +359,13 @@ swiper-container::part(bullet) {
 
 /* For the default (unfocused) outline */
 
+.dark {
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+        color: rgb(255, 255, 255) !important;
+    }
+}
+
+
 
 @media (min-width: 1024px) {
     .lg\:h-screen {

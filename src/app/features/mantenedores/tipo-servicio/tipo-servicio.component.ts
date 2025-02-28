@@ -92,8 +92,14 @@ export class TipoServicioComponent implements OnInit {
     this.obtenerDatos();
   }
 
+
   buscar(busqueda: string) {
-    this.obtenerDatos("",)
+    this.pageNumber = 0;
+    if (busqueda.trim()) {
+      this.obtenerDatos("id", "asc", { descripcionTipoServicio: busqueda });
+    } else {
+      this.obtenerDatos("id", "asc"); // Llamada sin el tercer parámetro
+    }
   }
 
 
@@ -103,13 +109,20 @@ export class TipoServicioComponent implements OnInit {
 
   /*********************************** CRUD   - GET ***********************************/
 
-  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc') {
-    this.tipoServicioService.buscarFiltrado({
+
+
+
+
+  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
       sortField: sortField,
-      sortDirection: sortDirection
-    }).subscribe((data: PagedResponse<TipoServicio[]>) => {
+      sortDirection: sortDirection,
+      ...optionalFilter
+    }
+
+    this.tipoServicioService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<TipoServicio[]>) => {
       console.log("Datos recibidos:", data);
 
       this.pageNumber = data.pageNumber
@@ -124,6 +137,7 @@ export class TipoServicioComponent implements OnInit {
       this.cdr.detectChanges();
     });
   }
+
 
 
 

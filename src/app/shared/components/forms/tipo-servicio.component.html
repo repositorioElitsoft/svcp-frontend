@@ -3,12 +3,13 @@
 	icon="task" [ref]="dialogRef">
 </app-titulo-dialogo>
 
-<mat-dialog-content class="!p-0">
+<mat-dialog-content class="!p-0 dark:bg-neutral-800">
 	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
-		<mat-form-field appearance="outline" class="w-full">
+		<mat-form-field appearance="outline" class="w-full dark:text-white  ">
 			<mat-label>{{ 'mantenedores.formularios.tipoServicio.label' | translate }}</mat-label>
 			<input matInput formControlName="descripcionTipoServicio"
-				[attr.placeholder]="'mantenedores.formularios.tipoServicio.descripcion' | translate" class="w-full">
+				[attr.placeholder]="'mantenedores.formularios.tipoServicio.descripcion' | translate"
+				class="w-full dark:text-white ">
 			<mat-error *ngIf="form.get('descripcionTipoServicio')?.hasError('required')" class="text-red-500">
 				{{ 'mantenedores.formularios.tipoServicio.campoRequerido' | translate }}
 			</mat-error>
