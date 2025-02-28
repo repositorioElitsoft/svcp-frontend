@@ -47,17 +47,17 @@ export class AgrupacionComercialFormComponent implements OnInit {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
 
-  
+
 
   constructor(
     private fb: FormBuilder,
     private agrupacionComercialService: AgrupacionComercialService,
-    
+
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-       id: [null, Validators.required],
-       nombreGrupoComercial: [
+      id: [null, Validators.required],
+      nombreGrupoComercial: [
         this.data?.object?.descripcion || '',
         Validators.required,
       ]
@@ -73,8 +73,8 @@ export class AgrupacionComercialFormComponent implements OnInit {
 
 
       this.form.patchValue({
-       id: this.data.object.id,
-nombreGrupoComercial: this.data.object.nombreGrupoComercial,
+        id: this.data.object.id,
+        nombreGrupoComercial: this.data.object.nombreGrupoComercial,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -82,7 +82,7 @@ nombreGrupoComercial: this.data.object.nombreGrupoComercial,
       console.error("No se recibió un objeto válido en 'data'");
     }
 
-    
+
   }
 
   onSubmit() {
@@ -90,8 +90,8 @@ nombreGrupoComercial: this.data.object.nombreGrupoComercial,
 
     if (this.form.valid) {
       const formData: AgrupacionComercial = {
-       id: this.form.value.id,
-nombreGrupoComercial: this.form.value.nombreGrupoComercial,
+        id: this.form.value.id,
+        nombreGrupoComercial: this.form.value.nombreGrupoComercial,
       };
 
       console.log("Datos mapeados para enviar:", formData);

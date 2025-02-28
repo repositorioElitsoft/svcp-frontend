@@ -3,12 +3,12 @@
 }
 
 .mat-mdc-table {
-    @apply bg-white shadow-md rounded-b-lg overflow-hidden;
+    @apply bg-blue-800 shadow-md rounded-b-lg overflow-hidden;
 }
 
 
 .mat-mdc-header-row {
-    @apply bg-gray-100;
+    @apply bg-blue-800;
 }
 
 .mat-mdc-header-cell {
