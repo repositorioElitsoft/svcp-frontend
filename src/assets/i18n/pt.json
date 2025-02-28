@@ -64,7 +64,9 @@
         "logout": "Sair"
     },
     "table": {
-        "actions": "Ações"
+        "actions": "Ações",
+        "seleccionados": "{{count}} seleccionados",
+        "of": "de"
     },
     "opciones-mantenedor": {
         "botonAgregar": {
