@@ -3,28 +3,28 @@
 }
 
 .mat-mdc-table {
-    @apply bg-blue-100 shadow-md rounded-b-lg overflow-hidden;
+    @apply bg-white shadow-md rounded-b-lg overflow-hidden;
 }
 
 
 .mat-mdc-header-row {
-    @apply bg-blue-100;
+    @apply bg-gray-100;
 }
 
 .mat-mdc-header-cell {
-    @apply py-3 px-4 text-left font-semibold text-blue-700;
+    @apply py-3 px-4 text-left font-semibold text-gray-700 dark:bg-neutral-800 dark:text-white;
 }
 
 .mat-mdc-cell {
-    @apply py-3 px-4 text-blue-800;
+    @apply py-3 px-4 text-gray-800 dark:bg-neutral-800 dark:text-white;
 }
 
 .mat-mdc-row:nth-child(even) {
-    @apply bg-blue-50;
+    @apply bg-gray-50;
 }
 
 .mat-mdc-row:hover {
-    @apply bg-blue-100;
+    @apply bg-gray-100;
 }
 
 .mat-mdc-checkbox {
@@ -32,5 +32,5 @@
 }
 
 .mat-mdc-icon-button {
-    @apply text-blue-600 hover:text-blue-800;
+    @apply text-gray-600 hover:text-gray-800;
 }
