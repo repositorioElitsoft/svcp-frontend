@@ -116,6 +116,16 @@
             "titulo": "Service Type",
             "descripcionTipoServicio": "Service Type Description"
         },
+        "agrupacionComercial": {
+            "id": "Id",
+            "titulo": "Commercial Group",
+            "nombreGrupoComercial": "Commercial Group Description"
+        },        
+        "segmentacionCliente": {
+            "id": "Id",
+            "titulo": "Customer Segmentation",
+            "descripcion": "Customer Segmentation Description"
+        },
         "formularios": {
             "campoRequerido": "This field is required",
             "botonCancelar": "Cancel",
@@ -185,7 +195,29 @@
                 "botonAgregar": "Save",
                 "actualizar": "Update",
                 "guardar": "Save"
-            }
+            },
+            "agrupacionComercial": {
+                "tituloEditar": "Edit Commercial Group",
+                "tituloAgregar": "Add Commercial Grouping",
+                "label": "Description of the Commercial Group",
+                "descripcion": "Enter the description of the Commercial Group",
+                "campoRequerido": "This field is required",
+                "botonCancelar": "Cancel",
+                "botonAgregar": "Save",
+                "actualizar": "Update",
+                "guardar": "Save"
+            },
+            "segmentacionCliente": {
+                "tituloEditar": "Edit Customer Segmentation",
+                "tituloAgregar": "Add Customer Segmentation",
+                "label": "Customer Segmentation Description",
+                "descripcion": "Enter the description of the Customer Segmentation",
+                "campoRequerido": "This field is required",
+                "botonCancelar": "Cancel",
+                "botonAgregar": "Save",
+                "actualizar": "Update",
+                "guardar": "Save"
+            }  
         }
     },
     "alertas": {

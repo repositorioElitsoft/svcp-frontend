@@ -61,9 +61,6 @@ export class ThemeService {
         // Remove all theme classes
         document.body.classList.remove(
             'indigo-pink-theme',
-            'deeppurple-amber-theme',
-            'pink-bluegrey-theme',
-            'purple-green-theme',
             'light-mode',
             'dark-mode',
             "dark",

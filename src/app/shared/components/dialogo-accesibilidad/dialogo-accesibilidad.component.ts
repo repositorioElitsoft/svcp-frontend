@@ -48,9 +48,6 @@ export class DialogoAccesibilidadComponent implements OnInit {
 
   themes: { value: Theme; label: string }[] = [
     { value: 'indigo-pink', label: 'Indigo & Pink' },
-    { value: 'deeppurple-amber', label: 'Deep Purple & Amber' },
-    { value: 'pink-bluegrey', label: 'Pink & Blue Grey' },
-    { value: 'purple-green', label: 'Purple & Green' },
   ];
 
   colorModes = [

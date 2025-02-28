@@ -57,7 +57,10 @@ export class SegmentacionClienteFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
        id: [null, Validators.required],
-  descripcion: [null, Validators.required],
+       descripcion: [
+        this.data?.object?.descripcion || '',
+        Validators.required,
+      ],
     });
   }
 

@@ -108,6 +108,16 @@
             "titulo": "Tipo de Serviço",
             "descripcionTipoServicio": "Descrição do Tipo de Serviço"
         },
+        "agrupacionComercial": {
+            "id": "Id",
+            "titulo": "Grupo Comercial",
+            "nombreGrupoComercial": "Descrição do Grupo Comercial"
+        },        
+        "segmentacionCliente": {
+            "id": "Id",
+            "titulo": "Segmentação de Clientes",
+            "descripcion": "Descrição da segmentação de clientes"
+        },
         "formularios": {
             "campoRequerido": "Este campo é obrigatório",
             "botonCancelar": "Cancelar",
@@ -177,7 +187,30 @@
                 "botonAgregar": "Salvar",
                 "actualizar": "Atualizar",
                 "guardar": "Salvar"
-            }
+            },
+            "agrupacionComercial": {
+                "tituloEditar": "Editar Grupo Comercial",
+                "tituloAgregar": "Adicionar Agrupamento Comercial",
+                "label": "Descrição do Grupo Comercial",
+                "descripcion": "Ingrese la descripción del Agrupación Comercial",
+                "campoRequerido": "Insira a descrição do Grupo Comercial",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
+            },
+            "segmentacionCliente": {
+                "tituloEditar": "Editar segmentação de clientes",
+                "tituloAgregar": "Adicionar segmentação de clientes",
+                "label": "Descrição da segmentação de clientes",
+                "descripcion": "Insira a descrição da Segmentação de Clientes",
+                "campoRequerido": "Este campo é obrigatório",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
+            } 
+
         }
     },
     "alertas": {
