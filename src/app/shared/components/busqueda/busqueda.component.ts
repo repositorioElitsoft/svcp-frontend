@@ -26,8 +26,6 @@ export class BusquedaComponent {
   constructor(private translate: TranslateService) { }
 
   realizarBusqueda() {
-    if (this.query.trim()) {
-      this.buscar.emit(this.query);
-    }
+    this.buscar.emit(this.query.trim());
   }
 }
