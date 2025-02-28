@@ -22,8 +22,9 @@
         </div>
 
         <!-- Table Section -->
-        <div class="bg-white p-4 rounded-lg ">
-            <app-shared-table [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
+        <div class="bg-white p-4 rounded-lg ">         
+            <app-shared-table [translationGroup]="'mantenedores.agrupacionComercial'"  displayedColumns]="displayedColumns" 
+                [dataSource]="dataSource" [pageNumber]="pageNumber"
                 [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
                 (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
                 (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"

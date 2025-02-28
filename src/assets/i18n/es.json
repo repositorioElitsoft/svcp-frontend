@@ -110,6 +110,16 @@
             "titulo": "Tipo de Servicio",
             "descripcionTipoServicio": "Descripción Tipo de Servicio"
         },
+        "agrupacionComercial": {
+            "id": "Id",
+            "titulo": "Agrupación Comercial",
+            "nombreGrupoComercial": "Descripción Agrupación Comercial"
+        },        
+        "segmentacionCliente": {
+            "id": "Id",
+            "titulo": "Segmentación de Cliente",
+            "descripcion": "Descripción Segmentación de Cliente"
+        },
         "formularios": {
             "campoRequerido": "Este campo es obligatorio",
             "botonCancelar": "Cancelar",
@@ -170,7 +180,29 @@
                 "botonAgregar": "Guardar",
                 "actualizar": "Actualizar",
                 "guardar": "Guardar"
-            }
+            },
+            "agrupacionComercial": {
+                "tituloEditar": "Editar Agrupación Comercial",
+                "tituloAgregar": "Agregar Agrupación Comercial",
+                "label": "Descripción del Agrupación Comercial",
+                "descripcion": "Ingrese la descripción del Agrupación Comercial",
+                "campoRequerido": "Este campo es obligatorio",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Guardar",
+                "actualizar": "Actualizar",
+                "guardar": "Guardar"
+            },
+            "segmentacionCliente": {
+                "tituloEditar": "Editar Segmentación Cliente",
+                "tituloAgregar": "Agregar Segmentación Cliente",
+                "label": "Descripción del Segmentación Cliente",
+                "descripcion": "Ingrese la descripción del Segmentación Cliente",
+                "campoRequerido": "Este campo es obligatorio",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Guardar",
+                "actualizar": "Actualizar",
+                "guardar": "Guardar"
+            }                        
         }
     },
     "alertas": {
