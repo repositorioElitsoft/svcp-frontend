@@ -28,7 +28,7 @@ import { ToastrService } from "ngx-toastr";
 export class TipoServicioComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: TipoServicio[] = []; // Ahora usa la interfaz Tipo servicio
-  titulo: string = 'Tipo servicio'; // Puedes cambiarlo dinámicamente
+  titulo: string = ''; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
@@ -148,14 +148,13 @@ export class TipoServicioComponent implements OnInit {
     const count = selectedItems.length;
 
     // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoServicio.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
 
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
-      width: '600px',
-      height: '400px',
+
       data: {
         titulo: titulo,
         mensaje: mensaje,

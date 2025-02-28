@@ -66,7 +66,8 @@
     },
     "table": {
         "actions": "Actions",
-        "seleccionados": "{{count}} selected"
+        "seleccionados": "{{count}} selected",
+        "of": "of"
     },
     "opciones-mantenedor": {
         "botonAgregar": {
@@ -120,7 +121,7 @@
             "id": "Id",
             "titulo": "Commercial Group",
             "nombreGrupoComercial": "Commercial Group Description"
-        },        
+        },
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Customer Segmentation",
@@ -217,12 +218,12 @@
                 "botonAgregar": "Save",
                 "actualizar": "Update",
                 "guardar": "Save"
-            }  
+            }
         }
     },
     "alertas": {
-        "eliminacionIndividualTitulo": "Individual Deletion",
-        "eliminacionIndividualMensaje": "Are you sure you want to delete {count, plural, =1 {the item} other {the selected items}}? This action cannot be undone.",
+        "eliminacionIndividualTitulo": "Delete",
+        "eliminacionIndividualMensaje": "Are you sure you want to delete {{count}} item(s)? This action cannot be undone.",
         "cancelar": "Cancel",
         "eliminar": "Delete",
         "toastr": {
