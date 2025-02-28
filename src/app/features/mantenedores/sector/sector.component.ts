@@ -44,7 +44,7 @@ export class SectorComponent implements OnInit {
   }
 
   buscar(busqueda: string) {
-    this.obtenerDatos("",)
+    this.obtenerDatos("id", "asc", { descripcionSector: busqueda });
   }
 
   onSelectionChange(selectedItems: any[]) {
@@ -193,13 +193,18 @@ export class SectorComponent implements OnInit {
     this.obtenerDatos();
   }
 
-  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc') {
-    this.sectorService.buscarFiltrado({
+  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+
+
+    const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
       sortField: sortField,
-      sortDirection: sortDirection
-    }).subscribe((data: PagedResponse<Sector[]>) => {
+      sortDirection: sortDirection,
+      ...optionalFilter
+    }
+
+    this.sectorService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Sector[]>) => {
       console.log("Datos recibidos:", data);
 
       this.pageNumber = data.pageNumber

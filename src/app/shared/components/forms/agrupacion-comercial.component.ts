@@ -57,7 +57,10 @@ export class AgrupacionComercialFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
        id: [null, Validators.required],
-  nombreGrupoComercial: [null, Validators.required],
+       nombreGrupoComercial: [
+        this.data?.object?.descripcion || '',
+        Validators.required,
+      ]
     });
   }
 
