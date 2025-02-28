@@ -1,28 +1,30 @@
 <app-titulo-dialogo
-	[title]="(esActualizar() ? 'mantenedores.formularios.tipoProducto.tituloEditar' : 'mantenedores.formularios.tipoProducto.tituloAgregar') | translate"
-	icon="task" [ref]="dialogRef"></app-titulo-dialogo>
+    [title]="(esActualizar() ? 'mantenedores.formularios.tipoProducto.tituloEditar' : 'mantenedores.formularios.tipoProducto.tituloAgregar') | translate"
+    icon="task" [ref]="dialogRef">
+</app-titulo-dialogo>
 
-<mat-dialog-content class="!p-0">
-	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
-		<mat-form-field appearance="outline" class="w-full">
-			<mat-label>Descripción Tipoproducto</mat-label>
-			<input matInput formControlName="descripcionTipoProducto" placeholder="Ingrese la descripción"
-				class="w-full">
-			<mat-error *ngIf="form.get('descripcionTipoProducto')?.hasError('required')" class="text-red-500">
-				{{ 'mantenedores.formularios.campoRequerido' | translate }}
-			</mat-error>
-		</mat-form-field>
-		<div class="grid grid-cols-2 gap-4 w-full">
-			<button type="button" (click)="dialogRef.close()"
-				class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">
-				{{ 'mantenedores.formularios.botonCancelar' | translate }}
-			</button>
-			<button type="submit" [disabled]="form.invalid"
-				class="elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
-				{{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
-				'mantenedores.formularios.guardar') |
-				translate }}
-			</button>
-		</div>
-	</form>
+<mat-dialog-content class="!p-0 dark:bg-neutral-800">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
+        <mat-form-field appearance="outline" class="w-full dark:text-white  ">
+            <mat-label>{{ 'mantenedores.formularios.tipoProducto.label' | translate }}</mat-label>
+            <input matInput formControlName="descripcionTipoProducto"
+                [attr.placeholder]="'mantenedores.formularios.tipoProducto.descripcion' | translate"
+                class="w-full dark:text-white ">
+            <mat-error *ngIf="form.get('descripcionTipoProducto')?.hasError('required')" class="text-red-500">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
+        <div class="grid grid-cols-2 gap-4 w-full">
+            <button type="button" (click)="dialogRef.close()"
+                class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">
+                {{ 'mantenedores.formularios.botonCancelar' | translate }}
+            </button>
+            <button type="submit" [disabled]="form.invalid"
+                class="elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
+                {{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
+                'mantenedores.formularios.guardar') |
+                translate }}
+            </button>
+        </div>
+    </form>
 </mat-dialog-content>

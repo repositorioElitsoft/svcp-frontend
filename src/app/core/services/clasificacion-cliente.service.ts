@@ -19,11 +19,11 @@ export class ClasificacionClienteService {
     buscar(clasificacionClienteId: number): Observable<ClasificacionCliente> {
         return this.http.get<ClasificacionCliente>(`${this.url}clasificacioncliente/${clasificacionClienteId}`);
     }
+
     buscarTodos(): Observable<ClasificacionCliente[]> {
-
-        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificacioncliente`, { headers: this.headers });
-
+        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificacioncliente/lote`, { headers: this.headers });
     }
+
     borrar(clasificacionClienteId: number): Observable<any> {
         return this.http.delete<any>(`${this.url}clasificacioncliente/${clasificacionClienteId}`);
     }
@@ -35,6 +35,7 @@ export class ClasificacionClienteService {
     actualizar(clasificacionClienteId: number, clasificacionCliente: ClasificacionCliente): Observable<ClasificacionCliente> {
         return this.http.put<ClasificacionCliente>(`${this.url}clasificacioncliente/${clasificacionClienteId}`, clasificacionCliente);
     }
+
     crear(clasificacionCliente: ClasificacionCliente): Observable<ClasificacionCliente> {
         return this.http.post<ClasificacionCliente>(`${this.url}clasificacioncliente`, clasificacionCliente);
     }
@@ -50,7 +51,6 @@ export class ClasificacionClienteService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/clasificacioncliente`, { params, headers: this.headers, });
+        return this.http.get(`${this.url}core/filter/clasificacioncliente`, { params, headers: this.headers });
     }
-
 }

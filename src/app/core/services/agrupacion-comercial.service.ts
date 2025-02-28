@@ -21,7 +21,7 @@ export class AgrupacionComercialService {
     }
 
     buscarTodos(): Observable<AgrupacionComercial[]> {
-        return this.http.get<AgrupacionComercial[]>(`${this.url}agrupacioncomercial`, { headers: this.headers });
+        return this.http.get<AgrupacionComercial[]>(`${this.url}agrupacioncomercial/lote`, { headers: this.headers });
     }
 
     borrar(agrupacionComercialId: number): Observable<any> {
@@ -29,7 +29,7 @@ export class AgrupacionComercialService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}agrupacioncomercial/`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}agrupacioncomercial/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(agrupacionComercialId: number, agrupacionComercial: AgrupacionComercial): Observable<AgrupacionComercial> {

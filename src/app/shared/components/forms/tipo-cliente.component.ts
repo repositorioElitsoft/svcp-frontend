@@ -6,6 +6,11 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TipoClienteService } from '../../../core/services/tipo-cliente.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
+
+/*services-imports*/
+
+
+
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -14,12 +19,14 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { TipoCliente } from '../../../core/models/tipo-cliente.model';
+import { catchError, tap, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-tipoCliente-create-form',
+  selector: 'app-tipo-cliente-create-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -43,35 +50,48 @@ export class TipoClienteFormComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<TipoClienteFormComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
+
+  /*variable-declarations*/
+
+
+
   constructor(
     private fb: FormBuilder,
     private tipoClienteService: TipoClienteService,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    /*other-services-injection*/
 
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-      id: [null],  // No requerido en modo creación
-      nombre: [null, Validators.required],  // Siempre requerido
+      /*inputsflag*/
+  id: [null,],
+  nombre: [null, Validators.required],
     });
   }
 
   ngOnInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'tipoClienteDesc'
+    // Verificar si 'data.object' existe y tiene el campo 'descripcionTipoCliente'
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
 
       this.form.patchValue({
-        id: this.data.object.id,
-        nombre: this.data.object.nombre,
+        /*object-fields-edit*/
+id: this.data.object.id,
+nombre: this.data.object.nombre,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
     } else {
       console.error("No se recibió un objeto válido en 'data'");
     }
+    /*services-init-call*/
+
+
   }
 
   onSubmit() {
@@ -79,22 +99,41 @@ export class TipoClienteFormComponent implements OnInit {
 
     if (this.form.valid) {
       const formData: TipoCliente = {
-        id: this.form.value.id,
-        nombre: this.form.value.nombre,
+        /*form-fields-submit*/
+id: this.form.value.id,
+nombre: this.form.value.nombre,
       };
 
       console.log("Datos mapeados para enviar:", formData);
 
       // Cierra el formulario con los datos correctos
-      this.dialogRef.close(formData);
+      if (this.esActualizar()) {
+        this.tipoClienteService.actualizar(formData.id, formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+
+      }
+      else {
+        this.tipoClienteService.crear(formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+      }
     } else {
       console.log("Formulario no válido");
     }
   }
 }
-
-
-
-
-
-

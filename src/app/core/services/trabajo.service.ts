@@ -21,7 +21,7 @@ export class TrabajoService {
     }
 
     buscarTodos(): Observable<Trabajo[]> {
-        return this.http.get<Trabajo[]>(`${this.url}trabajo`, { headers: this.headers });
+        return this.http.get<Trabajo[]>(`${this.url}trabajo/lote`, { headers: this.headers });
     }
 
     borrar(trabajoId: number): Observable<any> {
@@ -29,7 +29,7 @@ export class TrabajoService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}trabajo/`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}trabajo/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(trabajoId: number, trabajo: Trabajo): Observable<Trabajo> {

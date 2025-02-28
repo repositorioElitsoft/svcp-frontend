@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TableData, TableDataService } from "../../../core/services/table-data.service";
 import { SharedTableComponent } from "../../../shared/components/shared-table/shared-table.component";
@@ -12,12 +12,11 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { ClasificacionClienteService } from "../../../core/services/clasificacion-cliente.service";
 import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model";
-import { catchError, forkJoin, tap, throwError } from "rxjs";
+import { catchError, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
-import { TranslateModule } from "@ngx-translate/core";
-
 
 @Component({
   selector: "app-clasificacion-cliente",
@@ -28,32 +27,32 @@ import { TranslateModule } from "@ngx-translate/core";
 })
 export class ClasificacionClienteComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: ClasificacionCliente[] = []; // Ahora usa la interfaz Clasificacion Cliente
-  titulo: string = 'Clasificación de Clientes'; // Puedes cambiarlo dinámicamente
+  dataSource: ClasificacionCliente[] = []; // Ahora usa la interfaz clasificacionCliente
+  titulo: string = 'Clasificacion cliente'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
   totalPages = 0
   pageSize = 5;
   totalElements = 0;
-
+  @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
-    private clasificacionClienteService: ClasificacionClienteService, private toastr: ToastrService) { }
+    private translate: TranslateService, private toastr: ToastrService,
+    private clasificacionClienteService: ClasificacionClienteService) { }
 
   ngOnInit() {
     this.obtenerDatos();
-
   }
+
+
+  /********************************** TABLA - SHARED TABLE **********************************/
   onSelectionChange(selectedItems: any[]) {
     this.hasSelection = selectedItems.length > 0;
     this.selectedData = selectedItems; // Guardamos la data seleccionada
   }
 
 
-  onDeleteSelected(ids: string[]) {
-    console.log("Eliminar seleccionados:", ids);
-  }
 
   onViewSelected(id: string): void {
     const dialogRef = this.dialog.open(ClasificacionClienteFormComponent, {
@@ -71,50 +70,147 @@ export class ClasificacionClienteComponent implements OnInit {
     });
   }
 
-  onEditSelected(id: string) {
-    const selectedObject = this.dataSource.find(item => item.id === Number(id));
-    console.log('Selected Object:', selectedObject);
+  onDeleteSelected(ids: string[]) {
+    console.log("Eliminar seleccionados:", ids);
+  }
 
-    if (!selectedObject) {
-      console.error("No se encontró el objeto a editar.");
-      return;
+  exportarExcel(selectedItems: TableData[]) {
+    console.log("Exportando los siguientes elementos:", selectedItems);
+    this.exportService.exportToExcel(selectedItems, this.titulo);
+  }
+
+  volver() {
+    this.router.navigate(['/portal/home']);
+  }
+  sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
+    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+  }
+
+  onPageChanged(newPage: number) {
+    console.log("Página cambiada", newPage);
+    this.pageNumber = newPage
+    this.obtenerDatos();
+  }
+
+
+  buscar(busqueda: string) {
+    this.pageNumber = 0;
+    if (busqueda.trim()) {
+      this.obtenerDatos("id", "asc", { descripcionClasificacionCliente: busqueda });
+    } else {
+      this.obtenerDatos("id", "asc"); // Llamada sin el tercer parámetro
+    }
+  }
+
+
+
+  /********************************** TABLA - SHARED TABLE **********************************/
+
+
+  /*********************************** CRUD   - GET ***********************************/
+
+
+
+
+
+  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    const mandatoryFilter = {
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
+      sortField: sortField,
+      sortDirection: sortDirection,
+      ...optionalFilter
     }
 
-    const dialogRef = this.dialog.open(ClasificacionClienteFormComponent, {
-      width: '400px',
+    this.clasificacionClienteService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
+      console.log("Datos recibidos:", data);
+
+      this.pageNumber = data.pageNumber
+      this.totalPages = data.totalPages
+      this.pageSize = data.pageSize;
+      this.totalElements = data.totalElements;
+
+      this.dataSource = data.content.flat();
+      if (data.content.length > 0) {
+        this.displayedColumns = Object.keys(data.content[0]);
+      }
+      this.cdr.detectChanges();
+    });
+  }
+
+
+
+
+
+
+  /*********************************** CRUD   - DELETE ***********************************/
+  eliminar(selectedItems: ClasificacionCliente[]) {
+    const count = selectedItems.length;
+
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      width: '600px',
+      height: '400px',
       data: {
-        esActualizar: true,
-        object: selectedObject
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log("Datos editados recibidos:", result);
+    dialogRef.afterClosed().subscribe(confirmado => {
+      if (confirmado) {
+        const ids = selectedItems.map(item => item.id);
+        console.log("Datos a enviar para eliminar:", { ids: ids });
 
-        if (!result.clasificacionClienteDesc) {
-          console.error("Descripción no válida:", result.clasificacionClienteDesc);
-          return;
-        }
+        this.clasificacionClienteService.borrarTodos(ids).subscribe({
+          next: () => {
+            console.log("Elementos eliminados exitosamente:", ids);
+            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
+            this.hasSelection = false;
 
-        const formData: ClasificacionCliente = {
-          id: result.id,
-          clasificacionClienteDesc: result.clasificacionClienteDesc
-        };
+            // Actualizar las propiedades de paginación
+            this.totalElements -= ids.length;
+            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
-        this.clasificacionClienteService.actualizar(formData.id, formData).pipe(
-          tap(response => {
-            console.log("Respuesta del servicio:", response);
+            // Ajustar pageNumber si es necesario
+            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
+              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
+            }
+
+            // Recargar los datos
             this.obtenerDatos();
-          }),
-          catchError(error => {
-            console.error("Error en el servicio:", error);
-            return throwError(error);
-          })
-        ).subscribe();
+
+            // Mostrar mensaje de éxito
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+
+            // Limpiar selecciones en el componente hijo
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.selection.clear();
+            }
+
+            // Depurar el estado del paginador
+            console.log("Estado del paginador después de eliminar:", {
+              pageNumber: this.pageNumber,
+              totalElements: this.totalElements,
+              totalPages: this.totalPages
+            });
+          },
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
+          }
+        });
       }
     });
   }
+  /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
     const dialogRef = this.dialog.open(ClasificacionClienteFormComponent, {
@@ -127,104 +223,33 @@ export class ClasificacionClienteComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.clasificacionClienteService.crear(result).subscribe(
-          (response) => {
-            console.log("Cliente creado con éxito:", response);
-            this.toastr.success("se ha agregado una nueva clasificación de cliente");
-            this.obtenerDatos('id', 'desc');
-          },
-          (error) => {
-            console.error("Error al crear cliente:", error);
-            this.toastr.error("problemas al eliminar clasificación");
-
-          }
-        );
+        this.obtenerDatos("id","desc");
       }
     });
   }
 
 
-
-  exportarExcel(selectedItems: TableData[]) {
-    console.log("Exportando los siguientes elementos:", selectedItems);
-    this.exportService.exportToExcel(selectedItems, this.titulo);
-  }
-
-  eliminarServicio(selectedItems: ClasificacionCliente[]) {
-    const dialogRef = this.dialog.open(DialogAlertaComponent, {
-      width: '600px',
-      height: '400px',
+  /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
+  onEditSelected(id: string) {
+    const selectedObject = this.dataSource.find(item => item.id === Number(id));
+    if (!selectedObject) {
+      return;
+    }
+    const dialogRef = this.dialog.open(ClasificacionClienteFormComponent, {
+      width: '400px',
       data: {
-        titulo: 'Eliminación individual',
-        mensaje: `¿Estás seguro que deseas eliminar ${selectedItems.length > 1 ? 'los elementos seleccionados' : 'el elemento'}? Esta acción no se puede deshacer`,
-        textoBotonCancelar: 'Cancelar',
-        textoBotonConfirmar: 'Eliminar'
+        esActualizar: true,
+        object: selectedObject
       }
     });
 
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        const ids = selectedItems.map(item => item.id);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
-
-        this.clasificacionClienteService.borrarTodos(ids).subscribe({
-          next: () => {
-            this.toastr.success("Elementos eliminados exitosamente:");
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
-            this.obtenerDatos();
-            this.hasSelection = false;
-          },
-          error: err => {
-            const errorMessage = err?.message || err?.error?.message || 'Error desconocido';
-            this.toastr.error("Error al eliminar elementos: " + errorMessage);
-          }
-        });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos("id","desc");
       }
     });
   }
 
-
-
-  volver() {
-    this.router.navigate(['/portal/home']);
-  }
-
-  sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
-  }
-
-  onPageChanged(newPage: number) {
-    console.log("Página cambiada", newPage);
-    this.pageNumber = newPage
-    this.obtenerDatos();
-  }
-
-  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc') {
-    this.clasificacionClienteService.buscarFiltrado({
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize,
-      sortField: sortField,
-      sortDirection: sortDirection
-    }).subscribe((data: PagedResponse<ClasificacionCliente[]>) => {
-      console.log("Datos recibidos:", data);
-
-      this.pageNumber = data.pageNumber;
-      this.totalPages = data.totalPages;
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
-
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = this.getDisplayedColumns(data.content[0]);
-      }
-      this.cdr.detectChanges();
-    });
-  }
-
-  private getDisplayedColumns(row: any): string[] {
-    return Object.keys(row).filter(key => key !== '0'); // Ocultamos la columna 'id'
-  }
 
 
 }
-

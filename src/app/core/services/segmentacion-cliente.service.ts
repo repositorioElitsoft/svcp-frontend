@@ -21,7 +21,7 @@ export class SegmentacionClienteService {
     }
 
     buscarTodos(): Observable<SegmentacionCliente[]> {
-        return this.http.get<SegmentacionCliente[]>(`${this.url}segmentacioncliente`, { headers: this.headers });
+        return this.http.get<SegmentacionCliente[]>(`${this.url}segmentacioncliente/lote`, { headers: this.headers });
     }
 
     borrar(segmentacionClienteId: number): Observable<any> {
@@ -29,7 +29,7 @@ export class SegmentacionClienteService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}segmentacioncliente/`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}segmentacioncliente/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(segmentacionClienteId: number, segmentacionCliente: SegmentacionCliente): Observable<SegmentacionCliente> {

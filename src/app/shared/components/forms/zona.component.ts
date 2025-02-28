@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ZonaService } from '../../../core/services/zona.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 
+/*services-imports*/
+
 
 
 import {
@@ -17,9 +19,11 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { Zona } from '../../../core/models/zona.model';
+import { catchError, tap, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-zona-create-form',
@@ -47,37 +51,45 @@ export class ZonaFormComponent implements OnInit {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
 
+  /*variable-declarations*/
+
 
 
   constructor(
     private fb: FormBuilder,
     private zonaService: ZonaService,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    /*other-services-injection*/
 
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-      id: [null],
-      descripcionZona: [null, Validators.required],
+      /*inputsflag*/
+  id: [null,],
+  descripcionZona: [null, Validators.required],
     });
   }
 
   ngOnInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'zonaDesc'
+    // Verificar si 'data.object' existe y tiene el campo 'descripcionZona'
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
 
       this.form.patchValue({
-        id: this.data.object.id,
-        descripcionZona: this.data.object.descripcionZona,
+        /*object-fields-edit*/
+id: this.data.object.id,
+descripcionZona: this.data.object.descripcionZona,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
     } else {
       console.error("No se recibió un objeto válido en 'data'");
     }
+    /*services-init-call*/
 
 
   }
@@ -87,14 +99,39 @@ export class ZonaFormComponent implements OnInit {
 
     if (this.form.valid) {
       const formData: Zona = {
-        id: this.form.value.id,
-        descripcionZona: this.form.value.descripcionZona,
+        /*form-fields-submit*/
+id: this.form.value.id,
+descripcionZona: this.form.value.descripcionZona,
       };
 
       console.log("Datos mapeados para enviar:", formData);
 
       // Cierra el formulario con los datos correctos
-      this.dialogRef.close(formData);
+      if (this.esActualizar()) {
+        this.zonaService.actualizar(formData.id, formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+
+      }
+      else {
+        this.zonaService.crear(formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+      }
     } else {
       console.log("Formulario no válido");
     }

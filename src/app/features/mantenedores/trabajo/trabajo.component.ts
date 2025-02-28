@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TableData, TableDataService } from "../../../core/services/table-data.service";
 import { SharedTableComponent } from "../../../shared/components/shared-table/shared-table.component";
@@ -12,20 +12,22 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { TrabajoService } from "../../../core/services/trabajo.service";
 import { Trabajo } from "../../../core/models/trabajo.model";
-import { catchError, forkJoin, tap, throwError } from "rxjs";
+import { catchError, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-trabajo",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
   templateUrl: "./trabajo.component.html",
   styleUrl: "./trabajo.component.css",
 })
 export class TrabajoComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: Trabajo[] = []; // Ahora usa la interfaz Trabajo
+  dataSource: Trabajo[] = []; // Ahora usa la interfaz trabajo
   titulo: string = 'Trabajo'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
@@ -33,22 +35,24 @@ export class TrabajoComponent implements OnInit {
   totalPages = 0
   pageSize = 5;
   totalElements = 0;
-
+  @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
+    private translate: TranslateService, private toastr: ToastrService,
     private trabajoService: TrabajoService) { }
 
   ngOnInit() {
     this.obtenerDatos();
   }
+
+
+  /********************************** TABLA - SHARED TABLE **********************************/
   onSelectionChange(selectedItems: any[]) {
     this.hasSelection = selectedItems.length > 0;
     this.selectedData = selectedItems; // Guardamos la data seleccionada
   }
 
-  onDeleteSelected(ids: string[]) {
-    console.log("Eliminar seleccionados:", ids);
-  }
+
 
   onViewSelected(id: string): void {
     const dialogRef = this.dialog.open(TrabajoFormComponent, {
@@ -66,72 +70,8 @@ export class TrabajoComponent implements OnInit {
     });
   }
 
-  onEditSelected(id: string) {
-    const selectedObject = this.dataSource.find(item => item.id === Number(id));
-    console.log('Selected Object:', selectedObject);
-
-    if (!selectedObject) {
-      console.error("No se encontró el objeto a editar.");
-      return;
-    }
-
-    const dialogRef = this.dialog.open(TrabajoFormComponent, {
-      width: '400px',
-      data: {
-        esActualizar: true,
-        object: selectedObject
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log("Datos editados recibidos:", result);
-
-        if (!result.descripcionTrabajo) {
-          console.error("Descripción no válida:", result.descripcionTrabajo);
-          return;
-        }
-
-        const formData: Trabajo = {
-          id: result.id,
-          descripcionTrabajo: result.descripcionTrabajo
-        };
-
-        this.trabajoService.actualizar(formData.id, formData).pipe(
-          tap(response => {
-            console.log("Respuesta del servicio:", response);
-            this.obtenerDatos();
-          }),
-          catchError(error => {
-            console.error("Error en el servicio:", error);
-            return throwError(error);
-          })
-        ).subscribe();
-      }
-    });
-  }
-
-  agregarServicio() {
-    const dialogRef = this.dialog.open(TrabajoFormComponent, {
-      width: '400px',
-      data: {
-        esActualizar: false,
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log("Datos recibidos del formulario:", result);
-        this.trabajoService.crear(result).subscribe(
-          (response) => {
-            console.log("Cliente creado con éxito:", response);
-          },
-          (error) => {
-            console.error("Error al crear cliente:", error);
-          }
-        );
-      }
-    });
+  onDeleteSelected(ids: string[]) {
+    console.log("Eliminar seleccionados:", ids);
   }
 
   exportarExcel(selectedItems: TableData[]) {
@@ -139,41 +79,9 @@ export class TrabajoComponent implements OnInit {
     this.exportService.exportToExcel(selectedItems, this.titulo);
   }
 
-  eliminarServicio(selectedItems: Trabajo[]) {
-    const dialogRef = this.dialog.open(DialogAlertaComponent, {
-      width: '600px',
-      height: '400px',
-      data: {
-        titulo: 'Eliminación individual',
-        mensaje: `¿Estás seguro que deseas eliminar ${selectedItems.length > 1 ? 'los elementos seleccionados' : 'el elemento'}? Esta acción no se puede deshacer`,
-        textoBotonCancelar: 'Cancelar',
-        textoBotonConfirmar: 'Eliminar'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        const ids = selectedItems.map(item => item.id);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
-
-        this.trabajoService.borrarTodos(ids).subscribe({
-          next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
-            this.hasSelection = false;
-          },
-          error: err => {
-            console.error("Error al eliminar elementos:", err);
-          }
-        });
-      }
-    });
-  }
-
   volver() {
     this.router.navigate(['/portal/home']);
   }
-
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
     this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
   }
@@ -184,13 +92,37 @@ export class TrabajoComponent implements OnInit {
     this.obtenerDatos();
   }
 
-  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc') {
-    this.trabajoService.buscarFiltrado({
+
+  buscar(busqueda: string) {
+    this.pageNumber = 0;
+    if (busqueda.trim()) {
+      this.obtenerDatos("id", "asc", { descripcionTrabajo: busqueda });
+    } else {
+      this.obtenerDatos("id", "asc"); // Llamada sin el tercer parámetro
+    }
+  }
+
+
+
+  /********************************** TABLA - SHARED TABLE **********************************/
+
+
+  /*********************************** CRUD   - GET ***********************************/
+
+
+
+
+
+  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
       sortField: sortField,
-      sortDirection: sortDirection
-    }).subscribe((data: PagedResponse<Trabajo[]>) => {
+      sortDirection: sortDirection,
+      ...optionalFilter
+    }
+
+    this.trabajoService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Trabajo[]>) => {
       console.log("Datos recibidos:", data);
 
       this.pageNumber = data.pageNumber
@@ -206,10 +138,118 @@ export class TrabajoComponent implements OnInit {
     });
   }
 
-  transformarNombreColumna(columna: string): string {
-    return columna
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/^./, str => str.toUpperCase())
-      .trim();
+
+
+
+
+
+  /*********************************** CRUD   - DELETE ***********************************/
+  eliminar(selectedItems: Trabajo[]) {
+    const count = selectedItems.length;
+
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      width: '600px',
+      height: '400px',
+      data: {
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmado => {
+      if (confirmado) {
+        const ids = selectedItems.map(item => item.id);
+        console.log("Datos a enviar para eliminar:", { ids: ids });
+
+        this.trabajoService.borrarTodos(ids).subscribe({
+          next: () => {
+            console.log("Elementos eliminados exitosamente:", ids);
+            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
+            this.hasSelection = false;
+
+            // Actualizar las propiedades de paginación
+            this.totalElements -= ids.length;
+            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
+
+            // Ajustar pageNumber si es necesario
+            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
+              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
+            }
+
+            // Recargar los datos
+            this.obtenerDatos();
+
+            // Mostrar mensaje de éxito
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+
+            // Limpiar selecciones en el componente hijo
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.selection.clear();
+            }
+
+            // Depurar el estado del paginador
+            console.log("Estado del paginador después de eliminar:", {
+              pageNumber: this.pageNumber,
+              totalElements: this.totalElements,
+              totalPages: this.totalPages
+            });
+          },
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
+          }
+        });
+      }
+    });
   }
+  /* **********************************CRUD   - CREATE ***********************************/
+
+  agregarServicio() {
+    const dialogRef = this.dialog.open(TrabajoFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: false,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Datos recibidos del formulario:", result);
+        this.obtenerDatos("id","desc");
+      }
+    });
+  }
+
+
+  /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
+  onEditSelected(id: string) {
+    const selectedObject = this.dataSource.find(item => item.id === Number(id));
+    if (!selectedObject) {
+      return;
+    }
+    const dialogRef = this.dialog.open(TrabajoFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: true,
+        object: selectedObject
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos("id","desc");
+      }
+    });
+  }
+
+
+
 }

@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TipoEmpleadoService } from '../../../core/services/tipo-empleado.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 
+/*services-imports*/
+
 
 
 import {
@@ -17,12 +19,14 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { TipoEmpleado } from '../../../core/models/tipo-empleado.model';
+import { catchError, tap, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-tipoEmpleado-create-form',
+  selector: 'app-tipo-empleado-create-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -47,47 +51,87 @@ export class TipoEmpleadoFormComponent implements OnInit {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
 
+  /*variable-declarations*/
+
 
 
   constructor(
     private fb: FormBuilder,
     private tipoEmpleadoService: TipoEmpleadoService,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    /*other-services-injection*/
 
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-      id: [null,],
-      descripcionTipoEmpleado: [null, Validators.required],
+      /*inputsflag*/
+  id: [null,],
+  descripcionTipoEmpleado: [null, Validators.required],
     });
   }
 
   ngOnInit() {
+    console.log("Datos recibidos en el formulario:", this.data);
+
+    // Verificar si 'data.object' existe y tiene el campo 'descripcionTipoEmpleado'
     if (this.esActualizar() && this.data?.object) {
+      console.log("Objeto recibido:", this.data.object);
+
+
       this.form.patchValue({
-        id: this.data.object.id,
-        descripcionTipoEmpleado: this.data.object.descripcionTipoEmpleado,
+        /*object-fields-edit*/
+id: this.data.object.id,
+descripcionTipoEmpleado: this.data.object.descripcionTipoEmpleado,
       });
 
-      // Si estamos editando, hacemos que 'id' sea obligatorio
-      this.form.get('id')?.setValidators(Validators.required);
-      this.form.get('id')?.updateValueAndValidity();
+      console.log("Datos en el formulario después de patchValue:", this.form.value);
+    } else {
+      console.error("No se recibió un objeto válido en 'data'");
     }
-  }
+    /*services-init-call*/
 
+
+  }
 
   onSubmit() {
     console.log("Formulario enviado:", this.form.value);
 
     if (this.form.valid) {
       const formData: TipoEmpleado = {
-        id: this.form.value.id,
-        descripcionTipoEmpleado: this.form.value.descripcionTipoEmpleado,
+        /*form-fields-submit*/
+id: this.form.value.id,
+descripcionTipoEmpleado: this.form.value.descripcionTipoEmpleado,
       };
 
       console.log("Datos mapeados para enviar:", formData);
 
       // Cierra el formulario con los datos correctos
-      this.dialogRef.close(formData);
+      if (this.esActualizar()) {
+        this.tipoEmpleadoService.actualizar(formData.id, formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+
+      }
+      else {
+        this.tipoEmpleadoService.crear(formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+      }
     } else {
       console.log("Formulario no válido");
     }

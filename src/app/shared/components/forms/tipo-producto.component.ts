@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TipoProductoService } from '../../../core/services/tipo-producto.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 
+/*services-imports*/
+
 
 
 import {
@@ -17,12 +19,14 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { TipoProducto } from '../../../core/models/tipo-producto.model';
+import { catchError, tap, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-tipoProducto-create-form',
+  selector: 'app-tipo-producto-create-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -47,37 +51,45 @@ export class TipoProductoFormComponent implements OnInit {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
 
+  /*variable-declarations*/
+
 
 
   constructor(
     private fb: FormBuilder,
     private tipoProductoService: TipoProductoService,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    /*other-services-injection*/
 
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
-      id: [null,],
-      descripcionTipoProducto: [null, Validators.required],
+      /*inputsflag*/
+  id: [null,],
+  descripcionTipoProducto: [null, Validators.required],
     });
   }
 
   ngOnInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'tipoProductoDesc'
+    // Verificar si 'data.object' existe y tiene el campo 'descripcionTipoProducto'
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
 
       this.form.patchValue({
-        id: this.data.object.id,
-        descripcionTipoProducto: this.data.object.descripcionTipoProducto,
+        /*object-fields-edit*/
+id: this.data.object.id,
+descripcionTipoProducto: this.data.object.descripcionTipoProducto,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
     } else {
       console.error("No se recibió un objeto válido en 'data'");
     }
+    /*services-init-call*/
 
 
   }
@@ -87,14 +99,39 @@ export class TipoProductoFormComponent implements OnInit {
 
     if (this.form.valid) {
       const formData: TipoProducto = {
-        id: this.form.value.id,
-        descripcionTipoProducto: this.form.value.descripcionTipoProducto,
+        /*form-fields-submit*/
+id: this.form.value.id,
+descripcionTipoProducto: this.form.value.descripcionTipoProducto,
       };
 
       console.log("Datos mapeados para enviar:", formData);
 
       // Cierra el formulario con los datos correctos
-      this.dialogRef.close(formData);
+      if (this.esActualizar()) {
+        this.tipoProductoService.actualizar(formData.id, formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+
+      }
+      else {
+        this.tipoProductoService.crear(formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+      }
     } else {
       console.log("Formulario no válido");
     }
