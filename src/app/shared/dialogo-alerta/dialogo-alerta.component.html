@@ -26,7 +26,7 @@
     </h2>
 
     <!-- Mensaje -->
-    <p class="text-center text-gray-600 mb-6">
+    <p class="text-center text-lg text-gray-600 mb-6">
         {{data.mensaje}}
     </p>
 
@@ -35,10 +35,10 @@
 
     <!-- Botones -->
     <div class="grid grid-cols-2 gap-4 p-4">
-        <button class="elitsoft-warn2 flex justify-center items-center" (click)="onNoClick()">
+        <button class="elitsoft-warn2 flex justify-center items-center text-lg" (click)="onNoClick()">
             {{data.textoBotonCancelar}}
         </button>
-        <button class="elitsoft-btn flex justify-center items-center" (click)="onConfirm()">
+        <button class="elitsoft-btn flex justify-center items-center text-lg" (click)="onConfirm()">
             {{data.textoBotonConfirmar}}
         </button>
     </div>
