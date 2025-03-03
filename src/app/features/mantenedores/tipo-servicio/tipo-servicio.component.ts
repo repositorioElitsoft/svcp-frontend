@@ -110,10 +110,6 @@ export class TipoServicioComponent implements OnInit {
 
   /*********************************** CRUD   - GET ***********************************/
 
-
-
-
-
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
