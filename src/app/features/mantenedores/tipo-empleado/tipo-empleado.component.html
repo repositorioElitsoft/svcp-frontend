@@ -6,7 +6,7 @@
             class="bg-white p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center sm:items-center mb-4 gap-4 dark:bg-neutral-800">
             <div class="flex sm:flex-row items-center sm:space-x-2 w-full sm:w-auto">
                 <!-- Botón regresar (más grande en móvil) -->
-                <button class="elitsoft-btn text-base sm:text-base w-auto sm:w-auto" (click)="volver()">
+                <button class="elitsoft-btn text-lg sm:text-base w-auto sm:w-auto" (click)="volver()">
                     <mat-icon>arrow_back</mat-icon> {{ 'mantenedores.volver' | translate }}
                 </button>
                 <!-- Titulo centrado en móvil y a la izquierda en desktop -->
@@ -25,7 +25,8 @@
 
         <!-- Table Section -->
         <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
-            <app-shared-table (buscar)="buscar($event)" [translationGroup]="'mantenedores.tipoEmpleado'" [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
+            <app-shared-table (buscar)="buscar($event)" [translationGroup]="'mantenedores.tipoEmpleado'"
+                [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
                 [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
                 (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
                 (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
