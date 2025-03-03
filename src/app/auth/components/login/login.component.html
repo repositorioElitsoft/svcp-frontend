@@ -24,10 +24,10 @@
 
             <div class="z-50 absolute left-1/2 -translate-x-1/2 bottom-[8vh] lg:bottom-[6vh]">
                 <div class="h-[63px] flex-col justify-center items-center inline-flex">
-                    <div class="text-center text-white text-[34px] font-medium font-['Roboto']">
+                    <div class="text-center text-white text-lg  font-medium font-['Roboto']">
                         {{ 'login.optimizeTime' | translate }}
                     </div>
-                    <div class="self-stretch text-center text-white text-xl font-normal font-['Roboto']">
+                    <div class="self-stretch text-center text-white text-lg font-normal font-['Roboto']">
                         {{ 'login.oneClick' | translate }}
                     </div>
                 </div>
@@ -49,16 +49,17 @@
 
         <div class="">
             <div class="text-3xl font-medium font-['Roboto']"> {{ 'login.welcome' | translate }}</div>
-            <div class="self-stretch text-[#9e9e9e] text-[22px] font-normal font-['Roboto']">{{ 'login.accessAccount' |
+            <div class="self-stretch text-[#9e9e9e] text-lg font-normal font-['Roboto']">{{ 'login.accessAccount' |
                 translate }}</div>
         </div>
         <div class="my-[70px]"></div>
         <form (ngSubmit)="login()" [formGroup]="form" class="w-full">
             <div class="mb-4">
-                <mat-form-field appearance="outline" class="w-full dark:!text-gray-100 ">
-                    <mat-label>{{ 'login.username' | translate }}</mat-label>
+                <mat-form-field appearance="outline" class="w-full dark:!text-gray-100   ">
+                    <mat-label class="text-lg">{{ 'login.username' | translate }}</mat-label>
                     <input matInput type="email" formControlName="username" id="username"
-                        placeholder="Ingresa tu usuario" class="w-full dark:!text-gray-100  bg-transparent " required>
+                        placeholder="Ingresa tu usuario" class="w-full dark:!text-gray-100 text-lg bg-transparent "
+                        required>
                     <mat-error *ngIf="form.get('username')?.hasError('required')">
                         {{ 'login.emptyField' | translate }}
                     </mat-error>
@@ -68,24 +69,24 @@
 
             <div class="mb-4">
 
-                <mat-form-field appearance="outline" class="w-full dark:!text-gray-100">
-                    <mat-label>{{ 'login.password' | translate }}</mat-label>
+                <mat-form-field appearance="outline" class="w-full dark:!text-gray-100 text-lg">
+                    <mat-label class="text-lg">{{ 'login.password' | translate }}</mat-label>
                     <input matInput type="password" formControlName="password" id="password" placeholder="••••••••"
-                        class="w-full dark:!text-gray-100" required>
+                        class="w-full dark:!text-gray-100 text-lg" required>
                     <mat-error *ngIf="form.get('password')?.hasError('required')">
                         {{ 'login.emptyField' | translate }} </mat-error>
                 </mat-form-field>
 
             </div>
 
-            <button type="submit" class="elitsoft-btn !py-3 rounded px-4 w-full"
+            <button type="submit" class="elitsoft-btn !py-3 text-lg rounded px-4 w-full"
                 style="display: block; margin: 0 auto;">
                 {{ 'login.signIn' | translate }}</button>
 
-            <div class="error-message  text-red-500 py-2 px-4 rounded-lg text-center" *ngIf="errorMessage">{{
+            <div class="error-message  text-red-500 py-2 px-4 rounded-lg text-base text-center" *ngIf="errorMessage">{{
                 errorMessage }}</div>
 
-            <div class="text-center mt-[4vh] text-[#9e9e9e] text-[11px] font-normal font-['Roboto']">© Copyright
+            <div class="text-center mt-[4vh] text-[#9e9e9e] text-sm font-normal font-['Roboto']">© Copyright
                 Elitsoft 2025 .
             </div>
 
