@@ -74,6 +74,7 @@ export class TipoServicioComponent implements OnInit {
     console.log("Eliminar seleccionados:", ids);
   }
 
+
   exportarExcel(selectedItems: TableData[]) {
     console.log("Exportando los siguientes elementos:", selectedItems);
     this.exportService.exportToExcel(selectedItems, this.titulo);
@@ -108,10 +109,6 @@ export class TipoServicioComponent implements OnInit {
 
 
   /*********************************** CRUD   - GET ***********************************/
-
-
-
-
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     const mandatoryFilter = {
@@ -209,6 +206,72 @@ export class TipoServicioComponent implements OnInit {
       }
     });
   }
+
+  onDeleteSingleSelected(id: string) {
+    console.log("Eliminar seleccionado:", id);
+
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoServicio.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      data: {
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmado => {
+      if (confirmado) {
+        console.log("Eliminando elemento con ID:", id);
+
+        this.tipoServicioService.borrar(Number(id)).subscribe({
+          next: () => {
+            console.log("Elemento eliminado exitosamente:", id);
+
+            // Filtrar el item eliminado del dataSource
+            this.dataSource = this.dataSource.filter(item => item.id !== Number(id));
+
+            // Actualizar propiedades de paginación
+            this.totalElements -= 1;
+            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
+
+            // Ajustar pageNumber si es necesario
+            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
+              this.pageNumber = this.totalPages - 1;
+            }
+
+            // Recargar datos
+            this.obtenerDatos();
+
+            // Mostrar mensaje de éxito
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+
+            // Limpiar selección si existe un componente compartido
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.selection.clear();
+            }
+
+            // Debug: Estado del paginador después de eliminar
+            console.log("Estado del paginador después de eliminar:", {
+              pageNumber: this.pageNumber,
+              totalElements: this.totalElements,
+              totalPages: this.totalPages
+            });
+          },
+          error: err => {
+            console.error("Error al eliminar elemento:", err);
+            this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
+          }
+        });
+      }
+    });
+  }
+
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -221,30 +284,11 @@ export class TipoServicioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Datos recibidos del formulario:", result);
-
-        // Validación de la descripción (si es necesaria)
-        if (!result.descripcionTipoServicio) {
-          this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
-          return;
-        }
-
-        this.tipoServicioService.crear(result).subscribe(
-          (response) => {
-            // Mensaje de éxito desde el frontend
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.obtenerDatos('id', 'desc'); // Recargar los datos
-          },
-          (error) => {
-            // Mensaje de error desde el backend o genérico
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-            console.error("Error al crear servicio:", error);
-          }
-        );
+        this.obtenerDatos('id', 'desc'); // Recargar los datos solo si se creó correctamente
       }
     });
   }
+
 
 
   /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
@@ -253,6 +297,7 @@ export class TipoServicioComponent implements OnInit {
     if (!selectedObject) {
       return;
     }
+
     const dialogRef = this.dialog.open(TipoServicioFormComponent, {
       width: '400px',
       data: {
@@ -263,32 +308,11 @@ export class TipoServicioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if (!result.descripcionTipoServicio) {
-          this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
-          return;
-        }
-
-        const formData: TipoServicio = {
-          id: result.id,
-          descripcionTipoServicio: result.descripcionTipoServicio
-        };
-
-        this.tipoServicioService.actualizar(formData.id, formData).pipe(
-          tap(response => {
-            // Mensaje de éxito desde el frontend
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.obtenerDatos();
-          }),
-          catchError(error => {
-            // Mensaje de error desde el backend
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-            return throwError(error);
-          })
-        ).subscribe();
+        this.obtenerDatos(); // Recargar datos si se actualizó correctamente
       }
     });
   }
+
 
 
 

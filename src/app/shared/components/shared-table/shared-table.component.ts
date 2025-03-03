@@ -30,6 +30,7 @@ export class SharedTableComponent {
   @Input() filters: any[] = []
   @Input() filtersLabels: any[] = []
   @Output() deleteSelected = new EventEmitter<string[]>();
+  @Output() deleteSingleSelected = new EventEmitter<string>();
   @Output() viewSelected = new EventEmitter<string>();
   @Output() editSelected = new EventEmitter<string>();
   @Output() selectionChange = new EventEmitter<any[]>(); // Nuevo Output para notificar cambios en la selección
@@ -179,6 +180,10 @@ export class SharedTableComponent {
   // Emitir id de la fila seleccionada para editar
   onEdit(id: string) {
     this.editSelected.emit(id);
+  }
+
+  onSingleDelete(id: string) {
+    this.deleteSingleSelected.emit(id);
   }
 
 
