@@ -16,12 +16,32 @@
 
         @for (filter of filters; track $index) {
         <div class="col-span-1 w-full p-4">
+            @if(isKeyMissing(filter, "type")){
             <app-busqueda [field]="filter.field" #filterInput></app-busqueda>
+            }@else if (filter.type === 'text') {
+            <app-busqueda [field]="filter.field" #filterInput></app-busqueda>
+            }@else if (filter.type === 'select') {
+            Select
+            }
+
         </div>
         }
         <button (click)="filter()"> Buscar </button>
 
 
+    </div>
+
+    <div class="flex justify-between">
+        <app-busqueda [field]="'a'"></app-busqueda>
+        <div>
+            @if(filtersLabels.length > 0){
+            {{ 'table.filtrosSeleccionados' | translate: { count: filtersLabels.length } }}
+            }
+            @for (active of filtersLabels; track $index) {
+            <button (click)="deleteFilter(active.field)">{{ getTranslationGroup(active.field) | translate }}:
+                {{active.value}} <span class="color-red-500">X</span> |</button>
+            }
+        </div>
     </div>
 
 

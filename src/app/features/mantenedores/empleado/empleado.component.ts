@@ -35,6 +35,8 @@ export class EmpleadoComponent implements OnInit {
   totalPages = 0
   pageSize = 5;
   totalElements = 0;
+  activeOptionalFilters: any = {};
+
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
@@ -93,13 +95,14 @@ export class EmpleadoComponent implements OnInit {
   }
 
 
-  buscar(busqueda: string) {
+  buscar(filters: any) {
     this.pageNumber = 0;
-    if (busqueda.trim()) {
-      this.obtenerDatos("id", "asc", { descripcionEmpleado: busqueda });
-    } else {
-      this.obtenerDatos("id", "asc"); // Llamada sin el tercer parámetro
-    }
+    console.log("transformed", filters);
+    this.obtenerDatos("id", "asc", filters);
+  }
+  onFilterDeleted(field: string) {
+    this.activeOptionalFilters = this.activeOptionalFilters.filter((filter: any) => filter.field !== field);
+    this.obtenerDatos("id", "asc", this.activeOptionalFilters);
   }
 
 
@@ -122,6 +125,7 @@ export class EmpleadoComponent implements OnInit {
       ...optionalFilter
     }
 
+
     this.empleadoService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Empleado[]>) => {
       console.log("Datos recibidos:", data);
 
@@ -129,6 +133,8 @@ export class EmpleadoComponent implements OnInit {
       this.totalPages = data.totalPages
       this.pageSize = data.pageSize;
       this.totalElements = data.totalElements;
+
+      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
 
       this.dataSource = data.content.flat();
       if (data.content.length > 0) {
@@ -223,7 +229,7 @@ export class EmpleadoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }
@@ -245,7 +251,7 @@ export class EmpleadoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }

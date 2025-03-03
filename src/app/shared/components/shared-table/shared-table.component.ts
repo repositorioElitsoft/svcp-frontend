@@ -27,14 +27,17 @@ export class SharedTableComponent {
   @Input() totalPages = 0
   @Input() pageSize = 5;  // Tamaño por defecto para la paginación
   @Input() translationGroup = ""
-  @Input() filters: { type: string, field: string }[] = []
+  @Input() filters: any[] = []
+  @Input() filtersLabels: any[] = []
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() viewSelected = new EventEmitter<string>();
   @Output() editSelected = new EventEmitter<string>();
   @Output() selectionChange = new EventEmitter<any[]>(); // Nuevo Output para notificar cambios en la selección
   @Output() sort = new EventEmitter<{ selectedColumnName: string, currentSortType: string }>();
+  @Output() applyfilter = new EventEmitter<any>();
   @Output() buscar = new EventEmitter<string>();
   @Output() pageChanged = new EventEmitter<number>();
+  @Output() filterDelete = new EventEmitter<string>();
 
   @ViewChildren('filterInput') filterInputs!: QueryList<any>;
 
@@ -51,6 +54,14 @@ export class SharedTableComponent {
   show = true
 
   constructor(private cdr: ChangeDetectorRef) { }
+
+  isKeyMissing(filter: any, key: string): boolean {
+    return !Object.prototype.hasOwnProperty.call(filter, key);
+  }
+
+  deleteFilter(field: string) {
+    this.filterDelete.emit(field);
+  }
 
   getField(value: any) {
     if (typeof value !== 'object' || value === null) {
@@ -78,12 +89,23 @@ export class SharedTableComponent {
   }
 
   protected filter() {
-    const values = this.filterInputs.map(filter => ({
+    const search = this.filterInputs.map(filter => ({
       field: filter.field,
       value: filter.value,
     }));
-    console.log('Collected Filters:', values);
-    //this.buscar.emit(busqueda);
+    console.log('Collected Filters:', search);
+
+    this.pageNumber = 0;
+
+    const transformed = search.reduce((acc, { field, value }) => {
+      if (value) {
+        acc[field] = value;
+      }
+      return acc;
+    }, {} as Record<string, string>);
+
+
+    this.applyfilter.emit(transformed);
   }
 
 
