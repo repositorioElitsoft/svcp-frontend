@@ -9,7 +9,7 @@ import { TranslateModule } from "@ngx-translate/core"
   standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule, TranslateModule],
   template: `
-    <div class="flex items-center justify-between gap-3">
+    <div class="flex items-center justify-between gap-3 text-lg">
     <div class="flex items-center gap-3">
      <button class="elitsoft-btn" (click)="onAgregar()">
     <mat-icon>add</mat-icon>
