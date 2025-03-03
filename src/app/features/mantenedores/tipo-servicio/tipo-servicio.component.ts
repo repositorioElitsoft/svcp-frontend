@@ -221,30 +221,11 @@ export class TipoServicioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Datos recibidos del formulario:", result);
-
-        // Validación de la descripción (si es necesaria)
-        if (!result.descripcionTipoServicio) {
-          this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
-          return;
-        }
-
-        this.tipoServicioService.crear(result).subscribe(
-          (response) => {
-            // Mensaje de éxito desde el frontend
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.obtenerDatos('id', 'desc'); // Recargar los datos
-          },
-          (error) => {
-            // Mensaje de error desde el backend o genérico
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-            console.error("Error al crear servicio:", error);
-          }
-        );
+        this.obtenerDatos('id', 'desc'); // Recargar los datos solo si se creó correctamente
       }
     });
   }
+
 
 
   /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
@@ -253,6 +234,7 @@ export class TipoServicioComponent implements OnInit {
     if (!selectedObject) {
       return;
     }
+
     const dialogRef = this.dialog.open(TipoServicioFormComponent, {
       width: '400px',
       data: {
@@ -263,32 +245,11 @@ export class TipoServicioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if (!result.descripcionTipoServicio) {
-          this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
-          return;
-        }
-
-        const formData: TipoServicio = {
-          id: result.id,
-          descripcionTipoServicio: result.descripcionTipoServicio
-        };
-
-        this.tipoServicioService.actualizar(formData.id, formData).pipe(
-          tap(response => {
-            // Mensaje de éxito desde el frontend
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.obtenerDatos();
-          }),
-          catchError(error => {
-            // Mensaje de error desde el backend
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-            return throwError(error);
-          })
-        ).subscribe();
+        this.obtenerDatos(); // Recargar datos si se actualizó correctamente
       }
     });
   }
+
 
 
 

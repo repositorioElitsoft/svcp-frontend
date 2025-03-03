@@ -17,9 +17,10 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { TipoServicio } from '../../../core/models/tipo-servicio.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tipoServicio-create-form',
@@ -50,6 +51,7 @@ export class TipoServicioFormComponent implements OnInit {
 
 
   constructor(
+    private translate: TranslateService, private toastr: ToastrService,
     private fb: FormBuilder,
     private tipoServicioService: TipoServicioService,
 
@@ -85,18 +87,44 @@ export class TipoServicioFormComponent implements OnInit {
   onSubmit() {
     console.log("Formulario enviado:", this.form.value);
 
-    if (this.form.valid) {
-      const formData: TipoServicio = {
-        id: this.form.value.id,
-        descripcionTipoServicio: this.form.value.descripcionTipoServicio,
-      };
+    if (this.form.invalid) {
+      this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
+      return;
+    }
 
-      console.log("Datos mapeados para enviar:", formData);
+    const formData: TipoServicio = {
+      id: this.form.value.id,
+      descripcionTipoServicio: this.form.value.descripcionTipoServicio,
+    };
 
-      // Cierra el formulario con los datos correctos
-      this.dialogRef.close(formData);
+    console.log("Datos mapeados para enviar:", formData);
+
+    if (this.esActualizar()) {
+      // Llamar al servicio para actualizar
+      this.tipoServicioService.actualizar(formData.id, formData).subscribe({
+        next: () => {
+          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+          this.dialogRef.close(formData);
+        },
+        error: (error) => {
+          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+          this.toastr.error(errorMessage);
+        }
+      });
     } else {
-      console.log("Formulario no válido");
+      // Llamar al servicio para crear un nuevo servicio
+      this.tipoServicioService.crear(formData).subscribe({
+        next: () => {
+          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+          this.dialogRef.close(formData);
+        },
+        error: (error) => {
+          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+          this.toastr.error(errorMessage);
+        }
+      });
     }
   }
+
+
 }
