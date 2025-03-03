@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,13 +19,16 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './busqueda.component.css'
 })
 export class BusquedaComponent {
-  query: string = '';
+  @Input() field: string = '';
+  @Input() value: string = '';
+  @Output() valueChange = new EventEmitter<{ field: string; value: string }>();
 
-  @Output() buscar = new EventEmitter<string>();
+  onValueChange() {
+    this.valueChange.emit({ field: this.field, value: this.value });
+  }
+
 
   constructor(private translate: TranslateService) { }
 
-  realizarBusqueda() {
-    this.buscar.emit(this.query.trim());
-  }
+
 }

@@ -27,6 +27,7 @@ export class SharedTableComponent {
   @Input() totalPages = 0
   @Input() pageSize = 5;  // Tamaño por defecto para la paginación
   @Input() translationGroup = ""
+  @Input() filters: { type: string, field: string }[] = []
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() viewSelected = new EventEmitter<string>();
   @Output() editSelected = new EventEmitter<string>();
@@ -34,6 +35,8 @@ export class SharedTableComponent {
   @Output() sort = new EventEmitter<{ selectedColumnName: string, currentSortType: string }>();
   @Output() buscar = new EventEmitter<string>();
   @Output() pageChanged = new EventEmitter<number>();
+
+  @ViewChildren('filterInput') filterInputs!: QueryList<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;  // Paginador como input
   @ViewChildren('sortHeader') sortHeaders!: QueryList<ElementRef>
@@ -74,8 +77,13 @@ export class SharedTableComponent {
     return this.translationGroup ? `${this.translationGroup}.${column}` : column
   }
 
-  protected buscarEvent(busqueda: string) {
-    this.buscar.emit(busqueda);
+  protected filter() {
+    const values = this.filterInputs.map(filter => ({
+      field: filter.field,
+      value: filter.value,
+    }));
+    console.log('Collected Filters:', values);
+    //this.buscar.emit(busqueda);
   }
 
 

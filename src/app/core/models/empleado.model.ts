@@ -6,10 +6,10 @@ export interface Empleado {
     imagenPerfil: string;
     telefonoFijo: string;
     telefonoMovil: string;
-    fechaNacimiento: string; // Assuming LocalDate is serialized as a string (ISO 8601)
+    fechaNacimiento: string;
     email: string;
     rut: number;
-    rutDv: string; // Using string for single-character values
+    rutDv: string;
     nombreUsuario: string;
     tipoEmpleadoId: number;
     roleId: number;

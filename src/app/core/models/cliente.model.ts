@@ -1,0 +1,28 @@
+import { AgrupacionComercial } from "./agrupacion-comercial.model";
+import { ClasificacionCliente } from "./clasificacion-cliente.model";
+import { Direccion } from "./direccion.model";
+import { Estado } from "./estado.model";
+import { SegmentacionCliente } from "./segmentacion-cliente.model";
+import { TipoCliente } from "./tipo-cliente.model";
+
+export interface Cliente {
+    id: number;
+    nombre: string;
+    apellidoPaterno?: string;
+    apellidoMaterno?: string;
+    rut: number;
+    rutDv: string;
+    fechaNacimiento: string;
+    imagenPerfil?: string;
+    email?: string;
+    campo1?: string;
+    campo2?: string;
+    telefonoFijo?: string;
+    telefonoMovil?: string;
+    tipoCliente: TipoCliente;
+    clasificacionCliente: ClasificacionCliente;
+    estado: Estado;
+    direcciones: Direccion[];
+    agrupacionComercial: AgrupacionComercial;
+    segmentacionCliente: SegmentacionCliente;
+}

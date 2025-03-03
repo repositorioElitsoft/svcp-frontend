@@ -1,0 +1,256 @@
+import { Component, OnInit, inject, model } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ClienteService } from '../../../core/services/cliente.service';
+import { MatError, MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+
+/*services-imports*/
+import { TipoClienteService } from '../../../core/services/tipo-cliente.service';
+import { TipoCliente } from '../../../core/models/tipo-cliente.model';
+
+import { ClasificacionClienteService } from '../../../core/services/clasificacion-cliente.service';
+import { ClasificacionCliente } from '../../../core/models/clasificacion-cliente.model';
+
+
+import { Estado } from '../../../core/models/estado.model';
+
+import { AgrupacionComercialService } from '../../../core/services/agrupacion-comercial.service';
+import { AgrupacionComercial } from '../../../core/models/agrupacion-comercial.model';
+
+import { SegmentacionClienteService } from '../../../core/services/segmentacion-cliente.service';
+import { SegmentacionCliente } from '../../../core/models/segmentacion-cliente.model';
+
+
+
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
+import { Cliente } from '../../../core/models/cliente.model';
+import { catchError, tap, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { EstadoService } from '../../../core/services/estado.service';
+
+@Component({
+  selector: 'app-cliente-create-form',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatDialogContent,
+    MatSelectModule,
+    MatOptionModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatError,
+    TranslateModule,
+    TituloDialogoComponent,
+  ],
+  templateUrl: `./cliente.component.html`,
+  styles: [],
+})
+export class ClienteFormComponent implements OnInit {
+  form!: FormGroup;
+
+  readonly dialogRef = inject(MatDialogRef<ClienteFormComponent>);
+  readonly data = inject<any>(MAT_DIALOG_DATA);
+  readonly esActualizar = model(this.data.esActualizar);
+
+  /*variable-declarations*/
+  tipoCliente: TipoCliente[] = [];
+  clasificacionCliente: ClasificacionCliente[] = [];
+  estado: Estado[] = [];
+  agrupacionComercial: AgrupacionComercial[] = [];
+  segmentacionCliente: SegmentacionCliente[] = [];
+
+
+  constructor(
+    private fb: FormBuilder,
+    private clienteService: ClienteService,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    /*other-services-injection*/
+    private tipoClienteService: TipoClienteService,
+    private clasificacionClienteService: ClasificacionClienteService,
+    private estadoService: EstadoService,
+    private agrupacionComercialService: AgrupacionComercialService,
+    private segmentacionClienteService: SegmentacionClienteService,
+  ) {
+    // Tipando el FormGroup
+    this.form = this.fb.group({
+      /*inputsflag*/
+      id: [null,],
+      nombre: [null, Validators.required],
+      apellidoPaterno: [null, Validators.required],
+      apellidoMaterno: [null, Validators.required],
+      rut: [null, Validators.required],
+      rutDv: [null, Validators.required],
+      fechaNacimiento: [null, Validators.required],
+      imagenPerfil: [null, Validators.required],
+      email: [null, Validators.required],
+      campo1: [null, Validators.required],
+      campo2: [null, Validators.required],
+      telefonoFijo: [null, Validators.required],
+      telefonoMovil: [null, Validators.required],
+      tipoCliente: [{}, Validators.required],
+      clasificacionCliente: [{}, Validators.required],
+      estado: [{}, Validators.required],
+      direcciones: [null, Validators.required],
+      agrupacionComercial: [{}, Validators.required],
+      segmentacionCliente: [{}, Validators.required],
+    });
+  }
+
+  ngOnInit() {
+    console.log("Datos recibidos en el formulario:", this.data);
+
+    // Verificar si 'data.object' existe y tiene el campo 'descripcionCliente'
+    if (this.esActualizar() && this.data?.object) {
+      console.log("Objeto recibido:", this.data.object);
+
+
+      this.form.patchValue({
+        /*object-fields-edit*/
+        id: this.data.object.id,
+        nombre: this.data.object.nombre,
+        apellidoPaterno: this.data.object.apellidoPaterno,
+        apellidoMaterno: this.data.object.apellidoMaterno,
+        rut: this.data.object.rut,
+        rutDv: this.data.object.rutDv,
+        fechaNacimiento: this.data.object.fechaNacimiento,
+        imagenPerfil: this.data.object.imagenPerfil,
+        email: this.data.object.email,
+        campo1: this.data.object.campo1,
+        campo2: this.data.object.campo2,
+        telefonoFijo: this.data.object.telefonoFijo,
+        telefonoMovil: this.data.object.telefonoMovil,
+        tipoCliente: this.data.object.tipoCliente,
+        clasificacionCliente: this.data.object.clasificacionCliente,
+        estado: this.data.object.estado,
+        direcciones: this.data.object.direcciones,
+        agrupacionComercial: this.data.object.agrupacionComercial,
+        segmentacionCliente: this.data.object.segmentacionCliente,
+      });
+
+      console.log("Datos en el formulario después de patchValue:", this.form.value);
+    } else {
+      console.error("No se recibió un objeto válido en 'data'");
+    }
+    /*services-init-call*/
+
+    this.tipoClienteService.buscarTodos().subscribe({
+      next: (tipoCliente: TipoCliente[]) => {
+        console.log("created entity ", tipoCliente)
+        this.tipoCliente = tipoCliente
+      }
+    })
+
+
+    this.clasificacionClienteService.buscarTodos().subscribe({
+      next: (clasificacionCliente: ClasificacionCliente[]) => {
+        console.log("created entity ", clasificacionCliente)
+        this.clasificacionCliente = clasificacionCliente
+      }
+    })
+
+
+    this.estadoService.buscarTodos().subscribe({
+      next: (estado: Estado[]) => {
+        console.log("created entity ", estado)
+        this.estado = estado
+      }
+    })
+
+
+    this.agrupacionComercialService.buscarTodos().subscribe({
+      next: (agrupacionComercial: AgrupacionComercial[]) => {
+        console.log("created entity ", agrupacionComercial)
+        this.agrupacionComercial = agrupacionComercial
+      }
+    })
+
+
+    this.segmentacionClienteService.buscarTodos().subscribe({
+      next: (segmentacionCliente: SegmentacionCliente[]) => {
+        console.log("created entity ", segmentacionCliente)
+        this.segmentacionCliente = segmentacionCliente
+      }
+    })
+
+
+  }
+
+  onSubmit() {
+    console.log("Formulario enviado:", this.form.value);
+
+    if (this.form.valid) {
+      const formData: Cliente = {
+        /*form-fields-submit*/
+        id: this.form.value.id,
+        nombre: this.form.value.nombre,
+        apellidoPaterno: this.form.value.apellidoPaterno,
+        apellidoMaterno: this.form.value.apellidoMaterno,
+        rut: this.form.value.rut,
+        rutDv: this.form.value.rutDv,
+        fechaNacimiento: this.form.value.fechaNacimiento,
+        imagenPerfil: this.form.value.imagenPerfil,
+        email: this.form.value.email,
+        campo1: this.form.value.campo1,
+        campo2: this.form.value.campo2,
+        telefonoFijo: this.form.value.telefonoFijo,
+        telefonoMovil: this.form.value.telefonoMovil,
+        tipoCliente: this.form.value.tipoCliente,
+        clasificacionCliente: this.form.value.clasificacionCliente,
+        estado: this.form.value.estado,
+        direcciones: this.form.value.direcciones,
+        agrupacionComercial: this.form.value.agrupacionComercial,
+        segmentacionCliente: this.form.value.segmentacionCliente,
+      };
+
+      console.log("Datos mapeados para enviar:", formData);
+
+      // Cierra el formulario con los datos correctos
+      if (this.esActualizar()) {
+        this.clienteService.actualizar(formData.id, formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+
+      }
+      else {
+        this.clienteService.crear(formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(response);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+      }
+    } else {
+      console.log("Formulario no válido");
+    }
+  }
+}

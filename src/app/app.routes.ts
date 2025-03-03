@@ -12,6 +12,8 @@ import { TipoProductoComponent } from './features/mantenedores/tipo-producto/tip
 import { TipoServicioComponent } from './features/mantenedores/tipo-servicio/tipo-servicio.component';
 import { SegmentacionClienteComponent } from './features/mantenedores/segmentacion-cliente/segmentacion-cliente.component';
 import { AgrupacionComercialComponent } from './features/mantenedores/agrupacion-comercial/agrupacion-comercial.component';
+import { ClienteComponent } from './features/mantenedores/cliente/cliente.component';
+import { EmpleadoComponent } from './features/mantenedores/empleado/empleado.component';
 
 export const routes: Routes = [
     {
@@ -80,6 +82,14 @@ export const routes: Routes = [
                     {
                         path: "agrupaciones-comerciales",
                         component: AgrupacionComercialComponent
+                    },
+                    {
+                        path: "clientes",
+                        component: ClienteComponent
+                    },
+                    {
+                        path: "empleados",
+                        component: EmpleadoComponent
                     }
                     /*ruta_nueva*/
                 ]

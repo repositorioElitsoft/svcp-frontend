@@ -9,17 +9,19 @@
     <div class="m-4"></div>
 
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 rounded-t-lg bg-gray-100 overflow-hidden dark:bg-neutral-800  ">
-        <div class="col-span-1 w-full p-4">
-            <app-busqueda (buscar)="buscarEvent($event)"></app-busqueda>
-        </div>
 
-        <div class="col-span-1 w-full">
-            <!-- Contenido de la columna 2 (20%) -->
+
+
+    <div class="flex gap-4 rounded-t-lg bg-gray-100 overflow-hidden dark:bg-neutral-800  ">
+
+        @for (filter of filters; track $index) {
+        <div class="col-span-1 w-full p-4">
+            <app-busqueda [field]="filter.field" #filterInput></app-busqueda>
         </div>
-        <div class="col-span-1 w-full">
-            <!-- Contenido de la columna 3 (60%) -->
-        </div>
+        }
+        <button (click)="filter()"> Buscar </button>
+
+
     </div>
 
 
