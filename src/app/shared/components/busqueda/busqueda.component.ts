@@ -21,12 +21,21 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 export class BusquedaComponent {
   @Input() field: string = '';
   @Input() value: string = '';
+  @Input() isSimpleSearch: boolean = false
   @Output() valueChange = new EventEmitter<{ field: string; value: string }>();
+  @Output() simpleSearch = new EventEmitter<{ [x: string]: string; }>();
 
   onValueChange() {
+    if (this.isSimpleSearch) return
     this.valueChange.emit({ field: this.field, value: this.value });
   }
-
+  makeSimpleSearch() {
+    console.log('attempting to make simple search, is simple search?', this.isSimpleSearch);
+    if (!this.isSimpleSearch) return;
+    const newObject = { [this.field]: this.value }
+    console.log("filtering by ", newObject)
+    this.simpleSearch.emit(newObject);
+  }
 
   constructor(private translate: TranslateService) { }
 

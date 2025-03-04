@@ -4,6 +4,7 @@
         class="w-full h-full bg-transparent border-0 outline-none text-[#757575] text-lg font-roboto font-normal dark:text-[#ccc]"
         (ngModelChange)="onValueChange()" [placeholder]="'home.placeholder-search' | translate" />
     <div>
-        <mat-icon class="text-[#757575] dark:text-[#ccc] hover:cursor-pointer">search</mat-icon>
+        <mat-icon (click)="makeSimpleSearch()"
+            class="text-[#757575] dark:text-[#ccc] hover:cursor-pointer">search</mat-icon>
     </div>
 </div>

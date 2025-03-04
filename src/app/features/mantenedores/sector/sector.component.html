@@ -31,7 +31,8 @@
                 [totalPages]="totalPages" [pageSize]="pageSize" (deleteSelected)="onDeleteSelected($event)"
                 (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
                 (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"
-                (filterDelete)="onFilterDeleted($event)" [filters]='[{field: "descripcionSector"}]'></app-shared-table>
+                [simpleSearchField]="'descripcionSector'" (filterDelete)="onFilterDeleted($event)"
+                [filters]='[]'></app-shared-table>
         </div>
     </div>
 </section>

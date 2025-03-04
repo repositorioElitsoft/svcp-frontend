@@ -27,12 +27,11 @@
         </div>
         }
         <button (click)="filter()"> Buscar </button>
-
-
     </div>
 
     <div class="flex justify-between">
-        <app-busqueda [field]="'a'"></app-busqueda>
+        <app-busqueda (simpleSearch)="makeSimpleSearch($event)" [field]="simpleSearchField"
+            [isSimpleSearch]="true"></app-busqueda>
         <div>
             @if(filtersLabels.length > 0){
             {{ 'table.filtrosSeleccionados' | translate: { count: filtersLabels.length } }}
