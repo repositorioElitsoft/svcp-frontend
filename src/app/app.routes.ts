@@ -14,6 +14,7 @@ import { SegmentacionClienteComponent } from './features/mantenedores/segmentaci
 import { AgrupacionComercialComponent } from './features/mantenedores/agrupacion-comercial/agrupacion-comercial.component';
 import { ClienteComponent } from './features/mantenedores/cliente/cliente.component';
 import { EmpleadoComponent } from './features/mantenedores/empleado/empleado.component';
+import { TareaComponent } from './features/mantenedores/tarea/tarea.component';
 
 export const routes: Routes = [
     {
@@ -60,6 +61,10 @@ export const routes: Routes = [
                     {
                         path: "trabajos",
                         component: TrabajoComponent
+                    },
+                    {
+                        path: "tareas",
+                        component: TareaComponent
                     },
                     {
                         path: "sectores",

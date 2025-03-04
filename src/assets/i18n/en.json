@@ -125,7 +125,17 @@
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Customer Segmentation",
-            "descripcion": "Customer Segmentation Description"
+            "descripcionSegmentacionCliente": "Customer Segmentation Description"
+        },
+        "tarea": {
+            "id": "Id",
+            "titulo": "Task",
+            "descripcionTarea": "Task Description"
+        },
+        "trabajo": {
+            "id": "Id",
+            "titulo": "Work",
+            "descripcionTrabajo": "Work Description"
         },
         "formularios": {
             "campoRequerido": "This field is required",
@@ -213,6 +223,28 @@
                 "tituloAgregar": "Add Customer Segmentation",
                 "label": "Customer Segmentation Description",
                 "descripcion": "Enter the description of the Customer Segmentation",
+                "campoRequerido": "This field is required",
+                "botonCancelar": "Cancel",
+                "botonAgregar": "Save",
+                "actualizar": "Update",
+                "guardar": "Save"
+            },
+            "tarea": {
+                "tituloEditar": "Edit Task",
+                "tituloAgregar": "Add Task",
+                "label": "Task Description",
+                "descripcion": "Enter the Task Description",
+                "campoRequerido": "This field is required",
+                "botonCancelar": "Cancel",
+                "botonAgregar": "Save",
+                "actualizar": "Update",
+                "guardar": "Save"
+            },
+            "trabajo": {
+                "tituloEditar": "Edit Work",
+                "tituloAgregar": "Add Work",
+                "label": "Work Description",
+                "descripcion": "Enter the Work Description",
                 "campoRequerido": "This field is required",
                 "botonCancelar": "Cancel",
                 "botonAgregar": "Save",

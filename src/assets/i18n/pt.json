@@ -118,7 +118,17 @@
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Segmentação de Clientes",
-            "descripcion": "Descrição da segmentação de clientes"
+            "descripcionSegmentacionCliente": "Descrição da segmentação de clientes"
+        },
+        "tarea": {
+            "id": "Id",
+            "titulo": "Tarefa",
+            "descripcionTarea": "Descrição da Tarefa"
+        },
+        "trabajo": {
+            "id": "Id",
+            "titulo": "Trabalho",
+            "descripcionTrabajo": "Descrição do Trabalho"
         },
         "formularios": {
             "campoRequerido": "Este campo é obrigatório",
@@ -206,6 +216,28 @@
                 "tituloAgregar": "Adicionar segmentação de clientes",
                 "label": "Descrição da segmentação de clientes",
                 "descripcion": "Insira a descrição da Segmentação de Clientes",
+                "campoRequerido": "Este campo é obrigatório",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
+            },
+            "tarea": {
+                "tituloEditar": "Editar Tarefa",
+                "tituloAgregar": "Adicionar Tarefa",
+                "label": "Descrição da Tarefa",
+                "descripcion": "Insira a Descrição da Tarefa",
+                "campoRequerido": "Este campo é obrigatório",
+                "botonCancelar": "Cancelar",
+                "botonAgregar": "Salvar",
+                "actualizar": "Atualizar",
+                "guardar": "Salvar"
+            },
+            "trabajo": {
+                "tituloEditar": "Editar Trabalho",
+                "tituloAgregar": "Adicionar Trabalho",
+                "label": "Descrição do Trabalho",
+                "descripcion": "Insira a Descrição do Trabalho",
                 "campoRequerido": "Este campo é obrigatório",
                 "botonCancelar": "Cancelar",
                 "botonAgregar": "Salvar",

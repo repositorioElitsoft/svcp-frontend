@@ -32,12 +32,12 @@
                     {
                         "permission": "access.jobAssignment",
                         "title": "sideBar.jobAssignment",
-                        "link": "portal/assignment-trabajos/trabajos"
+                        "link": "portal/mantenedores/trabajos"
                     },
                     {
                         "permission": "access.taskAssignment",
                         "title": "sideBar.taskAssignment",
-                        "link": "portal/assignment-tareas/tareas"
+                        "link": "portal/mantenedores/tareas"
                     }
                 ]
             },
