@@ -17,27 +17,27 @@ export class EstadoService {
     });
 
     buscar(estadoId: number): Observable<Estado> {
-        return this.http.get<Estado>(`${this.url}estado/${estadoId}`);
+        return this.http.get<Estado>(`${this.url}estados/${estadoId}`);
     }
 
     buscarTodos(): Observable<Estado[]> {
-        return this.http.get<Estado[]>(`${this.url}estado/lote`, { headers: this.headers });
+        return this.http.get<Estado[]>(`${this.url}estados/lote`, { headers: this.headers });
     }
 
     borrar(estadoId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}estado/${estadoId}`);
+        return this.http.delete<any>(`${this.url}estados/${estadoId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}estado/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}estados/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(estadoId: number, estado: Estado): Observable<Estado> {
-        return this.http.put<Estado>(`${this.url}estado/${estadoId}`, estado);
+        return this.http.put<Estado>(`${this.url}estados/${estadoId}`, estado);
     }
 
     crear(estado: Estado): Observable<Estado> {
-        return this.http.post<Estado>(`${this.url}estado`, estado);
+        return this.http.post<Estado>(`${this.url}estados`, estado);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class EstadoService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/estado`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/estados`, { params, headers: this.headers });
     }
 }
