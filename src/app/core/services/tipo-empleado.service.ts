@@ -17,27 +17,27 @@ export class TipoEmpleadoService {
     });
 
     buscar(tipoEmpleadoId: number): Observable<TipoEmpleado> {
-        return this.http.get<TipoEmpleado>(`${this.url}tipoempleado/${tipoEmpleadoId}`);
+        return this.http.get<TipoEmpleado>(`${this.url}tipos-empleados/${tipoEmpleadoId}`);
     }
 
     buscarTodos(): Observable<TipoEmpleado[]> {
-        return this.http.get<TipoEmpleado[]>(`${this.url}tipoempleado/lote`, { headers: this.headers });
+        return this.http.get<TipoEmpleado[]>(`${this.url}tipos-empleados/lote`, { headers: this.headers });
     }
 
     borrar(tipoEmpleadoId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipoempleado/${tipoEmpleadoId}`);
+        return this.http.delete<any>(`${this.url}tipos-empleados/${tipoEmpleadoId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipoempleado/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}tipos-empleados/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(tipoEmpleadoId: number, tipoEmpleado: TipoEmpleado): Observable<TipoEmpleado> {
-        return this.http.put<TipoEmpleado>(`${this.url}tipoempleado/${tipoEmpleadoId}`, tipoEmpleado);
+        return this.http.put<TipoEmpleado>(`${this.url}tipos-empleados/${tipoEmpleadoId}`, tipoEmpleado);
     }
 
     crear(tipoEmpleado: TipoEmpleado): Observable<TipoEmpleado> {
-        return this.http.post<TipoEmpleado>(`${this.url}tipoempleado`, tipoEmpleado);
+        return this.http.post<TipoEmpleado>(`${this.url}tipos-empleados`, tipoEmpleado);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class TipoEmpleadoService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/tipoempleado`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/tipos-empleados`, { params, headers: this.headers });
     }
 }

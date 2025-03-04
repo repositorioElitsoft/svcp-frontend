@@ -17,27 +17,27 @@ export class TipoProductoService {
     });
 
     buscar(tipoProductoId: number): Observable<TipoProducto> {
-        return this.http.get<TipoProducto>(`${this.url}tipoproducto/${tipoProductoId}`);
+        return this.http.get<TipoProducto>(`${this.url}tipos-productos/${tipoProductoId}`);
     }
 
     buscarTodos(): Observable<TipoProducto[]> {
-        return this.http.get<TipoProducto[]>(`${this.url}tipoproducto/lote`, { headers: this.headers });
+        return this.http.get<TipoProducto[]>(`${this.url}tipos-productos/lote`, { headers: this.headers });
     }
 
     borrar(tipoProductoId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipoproducto/${tipoProductoId}`);
+        return this.http.delete<any>(`${this.url}tipos-productos/${tipoProductoId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipoproducto/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}tipos-productos/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(tipoProductoId: number, tipoProducto: TipoProducto): Observable<TipoProducto> {
-        return this.http.put<TipoProducto>(`${this.url}tipoproducto/${tipoProductoId}`, tipoProducto);
+        return this.http.put<TipoProducto>(`${this.url}tipos-productos/${tipoProductoId}`, tipoProducto);
     }
 
     crear(tipoProducto: TipoProducto): Observable<TipoProducto> {
-        return this.http.post<TipoProducto>(`${this.url}tipoproducto`, tipoProducto);
+        return this.http.post<TipoProducto>(`${this.url}tipos-productos`, tipoProducto);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class TipoProductoService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/tipoproducto`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/tipos-productos`, { params, headers: this.headers });
     }
 }
