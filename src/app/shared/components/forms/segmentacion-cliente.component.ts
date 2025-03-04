@@ -103,7 +103,7 @@ export class SegmentacionClienteFormComponent implements OnInit {
 
     const formData: SegmentacionCliente = {
       id: this.form.value.id,
-      descripcion: this.form.value.descripcionTipoServicio,
+      descripcion: this.form.value.descripcion,
     };
 
     console.log("Datos mapeados para enviar:", formData);
@@ -134,6 +134,5 @@ export class SegmentacionClienteFormComponent implements OnInit {
       });
     }
   }
-
 
 }
