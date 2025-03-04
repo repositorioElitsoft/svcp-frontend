@@ -66,30 +66,28 @@ export class AgrupacionComercialFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  nombreGrupoComercial: [null, Validators.required],
+      id: [null],
+      nombreGrupoComercial: [null, Validators.required],
     });
   }
 
   ngOnInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'descripcionAgrupacionComercial'
+    // Verificar si 'data.object' existe y tiene el campo 'tipoServicioDesc'
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
 
       this.form.patchValue({
-        /*object-fields-edit*/
-id: this.data.object.id,
-nombreGrupoComercial: this.data.object.nombreGrupoComercial,
+        id: this.data.object.id,
+        nombreGrupoComercial: this.data.object.nombreGrupoComercial,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
     } else {
       console.error("No se recibió un objeto válido en 'data'");
     }
-    /*services-init-call*/
 
 
   }
@@ -100,8 +98,8 @@ nombreGrupoComercial: this.data.object.nombreGrupoComercial,
     if (this.form.valid) {
       const formData: AgrupacionComercial = {
         /*form-fields-submit*/
-id: this.form.value.id,
-nombreGrupoComercial: this.form.value.nombreGrupoComercial,
+        id: this.form.value.id,
+        nombreGrupoComercial: this.form.value.nombreGrupoComercial,
       };
 
       console.log("Datos mapeados para enviar:", formData);
