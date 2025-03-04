@@ -17,27 +17,27 @@ export class SegmentacionClienteService {
     });
 
     buscar(segmentacionClienteId: number): Observable<SegmentacionCliente> {
-        return this.http.get<SegmentacionCliente>(`${this.url}segmentacioncliente/${segmentacionClienteId}`);
+        return this.http.get<SegmentacionCliente>(`${this.url}segmentaciones-clientes/${segmentacionClienteId}`);
     }
 
     buscarTodos(): Observable<SegmentacionCliente[]> {
-        return this.http.get<SegmentacionCliente[]>(`${this.url}segmentacioncliente/lote`, { headers: this.headers });
+        return this.http.get<SegmentacionCliente[]>(`${this.url}segmentaciones-clientes/lote`, { headers: this.headers });
     }
 
     borrar(segmentacionClienteId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}segmentacioncliente/${segmentacionClienteId}`);
+        return this.http.delete<any>(`${this.url}segmentaciones-clientes/${segmentacionClienteId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}segmentacioncliente/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}segmentaciones-clientes/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(segmentacionClienteId: number, segmentacionCliente: SegmentacionCliente): Observable<SegmentacionCliente> {
-        return this.http.put<SegmentacionCliente>(`${this.url}segmentacioncliente/${segmentacionClienteId}`, segmentacionCliente);
+        return this.http.put<SegmentacionCliente>(`${this.url}segmentaciones-clientes/${segmentacionClienteId}`, segmentacionCliente);
     }
 
     crear(segmentacionCliente: SegmentacionCliente): Observable<SegmentacionCliente> {
-        return this.http.post<SegmentacionCliente>(`${this.url}segmentacioncliente`, segmentacionCliente);
+        return this.http.post<SegmentacionCliente>(`${this.url}segmentaciones-clientes`, segmentacionCliente);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class SegmentacionClienteService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/segmentacioncliente`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/segmentaciones-clientes`, { params, headers: this.headers });
     }
 }
