@@ -21,11 +21,11 @@ export class ClasificacionComercialService {
     borrar(clasificacionComercialId: number): Observable<any> {
         return this.http.delete<any>(`${this.url}clasificaciones-comerciales/${clasificacionComercialId}`);
     }
-    actualizar(clasificacionComercialId: number,clasificacionComercial: ClasificacionComercial): Observable<ClasificacionComercial> {
-        return this.http.put<ClasificacionComercial>(`${this.url}clasificaciones-comerciales/${clasificacionComercialId}`,clasificacionComercial);
+    actualizar(clasificacionComercialId: number, clasificacionComercial: ClasificacionComercial): Observable<ClasificacionComercial> {
+        return this.http.put<ClasificacionComercial>(`${this.url}clasificaciones-comerciales/${clasificacionComercialId}`, clasificacionComercial);
     }
     crear(clasificacionComercial: ClasificacionComercial): Observable<ClasificacionComercial> {
-        return this.http.post<ClasificacionComercial>(`${this.url}clasificaciones-comerciales`,clasificacionComercial);
+        return this.http.post<ClasificacionComercial>(`${this.url}clasificaciones-comerciales`, clasificacionComercial);
     }
 
 }

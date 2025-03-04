@@ -17,27 +17,27 @@ export class ClienteService {
     });
 
     buscar(clienteId: number): Observable<Cliente> {
-        return this.http.get<Cliente>(`${this.url}cliente/${clienteId}`);
+        return this.http.get<Cliente>(`${this.url}clientes/${clienteId}`);
     }
 
     buscarTodos(): Observable<Cliente[]> {
-        return this.http.get<Cliente[]>(`${this.url}cliente`, { headers: this.headers });
+        return this.http.get<Cliente[]>(`${this.url}clientes`, { headers: this.headers });
     }
 
     borrar(clienteId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}cliente/${clienteId}`);
+        return this.http.delete<any>(`${this.url}clientes/${clienteId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}cliente/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}clientes/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(clienteId: number, cliente: Cliente): Observable<Cliente> {
-        return this.http.put<Cliente>(`${this.url}cliente/${clienteId}`, cliente);
+        return this.http.put<Cliente>(`${this.url}clientes/${clienteId}`, cliente);
     }
 
     crear(cliente: Cliente): Observable<Cliente> {
-        return this.http.post<Cliente>(`${this.url}cliente`, cliente);
+        return this.http.post<Cliente>(`${this.url}clientes`, cliente);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class ClienteService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/cliente`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/clientes`, { params, headers: this.headers });
     }
 }

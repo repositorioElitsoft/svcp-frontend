@@ -17,27 +17,27 @@ export class SectorService {
     });
 
     buscar(sectorId: number): Observable<Sector> {
-        return this.http.get<Sector>(`${this.url}sector/${sectorId}`);
+        return this.http.get<Sector>(`${this.url}sectores/${sectorId}`);
     }
 
     buscarTodos(): Observable<Sector[]> {
-        return this.http.get<Sector[]>(`${this.url}sector/lote`, { headers: this.headers });
+        return this.http.get<Sector[]>(`${this.url}sectores/lote`, { headers: this.headers });
     }
 
     borrar(sectorId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}sector/${sectorId}`);
+        return this.http.delete<any>(`${this.url}sectores/${sectorId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}sector/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}sectores/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(sectorId: number, sector: Sector): Observable<Sector> {
-        return this.http.put<Sector>(`${this.url}sector/${sectorId}`, sector);
+        return this.http.put<Sector>(`${this.url}sectores/${sectorId}`, sector);
     }
 
     crear(sector: Sector): Observable<Sector> {
-        return this.http.post<Sector>(`${this.url}sector`, sector);
+        return this.http.post<Sector>(`${this.url}sectores`, sector);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class SectorService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/sector`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/sectores`, { params, headers: this.headers });
     }
 }
