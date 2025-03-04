@@ -28,8 +28,9 @@
             <app-shared-table (buscar)="buscar($event)" [translationGroup]="'mantenedores.zona'"
                 [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
                 [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
-                (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
-                (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
+                (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
+                (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
+                (editSelected)="onEditSelected($event)"
                 (selectionChange)="onSelectionChange($event)"></app-shared-table>
         </div>
     </div>
