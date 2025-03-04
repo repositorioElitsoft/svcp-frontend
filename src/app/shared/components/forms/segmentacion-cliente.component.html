@@ -7,10 +7,10 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
         <mat-form-field appearance="outline" class="w-full dark:text-white  ">
             <mat-label>{{ 'mantenedores.formularios.segmentacionCliente.label' | translate }}</mat-label>
-            <input matInput formControlName="descripcionSegmentacionCliente"
+            <input matInput formControlName="descripcion"
                 [attr.placeholder]="'mantenedores.formularios.segmentacionCliente.descripcion' | translate"
                 class="w-full dark:text-white ">
-            <mat-error *ngIf="form.get('descripcionSegmentacionCliente')?.hasError('required')" class="text-red-500">
+            <mat-error *ngIf="form.get('descripcion')?.hasError('required')" class="text-red-500">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
         </mat-form-field>
