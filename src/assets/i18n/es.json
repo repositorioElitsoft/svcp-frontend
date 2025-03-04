@@ -192,55 +192,42 @@
                 "tituloAgregar": "Agregar Tipo de Servicio",
                 "label": "Descripción del Tipo de Servicio",
                 "descripcion": "Ingrese la descripción del tipo de servicio",
-                "campoRequerido": "Este campo es obligatorio",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Guardar",
-                "actualizar": "Actualizar",
-                "guardar": "Guardar"
+                "campoRequerido": "Este campo es obligatorio"
             },
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupación Comercial",
                 "tituloAgregar": "Agregar Agrupación Comercial",
                 "label": "Descripción del Agrupación Comercial",
                 "descripcion": "Ingrese la descripción del Agrupación Comercial",
-                "campoRequerido": "Este campo es obligatorio",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Guardar",
-                "actualizar": "Actualizar",
-                "guardar": "Guardar"
+                "campoRequerido": "Este campo es obligatorio"
             },
             "segmentacionCliente": {
                 "tituloEditar": "Editar Segmentación Cliente",
                 "tituloAgregar": "Agregar Segmentación Cliente",
                 "label": "Descripción de Segmentación Cliente",
                 "descripcion": "Ingrese la descripción de Segmentación Cliente",
-                "campoRequerido": "Este campo es obligatorio",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Guardar",
-                "actualizar": "Actualizar",
-                "guardar": "Guardar"
+                "campoRequerido": "Este campo es obligatorio"
             },
             "tarea": {
                 "tituloEditar": "Editar Tarea",
                 "tituloAgregar": "Agregar Tarea",
                 "label": "Descripción del Tareae",
                 "descripcion": "Ingrese la descripción de Tareas",
-                "campoRequerido": "Este campo es obligatorio",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Guardar",
-                "actualizar": "Actualizar",
-                "guardar": "Guardar"
+                "campoRequerido": "Este campo es obligatorio"
             },
             "trabajo": {
                 "tituloEditar": "Editar Trabajo",
                 "tituloAgregar": "Agregar Trabajo",
                 "label": "Descripción del Trabajo",
                 "descripcion": "Ingrese la descripción de Trabajo",
-                "campoRequerido": "Este campo es obligatorio",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Guardar",
-                "actualizar": "Actualizar",
-                "guardar": "Guardar"
+                "campoRequerido": "Este campo es obligatorio"
+            },
+            "sector": {
+                "tituloEditar": "Editar Sector",
+                "tituloAgregar": "Agregar Sector",
+                "label": "Descripción del Sector",
+                "descripcion": "Ingrese la descripción de Sector",
+                "campoRequerido": "Este campo es obligatorio"
             }
         }
     },
