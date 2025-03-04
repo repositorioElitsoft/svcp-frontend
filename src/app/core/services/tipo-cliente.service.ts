@@ -17,27 +17,27 @@ export class TipoClienteService {
     });
 
     buscar(tipoClienteId: number): Observable<TipoCliente> {
-        return this.http.get<TipoCliente>(`${this.url}tipocliente/${tipoClienteId}`);
+        return this.http.get<TipoCliente>(`${this.url}tipos-clientes/${tipoClienteId}`);
     }
 
     buscarTodos(): Observable<TipoCliente[]> {
-        return this.http.get<TipoCliente[]>(`${this.url}tipocliente/lote`, { headers: this.headers });
+        return this.http.get<TipoCliente[]>(`${this.url}tipos-clientes/lote`, { headers: this.headers });
     }
 
     borrar(tipoClienteId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipocliente/${tipoClienteId}`);
+        return this.http.delete<any>(`${this.url}tipos-clientes/${tipoClienteId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipocliente/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}tipos-clientes/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(tipoClienteId: number, tipoCliente: TipoCliente): Observable<TipoCliente> {
-        return this.http.put<TipoCliente>(`${this.url}tipocliente/${tipoClienteId}`, tipoCliente);
+        return this.http.put<TipoCliente>(`${this.url}tipos-clientes/${tipoClienteId}`, tipoCliente);
     }
 
     crear(tipoCliente: TipoCliente): Observable<TipoCliente> {
-        return this.http.post<TipoCliente>(`${this.url}tipocliente`, tipoCliente);
+        return this.http.post<TipoCliente>(`${this.url}tipos-clientes`, tipoCliente);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {

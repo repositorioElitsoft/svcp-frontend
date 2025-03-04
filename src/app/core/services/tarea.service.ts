@@ -12,16 +12,12 @@ export class TareaService {
     readonly url = `${environment.apiUrl}`
     constructor(private http: HttpClient) { }
 
-    headers = new HttpHeaders({
-        'Content-Type': 'application/json'
-    });
-
     buscar(tareaId: number): Observable<Tarea> {
         return this.http.get<Tarea>(`${this.url}tareas/${tareaId}`);
     }
 
     buscarTodos(): Observable<Tarea[]> {
-        return this.http.get<Tarea[]>(`${this.url}tareas`, { headers: this.headers });
+        return this.http.get<Tarea[]>(`${this.url}tareas`,);
     }
 
     borrar(tareaId: number): Observable<any> {
@@ -29,7 +25,7 @@ export class TareaService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}tareas/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}tareas/lote`, { body: ids });
     }
 
     actualizar(tareaId: number, tarea: Tarea): Observable<Tarea> {
@@ -51,6 +47,6 @@ export class TareaService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/tareas`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/tareas`, { params });
     }
 }
