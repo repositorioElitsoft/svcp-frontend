@@ -66,8 +66,8 @@ export class ClasificacionClienteFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  clasificacionClienteDesc: [null, Validators.required],
+      id: [null,],
+      clasificacionClienteDesc: [null, Validators.required],
     });
   }
 
@@ -81,8 +81,8 @@ export class ClasificacionClienteFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-clasificacionClienteDesc: this.data.object.clasificacionClienteDesc,
+        id: this.data.object.id,
+        clasificacionClienteDesc: this.data.object.clasificacionClienteDesc,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -97,43 +97,42 @@ clasificacionClienteDesc: this.data.object.clasificacionClienteDesc,
   onSubmit() {
     console.log("Formulario enviado:", this.form.value);
 
-    if (this.form.valid) {
-      const formData: ClasificacionCliente = {
-        /*form-fields-submit*/
-id: this.form.value.id,
-clasificacionClienteDesc: this.form.value.clasificacionClienteDesc,
-      };
+    if (this.form.invalid) {
+      this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
+      return;
+    }
 
-      console.log("Datos mapeados para enviar:", formData);
+    const formData: ClasificacionCliente = {
+      id: this.form.value.id,
+      clasificacionClienteDesc: this.form.value.clasificacionClienteDesc,
+    };
 
-      // Cierra el formulario con los datos correctos
-      if (this.esActualizar()) {
-        this.clasificacionClienteService.actualizar(formData.id, formData).subscribe({
-          next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
-          },
-          error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-          }
-        })
+    console.log("Datos mapeados para enviar:", formData);
 
-      }
-      else {
-        this.clasificacionClienteService.crear(formData).subscribe({
-          next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
-          },
-          error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-          }
-        })
-      }
+    if (this.esActualizar()) {
+      // Llamar al servicio para actualizar
+      this.clasificacionClienteService.actualizar(formData.id, formData).subscribe({
+        next: () => {
+          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+          this.dialogRef.close(formData);
+        },
+        error: (error) => {
+          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+          this.toastr.error(errorMessage);
+        }
+      });
     } else {
-      console.log("Formulario no válido");
+      // Llamar al servicio para crear un nuevo servicio
+      this.clasificacionClienteService.crear(formData).subscribe({
+        next: () => {
+          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+          this.dialogRef.close(formData);
+        },
+        error: (error) => {
+          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+          this.toastr.error(errorMessage);
+        }
+      });
     }
   }
 }
