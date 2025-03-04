@@ -17,27 +17,27 @@ export class TrabajoService {
     });
 
     buscar(trabajoId: number): Observable<Trabajo> {
-        return this.http.get<Trabajo>(`${this.url}trabajo/${trabajoId}`);
+        return this.http.get<Trabajo>(`${this.url}trabajos/${trabajoId}`);
     }
 
     buscarTodos(): Observable<Trabajo[]> {
-        return this.http.get<Trabajo[]>(`${this.url}trabajo/lote`, { headers: this.headers });
+        return this.http.get<Trabajo[]>(`${this.url}trabajos/lote`, { headers: this.headers });
     }
 
     borrar(trabajoId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}trabajo/${trabajoId}`);
+        return this.http.delete<any>(`${this.url}trabajos/${trabajoId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}trabajo/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}trabajos/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(trabajoId: number, trabajo: Trabajo): Observable<Trabajo> {
-        return this.http.put<Trabajo>(`${this.url}trabajo/${trabajoId}`, trabajo);
+        return this.http.put<Trabajo>(`${this.url}trabajos/${trabajoId}`, trabajo);
     }
 
     crear(trabajo: Trabajo): Observable<Trabajo> {
-        return this.http.post<Trabajo>(`${this.url}trabajo`, trabajo);
+        return this.http.post<Trabajo>(`${this.url}trabajos`, trabajo);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class TrabajoService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/trabajo`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/trabajos`, { params, headers: this.headers });
     }
 }
