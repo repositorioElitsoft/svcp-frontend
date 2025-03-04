@@ -112,7 +112,6 @@ export class AgrupacionComercialComponent implements OnInit {
 
 
 
-
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
@@ -137,6 +136,8 @@ export class AgrupacionComercialComponent implements OnInit {
       this.cdr.detectChanges();
     });
   }
+
+
 
 
 
@@ -301,6 +302,7 @@ export class AgrupacionComercialComponent implements OnInit {
     if (!selectedObject) {
       return;
     }
+
     const dialogRef = this.dialog.open(AgrupacionComercialFormComponent, {
       width: '400px',
       data: {
@@ -311,10 +313,11 @@ export class AgrupacionComercialComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id", "desc");
+        this.obtenerDatos(); // Recargar datos si se actualizó correctamente
       }
     });
   }
+
 
 
 
