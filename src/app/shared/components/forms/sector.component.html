@@ -9,10 +9,9 @@
         <!--Input -->
 
         <mat-form-field appearance="outline" class="w-full dark:text-white  ">
-            <mat-label>{{ 'mantenedores.formularios.Sector.label.descripcionSector' | translate }}</mat-label>
+            <mat-label>{{ 'mantenedores.formularios.sector.label' | translate }}</mat-label>
             <input matInput formControlName="descripcionSector"
-                [attr.placeholder]="'mantenedores.formularios.descripcionSector.descripcion' | translate"
-                class="w-full dark:text-white ">
+                [attr.placeholder]="'mantenedores.formularios.descripcion' | translate" class="w-full dark:text-white ">
             <mat-error *ngIf="form.get('descripcionSector')?.hasError('required')" class="text-red-500">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
@@ -20,7 +19,7 @@
 
 
         <mat-form-field appearance="outline" class="full-width">
-            <mat-label>{{ 'mantenedores.formularios.Sector.label.zona' | translate }}</mat-label>
+            <mat-label>{{ 'mantenedores.formularios.sector.label.zona' | translate }}</mat-label>
             <mat-select formControlName="zona">
                 <mat-option *ngFor="let option of zona" [value]="option">
                     {{ option.descripcionZona }}
