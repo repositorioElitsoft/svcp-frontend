@@ -144,6 +144,8 @@ export class TipoClienteComponent implements OnInit {
 
 
   /*********************************** CRUD   - DELETE ***********************************/
+
+
   eliminar(selectedItems: TipoCliente[]) {
     const count = selectedItems.length;
 
@@ -223,7 +225,7 @@ export class TipoClienteComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }
@@ -245,7 +247,7 @@ export class TipoClienteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }
