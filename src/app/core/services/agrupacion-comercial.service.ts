@@ -17,27 +17,27 @@ export class AgrupacionComercialService {
     });
 
     buscar(agrupacionComercialId: number): Observable<AgrupacionComercial> {
-        return this.http.get<AgrupacionComercial>(`${this.url}agrupacioncomercial/${agrupacionComercialId}`);
+        return this.http.get<AgrupacionComercial>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`);
     }
 
     buscarTodos(): Observable<AgrupacionComercial[]> {
-        return this.http.get<AgrupacionComercial[]>(`${this.url}agrupacioncomercial/lote`, { headers: this.headers });
+        return this.http.get<AgrupacionComercial[]>(`${this.url}agrupaciones-comerciales/lote`, { headers: this.headers });
     }
 
     borrar(agrupacionComercialId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}agrupacioncomercial/${agrupacionComercialId}`);
+        return this.http.delete<any>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}agrupacioncomercial/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}agrupaciones-comerciales/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(agrupacionComercialId: number, agrupacionComercial: AgrupacionComercial): Observable<AgrupacionComercial> {
-        return this.http.put<AgrupacionComercial>(`${this.url}agrupacioncomercial/${agrupacionComercialId}`, agrupacionComercial);
+        return this.http.put<AgrupacionComercial>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`, agrupacionComercial);
     }
 
     crear(agrupacionComercial: AgrupacionComercial): Observable<AgrupacionComercial> {
-        return this.http.post<AgrupacionComercial>(`${this.url}agrupacioncomercial`, agrupacionComercial);
+        return this.http.post<AgrupacionComercial>(`${this.url}agrupaciones-comerciales`, agrupacionComercial);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class AgrupacionComercialService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/agrupacioncomercial`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/agrupaciones-comerciales`, { params, headers: this.headers });
     }
 }
