@@ -210,6 +210,72 @@ export class SegmentacionClienteComponent implements OnInit {
       }
     });
   }
+
+
+  onDeleteSingleSelected(id: string) {
+    console.log("Eliminar seleccionado:", id);
+
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoServicio.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      data: {
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmado => {
+      if (confirmado) {
+        console.log("Eliminando elemento con ID:", id);
+
+        this.segmentacionClienteService.borrar(Number(id)).subscribe({
+          next: () => {
+            console.log("Elemento eliminado exitosamente:", id);
+
+            // Filtrar el item eliminado del dataSource
+            this.dataSource = this.dataSource.filter(item => item.id !== Number(id));
+
+            // Actualizar propiedades de paginación
+            this.totalElements -= 1;
+            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
+
+            // Ajustar pageNumber si es necesario
+            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
+              this.pageNumber = this.totalPages - 1;
+            }
+
+            // Recargar datos
+            this.obtenerDatos();
+
+            // Mostrar mensaje de éxito
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+
+            // Limpiar selección si existe un componente compartido
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.selection.clear();
+            }
+
+            // Debug: Estado del paginador después de eliminar
+            console.log("Estado del paginador después de eliminar:", {
+              pageNumber: this.pageNumber,
+              totalElements: this.totalElements,
+              totalPages: this.totalPages
+            });
+          },
+          error: err => {
+            console.error("Error al eliminar elemento:", err);
+            this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
+          }
+        });
+      }
+    });
+  }
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -223,7 +289,7 @@ export class SegmentacionClienteComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }
@@ -245,7 +311,7 @@ export class SegmentacionClienteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }
