@@ -91,7 +91,7 @@
         },
         "sector": {
             "id": "Id",
-            "titulo": "Setores",
+            "titulo": "Zonas",
             "descripcionSector": "Descrição do Setor",
             "zona": "Zona"
         },
