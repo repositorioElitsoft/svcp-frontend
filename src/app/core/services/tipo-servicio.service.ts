@@ -17,27 +17,27 @@ export class TipoServicioService {
     });
 
     buscar(tipoServicioId: number): Observable<TipoServicio> {
-        return this.http.get<TipoServicio>(`${this.url}tiposervicio/${tipoServicioId}`);
+        return this.http.get<TipoServicio>(`${this.url}tipos-servicios/${tipoServicioId}`);
     }
 
     buscarTodos(): Observable<TipoServicio[]> {
-        return this.http.get<TipoServicio[]>(`${this.url}tiposervicio`, { headers: this.headers });
+        return this.http.get<TipoServicio[]>(`${this.url}tipos-servicios`, { headers: this.headers });
     }
 
     borrar(tipoServicioId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}tiposervicio/${tipoServicioId}`);
+        return this.http.delete<any>(`${this.url}tipos-servicios/${tipoServicioId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}tiposervicio/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}tipos-servicios/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(tipoServicioId: number, tipoServicio: TipoServicio): Observable<TipoServicio> {
-        return this.http.put<TipoServicio>(`${this.url}tiposervicio/${tipoServicioId}`, tipoServicio);
+        return this.http.put<TipoServicio>(`${this.url}tipos-servicios/${tipoServicioId}`, tipoServicio);
     }
 
     crear(tipoServicio: TipoServicio): Observable<TipoServicio> {
-        return this.http.post<TipoServicio>(`${this.url}tiposervicio`, tipoServicio);
+        return this.http.post<TipoServicio>(`${this.url}tipos-servicios`, tipoServicio);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -51,6 +51,6 @@ export class TipoServicioService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/tiposervicio`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/tipos-servicios`, { params, headers: this.headers });
     }
 }
