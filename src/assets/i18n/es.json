@@ -125,7 +125,7 @@
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Segmentación de Cliente",
-            "descripcionSegmentacionCliente": "Descripción Segmentación de Cliente"
+            "descripcion": "Descripción Segmentación de Cliente"
         },
         "tarea": {
             "id": "Id",
@@ -212,8 +212,8 @@
             "segmentacionCliente": {
                 "tituloEditar": "Editar Segmentación Cliente",
                 "tituloAgregar": "Agregar Segmentación Cliente",
-                "label": "Descripción del Segmentación Cliente",
-                "descripcion": "Ingrese la descripción del Segmentación Cliente",
+                "label": "Descripción de Segmentación Cliente",
+                "descripcion": "Ingrese la descripción de Segmentación Cliente",
                 "campoRequerido": "Este campo es obligatorio",
                 "botonCancelar": "Cancelar",
                 "botonAgregar": "Guardar",

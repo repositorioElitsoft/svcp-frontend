@@ -118,7 +118,7 @@
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Segmentação de Clientes",
-            "descripcionSegmentacionCliente": "Descrição da segmentação de clientes"
+            "descripcion": "Descrição da segmentação de clientes"
         },
         "tarea": {
             "id": "Id",

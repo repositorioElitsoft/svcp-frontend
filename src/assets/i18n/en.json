@@ -125,7 +125,7 @@
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Customer Segmentation",
-            "descripcionSegmentacionCliente": "Customer Segmentation Description"
+            "descripcion": "Customer Segmentation Description"
         },
         "tarea": {
             "id": "Id",
