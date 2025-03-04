@@ -5,19 +5,19 @@
 
 <mat-dialog-content class="!p-0 dark:bg-neutral-800">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
-     
+
         <!--Input -->
 
-					   <mat-form-field appearance="outline" class="w-full dark:text-white  ">
-							<mat-label>{{ 'mantenedores.formularios.tarea.label.descripcionTarea' | translate }}</mat-label>
-							<input matInput formControlName="descripcionTarea"
-								[attr.placeholder]="'mantenedores.formularios.descripcionTarea.descripcion' | translate"
-								class="w-full dark:text-white ">
-							<mat-error *ngIf="form.get('descripcionTarea')?.hasError('required')" class="text-red-500">
-								{{ 'mantenedores.formularios.campoRequerido' | translate }}
-							</mat-error>
-						</mat-form-field>
-					
+        <mat-form-field appearance="outline" class="w-full dark:text-white  ">
+            <mat-label>{{ 'mantenedores.formularios.tarea.label' | translate }}</mat-label>
+            <input matInput formControlName="descripcionTarea"
+                [attr.placeholder]="'mantenedores.formularios.descripcionTarea.descripcion' | translate"
+                class="w-full dark:text-white ">
+            <mat-error *ngIf="form.get('descripcionTarea')?.hasError('required')" class="text-red-500">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
+
 
         <div class="grid grid-cols-2 gap-4 w-full">
             <button type="button" (click)="dialogRef.close()"

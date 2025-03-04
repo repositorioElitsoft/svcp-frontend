@@ -172,77 +172,49 @@
                 "tituloAgregar": "Criar Tipo de Cliente",
                 "label": "Descrição do Tipo de Cliente",
                 "descripcion": "Digite a descrição do tipo de cliente",
-                "campoRequerido": "Este campo é obrigatório",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Salvar",
-                "actualizar": "Atualizar",
-                "guardar": "Salvar"
+                "campoRequerido": "Este campo é obrigatório"
             },
             "clasificacionCliente": {
                 "tituloEditar": "Editar Classificação do Cliente",
                 "tituloAgregar": "Adicionar Classificação do Cliente",
                 "label": "Descrição da Classificação do Cliente",
                 "descripcion": "Digite a descrição da classificação do cliente",
-                "campoRequerido": "Este campo é obrigatório",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Salvar",
-                "actualizar": "Atualizar",
-                "guardar": "Salvar"
+                "campoRequerido": "Este campo é obrigatório"
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Serviço",
                 "tituloAgregar": "Adicionar Tipo de Serviço",
                 "label": "Descrição do Tipo de Serviço",
                 "descripcion": "Digite a descrição do tipo de serviço",
-                "campoRequerido": "Este campo é obrigatório",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Salvar",
-                "actualizar": "Atualizar",
-                "guardar": "Salvar"
+                "campoRequerido": "Este campo é obrigatório"
             },
             "agrupacionComercial": {
                 "tituloEditar": "Editar Grupo Comercial",
                 "tituloAgregar": "Adicionar Agrupamento Comercial",
                 "label": "Descrição do Grupo Comercial",
                 "descripcion": "Ingrese la descripción del Agrupación Comercial",
-                "campoRequerido": "Insira a descrição do Grupo Comercial",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Salvar",
-                "actualizar": "Atualizar",
-                "guardar": "Salvar"
+                "campoRequerido": "Insira a descrição do Grupo Comercial"
             },
             "segmentacionCliente": {
                 "tituloEditar": "Editar segmentação de clientes",
                 "tituloAgregar": "Adicionar segmentação de clientes",
                 "label": "Descrição da segmentação de clientes",
                 "descripcion": "Insira a descrição da Segmentação de Clientes",
-                "campoRequerido": "Este campo é obrigatório",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Salvar",
-                "actualizar": "Atualizar",
-                "guardar": "Salvar"
+                "campoRequerido": "Este campo é obrigatório"
             },
             "tarea": {
                 "tituloEditar": "Editar Tarefa",
                 "tituloAgregar": "Adicionar Tarefa",
                 "label": "Descrição da Tarefa",
                 "descripcion": "Insira a Descrição da Tarefa",
-                "campoRequerido": "Este campo é obrigatório",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Salvar",
-                "actualizar": "Atualizar",
-                "guardar": "Salvar"
+                "campoRequerido": "Este campo é obrigatório"
             },
             "trabajo": {
                 "tituloEditar": "Editar Trabalho",
                 "tituloAgregar": "Adicionar Trabalho",
                 "label": "Descrição do Trabalho",
                 "descripcion": "Insira a Descrição do Trabalho",
-                "campoRequerido": "Este campo é obrigatório",
-                "botonCancelar": "Cancelar",
-                "botonAgregar": "Salvar",
-                "actualizar": "Atualizar",
-                "guardar": "Salvar"
+                "campoRequerido": "Este campo é obrigatório"
             }
         }
     },
