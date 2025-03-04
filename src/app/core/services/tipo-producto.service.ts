@@ -51,6 +51,6 @@ export class TipoProductoService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/tipos-productos`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/tipos-productos`, { params });
     }
 }
