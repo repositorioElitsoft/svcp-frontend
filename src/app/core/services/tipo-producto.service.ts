@@ -21,7 +21,7 @@ export class TipoProductoService {
     }
 
     buscarTodos(): Observable<TipoProducto[]> {
-        return this.http.get<TipoProducto[]>(`${this.url}tipos-productos/lote`, { headers: this.headers });
+        return this.http.get<TipoProducto[]>(`${this.url}tipos-productos`, { headers: this.headers });
     }
 
     borrar(tipoProductoId: number): Observable<any> {
@@ -51,6 +51,6 @@ export class TipoProductoService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/tipos-productos`, { params });
+        return this.http.get(`${this.url}core/filter/tipos-productos`, { params, headers: this.headers });
     }
 }

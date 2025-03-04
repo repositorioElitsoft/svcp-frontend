@@ -9,6 +9,7 @@ import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 
+import { MatStepperModule } from '@angular/material/stepper';
 /*services-imports*/
 
 
@@ -20,20 +21,24 @@ import {
   MatDialogClose,
   MatDialogContent,
   MatDialogRef,
+
 } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { Empleado } from '../../../core/models/empleado.model';
 import { catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { UploadImageComponent } from "../upload-image/upload-image/upload-image.component";
 
 @Component({
   selector: 'app-empleado-create-form',
   standalone: true,
   imports: [
+    UploadImageComponent,
     CommonModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatStepperModule,
     MatButtonModule,
     MatFormFieldModule,
     MatDialogContent,
@@ -44,6 +49,7 @@ import { ToastrService } from 'ngx-toastr';
     MatError,
     TranslateModule,
     TituloDialogoComponent,
+    UploadImageComponent
   ],
   templateUrl: `./empleado.component.html`,
   styles: [],

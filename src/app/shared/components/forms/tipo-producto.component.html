@@ -5,15 +5,20 @@
 
 <mat-dialog-content class="!p-0 dark:bg-neutral-800">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
-        <mat-form-field appearance="outline" class="w-full dark:text-white  ">
-            <mat-label>{{ 'mantenedores.formularios.tipoProducto.label' | translate }}</mat-label>
-            <input matInput formControlName="descripcionTipoProducto"
-                [attr.placeholder]="'mantenedores.formularios.tipoProducto.descripcion' | translate"
-                class="w-full dark:text-white ">
-            <mat-error *ngIf="form.get('descripcionTipoProducto')?.hasError('required')" class="text-red-500">
-                {{ 'mantenedores.formularios.campoRequerido' | translate }}
-            </mat-error>
-        </mat-form-field>
+     
+        <!--Input -->
+
+					   <mat-form-field appearance="outline" class="w-full dark:text-white  ">
+							<mat-label>{{ 'mantenedores.formularios.tipoProducto.label.descripcionTipoProducto' | translate }}</mat-label>
+							<input matInput formControlName="descripcionTipoProducto"
+								[attr.placeholder]="'mantenedores.formularios.descripcionTipoProducto.descripcion' | translate"
+								class="w-full dark:text-white ">
+							<mat-error *ngIf="form.get('descripcionTipoProducto')?.hasError('required')" class="text-red-500">
+								{{ 'mantenedores.formularios.campoRequerido' | translate }}
+							</mat-error>
+						</mat-form-field>
+					
+
         <div class="grid grid-cols-2 gap-4 w-full">
             <button type="button" (click)="dialogRef.close()"
                 class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">

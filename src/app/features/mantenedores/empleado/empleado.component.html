@@ -24,6 +24,7 @@
 
         <!-- Table Section -->
         <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
+
             <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
                 [translationGroup]="'mantenedores.empleado'" [displayedColumns]="displayedColumns"
                 [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"

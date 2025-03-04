@@ -35,7 +35,7 @@ export class EmpleadoComponent implements OnInit {
   totalPages = 0
   pageSize = 5;
   totalElements = 0;
-  activeOptionalFilters: any = {};
+  activeOptionalFilters: any = [];
 
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   constructor(private cdr: ChangeDetectorRef,

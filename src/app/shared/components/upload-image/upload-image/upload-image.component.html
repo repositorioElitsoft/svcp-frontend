@@ -1,0 +1,48 @@
+<div class="flex flex-col items-center">
+    <!-- Avatar Card -->
+    <div class="w-full max-w-md bg-gray-200 rounded-lg p-6 mb-4">
+        <div class="flex flex-col items-center">
+            <!-- Avatar Placeholder -->
+
+            @if (selectedFile && fileUrl) {
+            <img [src]="fileUrl" alt="Selected image" />
+            } @else {
+            <div class="w-14 h-14 bg-gray-500 rounded-full mb-2"></div>
+            <div class="w-32 h-8 bg-gray-500 rounded-t-full mt-2"></div>
+            }
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex items-center space-x-6 text-blue-500">
+        <!-- Upload Button (as label with hidden input) -->
+        <label for="file-upload" class="flex items-center cursor-pointer">
+            <span class="mr-1">Subir</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" />
+            </svg>
+            <input id="file-upload" type="file" class="hidden" (change)="onFileChange($event)" />
+        </label>
+
+        <!-- Info Button -->
+        <button class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </button>
+
+        <!-- Delete Button -->
+        <button class="flex items-center" (click)="deleteFile()">
+            <span class="mr-1">Borrar</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+        </button>
+    </div>
+</div>
