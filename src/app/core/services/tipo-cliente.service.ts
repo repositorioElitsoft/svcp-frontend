@@ -51,6 +51,6 @@ export class TipoClienteService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/tipocliente`, { params, headers: this.headers });
+        return this.http.get(`${this.url}core/filter/tipos-clientes`, { params, headers: this.headers });
     }
 }
