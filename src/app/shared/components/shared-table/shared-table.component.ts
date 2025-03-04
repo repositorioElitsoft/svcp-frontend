@@ -29,6 +29,7 @@ export class SharedTableComponent {
   @Input() translationGroup = ""
   @Input() filters: any[] = []
   @Input() filtersLabels: any[] = []
+  @Input() simpleSearchField: string = "";
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() deleteSingleSelected = new EventEmitter<string>();
   @Output() viewSelected = new EventEmitter<string>();
@@ -64,6 +65,7 @@ export class SharedTableComponent {
     this.filterDelete.emit(field);
   }
 
+
   getField(value: any) {
     if (typeof value !== 'object' || value === null) {
       return value;
@@ -89,14 +91,17 @@ export class SharedTableComponent {
     return this.translationGroup ? `${this.translationGroup}.${column}` : column
   }
 
+  protected makeSimpleSearch(values: any) {
+    console.log("simple search activated ", values)
+    return this.applyfilter.emit(values);
+  }
+
   protected filter() {
     const search = this.filterInputs.map(filter => ({
       field: filter.field,
       value: filter.value,
     }));
     console.log('Collected Filters:', search);
-
-    this.pageNumber = 0;
 
     const transformed = search.reduce((acc, { field, value }) => {
       if (value) {
