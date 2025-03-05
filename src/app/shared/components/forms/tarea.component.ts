@@ -115,7 +115,7 @@ descripcionTarea: this.form.value.descripcionTarea,
         this.tareaService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
@@ -128,7 +128,7 @@ descripcionTarea: this.form.value.descripcionTarea,
         this.tareaService.crear(formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');

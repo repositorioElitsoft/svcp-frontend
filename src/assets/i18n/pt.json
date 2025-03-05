@@ -113,7 +113,7 @@
         "clasificacionCliente": {
             "id": "Id",
             "titulo": "Classificação do Cliente",
-            "descripcionClasificacionCliente": "Descrição da Classificação do Cliente"
+            "clasificacionClienteDesc": "Descrição da Classificação do Cliente"
         },
         "cliente": {
             "id": "Id",
@@ -369,25 +369,25 @@
             "tarea": {
                 "tituloEditar": "Editar Tarefa",
                 "tituloAgregar": "Criar Tarefa",
-                "label": "Descrição da Tarefa",
+                "label.descripcionTarea": "Descrição da Tarefa",
                 "descripcion": "Insira a descrição da tarefa"
             },
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Criar Tipo de Cliente",
-                "label": "Descrição do Tipo de Cliente",
+                "label.nombre": "Descrição do Tipo de Cliente",
                 "descripcion": "Insira a descrição do tipo de cliente"
             },
             "tipoEmpleado": {
                 "tituloEditar": "Editar Tipo de Empregado",
                 "tituloAgregar": "Criar Tipo de Empregado",
-                "label": "Descrição do Tipo de Empregado",
+                "label.descripcionTipoEmpleado": "Descrição do Tipo de Empregado",
                 "descripcion": "Insira a descrição do tipo de empregado"
             },
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Produto",
                 "tituloAgregar": "Criar Tipo de Produto",
-                "label": "Descrição do Tipo de Produto",
+                "label.descripcionTipoProducto": "Descrição do Tipo de Produto",
                 "descripcion": "Insira a descrição do tipo de produto"
             },
             "tipoServicio": {
@@ -405,7 +405,7 @@
             "zona": {
                 "tituloEditar": "Editar Zona",
                 "tituloAgregar": "Criar Zona",
-                "label": "Descrição da Zona",
+                "label.descripcionZona": "Descrição da Zona",
                 "descripcion": "Insira a descrição da zona"
             }
         }

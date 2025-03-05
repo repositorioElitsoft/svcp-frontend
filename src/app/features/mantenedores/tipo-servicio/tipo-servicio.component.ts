@@ -27,8 +27,8 @@ import { ToastrService } from "ngx-toastr";
 })
 export class TipoServicioComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: TipoServicio[] = []; // Ahora usa la interfaz Tipo servicio
-  titulo: string = ''; // Puedes cambiarlo dinámicamente
+  dataSource: TipoServicio[] = []; // Ahora usa la interfaz tipoServicio
+  titulo: string = 'Tipo servicio'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
@@ -36,6 +36,7 @@ export class TipoServicioComponent implements OnInit {
   pageSize = 5;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
+  activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -74,7 +75,6 @@ export class TipoServicioComponent implements OnInit {
     console.log("Eliminar seleccionados:", ids);
   }
 
-
   exportarExcel(selectedItems: TableData[]) {
     console.log("Exportando los siguientes elementos:", selectedItems);
     this.exportService.exportToExcel(selectedItems, this.titulo);
@@ -94,13 +94,13 @@ export class TipoServicioComponent implements OnInit {
   }
 
 
-  buscar(busqueda: string) {
+  buscar(filters: any) {
     this.pageNumber = 0;
-    if (busqueda.trim()) {
-      this.obtenerDatos("id", "asc", { descripcionTipoServicio: busqueda });
-    } else {
-      this.obtenerDatos("id", "asc"); // Llamada sin el tercer parámetro
-    }
+    this.obtenerDatos("id", "asc", filters);
+  }
+  onFilterDeleted(field: string) {
+    this.activeOptionalFilters = this.activeOptionalFilters.filter((filter: any) => filter.field !== field);
+    this.obtenerDatos("id", "asc", this.activeOptionalFilters);
   }
 
 
@@ -109,6 +109,10 @@ export class TipoServicioComponent implements OnInit {
 
 
   /*********************************** CRUD   - GET ***********************************/
+
+
+
+
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     const mandatoryFilter = {
@@ -126,6 +130,8 @@ export class TipoServicioComponent implements OnInit {
       this.totalPages = data.totalPages
       this.pageSize = data.pageSize;
       this.totalElements = data.totalElements;
+
+      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
 
       this.dataSource = data.content.flat();
       if (data.content.length > 0) {
@@ -145,13 +151,14 @@ export class TipoServicioComponent implements OnInit {
     const count = selectedItems.length;
 
     // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoServicio.titulo');
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
 
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
-
+      width: '600px',
+      height: '400px',
       data: {
         titulo: titulo,
         mensaje: mensaje,
@@ -263,7 +270,7 @@ export class TipoServicioComponent implements OnInit {
               totalPages: this.totalPages
             });
           },
-          error: err => {
+          error: (err: any) => {
             console.error("Error al eliminar elemento:", err);
             this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
           }
@@ -271,7 +278,7 @@ export class TipoServicioComponent implements OnInit {
       }
     });
   }
-
+  
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -284,11 +291,11 @@ export class TipoServicioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos('id', 'desc'); // Recargar los datos solo si se creó correctamente
+        console.log("Datos recibidos del formulario:", result);
+        this.obtenerDatos("id","desc");
       }
     });
   }
-
 
 
   /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
@@ -297,7 +304,6 @@ export class TipoServicioComponent implements OnInit {
     if (!selectedObject) {
       return;
     }
-
     const dialogRef = this.dialog.open(TipoServicioFormComponent, {
       width: '400px',
       data: {
@@ -308,11 +314,10 @@ export class TipoServicioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos(); // Recargar datos si se actualizó correctamente
+        this.obtenerDatos("id","desc");
       }
     });
   }
-
 
 
 

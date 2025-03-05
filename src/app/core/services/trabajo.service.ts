@@ -21,7 +21,7 @@ export class TrabajoService {
     }
 
     buscarTodos(): Observable<Trabajo[]> {
-        return this.http.get<Trabajo[]>(`${this.url}trabajos/lote`);
+        return this.http.get<Trabajo[]>(`${this.url}trabajos`, { headers: this.headers });
     }
 
     borrar(trabajoId: number): Observable<any> {
@@ -29,7 +29,7 @@ export class TrabajoService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}trabajos/lote`, { body: ids });
+        return this.http.delete<any>(`${this.url}trabajos/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(trabajoId: number, trabajo: Trabajo): Observable<Trabajo> {
@@ -51,6 +51,6 @@ export class TrabajoService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/trabajos`, { params });
+        return this.http.get(`${this.url}core/filter/trabajos`, { params, headers: this.headers });
     }
 }

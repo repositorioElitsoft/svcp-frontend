@@ -36,6 +36,7 @@ export class TipoClienteComponent implements OnInit {
   pageSize = 5;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
+  activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -93,13 +94,13 @@ export class TipoClienteComponent implements OnInit {
   }
 
 
-  buscar(busqueda: string) {
+  buscar(filters: any) {
     this.pageNumber = 0;
-    if (busqueda.trim()) {
-      this.obtenerDatos("id", "asc", { descripcionTipoCliente: busqueda });
-    } else {
-      this.obtenerDatos("id", "asc"); // Llamada sin el tercer parámetro
-    }
+    this.obtenerDatos("id", "asc", filters);
+  }
+  onFilterDeleted(field: string) {
+    this.activeOptionalFilters = this.activeOptionalFilters.filter((filter: any) => filter.field !== field);
+    this.obtenerDatos("id", "asc", this.activeOptionalFilters);
   }
 
 
@@ -130,6 +131,8 @@ export class TipoClienteComponent implements OnInit {
       this.pageSize = data.pageSize;
       this.totalElements = data.totalElements;
 
+      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
+
       this.dataSource = data.content.flat();
       if (data.content.length > 0) {
         this.displayedColumns = Object.keys(data.content[0]);
@@ -144,8 +147,6 @@ export class TipoClienteComponent implements OnInit {
 
 
   /*********************************** CRUD   - DELETE ***********************************/
-
-
   eliminar(selectedItems: TipoCliente[]) {
     const count = selectedItems.length;
 
@@ -213,12 +214,11 @@ export class TipoClienteComponent implements OnInit {
     });
   }
 
-
   onDeleteSingleSelected(id: string) {
     console.log("Eliminar seleccionado:", id);
 
     // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoServicio.titulo');
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoCliente.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
@@ -270,7 +270,7 @@ export class TipoClienteComponent implements OnInit {
               totalPages: this.totalPages
             });
           },
-          error: err => {
+          error: (err: any) => {
             console.error("Error al eliminar elemento:", err);
             this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
           }
@@ -278,6 +278,7 @@ export class TipoClienteComponent implements OnInit {
       }
     });
   }
+  
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -291,7 +292,7 @@ export class TipoClienteComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id", "desc");
+        this.obtenerDatos("id","desc");
       }
     });
   }
@@ -313,7 +314,7 @@ export class TipoClienteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id", "desc");
+        this.obtenerDatos("id","desc");
       }
     });
   }

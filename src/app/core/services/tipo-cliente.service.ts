@@ -21,7 +21,7 @@ export class TipoClienteService {
     }
 
     buscarTodos(): Observable<TipoCliente[]> {
-        return this.http.get<TipoCliente[]>(`${this.url}tipos-clientes/lote`, { headers: this.headers });
+        return this.http.get<TipoCliente[]>(`${this.url}tipos-clientes`, { headers: this.headers });
     }
 
     borrar(tipoClienteId: number): Observable<any> {

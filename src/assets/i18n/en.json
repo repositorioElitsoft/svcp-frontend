@@ -114,7 +114,7 @@
         "clasificacionCliente": {
             "id": "Id",
             "titulo": "Client Classification",
-            "descripcionClasificacionCliente": "Client Classification Description"
+            "clasificacionClienteDesc": "Client Classification Description"
         },
         "cliente": {
             "id": "Id",
@@ -174,7 +174,7 @@
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Client Segmentation",
-            "descripcionSegmentacionCliente": "Client Segmentation Description"
+            "descripcion": "Client Segmentation Description"
         },
         "servicio": {
             "id": "Id",
@@ -230,13 +230,13 @@
             "agrupacionComercial": {
                 "tituloEditar": "Edit Commercial Grouping",
                 "tituloAgregar": "Create Commercial Grouping",
-                "label": "Commercial Grouping Description",
+                "label.nombreGrupoComercial": "Commercial Grouping Description",
                 "descripcion": "Enter the description of the commercial grouping"
             },
             "asignacionPermiso": {
                 "tituloEditar": "Edit Permission Assignment",
                 "tituloAgregar": "Create Permission Assignment",
-                "label": "Permission Assignment Description",
+                "label.descripcionPermiso": "Permission Assignment Description",
                 "descripcion": "Enter the description of the permission assignment"
             },
             "asignacionRol": {
@@ -266,7 +266,7 @@
             "clasificacionCliente": {
                 "tituloEditar": "Edit Client Classification",
                 "tituloAgregar": "Create Client Classification",
-                "label": "Client Classification Description",
+                "label.clasificacionClienteDesc": "Client Classification Description",
                 "descripcion": "Enter the description of the client classification"
             },
             "cliente": {
@@ -290,12 +290,12 @@
                 "label.direcciones": "Addresses",
                 "label.agrupacionComercial": "Commercial Grouping",
                 "label.segmentacionCliente": "Client Segmentation",
-                "descripcion": "Enter the client description"
+                "label.descripcion": "Enter the client description"
             },
             "comuna": {
                 "tituloEditar": "Edit Commune",
                 "tituloAgregar": "Create Commune",
-                "label": "Commune Description",
+                "label.descripcionComuna": "Commune Description",
                 "descripcion": "Enter the description of the commune"
             },
             "empleado": {
@@ -358,7 +358,7 @@
             "segmentacionCliente": {
                 "tituloEditar": "Edit Client Segmentation",
                 "tituloAgregar": "Create Client Segmentation",
-                "label": "Client Segmentation Description",
+                "label.descripcion": "Client Segmentation Description",
                 "descripcion": "Enter the description of the client segmentation"
             },
             "servicio": {
@@ -370,43 +370,43 @@
             "tarea": {
                 "tituloEditar": "Edit Task",
                 "tituloAgregar": "Create Task",
-                "label": "Task Description",
+                "label.descripcionTarea": "Task Description",
                 "descripcion": "Enter the description of the task"
             },
             "tipoCliente": {
                 "tituloEditar": "Edit Client Type",
                 "tituloAgregar": "Create Client Type",
-                "label": "Client Type Description",
+                "label.nombre": "Client Type Description",
                 "descripcion": "Enter the description of the client type"
             },
             "tipoEmpleado": {
                 "tituloEditar": "Edit Employee Type",
                 "tituloAgregar": "Create Employee Type",
-                "label": "Employee Type Description",
+                "label.descripcionTipoEmpleado": "Employee Type Description",
                 "descripcion": "Enter the description of the employee type"
             },
             "tipoProducto": {
                 "tituloEditar": "Edit Product Type",
                 "tituloAgregar": "Create Product Type",
-                "label": "Product Type Description",
+                "label.descripcionTipoProducto": "Product Type Description",
                 "descripcion": "Enter the description of the product type"
             },
             "tipoServicio": {
                 "tituloEditar": "Edit Service Type",
                 "tituloAgregar": "Create Service Type",
-                "label": "Service Type Description",
+                "label.descripcionTipoServicio": "Service Type Description",
                 "descripcion": "Enter the description of the service type"
             },
             "trabajo": {
                 "tituloEditar": "Edit Work",
                 "tituloAgregar": "Create Work",
-                "label": "Work Description",
+                "label.descripcionTrabajo": "Work Description",
                 "descripcion": "Enter the description of the work"
             },
             "zona": {
                 "tituloEditar": "Edit Zone",
                 "tituloAgregar": "Create Zone",
-                "label": "Zone Description",
+                "label.descripcionZona": "Zone Description",
                 "descripcion": "Enter the description of the zone"
             }
         }

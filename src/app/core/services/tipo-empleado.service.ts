@@ -21,7 +21,7 @@ export class TipoEmpleadoService {
     }
 
     buscarTodos(): Observable<TipoEmpleado[]> {
-        return this.http.get<TipoEmpleado[]>(`${this.url}tipos-empleados/lote`, { headers: this.headers });
+        return this.http.get<TipoEmpleado[]>(`${this.url}tipos-empleados`, { headers: this.headers });
     }
 
     borrar(tipoEmpleadoId: number): Observable<any> {

@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TipoClienteService } from '../../../core/services/tipo-cliente.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 /*services-imports*/
 
@@ -35,6 +37,8 @@ import { ToastrService } from 'ngx-toastr';
     MatButtonModule,
     MatFormFieldModule,
     MatDialogContent,
+    MatSelectModule,
+    MatOptionModule,
     MatDialogActions,
     MatDialogClose,
     MatError,
@@ -111,7 +115,7 @@ nombre: this.form.value.nombre,
         this.tipoClienteService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
@@ -124,7 +128,7 @@ nombre: this.form.value.nombre,
         this.tipoClienteService.crear(formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');

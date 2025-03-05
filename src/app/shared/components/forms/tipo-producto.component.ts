@@ -70,8 +70,8 @@ export class TipoProductoFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-      id: [null,],
-      descripcionTipoProducto: [null, Validators.required],
+  id: [null,],
+  descripcionTipoProducto: [null, Validators.required],
     });
   }
 
@@ -85,8 +85,8 @@ export class TipoProductoFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-        id: this.data.object.id,
-        descripcionTipoProducto: this.data.object.descripcionTipoProducto,
+id: this.data.object.id,
+descripcionTipoProducto: this.data.object.descripcionTipoProducto,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -104,8 +104,8 @@ export class TipoProductoFormComponent implements OnInit {
     if (this.form.valid) {
       const formData: TipoProducto = {
         /*form-fields-submit*/
-        id: this.form.value.id,
-        descripcionTipoProducto: this.form.value.descripcionTipoProducto,
+id: this.form.value.id,
+descripcionTipoProducto: this.form.value.descripcionTipoProducto,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -115,7 +115,7 @@ export class TipoProductoFormComponent implements OnInit {
         this.tipoProductoService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
@@ -128,7 +128,7 @@ export class TipoProductoFormComponent implements OnInit {
         this.tipoProductoService.crear(formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');

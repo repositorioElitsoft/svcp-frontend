@@ -81,11 +81,6 @@
     "mantenedores": {
         "volver": "Volver",
         "id": "Id",
-        "clasificacionCliente": {
-            "id": "Id",
-            "titulo": "Clasificación de Clientes",
-            "descripcion": "Descripción de Clasificación de Clientes"
-        },
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Agrupación Comercial",
@@ -119,7 +114,7 @@
         "clasificacionCliente": {
             "id": "Id",
             "titulo": "Clasificación de Cliente",
-            "descripcion": "Descripción de la Clasificación de Cliente"
+            "clasificacionClienteDesc": "Descripción de la Clasificación de Cliente"
         },
         "cliente": {
             "id": "Id",
@@ -174,7 +169,8 @@
         "sector": {
             "id": "Id",
             "titulo": "Sector",
-            "descripcion": "Descripción del Sector"
+            "descripcion": "Descripción del Sector",
+            "zona": "Zone"
         },
         "segmentacionCliente": {
             "id": "Id",
@@ -235,13 +231,13 @@
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupación Comercial",
                 "tituloAgregar": "Crear Agrupación Comercial",
-                "label": "Descripción de la Agrupación Comercial",
+                "label.nombreGrupoComercial": "Descripción de la Agrupación Comercial",
                 "descripcion": "Ingrese la descripción de la agrupación comercial"
             },
             "asignacionPermiso": {
                 "tituloEditar": "Editar Asignación de Permiso",
                 "tituloAgregar": "Crear Asignación de Permiso",
-                "label": "Descripción de la Asignación de Permiso",
+                "label.descripcionPermiso": "Descripción de la Asignación de Permiso",
                 "descripcion": "Ingrese la descripción de la asignación de permiso"
             },
             "asignacionRol": {
@@ -271,7 +267,7 @@
             "clasificacionCliente": {
                 "tituloEditar": "Editar Clasificación del Cliente",
                 "tituloAgregar": "Crear Clasificación del Cliente",
-                "label": "Descripción de la Clasificación del Cliente",
+                "label.clasificacionClienteDesc": "Descripción de la Clasificación del Cliente",
                 "descripcion": "Ingrese la descripción de la clasificación del cliente"
             },
             "cliente": {
@@ -284,7 +280,7 @@
                 "label.rutDv": "DV",
                 "label.fechaNacimiento": "Fecha Nacimiento",
                 "label.imagenPerfil?": "Imagen de Perfil",
-                "cliente.label.email?": "Email",
+                "label.email?": "Email",
                 "label.campo1?": " Campo 1",
                 "label.campo2?": "Campo 2",
                 "label.telefonoFijo?": " Teléfono Fijo",
@@ -295,7 +291,8 @@
                 "label.direcciones": "Direcciones",
                 "label.agrupacionComercial": "Agrupación Comercial",
                 "label.segmentacionCliente": "Segmentación Cliente",
-                "descripcion": "Ingrese la descripción del cliente"
+                "descripcion": "Ingrese la descripción del cliente",
+                "label.descripcion": "Ingrese la descripción del cliente"
             },
             "comuna": {
                 "tituloEditar": "Editar Comuna",
@@ -375,25 +372,25 @@
             "tarea": {
                 "tituloEditar": "Editar Tarea",
                 "tituloAgregar": "Crear Tarea",
-                "label": "Descripción de la Tarea",
+                "label.descripcionTarea": "Descripción de la Tarea",
                 "descripcion": "Ingrese la descripción de la tarea"
             },
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Crear Tipo de Cliente",
-                "label": "Descripción del Tipo de Cliente",
+                "label.nombre": "Descripción del Tipo de Cliente",
                 "descripcion": "Ingrese la descripción del tipo de cliente"
             },
             "tipoEmpleado": {
                 "tituloEditar": "Editar Tipo de Empleado",
                 "tituloAgregar": "Crear Tipo de Empleado",
-                "label": "Descripción del Tipo de Empleado",
+                "label.descripcionTipoEmpleado": "Descripción del Tipo de Empleado",
                 "descripcion": "Ingrese la descripción del tipo de empleado"
             },
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Producto",
                 "tituloAgregar": "Crear Tipo de Producto",
-                "label": "Descripción del Tipo de Producto",
+                "label.descripcionTipoProducto": "Descripción del Tipo de Producto",
                 "descripcion": "Ingrese la descripción del tipo de producto"
             },
             "tipoServicio": {
@@ -411,7 +408,7 @@
             "zona": {
                 "tituloEditar": "Editar Zona",
                 "tituloAgregar": "Crear Zona",
-                "label": "Descripción de la Zona",
+                "label.descripcionZona": "Descripción de la Zona",
                 "descripcion": "Ingrese la descripción de la zona"
             }
         }
