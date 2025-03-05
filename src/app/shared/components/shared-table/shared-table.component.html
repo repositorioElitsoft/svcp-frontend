@@ -30,7 +30,7 @@
         <button *ngIf="filters.length > 0" (click)="filter()"> Buscar </button>
     </div>
 
-    <div class="flex justify-between">
+    <div class="flex justify-between bg-gray-100 p-4 rounded-t-lg">
         <app-busqueda (simpleSearch)="makeSimpleSearch($event)" [field]="simpleSearchField"
             [isSimpleSearch]="true"></app-busqueda>
         <div>
