@@ -297,13 +297,13 @@
             "comuna": {
                 "tituloEditar": "Editar Comuna",
                 "tituloAgregar": "Crear Comuna",
-                "label": "Descripción de la Comuna",
+                "label.descripcionComuna": "Descripción de la Comuna",
                 "descripcion": "Ingrese la descripción de la comuna"
             },
             "empleado": {
                 "tituloEditar": "Editar Empleado",
                 "tituloAgregar": "Crear Empleado",
-                "label": "Descripción del Empleado",
+                "label.descripcionEmpleado": "Descripción del Empleado",
                 "descripcion": "Ingrese la descripción del empleado"
             },
             "gestionContrato": {
@@ -321,31 +321,31 @@
             "locacion": {
                 "tituloEditar": "Editar Locación",
                 "tituloAgregar": "Crear Locación",
-                "label": "Descripción de la Locación",
+                "label.locacion": "Descripción de la Locación",
                 "descripcion": "Ingrese la descripción de la locación"
             },
             "pais": {
                 "tituloEditar": "Editar País",
                 "tituloAgregar": "Crear País",
-                "label": "Descripción del País",
+                "label.pais": "Descripción del País",
                 "descripcion": "Ingrese la descripción del país"
             },
             "producto": {
                 "tituloEditar": "Editar Producto",
                 "tituloAgregar": "Crear Producto",
-                "label": "Descripción del Producto",
+                "label.producto": "Descripción del Producto",
                 "descripcion": "Ingrese la descripción del producto"
             },
             "region": {
                 "tituloEditar": "Editar Región",
                 "tituloAgregar": "Crear Región",
-                "label": "Descripción de la Región",
+                "label.region": "Descripción de la Región",
                 "descripcion": "Ingrese la descripción de la región"
             },
             "rol": {
                 "tituloEditar": "Editar Rol",
                 "tituloAgregar": "Crear Rol",
-                "label": "Descripción del Rol",
+                "label.rol": "Descripción del Rol",
                 "descripcion": "Ingrese la descripción del rol"
             },
             "sector": {
@@ -360,13 +360,13 @@
             "segmentacionCliente": {
                 "tituloEditar": "Editar Segmentación del Cliente",
                 "tituloAgregar": "Crear Segmentación del Cliente",
-                "label": "Descripción de la Segmentación del Cliente",
+                "label.descripcion": "Descripción de la Segmentación del Cliente",
                 "descripcion": "Ingrese la descripción de la segmentación del cliente"
             },
             "servicio": {
                 "tituloEditar": "Editar Servicio",
                 "tituloAgregar": "Crear Servicio",
-                "label": "Descripción del Servicio",
+                "label.descripcionServicio": "Descripción del Servicio",
                 "descripcion": "Ingrese la descripción del servicio"
             },
             "tarea": {
@@ -396,13 +396,13 @@
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Servicio",
                 "tituloAgregar": "Crear Tipo de Servicio",
-                "label": "Descripción del Tipo de Servicio",
+                "label.descripcionTipoServicio": "Descripción del Tipo de Servicio",
                 "descripcionTipoServicio": "Ingrese la descripción del tipo de servicio"
             },
             "trabajo": {
                 "tituloEditar": "Editar Trabajo",
                 "tituloAgregar": "Crear Trabajo",
-                "label": "Descripción del Trabajo",
+                "label.descripcionTrabajo": "Descripción del Trabajo",
                 "descripcion": "Ingrese la descripción del trabajo"
             },
             "zona": {
