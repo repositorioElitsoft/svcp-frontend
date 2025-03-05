@@ -65,6 +65,7 @@
         "logout": "Logout"
     },
     "table": {
+        "filtrosSeleccionados": "Selected filters ({{count}})",
         "actions": "Actions",
         "seleccionados": "{{count}} selected",
         "of": "of"
@@ -151,75 +152,98 @@
             "zona": {
                 "tituloEditar": "Edit Zone",
                 "tituloAgregar": "Create Zone",
-                "label": "Zone Description",
+                "label": {
+                    "descripcionZona": "Zone Description"
+                },
                 "descripcion": "Enter the description of the zone"
             },
             "sector": {
                 "tituloEditar": "Edit Sector",
                 "tituloAgregar": "Create Sector",
-                "label": "Sector Description",
+                "label": {
+                    "descripcionSector": "Sector Description",
+                    "zona": "Zone"
+                },
                 "descripcion": "Enter the description of the sector"
             },
             "tipoEmpleado": {
                 "tituloEditar": "Edit Client Type",
                 "tituloAgregar": "Create Client Type",
-                "label": "Client Type Description",
+                "label": {
+                    "descripcionTipoEmpleado": "Client Type Description"
+                },
                 "descripcion": "Enter the description of the client type",
                 "campoRequerido": "This field is required"
             },
             "tipoProducto": {
                 "tituloEditar": "Edit Product Type",
                 "tituloAgregar": "Create Product Type",
-                "label": "Product Type Description",
+                "label": {
+                    "descripcionTipoProducto": "Product Type Description"
+                },
                 "descripcion": "Enter the description of the product type",
                 "campoRequerido": "This field is required"
             },
             "tipoCliente": {
                 "tituloEditar": "Edit Client Type",
                 "tituloAgregar": "Create Client Type",
-                "label": "Client Type Description",
+                "label": {
+                    "nombre": "Client Type Description"
+                },
                 "descripcion": "Enter the description of the client type",
                 "campoRequerido": "This field is required"
             },
             "clasificacionCliente": {
                 "tituloEditar": "Edit Client Classification",
                 "tituloAgregar": "Create Client Classification",
-                "label": "Client Classification Description",
+                "label": {
+                    "clasificacionClienteDesc": "Client Classification Description"
+                },
                 "descripcion": "Enter the description of the client classification",
                 "campoRequerido": "This field is required"
             },
             "tipoServicio": {
                 "tituloEditar": "Edit Service Type",
                 "tituloAgregar": "Add Service Type",
-                "label": "Description of  Service Type",
+                "label": {
+                    "descripcionTipoServicio": "Description of Service Type"
+                },
                 "descripcion": "Enter the description of service type",
                 "campoRequerido": "This field is required"
             },
             "agrupacionComercial": {
                 "tituloEditar": "Edit Commercial Group",
                 "tituloAgregar": "Add Commercial Grouping",
-                "label": "Description of the Commercial Group",
+                "label": {
+                    "nombreGrupoComercial": "Description of the Commercial Group"
+                },
                 "descripcion": "Enter the description of the Commercial Group",
                 "campoRequerido": "This field is required"
             },
             "segmentacionCliente": {
                 "tituloEditar": "Edit Customer Segmentation",
                 "tituloAgregar": "Add Customer Segmentation",
-                "label": "Customer Segmentation Description",
+                "label": {
+                    "descripcion": "Customer Segmentation Description"
+                },
                 "descripcion": "Enter the description of the Customer Segmentation",
                 "campoRequerido": "This field is required"
             },
             "tarea": {
                 "tituloEditar": "Edit Task",
                 "tituloAgregar": "Add Task",
-                "label": "Task Description",
+                "label": {
+                    "descripcionTarea": "Task Description"
+                },
                 "descripcion": "Enter the Task Description",
                 "campoRequerido": "This field is required"
             },
             "trabajo": {
                 "tituloEditar": "Edit Work",
                 "tituloAgregar": "Add Work",
-                "label": "Work Description",
+                "label": {
+                    "descripcionTrabajo": "Work Description"
+                },
                 "descripcion": "Enter the Work Description",
                 "campoRequerido": "This field is required"
             }

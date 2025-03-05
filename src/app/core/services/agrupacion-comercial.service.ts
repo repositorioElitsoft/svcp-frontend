@@ -21,7 +21,7 @@ export class AgrupacionComercialService {
     }
 
     buscarTodos(): Observable<AgrupacionComercial[]> {
-        return this.http.get<AgrupacionComercial[]>(`${this.url}agrupaciones-comerciales/lote`, { headers: this.headers });
+        return this.http.get<AgrupacionComercial[]>(`${this.url}agrupaciones-comerciales`, { headers: this.headers });
     }
 
     borrar(agrupacionComercialId: number): Observable<any> {

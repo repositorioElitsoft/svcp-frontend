@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SegmentacionClienteService } from '../../../core/services/segmentacion-cliente.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 /*services-imports*/
 
@@ -35,6 +37,8 @@ import { ToastrService } from 'ngx-toastr';
     MatButtonModule,
     MatFormFieldModule,
     MatDialogContent,
+    MatSelectModule,
+    MatOptionModule,
     MatDialogActions,
     MatDialogClose,
     MatError,
@@ -66,8 +70,8 @@ export class SegmentacionClienteFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-      id: [null,],
-      descripcion: [null, Validators.required],
+  id: [null,],
+  descripcion: [null, Validators.required],
     });
   }
 
@@ -81,8 +85,8 @@ export class SegmentacionClienteFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-        id: this.data.object.id,
-        descripcion: this.data.object.descripcion,
+id: this.data.object.id,
+descripcion: this.data.object.descripcion,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -93,46 +97,47 @@ export class SegmentacionClienteFormComponent implements OnInit {
 
 
   }
+
   onSubmit() {
     console.log("Formulario enviado:", this.form.value);
 
-    if (this.form.invalid) {
-      this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
-      return;
-    }
+    if (this.form.valid) {
+      const formData: SegmentacionCliente = {
+        /*form-fields-submit*/
+id: this.form.value.id,
+descripcion: this.form.value.descripcion,
+      };
 
-    const formData: SegmentacionCliente = {
-      id: this.form.value.id,
-      descripcion: this.form.value.descripcion,
-    };
+      console.log("Datos mapeados para enviar:", formData);
 
-    console.log("Datos mapeados para enviar:", formData);
+      // Cierra el formulario con los datos correctos
+      if (this.esActualizar()) {
+        this.segmentacionClienteService.actualizar(formData.id, formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(true);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
 
-    if (this.esActualizar()) {
-      // Llamar al servicio para actualizar
-      this.segmentacionClienteService.actualizar(formData.id, formData).subscribe({
-        next: () => {
-          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-          this.dialogRef.close(formData);
-        },
-        error: (error) => {
-          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-          this.toastr.error(errorMessage);
-        }
-      });
+      }
+      else {
+        this.segmentacionClienteService.crear(formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(true);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+      }
     } else {
-      // Llamar al servicio para crear un nuevo servicio
-      this.segmentacionClienteService.crear(formData).subscribe({
-        next: () => {
-          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-          this.dialogRef.close(formData);
-        },
-        error: (error) => {
-          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-          this.toastr.error(errorMessage);
-        }
-      });
+      console.log("Formulario no válido");
     }
   }
-
 }

@@ -11,8 +11,8 @@ import { MatOptionModule } from '@angular/material/core';
 
 /*services-imports*/
 import { ZonaService } from '../../../core/services/zona.service';
-import { Zona } from '../../../core/models/zona.model';
-
+				import { Zona } from '../../../core/models/zona.model'; 
+				
 
 
 import {
@@ -58,7 +58,7 @@ export class SectorFormComponent implements OnInit {
   readonly esActualizar = model(this.data.esActualizar);
 
   /*variable-declarations*/
-  zona: Zona[] = [];
+zona: Zona[] = [];
 
 
   constructor(
@@ -67,14 +67,14 @@ export class SectorFormComponent implements OnInit {
     private translate: TranslateService,
     private toastr: ToastrService,
     /*other-services-injection*/
-    private zonaService: ZonaService,
+private zonaService: ZonaService,
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-      id: [null,],
-      descripcionSector: [null, Validators.required],
-      zona: [{}, Validators.required],
+  id: [null,],
+  descripcionSector: [null, Validators.required],
+  zona: [{}, Validators.required],
     });
   }
 
@@ -88,9 +88,9 @@ export class SectorFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-        id: this.data.object.id,
-        descripcionSector: this.data.object.descripcionSector,
-        zona: this.data.object.zona,
+id: this.data.object.id,
+descripcionSector: this.data.object.descripcionSector,
+zona: this.data.object.zona,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -99,13 +99,14 @@ export class SectorFormComponent implements OnInit {
     }
     /*services-init-call*/
 
-    this.zonaService.buscarTodos().subscribe({
-      next: (zona: Zona[]) => {
-        console.log("created entity ", zona)
-        this.zona = zona
-      }
-    })
-
+					this.zonaService.buscarTodos().subscribe({
+						next:(zona :Zona[])=>{
+							this.zona = zona
+							const foundzona = this.zona.find(e => e.id === this.data.object.zona.id);
+				  			this.form.patchValue({ zona: foundzona })
+						}
+					})
+				
 
   }
 
@@ -115,9 +116,9 @@ export class SectorFormComponent implements OnInit {
     if (this.form.valid) {
       const formData: Sector = {
         /*form-fields-submit*/
-        id: this.form.value.id,
-        descripcionSector: this.form.value.descripcionSector,
-        zona: this.form.value.zona,
+id: this.form.value.id,
+descripcionSector: this.form.value.descripcionSector,
+zona: this.form.value.zona,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -127,7 +128,7 @@ export class SectorFormComponent implements OnInit {
         this.sectorService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
@@ -140,7 +141,7 @@ export class SectorFormComponent implements OnInit {
         this.sectorService.crear(formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');

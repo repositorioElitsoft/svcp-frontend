@@ -21,7 +21,7 @@ export class SectorService {
     }
 
     buscarTodos(): Observable<Sector[]> {
-        return this.http.get<Sector[]>(`${this.url}sectores/lote`, { headers: this.headers });
+        return this.http.get<Sector[]>(`${this.url}sectores`, { headers: this.headers });
     }
 
     borrar(sectorId: number): Observable<any> {
