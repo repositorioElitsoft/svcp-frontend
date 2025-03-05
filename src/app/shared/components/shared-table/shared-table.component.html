@@ -26,7 +26,8 @@
 
         </div>
         }
-        <button (click)="filter()"> Buscar </button>
+
+        <button *ngIf="filters.length > 0" (click)="filter()"> Buscar </button>
     </div>
 
     <div class="flex justify-between">
@@ -116,7 +117,7 @@
     <div
         class="w-full bg-gray-100 h-11 flex justify-between text-neutral-600 px-4 pt-2  rounded-lg dark:bg-neutral-500 text-lg">
         <div>
-            {{ pageSize }} {{ 'table.of' | translate }} {{ totalElements }}
+            {{ dataSource.length }} {{ 'table.of' | translate }} {{ totalElements }}
         </div>
 
         <div class="flex items-center">

@@ -132,7 +132,7 @@ export class AgrupacionComercialComponent implements OnInit {
       this.totalElements = data.totalElements;
 
       this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-
+      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
       this.dataSource = data.content.flat();
       if (data.content.length > 0) {
         this.displayedColumns = Object.keys(data.content[0]);
@@ -278,7 +278,7 @@ export class AgrupacionComercialComponent implements OnInit {
       }
     });
   }
-  
+
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -292,7 +292,7 @@ export class AgrupacionComercialComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }
@@ -314,7 +314,7 @@ export class AgrupacionComercialComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }

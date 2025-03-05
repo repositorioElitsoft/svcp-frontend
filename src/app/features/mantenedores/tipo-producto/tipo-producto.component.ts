@@ -132,7 +132,7 @@ export class TipoProductoComponent implements OnInit {
       this.totalElements = data.totalElements;
 
       this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-
+      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
       this.dataSource = data.content.flat();
       if (data.content.length > 0) {
         this.displayedColumns = Object.keys(data.content[0]);
