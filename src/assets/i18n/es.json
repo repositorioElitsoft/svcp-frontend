@@ -84,142 +84,142 @@
         "clasificacionCliente": {
             "id": "Id",
             "titulo": "Clasificación de Clientes",
-            "clasificacionClienteDesc": "Descripción de Clasificación de Clientes"
+            "descripcion": "Descripción de Clasificación de Clientes"
         },
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Agrupación Comercial",
-            "nombreGrupoComercial": "Descripción de la Agrupación Comercial"
+            "descripcion": "Descripción de la Agrupación Comercial"
         },
         "asignacionPermiso": {
             "id": "Id",
             "titulo": "Asignación de Permiso",
-            "descripcionAsignacionPermiso": "Descripción de la Asignación de Permiso"
+            "descripcion": "Descripción de la Asignación de Permiso"
         },
         "asignacionRol": {
             "id": "Id",
             "titulo": "Asignación de Rol",
-            "descripcionAsignacionRol": "Descripción de la Asignación de Rol"
+            "descripcion": "Descripción de la Asignación de Rol"
         },
         "asignacionTarea": {
             "id": "Id",
             "titulo": "Asignación de Tarea",
-            "descripcionAsignacionTarea": "Descripción de la Asignación de Tarea"
+            "descripcion": "Descripción de la Asignación de Tarea"
         },
         "asignacionTrabajo": {
             "id": "Id",
             "titulo": "Asignación de Trabajo",
-            "descripcionAsignacionTrabajo": "Descripción de la Asignación de Trabajo"
+            "descripcion": "Descripción de la Asignación de Trabajo"
         },
         "calendarizacion": {
             "id": "Id",
             "titulo": "Calendarización",
-            "descripcionCalendarizacion": "Descripción de la Calendarización"
+            "descripcion": "Descripción de la Calendarización"
         },
         "clasificacionCliente": {
             "id": "Id",
             "titulo": "Clasificación de Cliente",
-            "descripcionClasificacionCliente": "Descripción de la Clasificación de Cliente"
+            "descripcion": "Descripción de la Clasificación de Cliente"
         },
         "cliente": {
             "id": "Id",
             "titulo": "Cliente",
-            "descripcionCliente": "Descripción del Cliente"
+            "descripcion": "Descripción del Cliente"
         },
         "comuna": {
             "id": "Id",
             "titulo": "Comuna",
-            "descripcionComuna": "Descripción de la Comuna"
+            "descripcion": "Descripción de la Comuna"
         },
         "empleado": {
             "id": "Id",
             "titulo": "Empleado",
-            "descripcionEmpleado": "Descripción del Empleado"
+            "descripcion": "Descripción del Empleado"
         },
         "gestionContrato": {
             "id": "Id",
             "titulo": "Gestión de Contrato",
-            "descripcionGestionContrato": "Descripción de la Gestión de Contrato"
+            "descripcion": "Descripción de la Gestión de Contrato"
         },
         "informeOt": {
             "id": "Id",
             "titulo": "Informe OT",
-            "descripcionInformeOt": "Descripción del Informe OT"
+            "descripcion": "Descripción del Informe OT"
         },
         "locacion": {
             "id": "Id",
             "titulo": "Locación",
-            "descripcionLocacion": "Descripción de la Locación"
+            "descripcion": "Descripción de la Locación"
         },
         "pais": {
             "id": "Id",
             "titulo": "País",
-            "descripcionPais": "Descripción del País"
+            "descripcion": "Descripción del País"
         },
         "producto": {
             "id": "Id",
             "titulo": "Producto",
-            "descripcionProducto": "Descripción del Producto"
+            "descripcion": "Descripción del Producto"
         },
         "region": {
             "id": "Id",
             "titulo": "Región",
-            "descripcionRegion": "Descripción de la Región"
+            "descripcion": "Descripción de la Región"
         },
         "rol": {
             "id": "Id",
             "titulo": "Rol",
-            "descripcionRol": "Descripción del Rol"
+            "descripcion": "Descripción del Rol"
         },
         "sector": {
             "id": "Id",
             "titulo": "Sector",
-            "descripcionSector": "Descripción del Sector"
+            "descripcion": "Descripción del Sector"
         },
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Segmentación de Cliente",
-            "descripcionSegmentacionCliente": "Descripción de la Segmentación de Cliente"
+            "descripcion": "Descripción de la Segmentación de Cliente"
         },
         "servicio": {
             "id": "Id",
             "titulo": "Servicio",
-            "descripcionServicio": "Descripción del Servicio"
+            "descripcion": "Descripción del Servicio"
         },
         "tarea": {
             "id": "Id",
             "titulo": "Tarea",
-            "descripcionTarea": "Descripción de la Tarea"
+            "descripcion": "Descripción de la Tarea"
         },
         "tipoCliente": {
             "id": "Id",
             "titulo": "Tipo de Cliente",
-            "nombre": "Descripción del Tipo de Cliente"
+            "descripcion": "Descripción del Tipo de Cliente"
         },
         "tipoEmpleado": {
             "id": "Id",
             "titulo": "Tipo de Empleado",
-            "descripcionTipoEmpleado": "Descripción del Tipo de Empleado"
+            "descripcion": "Descripción del Tipo de Empleado"
         },
         "tipoProducto": {
             "id": "Id",
             "titulo": "Tipo de Producto",
-            "descripcionTipoProducto": "Descripción del Tipo de Producto"
+            "descripcion": "Descripción del Tipo de Producto"
         },
         "tipoServicio": {
             "id": "Id",
             "titulo": "Tipo de Servicio",
-            "descripcionTipoServicio": "Descripción del Tipo de Servicio"
+            "descripcion": "Descripción del Tipo de Servicio"
         },
         "trabajo": {
             "id": "Id",
             "titulo": "Trabajo",
-            "descripcionTrabajo": "Descripción del Trabajo"
+            "descripcion": "Descripción del Trabajo"
         },
         "zona": {
             "id": "Id",
             "titulo": "Zona",
-            "descripcionZona": "Descripción de la Zona"
+            "descripcion": "Descripción de la Zona"
         },
         "formularios": {
             "campoRequerido": "Este campo es obligatorio",
