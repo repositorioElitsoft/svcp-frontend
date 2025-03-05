@@ -81,31 +81,35 @@ export class SectorFormComponent implements OnInit {
   ngOnInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'descripcionSector'
-    if (this.esActualizar() && this.data?.object) {
-      console.log("Objeto recibido:", this.data.object);
-
-
-      this.form.patchValue({
-        /*object-fields-edit*/
-        id: this.data.object.id,
-        descripcionSector: this.data.object.descripcionSector,
-        zona: this.data.object.zona,
-      });
-
-      console.log("Datos en el formulario después de patchValue:", this.form.value);
-    } else {
-      console.error("No se recibió un objeto válido en 'data'");
-    }
     /*services-init-call*/
-
     this.zonaService.buscarTodos().subscribe({
       next: (zona: Zona[]) => {
         console.log("created entity ", zona)
-        this.zona = zona
-      }
-    })
+        this.zona = zona;
 
+        // Verificar si 'data.object' existe y tiene el campo 'descripcionSector'
+        if (this.esActualizar() && this.data?.object) {
+          console.log("Objeto recibido:", this.data.object);
+
+          // Find the matching Zona object based on ID
+          const selectedZona = this.zona.find(
+            (z) => z.id === this.data.object.zona.id //Assumed zona has id property. Change if different.
+          );
+
+          this.form.patchValue({
+            /*object-fields-edit*/
+            id: this.data.object.id,
+            descripcionSector: this.data.object.descripcionSector,
+            zona: selectedZona || null,
+          });
+
+          console.log("Datos en el formulario después de patchValue:", this.form.value);
+        } else {
+          console.error("No se recibió un objeto válido en 'data'");
+        }
+
+          }
+        })
 
   }
 
@@ -127,7 +131,7 @@ export class SectorFormComponent implements OnInit {
         this.sectorService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');

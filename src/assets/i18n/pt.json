@@ -66,7 +66,8 @@
     "table": {
         "actions": "Ações",
         "seleccionados": "{{count}} seleccionados",
-        "of": "de"
+        "of": "de",
+        "filtrosSeleccionados": "Filtis Selesionadois"
     },
     "opciones-mantenedor": {
         "botonAgregar": {

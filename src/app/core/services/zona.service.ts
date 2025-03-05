@@ -21,7 +21,7 @@ export class ZonaService {
     }
 
     buscarTodos(): Observable<Zona[]> {
-        return this.http.get<Zona[]>(`${this.url}zonas/lote`);
+        return this.http.get<Zona[]>(`${this.url}zonas`);
     }
 
     borrar(zonaId: number): Observable<any> {
