@@ -17,7 +17,7 @@ import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
-
+import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 @Component({
   selector: "app-empleado",
   standalone: true,
@@ -35,9 +35,8 @@ export class EmpleadoComponent implements OnInit {
   totalPages = 0
   pageSize = 5;
   totalElements = 0;
-  activeOptionalFilters: any = [];
-
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
+  activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -97,7 +96,6 @@ export class EmpleadoComponent implements OnInit {
 
   buscar(filters: any) {
     this.pageNumber = 0;
-    console.log("transformed", filters);
     this.obtenerDatos("id", "asc", filters);
   }
   onFilterDeleted(field: string) {
@@ -125,7 +123,6 @@ export class EmpleadoComponent implements OnInit {
       ...optionalFilter
     }
 
-
     this.empleadoService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Empleado[]>) => {
       console.log("Datos recibidos:", data);
 
@@ -135,7 +132,7 @@ export class EmpleadoComponent implements OnInit {
       this.totalElements = data.totalElements;
 
       this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-
+      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
       this.dataSource = data.content.flat();
       if (data.content.length > 0) {
         this.displayedColumns = Object.keys(data.content[0]);
@@ -194,7 +191,7 @@ export class EmpleadoComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.success'));
 
             // Limpiar selecciones en el componente hijo
             if (this.sharedTableComponent) {
@@ -210,19 +207,18 @@ export class EmpleadoComponent implements OnInit {
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
           }
         });
       }
     });
   }
 
-
   onDeleteSingleSelected(id: string) {
     console.log("Eliminar seleccionado:", id);
 
     // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoServicio.titulo');
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.empleado.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
@@ -260,7 +256,7 @@ export class EmpleadoComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.success'));
 
             // Limpiar selección si existe un componente compartido
             if (this.sharedTableComponent) {
@@ -276,14 +272,13 @@ export class EmpleadoComponent implements OnInit {
           },
           error: (err: any) => {
             console.error("Error al eliminar elemento:", err);
-            this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
           }
         });
       }
     });
   }
-
-
+  
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -297,7 +292,7 @@ export class EmpleadoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id", "desc");
+        this.obtenerDatos("id","desc");
       }
     });
   }
@@ -319,7 +314,7 @@ export class EmpleadoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id", "desc");
+        this.obtenerDatos("id","desc");
       }
     });
   }
