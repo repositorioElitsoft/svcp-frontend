@@ -9,10 +9,10 @@
         <!--Input -->
 
 					   <mat-form-field appearance="outline" class="w-full dark:text-white  ">
-							<mat-label class="text-base" >{{ 'mantenedores.formularios.tipoProducto.label.descripcionTipoProducto' | translate }}</mat-label>
+							<mat-label class="text-lg" >{{ 'mantenedores.formularios.tipoProducto.label.descripcionTipoProducto' | translate }}</mat-label>
 							<input matInput formControlName="descripcionTipoProducto"
 								[attr.placeholder]="'mantenedores.formularios.descripcionTipoProducto.descripcion' | translate"
-								class="text-base w-full dark:text-white ">
+								class="text-lg w-full dark:text-white ">
 							<mat-error *ngIf="form.get('descripcionTipoProducto')?.hasError('required')" class="text-red-500 text-base">
 								{{ 'mantenedores.formularios.campoRequerido' | translate }}
 							</mat-error>
@@ -21,11 +21,11 @@
 
         <div class="grid grid-cols-2 gap-4 w-full">
             <button type="button" (click)="dialogRef.close()"
-                class="text-base elitsoft-warn w-full flex items-center justify-center py-2 text-center">
+                class="text-lg elitsoft-warn w-full flex items-center justify-center py-2 text-center">
                 {{ 'mantenedores.formularios.botonCancelar' | translate }}
             </button>
             <button type="submit" [disabled]="form.invalid"
-                class="text-base elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
+                class="text-lg elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
                 {{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
                 'mantenedores.formularios.guardar') |
                 translate }}
