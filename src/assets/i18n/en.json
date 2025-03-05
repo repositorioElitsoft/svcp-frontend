@@ -222,11 +222,6 @@
             "botonAgregar": "Save",
             "actualizar": "Update",
             "guardar": "Save",
-            "toastr": {
-                "success": "Operation successful",
-                "error": "Operation failed",
-                "invalid_description": "Invalid description"
-            },
             "agrupacionComercial": {
                 "tituloEditar": "Edit Commercial Grouping",
                 "tituloAgregar": "Create Commercial Grouping",
@@ -418,7 +413,11 @@
         "eliminar": "Delete",
         "toastr": {
             "success": "Operation successful",
-            "error": "Operation failed"
+            "errors": {
+                "generic": "Operation failed",
+                "integridadViolada": "Can't delete because it has associated entities",
+                "invalid_description": "Invalid description"
+            }
         }
     }
 }

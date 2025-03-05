@@ -17,7 +17,7 @@ import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
-
+import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 @Component({
   selector: "app-clasificacion-cliente",
   standalone: true,
@@ -191,7 +191,7 @@ export class ClasificacionClienteComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.success'));
 
             // Limpiar selecciones en el componente hijo
             if (this.sharedTableComponent) {
@@ -207,7 +207,7 @@ export class ClasificacionClienteComponent implements OnInit {
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
           }
         });
       }
@@ -256,7 +256,7 @@ export class ClasificacionClienteComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.success'));
 
             // Limpiar selección si existe un componente compartido
             if (this.sharedTableComponent) {
@@ -272,7 +272,7 @@ export class ClasificacionClienteComponent implements OnInit {
           },
           error: (err: any) => {
             console.error("Error al eliminar elemento:", err);
-            this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.error'));
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
           }
         });
       }

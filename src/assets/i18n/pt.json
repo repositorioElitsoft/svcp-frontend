@@ -221,11 +221,6 @@
             "botonAgregar": "Salvar",
             "actualizar": "Atualizar",
             "guardar": "Salvar",
-            "toastr": {
-                "success": "Operação bem-sucedida",
-                "error": "Falha na operação",
-                "invalid_description": "Descrição inválida"
-            },
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupamento Comercial",
                 "tituloAgregar": "Criar Agrupamento Comercial",
@@ -417,7 +412,11 @@
         "eliminar": "Excluir",
         "toastr": {
             "success": "Operação bem-sucedida",
-            "error": "Operação falhou"
+            "errors": {
+                "generic": "Operação falhou",
+                "integridadViolada": "Não pôde ser eliminado por estar associado a uma entidade",
+                "invalid_description": "Descriçiôn invãlida"
+            }
         }
     }
 }
