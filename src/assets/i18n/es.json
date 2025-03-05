@@ -397,7 +397,7 @@
                 "tituloEditar": "Editar Tipo de Servicio",
                 "tituloAgregar": "Crear Tipo de Servicio",
                 "label": "Descripción del Tipo de Servicio",
-                "descripcion": "Ingrese la descripción del tipo de servicio"
+                "descripcionTipoServicio": "Ingrese la descripción del tipo de servicio"
             },
             "trabajo": {
                 "tituloEditar": "Editar Trabajo",
