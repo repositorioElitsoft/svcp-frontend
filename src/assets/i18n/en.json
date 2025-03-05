@@ -80,22 +80,115 @@
     "mantenedores": {
         "volver": "Back",
         "id": "Id",
+        "agrupacionComercial": {
+            "id": "Id",
+            "titulo": "Commercial Grouping",
+            "nombreGrupoComercial": "Commercial Grouping Description"
+        },
+        "asignacionPermiso": {
+            "id": "Id",
+            "titulo": "Permission Assignment",
+            "descripcionAsignacionPermiso": "Permission Assignment Description"
+        },
+        "asignacionRol": {
+            "id": "Id",
+            "titulo": "Role Assignment",
+            "descripcionAsignacionRol": "Role Assignment Description"
+        },
+        "asignacionTarea": {
+            "id": "Id",
+            "titulo": "Task Assignment",
+            "descripcionAsignacionTarea": "Task Assignment Description"
+        },
+        "asignacionTrabajo": {
+            "id": "Id",
+            "titulo": "Work Assignment",
+            "descripcionAsignacionTrabajo": "Work Assignment Description"
+        },
+        "calendarizacion": {
+            "id": "Id",
+            "titulo": "Scheduling",
+            "descripcionCalendarizacion": "Scheduling Description"
+        },
         "clasificacionCliente": {
             "id": "Id",
             "titulo": "Client Classification",
-            "clasificacionClienteDesc": "Client Classification Description"
+            "descripcionClasificacionCliente": "Client Classification Description"
+        },
+        "cliente": {
+            "id": "Id",
+            "titulo": "Client",
+            "descripcionCliente": "Client Description"
+        },
+        "comuna": {
+            "id": "Id",
+            "titulo": "Commune",
+            "descripcionComuna": "Commune Description"
+        },
+        "empleado": {
+            "id": "Id",
+            "titulo": "Employee",
+            "descripcionEmpleado": "Employee Description"
+        },
+        "gestionContrato": {
+            "id": "Id",
+            "titulo": "Contract Management",
+            "descripcionGestionContrato": "Contract Management Description"
+        },
+        "informeOt": {
+            "id": "Id",
+            "titulo": "OT Report",
+            "descripcionInformeOt": "OT Report Description"
+        },
+        "locacion": {
+            "id": "Id",
+            "titulo": "Location",
+            "descripcionLocacion": "Location Description"
+        },
+        "pais": {
+            "id": "Id",
+            "titulo": "Country",
+            "descripcionPais": "Country Description"
+        },
+        "producto": {
+            "id": "Id",
+            "titulo": "Product",
+            "descripcionProducto": "Product Description"
+        },
+        "region": {
+            "id": "Id",
+            "titulo": "Region",
+            "descripcionRegion": "Region Description"
+        },
+        "rol": {
+            "id": "Id",
+            "titulo": "Role",
+            "descripcionRol": "Role Description"
         },
         "sector": {
             "id": "Id",
-            "titulo": "Sectors",
-            "descripcionSector": "Sector Description",
-            "zona": "Zone"
+            "titulo": "Sector",
+            "descripcionSector": "Sector Description"
         },
-        "zona": {
+        "segmentacionCliente": {
             "id": "Id",
-            "titulo": "Zonas",
-            "descripcionZona": "Zona Description",
-            "zona": "Zone"
+            "titulo": "Client Segmentation",
+            "descripcionSegmentacionCliente": "Client Segmentation Description"
+        },
+        "servicio": {
+            "id": "Id",
+            "titulo": "Service",
+            "descripcionServicio": "Service Description"
+        },
+        "tarea": {
+            "id": "Id",
+            "titulo": "Task",
+            "descripcionTarea": "Task Description"
+        },
+        "tipoCliente": {
+            "id": "Id",
+            "titulo": "Client Type",
+            "nombre": "Client Type Description"
         },
         "tipoEmpleado": {
             "id": "Id",
@@ -104,38 +197,23 @@
         },
         "tipoProducto": {
             "id": "Id",
-            "titulo": "Producto Type",
+            "titulo": "Product Type",
             "descripcionTipoProducto": "Product Type Description"
-        },
-        "tipoCliente": {
-            "id": "Id",
-            "titulo": "Client Type",
-            "nombre": "Client Type Description"
         },
         "tipoServicio": {
             "id": "Id",
             "titulo": "Service Type",
             "descripcionTipoServicio": "Service Type Description"
         },
-        "agrupacionComercial": {
-            "id": "Id",
-            "titulo": "Commercial Group",
-            "nombreGrupoComercial": "Commercial Group Description"
-        },
-        "segmentacionCliente": {
-            "id": "Id",
-            "titulo": "Customer Segmentation",
-            "descripcion": "Customer Segmentation Description"
-        },
-        "tarea": {
-            "id": "Id",
-            "titulo": "Task",
-            "descripcionTarea": "Task Description"
-        },
         "trabajo": {
             "id": "Id",
             "titulo": "Work",
             "descripcionTrabajo": "Work Description"
+        },
+        "zona": {
+            "id": "Id",
+            "titulo": "Zone",
+            "descripcionZona": "Zone Description"
         },
         "formularios": {
             "campoRequerido": "This field is required",
@@ -148,11 +226,107 @@
                 "error": "Operation failed",
                 "invalid_description": "Invalid description"
             },
-            "zona": {
-                "tituloEditar": "Edit Zone",
-                "tituloAgregar": "Create Zone",
-                "label": "Zone Description",
-                "descripcion": "Enter the description of the zone"
+            "agrupacionComercial": {
+                "tituloEditar": "Edit Commercial Grouping",
+                "tituloAgregar": "Create Commercial Grouping",
+                "label": "Commercial Grouping Description",
+                "descripcion": "Enter the description of the commercial grouping"
+            },
+            "asignacionPermiso": {
+                "tituloEditar": "Edit Permission Assignment",
+                "tituloAgregar": "Create Permission Assignment",
+                "label": "Permission Assignment Description",
+                "descripcion": "Enter the description of the permission assignment"
+            },
+            "asignacionRol": {
+                "tituloEditar": "Edit Role Assignment",
+                "tituloAgregar": "Create Role Assignment",
+                "label": "Role Assignment Description",
+                "descripcion": "Enter the description of the role assignment"
+            },
+            "asignacionTarea": {
+                "tituloEditar": "Edit Task Assignment",
+                "tituloAgregar": "Create Task Assignment",
+                "label": "Task Assignment Description",
+                "descripcion": "Enter the description of the task assignment"
+            },
+            "asignacionTrabajo": {
+                "tituloEditar": "Edit Work Assignment",
+                "tituloAgregar": "Create Work Assignment",
+                "label": "Work Assignment Description",
+                "descripcion": "Enter the description of the work assignment"
+            },
+            "calendarizacion": {
+                "tituloEditar": "Edit Scheduling",
+                "tituloAgregar": "Create Scheduling",
+                "label": "Scheduling Description",
+                "descripcion": "Enter the description of the scheduling"
+            },
+            "clasificacionCliente": {
+                "tituloEditar": "Edit Client Classification",
+                "tituloAgregar": "Create Client Classification",
+                "label": "Client Classification Description",
+                "descripcion": "Enter the description of the client classification"
+            },
+            "cliente": {
+                "tituloEditar": "Edit Client",
+                "tituloAgregar": "Create Client",
+                "label": "Client Description",
+                "descripcion": "Enter the description of the client"
+            },
+            "comuna": {
+                "tituloEditar": "Edit Commune",
+                "tituloAgregar": "Create Commune",
+                "label": "Commune Description",
+                "descripcion": "Enter the description of the commune"
+            },
+            "empleado": {
+                "tituloEditar": "Edit Employee",
+                "tituloAgregar": "Create Employee",
+                "label": "Employee Description",
+                "descripcion": "Enter the description of the employee"
+            },
+            "gestionContrato": {
+                "tituloEditar": "Edit Contract Management",
+                "tituloAgregar": "Create Contract Management",
+                "label": "Contract Management Description",
+                "descripcion": "Enter the description of the contract management"
+            },
+            "informeOt": {
+                "tituloEditar": "Edit OT Report",
+                "tituloAgregar": "Create OT Report",
+                "label": "OT Report Description",
+                "descripcion": "Enter the description of the OT report"
+            },
+            "locacion": {
+                "tituloEditar": "Edit Location",
+                "tituloAgregar": "Create Location",
+                "label": "Location Description",
+                "descripcion": "Enter the description of the location"
+            },
+            "pais": {
+                "tituloEditar": "Edit Country",
+                "tituloAgregar": "Create Country",
+                "label": "Country Description",
+                "descripcion": "Enter the description of the country"
+            },
+            "producto": {
+                "tituloEditar": "Edit Product",
+                "tituloAgregar": "Create Product",
+                "label": "Product Description",
+                "descripcion": "Enter the description of the product"
+            },
+            "region": {
+                "tituloEditar": "Edit Region",
+                "tituloAgregar": "Create Region",
+                "label": "Region Description",
+                "descripcion": "Enter the description of the region"
+            },
+            "rol": {
+                "tituloEditar": "Edit Role",
+                "tituloAgregar": "Create Role",
+                "label": "Role Description",
+                "descripcion": "Enter the description of the role"
             },
             "sector": {
                 "tituloEditar": "Edit Sector",
@@ -160,68 +334,59 @@
                 "label": "Sector Description",
                 "descripcion": "Enter the description of the sector"
             },
-            "tipoEmpleado": {
-                "tituloEditar": "Edit Client Type",
-                "tituloAgregar": "Create Client Type",
-                "label": "Client Type Description",
-                "descripcion": "Enter the description of the client type",
-                "campoRequerido": "This field is required"
+            "segmentacionCliente": {
+                "tituloEditar": "Edit Client Segmentation",
+                "tituloAgregar": "Create Client Segmentation",
+                "label": "Client Segmentation Description",
+                "descripcion": "Enter the description of the client segmentation"
             },
-            "tipoProducto": {
-                "tituloEditar": "Edit Product Type",
-                "tituloAgregar": "Create Product Type",
-                "label": "Product Type Description",
-                "descripcion": "Enter the description of the product type",
-                "campoRequerido": "This field is required"
+            "servicio": {
+                "tituloEditar": "Edit Service",
+                "tituloAgregar": "Create Service",
+                "label": "Service Description",
+                "descripcion": "Enter the description of the service"
+            },
+            "tarea": {
+                "tituloEditar": "Edit Task",
+                "tituloAgregar": "Create Task",
+                "label": "Task Description",
+                "descripcion": "Enter the description of the task"
             },
             "tipoCliente": {
                 "tituloEditar": "Edit Client Type",
                 "tituloAgregar": "Create Client Type",
                 "label": "Client Type Description",
-                "descripcion": "Enter the description of the client type",
-                "campoRequerido": "This field is required"
+                "descripcion": "Enter the description of the client type"
             },
-            "clasificacionCliente": {
-                "tituloEditar": "Edit Client Classification",
-                "tituloAgregar": "Create Client Classification",
-                "label": "Client Classification Description",
-                "descripcion": "Enter the description of the client classification",
-                "campoRequerido": "This field is required"
+            "tipoEmpleado": {
+                "tituloEditar": "Edit Employee Type",
+                "tituloAgregar": "Create Employee Type",
+                "label": "Employee Type Description",
+                "descripcion": "Enter the description of the employee type"
+            },
+            "tipoProducto": {
+                "tituloEditar": "Edit Product Type",
+                "tituloAgregar": "Create Product Type",
+                "label": "Product Type Description",
+                "descripcion": "Enter the description of the product type"
             },
             "tipoServicio": {
                 "tituloEditar": "Edit Service Type",
-                "tituloAgregar": "Add Service Type",
-                "label": "Description of  Service Type",
-                "descripcion": "Enter the description of service type",
-                "campoRequerido": "This field is required"
-            },
-            "agrupacionComercial": {
-                "tituloEditar": "Edit Commercial Group",
-                "tituloAgregar": "Add Commercial Grouping",
-                "label": "Description of the Commercial Group",
-                "descripcion": "Enter the description of the Commercial Group",
-                "campoRequerido": "This field is required"
-            },
-            "segmentacionCliente": {
-                "tituloEditar": "Edit Customer Segmentation",
-                "tituloAgregar": "Add Customer Segmentation",
-                "label": "Customer Segmentation Description",
-                "descripcion": "Enter the description of the Customer Segmentation",
-                "campoRequerido": "This field is required"
-            },
-            "tarea": {
-                "tituloEditar": "Edit Task",
-                "tituloAgregar": "Add Task",
-                "label": "Task Description",
-                "descripcion": "Enter the Task Description",
-                "campoRequerido": "This field is required"
+                "tituloAgregar": "Create Service Type",
+                "label": "Service Type Description",
+                "descripcion": "Enter the description of the service type"
             },
             "trabajo": {
                 "tituloEditar": "Edit Work",
-                "tituloAgregar": "Add Work",
+                "tituloAgregar": "Create Work",
                 "label": "Work Description",
-                "descripcion": "Enter the Work Description",
-                "campoRequerido": "This field is required"
+                "descripcion": "Enter the description of the work"
+            },
+            "zona": {
+                "tituloEditar": "Edit Zone",
+                "tituloAgregar": "Create Zone",
+                "label": "Zone Description",
+                "descripcion": "Enter the description of the zone"
             }
         }
     },

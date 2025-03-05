@@ -85,17 +85,115 @@
             "titulo": "Clasificación de Clientes",
             "clasificacionClienteDesc": "Descripción de Clasificación de Clientes"
         },
+        "agrupacionComercial": {
+            "id": "Id",
+            "titulo": "Agrupación Comercial",
+            "nombreGrupoComercial": "Descripción de la Agrupación Comercial"
+        },
+        "asignacionPermiso": {
+            "id": "Id",
+            "titulo": "Asignación de Permiso",
+            "descripcionAsignacionPermiso": "Descripción de la Asignación de Permiso"
+        },
+        "asignacionRol": {
+            "id": "Id",
+            "titulo": "Asignación de Rol",
+            "descripcionAsignacionRol": "Descripción de la Asignación de Rol"
+        },
+        "asignacionTarea": {
+            "id": "Id",
+            "titulo": "Asignación de Tarea",
+            "descripcionAsignacionTarea": "Descripción de la Asignación de Tarea"
+        },
+        "asignacionTrabajo": {
+            "id": "Id",
+            "titulo": "Asignación de Trabajo",
+            "descripcionAsignacionTrabajo": "Descripción de la Asignación de Trabajo"
+        },
+        "calendarizacion": {
+            "id": "Id",
+            "titulo": "Calendarización",
+            "descripcionCalendarizacion": "Descripción de la Calendarización"
+        },
+        "clasificacionCliente": {
+            "id": "Id",
+            "titulo": "Clasificación de Cliente",
+            "descripcionClasificacionCliente": "Descripción de la Clasificación de Cliente"
+        },
+        "cliente": {
+            "id": "Id",
+            "titulo": "Cliente",
+            "descripcionCliente": "Descripción del Cliente"
+        },
+        "comuna": {
+            "id": "Id",
+            "titulo": "Comuna",
+            "descripcionComuna": "Descripción de la Comuna"
+        },
+        "empleado": {
+            "id": "Id",
+            "titulo": "Empleado",
+            "descripcionEmpleado": "Descripción del Empleado"
+        },
+        "gestionContrato": {
+            "id": "Id",
+            "titulo": "Gestión de Contrato",
+            "descripcionGestionContrato": "Descripción de la Gestión de Contrato"
+        },
+        "informeOt": {
+            "id": "Id",
+            "titulo": "Informe OT",
+            "descripcionInformeOt": "Descripción del Informe OT"
+        },
+        "locacion": {
+            "id": "Id",
+            "titulo": "Locación",
+            "descripcionLocacion": "Descripción de la Locación"
+        },
+        "pais": {
+            "id": "Id",
+            "titulo": "País",
+            "descripcionPais": "Descripción del País"
+        },
+        "producto": {
+            "id": "Id",
+            "titulo": "Producto",
+            "descripcionProducto": "Descripción del Producto"
+        },
+        "region": {
+            "id": "Id",
+            "titulo": "Región",
+            "descripcionRegion": "Descripción de la Región"
+        },
+        "rol": {
+            "id": "Id",
+            "titulo": "Rol",
+            "descripcionRol": "Descripción del Rol"
+        },
         "sector": {
             "id": "Id",
-            "titulo": "Sectores",
-            "descripcionSector": "Descripción del Sector",
-            "zona": "Zona"
+            "titulo": "Sector",
+            "descripcionSector": "Descripción del Sector"
         },
-        "zona": {
+        "segmentacionCliente": {
             "id": "Id",
-            "titulo": "Zonas",
-            "descripcionZona": "Descripción de la Zona",
-            "zona": "Zona"
+            "titulo": "Segmentación de Cliente",
+            "descripcionSegmentacionCliente": "Descripción de la Segmentación de Cliente"
+        },
+        "servicio": {
+            "id": "Id",
+            "titulo": "Servicio",
+            "descripcionServicio": "Descripción del Servicio"
+        },
+        "tarea": {
+            "id": "Id",
+            "titulo": "Tarea",
+            "descripcionTarea": "Descripción de la Tarea"
+        },
+        "tipoCliente": {
+            "id": "Id",
+            "titulo": "Tipo de Cliente",
+            "nombre": "Descripción del Tipo de Cliente"
         },
         "tipoEmpleado": {
             "id": "Id",
@@ -107,35 +205,20 @@
             "titulo": "Tipo de Producto",
             "descripcionTipoProducto": "Descripción del Tipo de Producto"
         },
-        "tipoCliente": {
-            "id": "Id",
-            "titulo": "Tipo de Cliente",
-            "nombre": "Descripción Tipo Cliente"
-        },
         "tipoServicio": {
             "id": "Id",
             "titulo": "Tipo de Servicio",
-            "descripcionTipoServicio": "Descripción Tipo de Servicio"
-        },
-        "agrupacionComercial": {
-            "id": "Id",
-            "titulo": "Agrupación Comercial",
-            "nombreGrupoComercial": "Descripción Agrupación Comercial"
-        },
-        "segmentacionCliente": {
-            "id": "Id",
-            "titulo": "Segmentación de Cliente",
-            "descripcion": "Descripción Segmentación de Cliente"
-        },
-        "tarea": {
-            "id": "Id",
-            "titulo": "Tareas",
-            "descripcionTarea": "Descripción Tareas"
+            "descripcionTipoServicio": "Descripción del Tipo de Servicio"
         },
         "trabajo": {
             "id": "Id",
-            "titulo": "Trabajos",
-            "descripcionTrabajo": "Descripción Trabajos"
+            "titulo": "Trabajo",
+            "descripcionTrabajo": "Descripción del Trabajo"
+        },
+        "zona": {
+            "id": "Id",
+            "titulo": "Zona",
+            "descripcionZona": "Descripción de la Zona"
         },
         "formularios": {
             "campoRequerido": "Este campo es obligatorio",
@@ -148,11 +231,107 @@
                 "error": "Operación fallida",
                 "invalid_description": "Descripción inválida"
             },
-            "zona": {
-                "tituloEditar": "Editar Zona",
-                "tituloAgregar": "Crear Zona",
-                "label": "Descripción de la Zona",
-                "descripcion": "Ingrese la descripción de la zona"
+            "agrupacionComercial": {
+                "tituloEditar": "Editar Agrupación Comercial",
+                "tituloAgregar": "Crear Agrupación Comercial",
+                "label": "Descripción de la Agrupación Comercial",
+                "descripcion": "Ingrese la descripción de la agrupación comercial"
+            },
+            "asignacionPermiso": {
+                "tituloEditar": "Editar Asignación de Permiso",
+                "tituloAgregar": "Crear Asignación de Permiso",
+                "label": "Descripción de la Asignación de Permiso",
+                "descripcion": "Ingrese la descripción de la asignación de permiso"
+            },
+            "asignacionRol": {
+                "tituloEditar": "Editar Asignación de Rol",
+                "tituloAgregar": "Crear Asignación de Rol",
+                "label": "Descripción de la Asignación de Rol",
+                "descripcion": "Ingrese la descripción de la asignación de rol"
+            },
+            "asignacionTarea": {
+                "tituloEditar": "Editar Asignación de Tarea",
+                "tituloAgregar": "Crear Asignación de Tarea",
+                "label": "Descripción de la Asignación de Tarea",
+                "descripcion": "Ingrese la descripción de la asignación de tarea"
+            },
+            "asignacionTrabajo": {
+                "tituloEditar": "Editar Asignación de Trabajo",
+                "tituloAgregar": "Crear Asignación de Trabajo",
+                "label": "Descripción de la Asignación de Trabajo",
+                "descripcion": "Ingrese la descripción de la asignación de trabajo"
+            },
+            "calendarizacion": {
+                "tituloEditar": "Editar Calendarización",
+                "tituloAgregar": "Crear Calendarización",
+                "label": "Descripción de la Calendarización",
+                "descripcion": "Ingrese la descripción de la calendarización"
+            },
+            "clasificacionCliente": {
+                "tituloEditar": "Editar Clasificación del Cliente",
+                "tituloAgregar": "Crear Clasificación del Cliente",
+                "label": "Descripción de la Clasificación del Cliente",
+                "descripcion": "Ingrese la descripción de la clasificación del cliente"
+            },
+            "cliente": {
+                "tituloEditar": "Editar Cliente",
+                "tituloAgregar": "Crear Cliente",
+                "label": "Descripción del Cliente",
+                "descripcion": "Ingrese la descripción del cliente"
+            },
+            "comuna": {
+                "tituloEditar": "Editar Comuna",
+                "tituloAgregar": "Crear Comuna",
+                "label": "Descripción de la Comuna",
+                "descripcion": "Ingrese la descripción de la comuna"
+            },
+            "empleado": {
+                "tituloEditar": "Editar Empleado",
+                "tituloAgregar": "Crear Empleado",
+                "label": "Descripción del Empleado",
+                "descripcion": "Ingrese la descripción del empleado"
+            },
+            "gestionContrato": {
+                "tituloEditar": "Editar Gestión de Contrato",
+                "tituloAgregar": "Crear Gestión de Contrato",
+                "label": "Descripción de la Gestión de Contrato",
+                "descripcion": "Ingrese la descripción de la gestión de contrato"
+            },
+            "informeOt": {
+                "tituloEditar": "Editar Informe OT",
+                "tituloAgregar": "Crear Informe OT",
+                "label": "Descripción del Informe OT",
+                "descripcion": "Ingrese la descripción del informe OT"
+            },
+            "locacion": {
+                "tituloEditar": "Editar Locación",
+                "tituloAgregar": "Crear Locación",
+                "label": "Descripción de la Locación",
+                "descripcion": "Ingrese la descripción de la locación"
+            },
+            "pais": {
+                "tituloEditar": "Editar País",
+                "tituloAgregar": "Crear País",
+                "label": "Descripción del País",
+                "descripcion": "Ingrese la descripción del país"
+            },
+            "producto": {
+                "tituloEditar": "Editar Producto",
+                "tituloAgregar": "Crear Producto",
+                "label": "Descripción del Producto",
+                "descripcion": "Ingrese la descripción del producto"
+            },
+            "region": {
+                "tituloEditar": "Editar Región",
+                "tituloAgregar": "Crear Región",
+                "label": "Descripción de la Región",
+                "descripcion": "Ingrese la descripción de la región"
+            },
+            "rol": {
+                "tituloEditar": "Editar Rol",
+                "tituloAgregar": "Crear Rol",
+                "label": "Descripción del Rol",
+                "descripcion": "Ingrese la descripción del rol"
             },
             "sector": {
                 "tituloEditar": "Editar Sector",
@@ -160,74 +339,59 @@
                 "label": "Descripción del Sector",
                 "descripcion": "Ingrese la descripción del sector"
             },
-            "tipoEmpleado": {
+            "segmentacionCliente": {
+                "tituloEditar": "Editar Segmentación del Cliente",
+                "tituloAgregar": "Crear Segmentación del Cliente",
+                "label": "Descripción de la Segmentación del Cliente",
+                "descripcion": "Ingrese la descripción de la segmentación del cliente"
+            },
+            "servicio": {
+                "tituloEditar": "Editar Servicio",
+                "tituloAgregar": "Crear Servicio",
+                "label": "Descripción del Servicio",
+                "descripcion": "Ingrese la descripción del servicio"
+            },
+            "tarea": {
+                "tituloEditar": "Editar Tarea",
+                "tituloAgregar": "Crear Tarea",
+                "label": "Descripción de la Tarea",
+                "descripcion": "Ingrese la descripción de la tarea"
+            },
+            "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Crear Tipo de Cliente",
                 "label": "Descripción del Tipo de Cliente",
-                "descripcion": "Ingrese la descripción del tipo de cliente",
-                "campoRequerido": "Este campo es obligatorio"
+                "descripcion": "Ingrese la descripción del tipo de cliente"
+            },
+            "tipoEmpleado": {
+                "tituloEditar": "Editar Tipo de Empleado",
+                "tituloAgregar": "Crear Tipo de Empleado",
+                "label": "Descripción del Tipo de Empleado",
+                "descripcion": "Ingrese la descripción del tipo de empleado"
             },
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Producto",
                 "tituloAgregar": "Crear Tipo de Producto",
                 "label": "Descripción del Tipo de Producto",
-                "descripcion": "Ingrese la descripción del tipo de producto",
-                "campoRequerido": "Este campo es obligatorio"
-            },
-            "tipoCliente": {
-                "tituloEditar": "Editar Tipo de Cliente",
-                "tituloAgregar": "Agregar Tipo de Cliente",
-                "label": "Descripción del Tipo de Cliente",
-                "descripcion": "Ingrese la descripción del tipo de cliente"
-            },
-            "clasificacionCliente": {
-                "tituloEditar": "Editar Clasifición Cliente",
-                "tituloAgregar": "Agregar Clasificación Cliente",
-                "label": "Descripción de la Clasificación Cliente",
-                "descripcion": "Ingrese la descripción del la clasificación cliente",
-                "campoRequerido": "Este campo es requerido"
+                "descripcion": "Ingrese la descripción del tipo de producto"
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Servicio",
-                "tituloAgregar": "Agregar Tipo de Servicio",
+                "tituloAgregar": "Crear Tipo de Servicio",
                 "label": "Descripción del Tipo de Servicio",
-                "descripcion": "Ingrese la descripción del tipo de servicio",
-                "campoRequerido": "Este campo es obligatorio"
-            },
-            "agrupacionComercial": {
-                "tituloEditar": "Editar Agrupación Comercial",
-                "tituloAgregar": "Agregar Agrupación Comercial",
-                "label": "Descripción del Agrupación Comercial",
-                "descripcion": "Ingrese la descripción del Agrupación Comercial",
-                "campoRequerido": "Este campo es obligatorio"
-            },
-            "segmentacionCliente": {
-                "tituloEditar": "Editar Segmentación Cliente",
-                "tituloAgregar": "Agregar Segmentación Cliente",
-                "label": "Descripción de Segmentación Cliente",
-                "descripcion": "Ingrese la descripción de Segmentación Cliente",
-                "campoRequerido": "Este campo es obligatorio"
-            },
-            "tarea": {
-                "tituloEditar": "Editar Tarea",
-                "tituloAgregar": "Agregar Tarea",
-                "label": "Descripción Tarea",
-                "descripcion": "Ingrese la descripción de Tareas",
-                "campoRequerido": "Este campo es obligatorio"
+                "descripcion": "Ingrese la descripción del tipo de servicio"
             },
             "trabajo": {
                 "tituloEditar": "Editar Trabajo",
-                "tituloAgregar": "Agregar Trabajo",
+                "tituloAgregar": "Crear Trabajo",
                 "label": "Descripción del Trabajo",
-                "descripcion": "Ingrese la descripción de Trabajo",
-                "campoRequerido": "Este campo es obligatorio"
+                "descripcion": "Ingrese la descripción del trabajo"
             },
-            "sector": {
-                "tituloEditar": "Editar Sector",
-                "tituloAgregar": "Agregar Sector",
-                "label": "Descripción del Sector",
-                "descripcion": "Ingrese la descripción de Sector",
-                "campoRequerido": "Este campo es obligatorio"
+            "zona": {
+                "tituloEditar": "Editar Zona",
+                "tituloAgregar": "Crear Zona",
+                "label": "Descripción de la Zona",
+                "descripcion": "Ingrese la descripción de la zona"
             }
         }
     },
