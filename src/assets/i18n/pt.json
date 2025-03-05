@@ -357,13 +357,13 @@
             "segmentacionCliente": {
                 "tituloEditar": "Editar Segmentação do Cliente",
                 "tituloAgregar": "Criar Segmentação do Cliente",
-                "label": "Descrição da Segmentação do Cliente",
+                "label.descripcion": "Descrição da Segmentação do Cliente",
                 "descripcion": "Insira a descrição da segmentação do cliente"
             },
             "servicio": {
                 "tituloEditar": "Editar Serviço",
                 "tituloAgregar": "Criar Serviço",
-                "label": "Descrição do Serviço",
+                "label.servicio": "Descrição do Serviço",
                 "descripcion": "Insira a descrição do serviço"
             },
             "tarea": {
@@ -393,13 +393,13 @@
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Serviço",
                 "tituloAgregar": "Criar Tipo de Serviço",
-                "label": "Descrição do Tipo de Serviço",
+                "label.descripcionTipoServicio": "Descrição do Tipo de Serviço",
                 "descripcionTipoServicio": "Insira a descrição do tipo de serviço"
             },
             "trabajo": {
                 "tituloEditar": "Editar Trabalho",
                 "tituloAgregar": "Criar Trabalho",
-                "label": "Descrição do Trabalho",
+                "label.descripcionTrabajo": "Descrição do Trabalho",
                 "descripcion": "Insira a descrição do trabalho"
             },
             "zona": {

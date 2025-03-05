@@ -364,7 +364,7 @@
             "servicio": {
                 "tituloEditar": "Edit Service",
                 "tituloAgregar": "Create Service",
-                "label": "Service Description",
+                "label.descripcionServicio": "Service Description",
                 "descripcion": "Enter the description of the service"
             },
             "tarea": {
