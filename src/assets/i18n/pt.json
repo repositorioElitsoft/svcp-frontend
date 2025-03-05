@@ -226,7 +226,6 @@
                 "error": "Falha na operação",
                 "invalid_description": "Descrição inválida"
             },
-<<<<<<< HEAD
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupamento Comercial",
                 "tituloAgregar": "Criar Agrupamento Comercial",
@@ -328,15 +327,6 @@
                 "tituloAgregar": "Criar Função",
                 "label": "Descrição da Função",
                 "descripcion": "Insira a descrição da função"
-=======
-            "zona": {
-                "tituloEditar": "Editar Zona",
-                "tituloAgregar": "Criar Zona",
-                "label": {
-                    "descripcionZona": "Descrição da Zona"
-                },
-                "descripcion": "Digite a descrição da zona"
->>>>>>> 2efdcec1b244ddcf5aa2e68b93b7586c699e9197
             },
             "sector": {
                 "tituloEditar": "Editar Setor",
@@ -347,7 +337,6 @@
                 },
                 "descripcion": "Digite a descrição do setor"
             },
-<<<<<<< HEAD
             "segmentacionCliente": {
                 "tituloEditar": "Editar Segmentação do Cliente",
                 "tituloAgregar": "Criar Segmentação do Cliente",
@@ -365,30 +354,10 @@
                 "tituloAgregar": "Criar Tarefa",
                 "label": "Descrição da Tarefa",
                 "descripcion": "Insira a descrição da tarefa"
-=======
-            "tipoEmpleado": {
-                "tituloEditar": "Editar Tipo de Cliente",
-                "tituloAgregar": "Criar Tipo de Cliente",
-                "label": {
-                    "descripcionTipoEmpleado": "Descrição do Tipo de Cliente"
-                },
-                "descripcion": "Digite a descrição do tipo de cliente",
-                "campoRequerido": "Este campo é obrigatório"
-            },
-            "tipoProducto": {
-                "tituloEditar": "Editar Tipo de Produto",
-                "tituloAgregar": "Criar Tipo de Produto",
-                "label": {
-                    "descripcionTipoProducto": "Descrição do Tipo de Produto"
-                },
-                "descripcion": "Digite a descrição do tipo de produto",
-                "campoRequerido": "Este campo é obrigatório"
->>>>>>> 2efdcec1b244ddcf5aa2e68b93b7586c699e9197
             },
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Criar Tipo de Cliente",
-<<<<<<< HEAD
                 "label": "Descrição do Tipo de Cliente",
                 "descripcion": "Insira a descrição do tipo de cliente"
             },
@@ -421,67 +390,6 @@
                 "tituloAgregar": "Criar Zona",
                 "label": "Descrição da Zona",
                 "descripcion": "Insira a descrição da zona"
-=======
-                "label": {
-                    "nombre": "Descrição do Tipo de Cliente"
-                },
-                "descripcion": "Digite a descrição do tipo de cliente",
-                "campoRequerido": "Este campo é obrigatório"
-            },
-            "clasificacionCliente": {
-                "tituloEditar": "Editar Classificação de Cliente",
-                "tituloAgregar": "Criar Classificação de Cliente",
-                "label": {
-                    "clasificacionClienteDesc": "Descrição da Classificação de Cliente"
-                },
-                "descripcion": "Digite a descrição da classificação de cliente",
-                "campoRequerido": "Este campo é obrigatório"
-            },
-            "tipoServicio": {
-                "tituloEditar": "Editar Tipo de Serviço",
-                "tituloAgregar": "Adicionar Tipo de Serviço",
-                "label": {
-                    "descripcionTipoServicio": "Descrição do Tipo de Serviço"
-                },
-                "descripcion": "Digite a descrição do tipo de serviço",
-                "campoRequerido": "Este campo é obrigatório"
-            },
-            "agrupacionComercial": {
-                "tituloEditar": "Editar Grupo Comercial",
-                "tituloAgregar": "Adicionar Agrupação Comercial",
-                "label": {
-                    "nombreGrupoComercial": "Descrição do Grupo Comercial"
-                },
-                "descripcion": "Digite a descrição do grupo comercial",
-                "campoRequerido": "Este campo é obrigatório"
-            },
-            "segmentacionCliente": {
-                "tituloEditar": "Editar Segmentação de Clientes",
-                "tituloAgregar": "Adicionar Segmentação de Clientes",
-                "label": {
-                    "descripcion": "Descrição da Segmentação de Clientes"
-                },
-                "descripcion": "Digite a descrição da segmentação de clientes",
-                "campoRequerido": "Este campo é obrigatório"
-            },
-            "tarea": {
-                "tituloEditar": "Editar Tarefa",
-                "tituloAgregar": "Adicionar Tarefa",
-                "label": {
-                    "descripcionTarea": "Descrição da Tarefa"
-                },
-                "descripcion": "Digite a descrição da tarefa",
-                "campoRequerido": "Este campo é obrigatório"
-            },
-            "trabajo": {
-                "tituloEditar": "Editar Trabalho",
-                "tituloAgregar": "Adicionar Trabalho",
-                "label": {
-                    "descripcionTrabajo": "Descrição do Trabalho"
-                },
-                "descripcion": "Digite a descrição do trabalho",
-                "campoRequerido": "Este campo é obrigatório"
->>>>>>> 2efdcec1b244ddcf5aa2e68b93b7586c699e9197
             }
         }
     },
