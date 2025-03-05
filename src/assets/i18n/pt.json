@@ -275,7 +275,7 @@
                 "label.apellidoPaterno?": "Sobrenome Paterno",
                 "label.apellidoMaterno?": "Sobrenome Materno",
                 "label.rut": "RUT",
-                "label.rutDV": "DV",
+                "label.rutDv": "DV",
                 "label.fechaNacimiento": "Data de Nascimento",
                 "label.imagenPerfil?": "Imagem de Perfil",
                 "cliente.label.email?": "Email",
