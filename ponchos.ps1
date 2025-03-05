@@ -56,6 +56,12 @@ try {
     Write-Error "Error executing 'poncho -s  tipo-producto tipo-productos': $_"
 }
 
+Write-Host "Executing: poncho -s  tipos-empleados tipos-empleados"
+try {
+    poncho -s  tipo-empleado tipos-empleados
+} catch {
+    Write-Error "Error executing 'poncho -s  tipo-empleado tipo-empleados': $_"
+}
 
 
 # Run the second command: poncho -s  tipo-servicio tipos-servicios

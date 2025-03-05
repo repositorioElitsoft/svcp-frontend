@@ -11,7 +11,9 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const unparsedToken = authService.getToken()
   if (!unparsedToken) {
     const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
     });
+
     const clonedRequest = req.clone({ headers });
     return next(clonedRequest);
   }
@@ -20,6 +22,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenParaEnviar = `Bearer ${String(token.jwt)}`
   console.log("toke na enviar", tokenParaEnviar)
   const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
     'Authorization': tokenParaEnviar
   });
 
