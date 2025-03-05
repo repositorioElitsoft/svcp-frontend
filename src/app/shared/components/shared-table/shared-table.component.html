@@ -38,10 +38,14 @@
             {{ 'table.filtrosSeleccionados' | translate: { count: filtersLabels.length } }}
             }
             @for (active of filtersLabels; track $index) {
-            <button (click)="deleteFilter(active.field)">{{ getTranslationGroup(active.field) | translate }}:
-                {{active.value}} <span class="color-red-500">X</span> |</button>
+            <button (click)="deleteFilter(active.field)">
+                {{ getTranslationGroup(active.field) | translate }}:
+                {{ active.value }}
+                <span class="text-red-500 font-bold cursor-pointer">X</span> |
+            </button>
             }
         </div>
+
     </div>
 
 
