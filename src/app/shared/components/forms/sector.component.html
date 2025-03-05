@@ -5,29 +5,29 @@
 
 <mat-dialog-content class="!p-0 dark:bg-neutral-800">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
-     
+
         <!--Input -->
 
-					   <mat-form-field appearance="outline" class="w-full dark:text-white  ">
-							<mat-label>{{ 'mantenedores.formularios.sector.label.descripcionSector' | translate }}</mat-label>
-							<input matInput formControlName="descripcionSector"
-								[attr.placeholder]="'mantenedores.formularios.descripcionSector.descripcion' | translate"
-								class="w-full dark:text-white ">
-							<mat-error *ngIf="form.get('descripcionSector')?.hasError('required')" class="text-red-500 text-base">
-								{{ 'mantenedores.formularios.campoRequerido' | translate }}
-							</mat-error>
-						</mat-form-field>
-					
+        <mat-form-field appearance="outline" class="w-full dark:text-white  ">
+            <mat-label>{{ 'mantenedores.formularios.sector.label.descripcionSector' | translate }}</mat-label>
+            <input matInput formControlName="descripcionSector"
+                [attr.placeholder]="'mantenedores.formularios.descripcionSector.descripcion' | translate"
+                class="w-full dark:text-white ">
+            <mat-error *ngIf="form.get('descripcionSector')?.hasError('required')" class="text-red-500 text-base">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
 
-				<mat-form-field appearance="outline" class="full-width">
-					<mat-label>{{ 'mantenedores.formularios.sector.label.zona' | translate }}</mat-label>
-					<mat-select formControlName="zona">
-					<mat-option *ngFor="let option of zona" [value]="option">
-						{{ option.descripcionZona }}
-					</mat-option>
-					</mat-select>
-				</mat-form-field>
-				
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'mantenedores.formularios.sector.label.zona' | translate }}</mat-label>
+            <mat-select formControlName="zona">
+                <mat-option *ngFor="let option of zona" [value]="option">
+                    {{ option.descripcionZona }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
 
         <div class="grid grid-cols-2 gap-4 w-full">
             <button type="button" (click)="dialogRef.close()"
