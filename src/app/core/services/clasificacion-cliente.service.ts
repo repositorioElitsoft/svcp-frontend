@@ -21,7 +21,7 @@ export class ClasificacionClienteService {
     }
 
     buscarTodos(): Observable<ClasificacionCliente[]> {
-        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificaciones-clientes/lote`, { headers: this.headers });
+        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificaciones-clientes`, { headers: this.headers });
     }
 
     borrar(clasificacionClienteId: number): Observable<any> {

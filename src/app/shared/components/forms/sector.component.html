@@ -9,10 +9,11 @@
         <!--Input -->
 
         <mat-form-field appearance="outline" class="w-full dark:text-white  ">
-            <mat-label>{{ 'mantenedores.formularios.sector.label' | translate }}</mat-label>
+            <mat-label>{{ 'mantenedores.formularios.sector.label.descripcionSector' | translate }}</mat-label>
             <input matInput formControlName="descripcionSector"
-                [attr.placeholder]="'mantenedores.formularios.descripcion' | translate" class="w-full dark:text-white ">
-            <mat-error *ngIf="form.get('descripcionSector')?.hasError('required')" class="text-red-500">
+                [attr.placeholder]="'mantenedores.formularios.descripcionSector.descripcion' | translate"
+                class="w-full dark:text-white ">
+            <mat-error *ngIf="form.get('descripcionSector')?.hasError('required')" class="text-red-500 text-base">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
         </mat-form-field>

@@ -101,8 +101,9 @@ export class SectorFormComponent implements OnInit {
 
     this.zonaService.buscarTodos().subscribe({
       next: (zona: Zona[]) => {
-        console.log("created entity ", zona)
         this.zona = zona
+        const foundzona = this.zona.find(e => e.id === this.data.object.zona.id);
+        this.form.patchValue({ zona: foundzona })
       }
     })
 
@@ -127,7 +128,7 @@ export class SectorFormComponent implements OnInit {
         this.sectorService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
@@ -140,7 +141,7 @@ export class SectorFormComponent implements OnInit {
         this.sectorService.crear(formData).subscribe({
           next: (response) => {
             this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.dialogRef.close(true);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');

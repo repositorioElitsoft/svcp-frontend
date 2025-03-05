@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AgrupacionComercialService } from '../../../core/services/agrupacion-comercial.service';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 /*services-imports*/
 
@@ -35,6 +37,8 @@ import { ToastrService } from 'ngx-toastr';
     MatButtonModule,
     MatFormFieldModule,
     MatDialogContent,
+    MatSelectModule,
+    MatOptionModule,
     MatDialogActions,
     MatDialogClose,
     MatError,
@@ -66,73 +70,74 @@ export class AgrupacionComercialFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-      id: [null],
-      nombreGrupoComercial: [null, Validators.required],
+  id: [null,],
+  nombreGrupoComercial: [null, Validators.required],
     });
   }
 
   ngOnInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'tipoServicioDesc'
+    // Verificar si 'data.object' existe y tiene el campo 'descripcionAgrupacionComercial'
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
 
       this.form.patchValue({
-        id: this.data.object.id,
-        nombreGrupoComercial: this.data.object.nombreGrupoComercial,
+        /*object-fields-edit*/
+id: this.data.object.id,
+nombreGrupoComercial: this.data.object.nombreGrupoComercial,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
     } else {
       console.error("No se recibió un objeto válido en 'data'");
     }
+    /*services-init-call*/
 
 
   }
-
 
   onSubmit() {
     console.log("Formulario enviado:", this.form.value);
 
-    if (this.form.invalid) {
-      this.toastr.error(this.translate.instant('mantenedores.formularios.toastr.invalid_description'));
-      return;
-    }
+    if (this.form.valid) {
+      const formData: AgrupacionComercial = {
+        /*form-fields-submit*/
+id: this.form.value.id,
+nombreGrupoComercial: this.form.value.nombreGrupoComercial,
+      };
 
-    const formData: AgrupacionComercial = {
-      id: this.form.value.id,
-      nombreGrupoComercial: this.form.value.nombreGrupoComercial,
-    };
+      console.log("Datos mapeados para enviar:", formData);
 
-    console.log("Datos mapeados para enviar:", formData);
+      // Cierra el formulario con los datos correctos
+      if (this.esActualizar()) {
+        this.agrupacionComercialService.actualizar(formData.id, formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(true);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
 
-    if (this.esActualizar()) {
-      // Llamar al servicio para actualizar
-      this.agrupacionComercialService.actualizar(formData.id, formData).subscribe({
-        next: () => {
-          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-          this.dialogRef.close(formData);
-        },
-        error: (error) => {
-          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-          this.toastr.error(errorMessage);
-        }
-      });
+      }
+      else {
+        this.agrupacionComercialService.crear(formData).subscribe({
+          next: (response) => {
+            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.dialogRef.close(true);
+          },
+          error: (error) => {
+            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            this.toastr.error(errorMessage);
+          }
+        })
+      }
     } else {
-      // Llamar al servicio para crear un nuevo servicio
-      this.agrupacionComercialService.crear(formData).subscribe({
-        next: () => {
-          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-          this.dialogRef.close(formData);
-        },
-        error: (error) => {
-          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-          this.toastr.error(errorMessage);
-        }
-      });
+      console.log("Formulario no válido");
     }
   }
-
 }
