@@ -8,6 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { mediaTypeInterceptorInterceptor } from './core/interceptores/media-type-interceptor.interceptor';
+import { jwtInterceptor } from './core/interceptores/jwt.interceptor';
 
 // Función para cargar los archivos de traducción
 export function HttpLoaderFactory(http: HttpClient) {
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
       preventDuplicates: true,
     }),
     provideHttpClient(
-      withInterceptors([mediaTypeInterceptorInterceptor]) // Agrega tu interceptor aquí
+      withInterceptors([mediaTypeInterceptorInterceptor, jwtInterceptor]) // Agrega tu interceptor aquí
     ),
     // Configuración de @ngx-translate
     ...TranslateModule.forRoot({

@@ -3,14 +3,24 @@ import { HttpHeaders } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 
-export const mediaTypeInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
+export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   // Create new headers with Content-Type set to 'application/json'
 
   const authService = inject(AuthService); // Inject the AuthService
-  const token = authService.getToken(); // Call getToken() method
 
+  const unparsedToken = authService.getToken()
+  if (!unparsedToken) {
+    const headers = new HttpHeaders({
+    });
+    const clonedRequest = req.clone({ headers });
+    return next(clonedRequest);
+  }
+
+  const token: any = JSON.parse(unparsedToken); // Call getToken() method
+  const tokenParaEnviar = `Bearer ${String(token.jwt)}`
+  console.log("toke na enviar", tokenParaEnviar)
   const headers = new HttpHeaders({
-    'Authorization': String(token)
+    'Authorization': tokenParaEnviar
   });
 
   // Clone the request and add the new headers
