@@ -227,7 +227,6 @@
                 "error": "Operation failed",
                 "invalid_description": "Invalid description"
             },
-<<<<<<< HEAD
             "agrupacionComercial": {
                 "tituloEditar": "Edit Commercial Grouping",
                 "tituloAgregar": "Create Commercial Grouping",
@@ -273,8 +272,25 @@
             "cliente": {
                 "tituloEditar": "Edit Client",
                 "tituloAgregar": "Create Client",
-                "label": "Client Description",
-                "descripcion": "Enter the description of the client"
+                "label.nombre": "Name",
+                "label.apellidoPaterno?": "Paternal Surname",
+                "label.apellidoMaterno?": "Maternal Surname",
+                "label.rut": "RUT",
+                "label.rutDV": "DV",
+                "label.fechaNacimiento": "Date of Birth",
+                "label.imagenPerfil?": "Profile Image",
+                "cliente.label.email?": "Email",
+                "label.campo1?": "Field 1",
+                "label.campo2?": "Field 2",
+                "label.telefonoFijo?": "Landline",
+                "label.telefonoMovil?": "Mobile Phone",
+                "label.tipoCliente": "Client Type",
+                "label.clasificacionCliente": "Client Classification",
+                "label.estado": "State",
+                "label.direcciones": "Addresses",
+                "label.agrupacionComercial": "Commercial Grouping",
+                "label.segmentacionCliente": "Client Segmentation",
+                "descripcion": "Enter the client description"
             },
             "comuna": {
                 "tituloEditar": "Edit Commune",
@@ -329,15 +345,6 @@
                 "tituloAgregar": "Create Role",
                 "label": "Role Description",
                 "descripcion": "Enter the description of the role"
-=======
-            "zona": {
-                "tituloEditar": "Edit Zone",
-                "tituloAgregar": "Create Zone",
-                "label": {
-                    "descripcionZona": "Zone Description"
-                },
-                "descripcion": "Enter the description of the zone"
->>>>>>> 2efdcec1b244ddcf5aa2e68b93b7586c699e9197
             },
             "sector": {
                 "tituloEditar": "Edit Sector",
@@ -348,7 +355,6 @@
                 },
                 "descripcion": "Enter the description of the sector"
             },
-<<<<<<< HEAD
             "segmentacionCliente": {
                 "tituloEditar": "Edit Client Segmentation",
                 "tituloAgregar": "Create Client Segmentation",
@@ -366,30 +372,10 @@
                 "tituloAgregar": "Create Task",
                 "label": "Task Description",
                 "descripcion": "Enter the description of the task"
-=======
-            "tipoEmpleado": {
-                "tituloEditar": "Edit Client Type",
-                "tituloAgregar": "Create Client Type",
-                "label": {
-                    "descripcionTipoEmpleado": "Client Type Description"
-                },
-                "descripcion": "Enter the description of the client type",
-                "campoRequerido": "This field is required"
-            },
-            "tipoProducto": {
-                "tituloEditar": "Edit Product Type",
-                "tituloAgregar": "Create Product Type",
-                "label": {
-                    "descripcionTipoProducto": "Product Type Description"
-                },
-                "descripcion": "Enter the description of the product type",
-                "campoRequerido": "This field is required"
->>>>>>> 2efdcec1b244ddcf5aa2e68b93b7586c699e9197
             },
             "tipoCliente": {
                 "tituloEditar": "Edit Client Type",
                 "tituloAgregar": "Create Client Type",
-<<<<<<< HEAD
                 "label": "Client Type Description",
                 "descripcion": "Enter the description of the client type"
             },
@@ -422,67 +408,6 @@
                 "tituloAgregar": "Create Zone",
                 "label": "Zone Description",
                 "descripcion": "Enter the description of the zone"
-=======
-                "label": {
-                    "nombre": "Client Type Description"
-                },
-                "descripcion": "Enter the description of the client type",
-                "campoRequerido": "This field is required"
-            },
-            "clasificacionCliente": {
-                "tituloEditar": "Edit Client Classification",
-                "tituloAgregar": "Create Client Classification",
-                "label": {
-                    "clasificacionClienteDesc": "Client Classification Description"
-                },
-                "descripcion": "Enter the description of the client classification",
-                "campoRequerido": "This field is required"
-            },
-            "tipoServicio": {
-                "tituloEditar": "Edit Service Type",
-                "tituloAgregar": "Add Service Type",
-                "label": {
-                    "descripcionTipoServicio": "Description of Service Type"
-                },
-                "descripcion": "Enter the description of service type",
-                "campoRequerido": "This field is required"
-            },
-            "agrupacionComercial": {
-                "tituloEditar": "Edit Commercial Group",
-                "tituloAgregar": "Add Commercial Grouping",
-                "label": {
-                    "nombreGrupoComercial": "Description of the Commercial Group"
-                },
-                "descripcion": "Enter the description of the Commercial Group",
-                "campoRequerido": "This field is required"
-            },
-            "segmentacionCliente": {
-                "tituloEditar": "Edit Customer Segmentation",
-                "tituloAgregar": "Add Customer Segmentation",
-                "label": {
-                    "descripcion": "Customer Segmentation Description"
-                },
-                "descripcion": "Enter the description of the Customer Segmentation",
-                "campoRequerido": "This field is required"
-            },
-            "tarea": {
-                "tituloEditar": "Edit Task",
-                "tituloAgregar": "Add Task",
-                "label": {
-                    "descripcionTarea": "Task Description"
-                },
-                "descripcion": "Enter the Task Description",
-                "campoRequerido": "This field is required"
-            },
-            "trabajo": {
-                "tituloEditar": "Edit Work",
-                "tituloAgregar": "Add Work",
-                "label": {
-                    "descripcionTrabajo": "Work Description"
-                },
-                "descripcion": "Enter the Work Description",
-                "campoRequerido": "This field is required"
->>>>>>> 2efdcec1b244ddcf5aa2e68b93b7586c699e9197
             }
         }
     },
