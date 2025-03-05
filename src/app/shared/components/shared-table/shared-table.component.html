@@ -30,7 +30,7 @@
         <button *ngIf="filters.length > 0" (click)="filter()"> Buscar </button>
     </div>
 
-    <div class="flex justify-between">
+    <div class="flex justify-between bg-gray-100 p-4 rounded-t-lg dark:bg-neutral-800">
         <app-busqueda (simpleSearch)="makeSimpleSearch($event)" [field]="simpleSearchField"
             [isSimpleSearch]="true"></app-busqueda>
         <div>
@@ -38,10 +38,14 @@
             {{ 'table.filtrosSeleccionados' | translate: { count: filtersLabels.length } }}
             }
             @for (active of filtersLabels; track $index) {
-            <button (click)="deleteFilter(active.field)">{{ getTranslationGroup(active.field) | translate }}:
-                {{active.value}} <span class="color-red-500">X</span> |</button>
+            <button (click)="deleteFilter(active.field)">
+                {{ getTranslationGroup(active.field) | translate }}:
+                {{ active.value }}
+                <span class="text-red-500 font-bold cursor-pointer">X</span> |
+            </button>
             }
         </div>
+
     </div>
 
 
