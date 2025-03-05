@@ -1,5 +1,6 @@
 import { Cliente } from "./cliente.model";
 import { Comuna } from "./comuna.models";
+import { Contacto } from "./contacto.model";
 import { Estado } from "./estado.model";
 import { Sector } from "./sector.model";
 import { TipoDireccion } from "./tipo-direccion.model";
@@ -13,7 +14,7 @@ export interface Direccion {
     referencia?: string;
     comuna: Comuna;
     sector: Sector;
-    //contacto: Contacto;
+    contacto: Contacto;
     tipoDireccion: TipoDireccion;
     imagenPerfil?: string;
     latitud?: number;
