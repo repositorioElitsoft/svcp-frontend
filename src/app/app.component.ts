@@ -5,12 +5,13 @@ import { TranslateService } from '@ngx-translate/core'; // Importa TranslateServ
 import { FontSizeService } from './core/services/font-size.service';
 import { SidebarComponent } from "./shared/components/sidebar/sidebar.component";
 import { HeadTableComponent } from './shared/head-table/head-table.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SidebarComponent, HeadTableComponent],
+  imports: [RouterOutlet, SidebarComponent, HeadTableComponent, GoogleMapsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Corrige el nombre del archivo de estilos
 })

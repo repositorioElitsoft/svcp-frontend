@@ -15,6 +15,7 @@ import { AgrupacionComercialComponent } from './features/mantenedores/agrupacion
 import { ClienteComponent } from './features/mantenedores/cliente/cliente.component';
 import { EmpleadoComponent } from './features/mantenedores/empleado/empleado.component';
 import { TareaComponent } from './features/mantenedores/tarea/tarea.component';
+import { DireccionComponent } from './features/mantenedores/direccion/direccion.component';
 
 export const routes: Routes = [
     {
@@ -95,6 +96,10 @@ export const routes: Routes = [
                     {
                         path: "empleados",
                         component: EmpleadoComponent
+                    },
+                    {
+                        path: "locaciones",
+                        component: DireccionComponent
                     }
                     /*ruta_nueva*/
                 ]

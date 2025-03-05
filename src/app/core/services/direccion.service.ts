@@ -2,10 +2,7 @@ import { Injectable } from "@angular/core";
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Direccion } from "../models/direccion.model";
-
-
-
+import { Direccion } from '../../core/models/direccion.model';
 
 @Injectable({
     providedIn: 'root',
@@ -24,8 +21,7 @@ export class DireccionService {
     }
 
     buscarTodos(): Observable<Direccion[]> {
-        return this.http.get<Direccion[]>(`${this.url}direcciones`
-        );
+        return this.http.get<Direccion[]>(`${this.url}direcciones`, { headers: this.headers });
     }
 
     borrar(direccionId: number): Observable<any> {
@@ -33,7 +29,7 @@ export class DireccionService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}direcciones/lote`, { body: ids });
+        return this.http.delete<any>(`${this.url}direcciones/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(direccionId: number, direccion: Direccion): Observable<Direccion> {
@@ -55,6 +51,6 @@ export class DireccionService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/direcciones`, { params });
+        return this.http.get(`${this.url}core/filter/direcciones`, { params, headers: this.headers });
     }
 }
