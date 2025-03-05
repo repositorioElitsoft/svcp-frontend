@@ -11,10 +11,10 @@ import { SectorService } from "../../../../../core/services/sector.service"
 import { LocacionFormComponent } from "./locacion-form/locacion-form.component"
 import { Contacto } from "../../../../../core/models/contacto.model"
 import { MapaComponent } from "./mapa/mapa.component"
-import { ContactoComponent } from "../contacto/contacto.component"
 import { TipoDireccionService } from "../../../../../core/services/tipo-direccion.service"
 import { ComunaService } from "../../../../../core/services/comuna.service"
 import { DireccionService } from "../../../../../core/services/direccion.service"
+import { ContactoComponent } from "../contacto/contacto.component"
 
 
 
@@ -27,7 +27,8 @@ import { DireccionService } from "../../../../../core/services/direccion.service
     ReactiveFormsModule,
     LocacionFormComponent,
     MapaComponent,
-    ContactoComponent,
+    ContactoComponent
+
   ],
   templateUrl: "./locaciones.component.html",
   styleUrls: ["./locaciones.component.css"],

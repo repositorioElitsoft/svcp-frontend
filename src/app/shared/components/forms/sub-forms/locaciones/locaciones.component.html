@@ -1,1 +1,44 @@
-<p>locaciones works!</p>
+<div class="locaciones-container">
+    <h2>Locaciones</h2>
+    <p>Puede añadir una o más locaciones según corresponda, al igual que los contactos</p>
+
+    <!-- Componente de formulario de locación -->
+    <app-locacion-form [comunas]="comunas" [sectores]="sectores" [tiposDireccion]="tiposDireccion"
+        [direccion]="direccion" (direccionChange)="onDireccionChange($event)"
+        (comunaChange)="onComunaChange($event)"></app-locacion-form>
+
+    <!-- Componente de mapa -->
+    <!-- <app-mapa [latitud]="direccion.latitud" [longitud]="direccion.longitud"
+        (ubicacionChange)="onMapaUbicacionChange($event)"></app-mapa> -->
+
+    <!-- Sección de contactos -->
+    <div class="contactos-section">
+        <h3>Contactos</h3>
+
+        <!-- <app-contacto [contacto]="direccion.contacto" (contactoChange)="onContactoChange($event)"
+            (agregarContacto)="agregarContacto($event)"></app-contacto> -->
+
+        <!-- Lista de contactos agregados -->
+        <div class="contactos-list" *ngIf="contactos.length > 0">
+            <div class="contacto-item" *ngFor="let contacto of contactos">
+                <span>{{ contacto.nombre }} {{ contacto.apellidoPaterno }}</span>
+                <span>{{ contacto.email }}</span>
+            </div>
+        </div>
+
+        <div class="actions-buttons">
+            <button class="agregar-contacto" (click)="agregarContacto(direccion.contacto)">
+                <i class="plus-icon"></i> Agregar Contacto
+            </button>
+            <button class="agregar-locacion">
+                <i class="plus-icon"></i> Agregar Locación
+            </button>
+        </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+        <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+        <button class="btn-siguiente" (click)="siguiente()">Siguiente</button>
+    </div>
+</div>
