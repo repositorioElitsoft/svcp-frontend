@@ -61,7 +61,8 @@
     </div>
     <!-- Mapa -->
     <div class="mt-4 border rounded-lg overflow-hidden">
-        <app-map [initialPosition]="initialPosition" (positionChanged)="onMapPositionChanged($event)"></app-map>
+        <app-map [initialPosition]="initialPosition" [markerPosition]="currentMarkerPosition || initialPosition"
+            (positionChanged)="onMapPositionChanged($event)"></app-map>
     </div>
     <!-- Botón de guardar -->
     <div class="flex justify-end mt-6">

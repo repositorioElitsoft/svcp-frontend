@@ -35,13 +35,12 @@ declare var google: any;
 export class LocacionesFormComponent implements OnInit {
   form!: FormGroup;
   initialPosition: google.maps.LatLngLiteral = { lat: -33.4489, lng: -70.6693 };
+  currentMarkerPosition!: google.maps.LatLngLiteral;
 
   constructor(
     private fb: FormBuilder,
-    @Inject(GoogleMapsService) private mapsService: GoogleMapsService
+    private mapsService: GoogleMapsService
   ) { }
-
-  readonly dialogRef = inject(MatDialogRef<LocacionesFormComponent>);
 
   ngOnInit() {
     this.initForm();
@@ -64,33 +63,34 @@ export class LocacionesFormComponent implements OnInit {
   }
 
   private setupFormListeners() {
+    // Cuando cambian dirección o numeración, actualiza el mapa
     this.form.get("direccion")?.valueChanges.pipe(
       debounceTime(500),
-      switchMap(() => this.onAddressChange())
-    ).subscribe();
+    ).subscribe(() => this.updateMapFromAddress());
 
     this.form.get("numeracion")?.valueChanges.pipe(
       debounceTime(500),
-      switchMap(() => this.onAddressChange())
-    ).subscribe();
+    ).subscribe(() => this.updateMapFromAddress());
   }
 
-  private async onAddressChange() {
+  private async updateMapFromAddress() {
     const address = `${this.form.value.direccion} ${this.form.value.numeracion}, ${this.form.value.comuna}`;
-
-    if (this.form.value.direccion && this.form.value.comuna) {
+    if (address) {
       try {
         const response = await this.mapsService.getLatLong(address).toPromise();
         if (response?.results?.length > 0) {
           const location = response.results[0].geometry.location;
-          this.form.patchValue({ latitud: location.lat, longitud: location.lng }, { emitEvent: false });
+          this.currentMarkerPosition = location; // Actualiza posición del marcador
+          this.form.patchValue({
+            latitud: location.lat,
+            longitud: location.lng
+          }, { emitEvent: false });
         }
       } catch (error) {
         console.error("Error geocoding address:", error);
       }
     }
   }
-
 
   onMapPositionChanged(position: google.maps.LatLngLiteral) {
     this.form.patchValue({
@@ -102,10 +102,6 @@ export class LocacionesFormComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       console.log("Formulario enviado:", this.form.value);
-      // Lógica para enviar a tu API
     }
   }
-
-
-
 }

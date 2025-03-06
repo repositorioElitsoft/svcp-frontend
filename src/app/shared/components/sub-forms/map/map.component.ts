@@ -26,22 +26,22 @@ import { CommonModule } from '@angular/common';
 })
 export class MapComponent implements OnChanges {
   @Input() initialPosition!: google.maps.LatLngLiteral;
-  @Input() zoom = 12;
+  @Input() markerPosition!: google.maps.LatLngLiteral; // Recibe posición desde el padre
   @Output() positionChanged = new EventEmitter<google.maps.LatLngLiteral>();
 
   center!: google.maps.LatLngLiteral;
-  markerPosition!: google.maps.LatLngLiteral;
+  zoom = 12;
 
   mapOptions: google.maps.MapOptions = {
-    gestureHandling: 'auto', // Permite zoom con scroll y navegación con gestos
-    scrollwheel: true, // Habilita la navegación con el mouse
-    disableDoubleClickZoom: false, // Permite zoom con doble clic
+    gestureHandling: 'auto',
+    scrollwheel: true,
+    disableDoubleClickZoom: false,
   };
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['initialPosition']) {
-      this.center = this.initialPosition;
-      this.markerPosition = this.initialPosition;
+    if (changes['initialPosition'] || changes['markerPosition']) {
+      this.center = this.markerPosition || this.initialPosition;
+      this.markerPosition = this.markerPosition || this.initialPosition;
     }
   }
 
@@ -60,6 +60,6 @@ export class MapComponent implements OnChanges {
 
   private updateMarkerPosition(position: google.maps.LatLngLiteral) {
     this.markerPosition = position;
-    this.positionChanged.emit(position);
+    this.positionChanged.emit(position); // Emite nuevas coordenadas al padre
   }
 }
