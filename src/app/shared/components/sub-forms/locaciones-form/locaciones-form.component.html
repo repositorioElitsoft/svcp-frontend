@@ -13,7 +13,6 @@
                 <mat-option value="comercial">Comercial</mat-option>
                 <mat-option value="industrial">Industrial</mat-option>
             </mat-select>
-            <mat-icon matSuffix>arrow_drop_down</mat-icon>
         </mat-form-field>
 
         <!-- Segunda fila -->
@@ -24,7 +23,6 @@
                 <mat-option value="providencia">Providencia</mat-option>
                 <mat-option value="las_condes">Las Condes</mat-option>
             </mat-select>
-            <mat-icon matSuffix>arrow_drop_down</mat-icon>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="w-full">
@@ -35,7 +33,6 @@
                 <mat-option value="este">Este</mat-option>
                 <mat-option value="oeste">Oeste</mat-option>
             </mat-select>
-            <mat-icon matSuffix>arrow_drop_down</mat-icon>
         </mat-form-field>
 
         <!-- Tercera fila -->
@@ -50,18 +47,18 @@
         </mat-form-field>
     </div>
 
-    <!-- Referencia (ancho completo) -->
-    <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Referencia</mat-label>
-        <textarea matInput formControlName="referencia" rows="3" placeholder="Referencia"></textarea>
-    </mat-form-field>
-
-    <!-- Toggle para solicitar evidencia -->
-    <div class="flex items-center justify-between py-2">
-        <span class="text-gray-700">Solicita evidencia</span>
-        <mat-slide-toggle formControlName="solicitaEvidencia" color="primary"></mat-slide-toggle>
+    <div class="grid grid-cols-2 gap-4 items-start">
+        <!-- Referencia -->
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Referencia</mat-label>
+            <textarea matInput formControlName="referencia" rows="3" placeholder="Referencia"></textarea>
+        </mat-form-field>
+        <!-- Toggle para solicitar evidencia -->
+        <div class="flex items-center gap-4 py-2 text-lg">
+            <span class="text-gray-700 font-medium">Solicita evidencia</span>
+            <mat-slide-toggle formControlName="solicitaEvidencia" color="primary"></mat-slide-toggle>
+        </div>
     </div>
-
     <!-- Mapa -->
     <div class="mt-4 border rounded-lg overflow-hidden">
         <app-map [initialPosition]="initialPosition" (positionChanged)="onMapPositionChanged($event)"></app-map>
