@@ -25,7 +25,7 @@
 
     <mat-form-field appearance="outline" class="full-width w-full">
         <mat-label class="text-lg">{{
-            'mantenedores.formularios.tipoDocumentoIdentificacion.label.tipoEmpleado.descripcionTipoEmpleado' |
+            'mantenedores.formularios.tipoEmpleado.label.descripcionTipoEmpleado' |
             translate }}</mat-label>
         <mat-select formControlName="tipoEmpleado">
             <mat-option class="text-base w-full" *ngFor="let option of tiposEmpleados" [value]="option">
@@ -34,22 +34,22 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
-        <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.rol' | translate
-            }}</mat-label>
-        <input matInput formControlName="rol"
-            [attr.placeholder]="'mantenedores.formularios.empleado.label.rol' | translate"
-            class="w-full dark:text-white text-base">
-        <mat-error *ngIf="form.get('rol')?.hasError('required')" class="text-red-500 text-base">
-            {{ 'mantenedores.formularios.campoRequerido' | translate }}
-        </mat-error>
+    <mat-form-field appearance="outline" class="full-width w-full">
+        <mat-label class="text-lg">{{
+            'mantenedores.formularios.empleado.label.rol' |
+            translate }}</mat-label>
+        <mat-select formControlName="role">
+            <mat-option class="text-base w-full" *ngFor="let option of roles" [value]="option">
+                {{ option.nombreRol}}
+            </mat-option>
+        </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width w-full">
         <mat-label class="text-lg">{{
-            'mantenedores.formularios.tipoDocumentoIdentificacion.label.estado.estado' |
+            'mantenedores.formularios.empleado.label.estado' |
             translate }}</mat-label>
-        <mat-select formControlName="estado">
+        <mat-select formControlName="estadoId">
             <mat-option class="text-base w-full" *ngFor="let option of estados" [value]="option">
                 {{ option.descripcionEstado}}
             </mat-option>

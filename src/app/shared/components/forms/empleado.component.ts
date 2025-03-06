@@ -131,7 +131,6 @@ export class EmpleadoFormComponent implements OnInit {
     const formData = {
       id: this.data?.object?.id ?? null,
       ...this.datosContactosForm.form.value,
-      ...this.direccionUbicacionForm.form.value,
       ...this.informacionLaboral.form.value,
       ...this.informacionPersonal.form.value
     };

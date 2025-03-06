@@ -334,6 +334,7 @@
                 "label.contrasena": "Password",
                 "label.rut": "RUT",
                 "label.rutDv": "DV",
+                "label.rol": "Role",
                 "label.nombreUsuario": "Username",
                 "label.tipoEmpleadoId": "Employee Type",
                 "label.roleId": "Role",

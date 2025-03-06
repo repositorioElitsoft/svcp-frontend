@@ -7,6 +7,8 @@ import { TipoEmpleadoService } from '../../../../core/services/tipo-empleado.ser
 import { EstadoService } from '../../../../core/services/estado.service';
 import { Estado } from '../../../../core/models/estado.model';
 import { TipoEmpleado } from '../../../../core/models/tipo-empleado.model';
+import { RoleService } from '../../../../core/services/role.service';
+import { Role } from '../../../../core/models/role.model';
 
 @Component({
   selector: 'app-informacion-laboral',
@@ -29,10 +31,11 @@ export class InformacionLaboralComponent implements OnInit {
 
   estados: Estado[] = []
   tiposEmpleados: TipoEmpleado[] = []
-
+  roles: Role[] = []
   constructor(private fb: FormBuilder,
     private tipoEmpleadoService: TipoEmpleadoService,
     private estadoService: EstadoService,
+    private roleService: RoleService
 
   ) {
     this.form = this.fb.group({
@@ -40,7 +43,7 @@ export class InformacionLaboralComponent implements OnInit {
       estado: [{}, Validators.required],
       tipoEmpleado: [{}, Validators.required],
       contrasena: [{}, Validators.required],
-      rol: [null, Validators.required]
+      role: [{}, Validators.required]
     })
   }
 
@@ -49,6 +52,14 @@ export class InformacionLaboralComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.roleService.buscarTodos().subscribe({
+      next: (roles: Role[]) => {
+        this.roles = roles
+      },
+      error: (err) => {
+        console.error("Error at getting estados ", err)
+      }
+    })
     this.estadoService.buscarTodos().subscribe({
       next: (estados: Estado[]) => {
         this.estados = estados

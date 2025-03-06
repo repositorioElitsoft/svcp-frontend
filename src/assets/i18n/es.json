@@ -332,6 +332,7 @@
                 "label.fechaNacimiento": "Fecha de Nacimiento",
                 "label.email": "Correo Electrónico",
                 "label.contrasena": "Contraseña",
+                "label.rol": "Rol",
                 "label.rut": "RUT",
                 "label.rutDv": "DV",
                 "label.nombreUsuario": "Nombre de Usuario",

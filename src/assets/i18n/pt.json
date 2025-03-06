@@ -330,6 +330,7 @@
                 "label.email": "E-mail",
                 "label.rut": "RUT",
                 "label.contrasena": "Senha",
+                "label.rol": "Rol",
                 "label.rutDv": "DV",
                 "label.nombreUsuario": "Nome de Usuário",
                 "label.tipoEmpleadoId": "Tipo de Funcionário",
