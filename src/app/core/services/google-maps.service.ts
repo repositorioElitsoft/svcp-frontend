@@ -10,7 +10,7 @@ import { GeoCodeResponse } from '../models/geo-code-response.model';
     providedIn: 'root'
 })
 export class GoogleMapsService {
-    private readonly apiKey = 'AIzaSyD7ILjGwf7Vqp3kD4lOQ5qCuv6ytHCplHg';
+    private readonly apiKey = '';
 
     constructor(private http: HttpClient) { }
 
