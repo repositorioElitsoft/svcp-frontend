@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { jwtInterceptor } from './core/interceptores/jwt.interceptor';
 
+import { provideNativeDateAdapter } from '@angular/material/core';
+
 // Función para cargar los archivos de traducción
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -18,6 +20,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimations(),
+    provideNativeDateAdapter(),
     provideToastr({
       timeOut: 10000,
       positionClass: 'toast-bottom-center',

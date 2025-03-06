@@ -1,0 +1,53 @@
+<form [formGroup]="form">
+    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+        <mat-label class="text-lg">{{ 'mantenedores.formularios.direccionEmpleado.label.pais' | translate
+            }}</mat-label>
+        <input matInput formControlName="pais" [attr.placeholder]="'mantenedores.formularios.pais' | translate"
+            class="w-full dark:text-white text-base">
+        <mat-error *ngIf="form.get('pais')?.hasError('required')" class="text-red-500 text-base">
+            {{ 'mantenedores.formularios.campoRequerido' | translate }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+        <mat-label class="text-lg">{{ 'mantenedores.formularios.direccionEmpleado.label.region' | translate
+            }}</mat-label>
+        <input matInput formControlName="region" [attr.placeholder]="'mantenedores.formularios.region' | translate"
+            class="w-full dark:text-white text-base">
+        <mat-error *ngIf="form.get('region')?.hasError('required')" class="text-red-500 text-base">
+            {{ 'mantenedores.formularios.campoRequerido' | translate }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+        <mat-label class="text-lg">{{ 'mantenedores.formularios.direccionEmpleado.label.ciudad' | translate
+            }}</mat-label>
+        <input matInput formControlName="ciudad" [attr.placeholder]="'mantenedores.formularios.ciudad' | translate"
+            class="w-full dark:text-white text-base">
+        <mat-error *ngIf="form.get('ciudad')?.hasError('required')" class="text-red-500 text-base">
+            {{ 'mantenedores.formularios.campoRequerido' | translate }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+        <mat-label class="text-lg">{{ 'mantenedores.formularios.direccionEmpleado.label.provincia' | translate
+            }}</mat-label>
+        <input matInput formControlName="provincia"
+            [attr.placeholder]="'mantenedores.formularios.provincia' | translate"
+            class="w-full dark:text-white text-base">
+        <mat-error *ngIf="form.get('provincia')?.hasError('required')" class="text-red-500 text-base">
+            {{ 'mantenedores.formularios.campoRequerido' | translate }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+        <mat-label class="text-lg">{{ 'mantenedores.formularios.direccionEmpleado.label.direccion' | translate
+            }}</mat-label>
+        <input matInput formControlName="direccion"
+            [attr.placeholder]="'mantenedores.formularios.direccion' | translate"
+            class="w-full dark:text-white text-base">
+        <mat-error *ngIf="form.get('direccion')?.hasError('required')" class="text-red-500 text-base">
+            {{ 'mantenedores.formularios.campoRequerido' | translate }}
+        </mat-error>
+    </mat-form-field>
+</form>

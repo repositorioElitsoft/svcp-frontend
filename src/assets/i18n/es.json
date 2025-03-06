@@ -129,7 +129,11 @@
         "empleado": {
             "id": "Id",
             "titulo": "Empleado",
-            "descripcionEmpleado": "Descripción del Empleado"
+            "descripcionEmpleado": "Descripción del Empleado",
+            "nombre": "Nombre",
+            "apellidoPaterno": "Apellido Paterno",
+            "apellidoMaterno": "Apellido Materno",
+            "imagenPerfil": "Imagen"
         },
         "gestionContrato": {
             "id": "Id",
@@ -223,6 +227,8 @@
             "botonAgregar": "Guardar",
             "actualizar": "Actualizar",
             "guardar": "Guardar",
+            "borrar": "Borrar",
+            "subir": "Subir",
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupación Comercial",
                 "tituloAgregar": "Crear Agrupación Comercial",
@@ -295,11 +301,45 @@
                 "label.descripcionComuna": "Descripción de la Comuna",
                 "descripcion": "Ingrese la descripción de la comuna"
             },
+            "direccionEmpleado": {
+                "tituloEditar": "Editar Dirección ",
+                "tituloAgregar": "Crear Dirección",
+                "label.id": "ID",
+                "label.estado": "Estado",
+                "label.comuna": "Comuna",
+                "label.calle": "Calle",
+                "label.pais": "País",
+                "label.region": "Región",
+                "label.provincia": "Privincia",
+                "label.ciudad": "Ciudad",
+                "label.direccion": "Dirección",
+                "label.numeracion": "Numeración",
+                "label.latitud": "Latitud",
+                "label.longitud": "Longitud",
+                "label.descripcion": "Descripción",
+                "label.referencia": "Referencia",
+                "label.empleado": "Empleado"
+            },
             "empleado": {
                 "tituloEditar": "Editar Empleado",
                 "tituloAgregar": "Crear Empleado",
-                "label.descripcionEmpleado": "Descripción del Empleado",
-                "descripcion": "Ingrese la descripción del empleado"
+                "label.nombre": "Nombre",
+                "label.apellidoPaterno": "Apellido Paterno",
+                "label.apellidoMaterno": "Apellido Materno",
+                "label.imagenPerfil": "Imagen de Perfil",
+                "label.telefonoFijo": "Teléfono Fijo",
+                "label.telefonoMovil": "Teléfono Móvil",
+                "label.fechaNacimiento": "Fecha de Nacimiento",
+                "label.email": "Correo Electrónico",
+                "label.contrasena": "Contraseña",
+                "label.rut": "RUT",
+                "label.rutDv": "DV",
+                "label.nombreUsuario": "Nombre de Usuario",
+                "label.tipoEmpleadoId": "Tipo de Empleado",
+                "label.roleId": "Rol",
+                "label.estadoId": "Estado",
+                "label.numeroDocumento": "Número Documento",
+                "label.tipoDocumento": "Tipo Documento"
             },
             "gestionContrato": {
                 "tituloEditar": "Editar Gestión de Contrato",
@@ -375,6 +415,12 @@
                 "tituloAgregar": "Crear Tipo de Cliente",
                 "label.nombre": "Descripción del Tipo de Cliente",
                 "descripcion": "Ingrese la descripción del tipo de cliente"
+            },
+            "tipoDocumentoIdentificacion": {
+                "tituloEditar": "Editar Documento Identifiación",
+                "tituloAgregar": "Agrergar Documento Identifiación",
+                "label.descripcion": "Descripción Documento Identificación",
+                "descripcion": "Descripción Documento Identificación"
             },
             "tipoEmpleado": {
                 "tituloEditar": "Editar Tipo de Empleado",

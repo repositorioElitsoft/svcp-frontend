@@ -278,7 +278,7 @@ export class EmpleadoComponent implements OnInit {
       }
     });
   }
-  
+
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -292,7 +292,7 @@ export class EmpleadoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }
@@ -314,7 +314,7 @@ export class EmpleadoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }
