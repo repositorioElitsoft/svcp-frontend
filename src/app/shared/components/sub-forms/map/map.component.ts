@@ -1,6 +1,5 @@
-// components/map/map.component.ts
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { GoogleMap, MapMarker, GoogleMapsModule } from '@angular/google-maps';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,6 +10,7 @@ import { CommonModule } from '@angular/common';
     <google-map 
         [center]="center"
         [zoom]="zoom"
+        [options]="mapOptions"
         (mapClick)="onMapClick($event)"
         width="100%"
         height="400px">
@@ -22,12 +22,7 @@ import { CommonModule } from '@angular/common';
       </map-marker>
     </google-map>
   `,
-  styles: [`
-    :host { 
-      display: block;
-      width: 100%;
-    }
-  `]
+  styles: [`:host { display: block; width: 100%; }`]
 })
 export class MapComponent implements OnChanges {
   @Input() initialPosition!: google.maps.LatLngLiteral;
@@ -36,6 +31,12 @@ export class MapComponent implements OnChanges {
 
   center!: google.maps.LatLngLiteral;
   markerPosition!: google.maps.LatLngLiteral;
+
+  mapOptions: google.maps.MapOptions = {
+    gestureHandling: 'auto', // Permite zoom con scroll y navegación con gestos
+    scrollwheel: true, // Habilita la navegación con el mouse
+    disableDoubleClickZoom: false, // Permite zoom con doble clic
+  };
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['initialPosition']) {
@@ -46,20 +47,19 @@ export class MapComponent implements OnChanges {
 
   onMapClick(event: google.maps.MapMouseEvent) {
     if (event.latLng) {
-      this.updatePosition(event.latLng.toJSON());
+      this.updateMarkerPosition(event.latLng.toJSON());
     }
   }
 
-  onMarkerMoved(marker: MapMarker) {
+  onMarkerMoved(marker: any) {
     const position = marker.getPosition();
     if (position) {
-      this.updatePosition(position.toJSON());
+      this.updateMarkerPosition(position.toJSON());
     }
   }
 
-  private updatePosition(position: google.maps.LatLngLiteral) {
+  private updateMarkerPosition(position: google.maps.LatLngLiteral) {
     this.markerPosition = position;
-    this.center = position;
     this.positionChanged.emit(position);
   }
 }

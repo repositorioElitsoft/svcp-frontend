@@ -91,12 +91,6 @@ export class LocacionesFormComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      console.log("Formulario enviado:", this.form.value);
-      // Lógica para enviar a tu API
-    }
-  }
 
   onMapPositionChanged(position: google.maps.LatLngLiteral) {
     this.form.patchValue({
@@ -104,5 +98,14 @@ export class LocacionesFormComponent implements OnInit {
       longitud: position.lng
     });
   }
+
+  onSubmit() {
+    if (this.form.valid) {
+      console.log("Formulario enviado:", this.form.value);
+      // Lógica para enviar a tu API
+    }
+  }
+
+
 
 }

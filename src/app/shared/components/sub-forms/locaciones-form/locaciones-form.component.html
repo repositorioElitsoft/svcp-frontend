@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4 p-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Primera fila -->
         <mat-form-field appearance="outline" class="w-full">
@@ -63,10 +63,9 @@
     <div class="mt-4 border rounded-lg overflow-hidden">
         <app-map [initialPosition]="initialPosition" (positionChanged)="onMapPositionChanged($event)"></app-map>
     </div>
-
     <!-- Botón de guardar -->
     <div class="flex justify-end mt-6">
-        <button mat-raised-button color="primary" type="submit" class="px-6">
+        <button class="elitsoft-btn" type="submit" class="px-6">
             Guardar
         </button>
     </div>

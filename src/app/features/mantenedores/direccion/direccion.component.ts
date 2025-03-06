@@ -283,6 +283,7 @@ export class DireccionComponent implements OnInit {
 
   agregarServicio() {
     const dialogRef = this.dialog.open(LocacionesFormComponent, {
+      width: '700px',
       data: {
         esActualizar: false,
       }
