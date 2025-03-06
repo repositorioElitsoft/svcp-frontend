@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, model } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, model } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,7 @@ import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 /*services-imports*/
 
 
@@ -29,6 +29,10 @@ import { Empleado } from '../../../core/models/empleado.model';
 import { catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { UploadImageComponent } from "../upload-image/upload-image/upload-image.component";
+import { InformacionPersonalComponent } from '../sub-forms/informacion-personal/informacion-personal.component';
+import { DatosContactoComponent } from '../sub-forms/datos-contacto/datos-contacto.component';
+import { InformacionLaboralComponent } from '../sub-forms/informacion-laboral/informacion-laboral.component';
+import { DireccionUbicacionComponent } from '../sub-forms/direccion-ubicacion/direccion-ubicacion.component';
 
 @Component({
   selector: 'app-empleado-create-form',
@@ -42,28 +46,38 @@ import { UploadImageComponent } from "../upload-image/upload-image/upload-image.
     MatButtonModule,
     MatFormFieldModule,
     MatDialogContent,
+    TranslateModule,
     MatSelectModule,
     MatOptionModule,
+    InformacionPersonalComponent,
     MatDialogActions,
     MatDialogClose,
     MatError,
     TranslateModule,
     TituloDialogoComponent,
-    UploadImageComponent
+    UploadImageComponent,
+    DatosContactoComponent,
+    DireccionUbicacionComponent,
+    InformacionLaboralComponent
   ],
   templateUrl: `./empleado.component.html`,
   styles: [],
 })
 export class EmpleadoFormComponent implements OnInit {
-  form!: FormGroup;
+
 
   readonly dialogRef = inject(MatDialogRef<EmpleadoFormComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
+  @ViewChild(MatStepper) stepper!: MatStepper;
+
+  @ViewChild(UploadImageComponent) uploadImageForm!: UploadImageComponent
+  @ViewChild(DatosContactoComponent) datosContactosForm!: DatosContactoComponent
+  @ViewChild(DireccionUbicacionComponent) direccionUbicacionForm!: DireccionUbicacionComponent
+  @ViewChild(InformacionLaboralComponent) informacionLaboral!: InformacionLaboralComponent
+  @ViewChild(InformacionPersonalComponent) informacionPersonal!: InformacionPersonalComponent
 
   /*variable-declarations*/
-
-
 
   constructor(
     private fb: FormBuilder,
@@ -73,25 +87,7 @@ export class EmpleadoFormComponent implements OnInit {
     /*other-services-injection*/
 
   ) {
-    // Tipando el FormGroup
-    this.form = this.fb.group({
-      /*inputsflag*/
-      id: [null,],
-      nombre: [null, Validators.required],
-      apellidoPaterno: [null, Validators.required],
-      apellidoMaterno: [null, Validators.required],
-      imagenPerfil: [null, Validators.required],
-      telefonoFijo: [null, Validators.required],
-      telefonoMovil: [null, Validators.required],
-      fechaNacimiento: [null, Validators.required],
-      email: [null, Validators.required],
-      rut: [null, Validators.required],
-      rutDv: [null, Validators.required],
-      nombreUsuario: [null, Validators.required],
-      tipoEmpleadoId: [null, Validators.required],
-      roleId: [null, Validators.required],
-      estadoId: [null, Validators.required],
-    });
+
   }
 
   ngOnInit() {
@@ -101,27 +97,14 @@ export class EmpleadoFormComponent implements OnInit {
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
+      //this.uploadImageForm.patch(null)
+      this.datosContactosForm.patch(this.data.object)
+      this.direccionUbicacionForm.patch(this.data.object)
+      this.informacionLaboral.patch(this.data.object)
+      this.informacionPersonal.patch(this.data.object)
 
-      this.form.patchValue({
-        /*object-fields-edit*/
-        id: this.data.object.id,
-        nombre: this.data.object.nombre,
-        apellidoPaterno: this.data.object.apellidoPaterno,
-        apellidoMaterno: this.data.object.apellidoMaterno,
-        imagenPerfil: this.data.object.imagenPerfil,
-        telefonoFijo: this.data.object.telefonoFijo,
-        telefonoMovil: this.data.object.telefonoMovil,
-        fechaNacimiento: this.data.object.fechaNacimiento,
-        email: this.data.object.email,
-        rut: this.data.object.rut,
-        rutDv: this.data.object.rutDv,
-        nombreUsuario: this.data.object.nombreUsuario,
-        tipoEmpleadoId: this.data.object.tipoEmpleadoId,
-        roleId: this.data.object.roleId,
-        estadoId: this.data.object.estadoId,
-      });
 
-      console.log("Datos en el formulario después de patchValue:", this.form.value);
+      //console.log("Datos en el formulario después de patchValue:", this.form.value);
     } else {
       console.error("No se recibió un objeto válido en 'data'");
     }
@@ -130,59 +113,56 @@ export class EmpleadoFormComponent implements OnInit {
 
   }
 
+  nextStep() {
+
+    this.stepper.next();
+
+  }
+
   onSubmit() {
-    console.log("Formulario enviado:", this.form.value);
 
-    if (this.form.valid) {
-      const formData: Empleado = {
-        /*form-fields-submit*/
-        id: this.form.value.id,
-        nombre: this.form.value.nombre,
-        apellidoPaterno: this.form.value.apellidoPaterno,
-        apellidoMaterno: this.form.value.apellidoMaterno,
-        imagenPerfil: this.form.value.imagenPerfil,
-        telefonoFijo: this.form.value.telefonoFijo,
-        telefonoMovil: this.form.value.telefonoMovil,
-        fechaNacimiento: this.form.value.fechaNacimiento,
-        email: this.form.value.email,
-        rut: this.form.value.rut,
-        rutDv: this.form.value.rutDv,
-        nombreUsuario: this.form.value.nombreUsuario,
-        tipoEmpleadoId: this.form.value.tipoEmpleadoId,
-        roleId: this.form.value.roleId,
-        estadoId: this.form.value.estadoId,
-      };
+    //this.uploadImageForm.form.value
 
-      console.log("Datos mapeados para enviar:", formData);
+    this.datosContactosForm.form.value
+    this.direccionUbicacionForm.form.value
+    this.informacionLaboral.form.value
+    this.informacionPersonal.form.value
 
-      // Cierra el formulario con los datos correctos
-      if (this.esActualizar()) {
-        this.empleadoService.actualizar(formData.id, formData).subscribe({
-          next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
-          },
-          error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-          }
-        })
+    const formData = {
+      id: this.data?.object?.id ?? null,
+      ...this.datosContactosForm.form.value,
+      ...this.informacionLaboral.form.value,
+      ...this.informacionPersonal.form.value
+    };
+    console.log("Datos mapeados para enviar:", formData);
+    console.log("File:", this.uploadImageForm.selectedFile);
 
-      }
-      else {
-        this.empleadoService.crear(formData).subscribe({
-          next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
-          },
-          error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-          }
-        })
-      }
-    } else {
-      console.log("Formulario no válido");
+
+    // Cierra el formulario con los datos correctos
+    if (this.esActualizar()) {
+      this.empleadoService.actualizar(formData.id, formData).subscribe({
+        next: (response) => {
+          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+          this.dialogRef.close(response);
+        },
+        error: (error) => {
+          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+          this.toastr.error(errorMessage);
+        }
+      })
+
+    }
+    else {
+      this.empleadoService.crear(formData).subscribe({
+        next: (response) => {
+          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+          this.dialogRef.close(response);
+        },
+        error: (error) => {
+          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+          this.toastr.error(errorMessage);
+        }
+      })
     }
   }
 }

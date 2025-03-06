@@ -80,6 +80,7 @@
     },
     "mantenedores": {
         "volver": "Back",
+        "siguiente": "Next",
         "id": "Id",
         "agrupacionComercial": {
             "id": "Id",
@@ -129,6 +130,10 @@
         "empleado": {
             "id": "Id",
             "titulo": "Employee",
+            "nombre": "Name",
+            "apellidoPaterno": "First Lastname",
+            "apellidoMaterno": "Second Lastname",
+            "imagenPerfil": "Image",
             "descripcionEmpleado": "Employee Description"
         },
         "gestionContrato": {
@@ -222,6 +227,8 @@
             "botonAgregar": "Save",
             "actualizar": "Update",
             "guardar": "Save",
+            "borrar": "Delete",
+            "subir": "Upload",
             "agrupacionComercial": {
                 "tituloEditar": "Edit Commercial Grouping",
                 "tituloAgregar": "Create Commercial Grouping",
@@ -268,8 +275,8 @@
                 "tituloEditar": "Edit Client",
                 "tituloAgregar": "Create Client",
                 "label.nombre": "Name",
-                "label.apellidoPaterno?": "Paternal Surname",
-                "label.apellidoMaterno?": "Maternal Surname",
+                "label.apellidoPaterno?": "First Lastname",
+                "label.apellidoMaterno?": "Second Lastname",
                 "label.rut": "RUT",
                 "label.rutDv": "DV",
                 "label.fechaNacimiento": "Date of Birth",
@@ -293,11 +300,47 @@
                 "label.descripcionComuna": "Commune Description",
                 "descripcion": "Enter the description of the commune"
             },
+            "direccionEmpleado": {
+                "tituloEditar": "Edit Address and Location",
+                "tituloAgregar": "Create Address and Location",
+                "label.id": "ID",
+                "label.estado": "State",
+                "label.pais": "Country",
+                "label.region": "Region / State (Main territorial Division)",
+                "label.provincia": "SubTerritorial Division",
+                "label.calle": "Street",
+                "label.numeracion": "Number",
+                "label.ciudad": "City",
+                "label.direccion": "Address",
+                "label.latitud": "Latitude",
+                "label.longitud": "Longitude",
+                "label.descripcion": "Description",
+                "label.referencia": "Reference",
+                "label.empleado": "Employee"
+            },
             "empleado": {
                 "tituloEditar": "Edit Employee",
                 "tituloAgregar": "Create Employee",
                 "label": "Employee Description",
-                "descripcion": "Enter the description of the employee"
+                "label.descripcion": "Enter the description of the employee",
+                "label.nombre": "Name",
+                "label.apellidoPaterno": "Paternal Surname",
+                "label.apellidoMaterno": "Maternal Surname",
+                "label.imagenPerfil": "Profile Image",
+                "label.telefonoFijo": "Landline",
+                "label.telefonoMovil": "Mobile Phone",
+                "label.fechaNacimiento": "Date of Birth",
+                "label.email": "Email",
+                "label.contrasena": "Password",
+                "label.rut": "RUT",
+                "label.rutDv": "DV",
+                "label.rol": "Role",
+                "label.nombreUsuario": "Username",
+                "label.tipoEmpleadoId": "Employee Type",
+                "label.roleId": "Role",
+                "label.estadoId": "State",
+                "label.numeroDocumento": "Document Number",
+                "label.tipoDocumento": "Document Type"
             },
             "gestionContrato": {
                 "tituloEditar": "Edit Contract Management",
@@ -373,6 +416,12 @@
                 "tituloAgregar": "Create Client Type",
                 "label.nombre": "Client Type Description",
                 "descripcion": "Enter the description of the client type"
+            },
+            "tipoDocumentoIdentificacion": {
+                "tituloEditar": "Editat Identification Document  Type",
+                "tituloAgregar": "Create Identification Document  Type",
+                "label.descripcion": "Identification Document Type Description",
+                "descripcion": "Identification Document Type Description"
             },
             "tipoEmpleado": {
                 "tituloEditar": "Edit Employee Type",

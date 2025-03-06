@@ -7,11 +7,11 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { OpcionesMantenedorComponent } from "../../../shared/components/opciones-mantenedor/opciones-mantenedor.component";
 import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
-import { EmpleadoFormComponent } from "../../../shared/components/forms/empleado.component";
+import { RolFormComponent } from "../../../shared/components/forms/rol.component";
 import { ExportarDocService } from "../../../core/services/exportar-doc.service";
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
-import { EmpleadoService } from "../../../core/services/empleado.service";
-import { Empleado } from "../../../core/models/empleado.model";
+import { RolService } from "../../../core/services/rol.service";
+import { Rol } from "../../../core/models/rol.model";
 import { catchError, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
@@ -19,16 +19,16 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 @Component({
-  selector: "app-empleado",
+  selector: "app-rol",
   standalone: true,
   imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
-  templateUrl: "./empleado.component.html",
-  styleUrl: "./empleado.component.css",
+  templateUrl: "./rol.component.html",
+  styleUrl: "./rol.component.css",
 })
-export class EmpleadoComponent implements OnInit {
+export class RolComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: Empleado[] = []; // Ahora usa la interfaz empleado
-  titulo: string = 'Empleado'; // Puedes cambiarlo dinámicamente
+  dataSource: Rol[] = []; // Ahora usa la interfaz rol
+  titulo: string = 'Rol'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
@@ -40,7 +40,7 @@ export class EmpleadoComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
-    private empleadoService: EmpleadoService) { }
+    private rolService: RolService) { }
 
   ngOnInit() {
     this.obtenerDatos();
@@ -56,7 +56,7 @@ export class EmpleadoComponent implements OnInit {
 
 
   onViewSelected(id: string): void {
-    const dialogRef = this.dialog.open(EmpleadoFormComponent, {
+    const dialogRef = this.dialog.open(RolFormComponent, {
       width: '400px',
       data: {
         esActualizar: true,
@@ -123,7 +123,7 @@ export class EmpleadoComponent implements OnInit {
       ...optionalFilter
     }
 
-    this.empleadoService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Empleado[]>) => {
+    this.rolService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Rol[]>) => {
       console.log("Datos recibidos:", data);
 
       this.pageNumber = data.pageNumber
@@ -147,7 +147,7 @@ export class EmpleadoComponent implements OnInit {
 
 
   /*********************************** CRUD   - DELETE ***********************************/
-  eliminar(selectedItems: Empleado[]) {
+  eliminar(selectedItems: Rol[]) {
     const count = selectedItems.length;
 
     // Obtener las traducciones
@@ -172,7 +172,7 @@ export class EmpleadoComponent implements OnInit {
         const ids = selectedItems.map(item => item.id);
         console.log("Datos a enviar para eliminar:", { ids: ids });
 
-        this.empleadoService.borrarTodos(ids).subscribe({
+        this.rolService.borrarTodos(ids).subscribe({
           next: () => {
             console.log("Elementos eliminados exitosamente:", ids);
             this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
@@ -218,7 +218,7 @@ export class EmpleadoComponent implements OnInit {
     console.log("Eliminar seleccionado:", id);
 
     // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.empleado.titulo');
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.rol.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
@@ -236,7 +236,7 @@ export class EmpleadoComponent implements OnInit {
       if (confirmado) {
         console.log("Eliminando elemento con ID:", id);
 
-        this.empleadoService.borrar(Number(id)).subscribe({
+        this.rolService.borrar(Number(id)).subscribe({
           next: () => {
             console.log("Elemento eliminado exitosamente:", id);
 
@@ -278,11 +278,11 @@ export class EmpleadoComponent implements OnInit {
       }
     });
   }
-
+  
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
-    const dialogRef = this.dialog.open(EmpleadoFormComponent, {
+    const dialogRef = this.dialog.open(RolFormComponent, {
       width: '400px',
       data: {
         esActualizar: false,
@@ -292,7 +292,7 @@ export class EmpleadoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id", "desc");
+        this.obtenerDatos("id","desc");
       }
     });
   }
@@ -304,7 +304,7 @@ export class EmpleadoComponent implements OnInit {
     if (!selectedObject) {
       return;
     }
-    const dialogRef = this.dialog.open(EmpleadoFormComponent, {
+    const dialogRef = this.dialog.open(RolFormComponent, {
       width: '400px',
       data: {
         esActualizar: true,
@@ -314,7 +314,7 @@ export class EmpleadoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id", "desc");
+        this.obtenerDatos("id","desc");
       }
     });
   }

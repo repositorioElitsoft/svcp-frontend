@@ -1,21 +1,29 @@
 import { Component, Input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-upload-image',
   standalone: true,
-  imports: [],
+  imports: [
+    TranslateModule
+  ],
   templateUrl: './upload-image.component.html',
   styleUrl: './upload-image.component.css'
 })
 export class UploadImageComponent {
 
-  @Input() selectedFile: File | null = null;
+  selectedFile: File | null = null;
   fileUrl: string | null = null;
 
   ngOnInit() {
     if (this.selectedFile) {
       this.fileUrl = URL.createObjectURL(this.selectedFile);
     }
+  }
+
+  patch(value: File) {
+    this.selectedFile = value
+    this.fileUrl = URL.createObjectURL(this.selectedFile);
   }
 
   deleteFile() {
