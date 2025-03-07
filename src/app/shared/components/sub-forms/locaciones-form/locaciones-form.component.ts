@@ -1,22 +1,19 @@
-import { Component, Inject, inject, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { GoogleMapsService } from "../../../../core/services/google-maps.service";
+import { LocacionMapsService } from "../../../../core/services/locacion-maps.service";
 import { MapComponent } from "../map/map.component";
-
-// Angular Material Imports
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { MatDialogRef } from "@angular/material/dialog";
-import { switchMap, debounceTime } from 'rxjs/operators';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import { AddressDetails } from "../../../../core/models/address-details.model";
 import { Comuna } from "../../../../core/models/comuna.model";
-
-declare var google: any;
+import { Observable } from "rxjs/internal/Observable";
+import { of } from "rxjs";
 
 @Component({
   selector: "app-locaciones-form",
@@ -36,13 +33,13 @@ declare var google: any;
 })
 export class LocacionesFormComponent implements OnInit {
   form!: FormGroup;
-  initialPosition: google.maps.LatLngLiteral = { lat: -33.4489, lng: -70.6693 };
+  initialPosition = { lat: -33.4489, lng: -70.6693 };
   currentMarkerPosition!: google.maps.LatLngLiteral;
-  comunas: Comuna[] = []; // Asegúrate de cargar esta lista
+  comunas: Comuna[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private mapsService: GoogleMapsService
+    private locacionMaps: LocacionMapsService
   ) { }
 
   ngOnInit() {
@@ -66,54 +63,53 @@ export class LocacionesFormComponent implements OnInit {
   }
 
   private setupFormListeners() {
-    // Cuando cambian dirección o numeración, actualiza el mapa
-    this.form.get("direccion")?.valueChanges.pipe(
-      debounceTime(500),
-    ).subscribe(() => this.updateMapFromAddress());
+    const addressControls = ['direccion', 'numeracion'];
 
-    this.form.get("numeracion")?.valueChanges.pipe(
-      debounceTime(500),
-    ).subscribe(() => this.updateMapFromAddress());
+    addressControls.forEach(controlName => {
+      this.form.get(controlName)?.valueChanges.pipe(
+        debounceTime(500),
+        switchMap(() => this.getFullAddress())
+      ).subscribe(
+        (value) => this.handleAddressUpdate(value as AddressDetails | null),
+        (err) => console.error('Error en geocodificación:', err)
+      );
+    });
   }
 
+  private getFullAddress(): Observable<AddressDetails | null> {
+    const direccionCompleta = `${this.form.value.direccion} ${this.form.value.numeracion}`.trim();
+    return direccionCompleta
+      ? this.locacionMaps.geocodeAddress(direccionCompleta)
+      : of(null);
+  }
 
-  private async updateMapFromAddress() {
-    const comuna = this.form.value.comuna?.descripcionComuna || '';
-    const direccion = `${this.form.value.direccion} ${this.form.value.numeracion}, ${comuna}`;
+  private handleAddressUpdate(details: AddressDetails | null) {
+    if (!details) return;
 
-    if (direccion) {
-      try {
-        const response = await this.mapsService.getLatLong(direccion).toPromise();
-        if (response?.results?.length > 0) {
-          const location = response.results[0].geometry.location;
-          this.currentMarkerPosition = location;
-          this.form.patchValue({
-            latitud: location.lat,
-            longitud: location.lng
-          }, { emitEvent: false });
-        }
-      } catch (error) {
-        console.error('Error al geocodificar:', error);
-      }
-    }
+    this.currentMarkerPosition = { lat: details.lat, lng: details.lng };
+
+    this.form.patchValue({
+      direccion: details.street,
+      numeracion: details.streetNumber,
+      latitud: details.lat,
+      longitud: details.lng,
+      comuna: this.locacionMaps.findComuna(details.administrativeAreaLevel2, this.comunas)
+    }, { emitEvent: false });
   }
 
   onMapPositionChanged(details: AddressDetails) {
-    this.form.patchValue({
-      latitud: details.lat,
-      longitud: details.lng,
-      direccion: details.street,
-      numeracion: details.streetNumber
-    });
-
-    if (details.comuna) {
-      const comuna = this.comunas.find(c =>
-        c.descripcionComuna.toLowerCase() === details.comuna?.toLowerCase()
-      );
-      if (comuna) this.form.get('comuna')?.setValue(comuna);
-    }
+    this.updateFormFromAddressDetails(details);
   }
 
+  private updateFormFromAddressDetails(details: AddressDetails) {
+    this.form.patchValue({
+      direccion: details.street,
+      numeracion: details.streetNumber,
+      latitud: details.lat,
+      longitud: details.lng,
+      comuna: this.locacionMaps.findComuna(details.administrativeAreaLevel2, this.comunas)
+    }, { emitEvent: false });
+  }
 
   onSubmit() {
     if (this.form.valid) {

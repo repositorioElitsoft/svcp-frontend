@@ -1,4 +1,3 @@
-// map.component.ts
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { CommonModule } from '@angular/common';
@@ -28,7 +27,7 @@ import { AddressDetails } from '../../../../core/models/address-details.model';
   styles: [`:host { display: block; width: 100%; }`]
 })
 export class MapComponent implements OnChanges {
-  private mapsService = inject(GoogleMapsService);
+  private mapsService = inject(GoogleMapsService); // Inyectamos el servicio
 
   @Input() initialPosition!: google.maps.LatLngLiteral;
   @Input() markerPosition!: google.maps.LatLngLiteral;
@@ -45,59 +44,38 @@ export class MapComponent implements OnChanges {
     }
   }
 
+  // Método que se ejecuta cuando se hace clic en el mapa
   onMapClick(event: google.maps.MapMouseEvent) {
     if (event.latLng) {
-      this.updatePosition(event.latLng.toJSON());
+      const position = event.latLng.toJSON();
+      console.log("Clic en el mapa, nueva posición:", position);
+      this.updatePosition(position);
     }
   }
 
+  // Método que se ejecuta cuando se mueve el marcador
   onMarkerMoved(marker: any) {
     const position = marker.getPosition()?.toJSON();
-    if (position) this.updatePosition(position);
+    if (position) {
+      console.log("Marcador movido, nueva posición:", position);
+      this.updatePosition(position);
+    }
   }
 
+  // Actualizamos la posición y obtenemos la dirección
   private updatePosition(position: google.maps.LatLngLiteral) {
+    console.log("Posición actualizada:", position);
     this.markerPosition = position;
+    this.center = position;
+
+    // Llamamos al servicio para obtener la dirección
     this.mapsService.getAddress(position.lat, position.lng).subscribe({
       next: (results) => {
-        const addressDetails = this.parseAddress(results);
-        this.positionChanged.emit(addressDetails);
+        const addressDetails = this.mapsService.parseAddress(results); // Usamos parseAddress para estructurar los datos
+        console.log("Detalles de la dirección obtenidos:", addressDetails);
+        this.positionChanged.emit(addressDetails); // Emitimos el evento con la dirección
       },
-      error: (err) => console.error('Error en geocodificación inversa:', err)
+      error: (err) => console.error('Error:', err)
     });
-  }
-
-  private parseAddress(results: any[]): AddressDetails {
-    const address: AddressDetails = { lat: this.markerPosition.lat, lng: this.markerPosition.lng };
-    if (!results?.length) return address;
-
-    const result = results[0];
-    address.formattedAddress = result.formatted_address;
-
-    for (const comp of result.address_components) {
-      const type = comp.types[0];
-      switch (type) {
-        case 'street_number':
-          address.streetNumber = comp.long_name;
-          break;
-        case 'route':
-          address.street = comp.long_name;
-          break;
-        case 'sublocality':
-        case 'administrative_area_level_3':
-          address.comuna = comp.long_name;
-          break;
-        case 'locality':
-          address.locality = comp.long_name;
-          break;
-        case 'administrative_area_level_1':
-          address.administrativeArea = comp.long_name;
-          break;
-        case 'country':
-          address.country = comp.long_name;
-          break;
-      }
-    }
-    return address;
   }
 }

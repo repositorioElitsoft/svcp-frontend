@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AddressDetails } from '../models/address-details.model';
 
 @Injectable({ providedIn: 'root' })
 export class GoogleMapsService {
@@ -18,5 +19,38 @@ export class GoogleMapsService {
     getAddress(lat: number, lng: number): Observable<any> {
         const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${this.apiKey}`;
         return this.http.get(url);
+    }
+
+    // Método para transformar los resultados del geocoding en la interfaz AddressDetails
+    parseAddress(results: any): AddressDetails {
+        if (!results || results.status !== 'OK') {
+            throw new Error('No se pudo obtener la dirección.');
+        }
+
+        const result = results.results[0]; // Usamos el primer resultado
+
+        const addressDetails: AddressDetails = {
+            lat: result.geometry.location.lat,
+            lng: result.geometry.location.lng,
+            formattedAddress: result.formatted_address,
+            country: this.getAddressComponent(result, 'country'),
+            countryCode: this.getAddressComponent(result, 'country', 'short_name'),
+            administrativeArea: this.getAddressComponent(result, 'administrative_area_level_1'),
+            administrativeAreaLevel2: this.getAddressComponent(result, 'administrative_area_level_2'),
+            locality: this.getAddressComponent(result, 'locality'),
+            sublocality: this.getAddressComponent(result, 'sublocality'),
+            postalCode: this.getAddressComponent(result, 'postal_code'),
+            street: this.getAddressComponent(result, 'route'),
+            streetNumber: this.getAddressComponent(result, 'street_number'),
+            neighborhood: this.getAddressComponent(result, 'neighborhood'),
+        };
+
+        return addressDetails;
+    }
+
+    // Función para obtener un componente específico de la dirección
+    private getAddressComponent(result: any, type: string, componentType: string = 'long_name'): string | undefined {
+        const component = result.address_components.find((c: any) => c.types.includes(type));
+        return component ? component[componentType] : undefined;
     }
 }
