@@ -13,6 +13,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatDialogRef } from "@angular/material/dialog";
 import { switchMap, debounceTime } from 'rxjs/operators';
+import { AddressDetails } from "../../../../core/models/address-details.model";
+import { Comuna } from "../../../../core/models/comuna.model";
 
 declare var google: any;
 
@@ -36,6 +38,7 @@ export class LocacionesFormComponent implements OnInit {
   form!: FormGroup;
   initialPosition: google.maps.LatLngLiteral = { lat: -33.4489, lng: -70.6693 };
   currentMarkerPosition!: google.maps.LatLngLiteral;
+  comunas: Comuna[] = []; // Asegúrate de cargar esta lista
 
   constructor(
     private fb: FormBuilder,
@@ -73,31 +76,44 @@ export class LocacionesFormComponent implements OnInit {
     ).subscribe(() => this.updateMapFromAddress());
   }
 
+
   private async updateMapFromAddress() {
-    const address = `${this.form.value.direccion} ${this.form.value.numeracion}, ${this.form.value.comuna}`;
-    if (address) {
+    const comuna = this.form.value.comuna?.descripcionComuna || '';
+    const direccion = `${this.form.value.direccion} ${this.form.value.numeracion}, ${comuna}`;
+
+    if (direccion) {
       try {
-        const response = await this.mapsService.getLatLong(address).toPromise();
+        const response = await this.mapsService.getLatLong(direccion).toPromise();
         if (response?.results?.length > 0) {
           const location = response.results[0].geometry.location;
-          this.currentMarkerPosition = location; // Actualiza posición del marcador
+          this.currentMarkerPosition = location;
           this.form.patchValue({
             latitud: location.lat,
             longitud: location.lng
           }, { emitEvent: false });
         }
       } catch (error) {
-        console.error("Error geocoding address:", error);
+        console.error('Error al geocodificar:', error);
       }
     }
   }
 
-  onMapPositionChanged(position: google.maps.LatLngLiteral) {
+  onMapPositionChanged(details: AddressDetails) {
     this.form.patchValue({
-      latitud: position.lat,
-      longitud: position.lng
+      latitud: details.lat,
+      longitud: details.lng,
+      direccion: details.street,
+      numeracion: details.streetNumber
     });
+
+    if (details.comuna) {
+      const comuna = this.comunas.find(c =>
+        c.descripcionComuna.toLowerCase() === details.comuna?.toLowerCase()
+      );
+      if (comuna) this.form.get('comuna')?.setValue(comuna);
+    }
   }
+
 
   onSubmit() {
     if (this.form.valid) {
