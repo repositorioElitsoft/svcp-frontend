@@ -88,14 +88,23 @@ export class LocacionesFormComponent implements OnInit {
 
     this.currentMarkerPosition = { lat: details.lat, lng: details.lng };
 
+    // Si no se encuentra street, usar formattedAddress si no es un Plus Code
+    let direccion = details.street || details.formattedAddress;
+
+    // Si direccion es un Plus Code, usar la comuna como fallback para evitar que se quede con un código no descriptivo
+    if (direccion && direccion.includes('+')) {
+      direccion = details.formattedAddress; // Solo si no hay street y es Plus Code, usamos el formato completo
+    }
+
     this.form.patchValue({
-      direccion: details.street,
+      direccion: direccion,
       numeracion: details.streetNumber,
       latitud: details.lat,
       longitud: details.lng,
-      comuna: this.locacionMaps.findComuna(details.administrativeAreaLevel2, this.comunas)
+      comuna: this.locacionMaps.findComuna(details.administrativeAreaLevel3, this.comunas)
     }, { emitEvent: false });
   }
+
 
   onMapPositionChanged(details: AddressDetails) {
     this.updateFormFromAddressDetails(details);
@@ -107,7 +116,7 @@ export class LocacionesFormComponent implements OnInit {
       numeracion: details.streetNumber,
       latitud: details.lat,
       longitud: details.lng,
-      comuna: this.locacionMaps.findComuna(details.administrativeAreaLevel2, this.comunas)
+      comuna: this.locacionMaps.findComuna(details.administrativeAreaLevel3, this.comunas)
     }, { emitEvent: false });
   }
 

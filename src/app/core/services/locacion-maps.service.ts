@@ -29,7 +29,7 @@ export class LocacionMapsService {
         return {
             street: components.street,
             streetNumber: components.streetNumber,
-            administrativeAreaLevel2: components.comuna,
+            administrativeAreaLevel3: components.comuna,
             lat: location.lat,
             lng: location.lng,
             formattedAddress: result.formatted_address

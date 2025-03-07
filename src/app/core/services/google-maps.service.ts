@@ -37,6 +37,7 @@ export class GoogleMapsService {
             countryCode: this.getAddressComponent(result, 'country', 'short_name'),
             administrativeArea: this.getAddressComponent(result, 'administrative_area_level_1'),
             administrativeAreaLevel2: this.getAddressComponent(result, 'administrative_area_level_2'),
+            administrativeAreaLevel3: this.getAddressComponent(result, 'administrative_area_level_3'),
             locality: this.getAddressComponent(result, 'locality'),
             sublocality: this.getAddressComponent(result, 'sublocality'),
             postalCode: this.getAddressComponent(result, 'postal_code'),
