@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { LocacionMapsService } from "../../../../core/services/locacion-maps.service";
@@ -31,11 +31,13 @@ import { of } from "rxjs";
   ],
   templateUrl: "./locaciones-form.component.html",
 })
-export class LocacionesFormComponent implements OnInit {
+export class LocacionesFormComponent implements OnInit, AfterViewInit {
+  @ViewChild('autocompleteInput') autocompleteInput!: ElementRef;
   form!: FormGroup;
   initialPosition = { lat: -33.4489, lng: -70.6693 };
   currentMarkerPosition!: google.maps.LatLngLiteral;
   comunas: Comuna[] = [];
+  private autocomplete!: google.maps.places.Autocomplete;
 
   constructor(
     private fb: FormBuilder,
@@ -45,6 +47,46 @@ export class LocacionesFormComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.setupFormListeners();
+  }
+
+  ngAfterViewInit() {
+    this.initAutocomplete();
+  }
+
+  private initAutocomplete() {
+    this.autocomplete = new google.maps.places.Autocomplete(
+      this.autocompleteInput.nativeElement,
+      {
+        types: ['address'],
+        componentRestrictions: { country: 'cl' },
+        fields: ['address_components', 'geometry', 'formatted_address']
+      }
+    );
+
+    this.autocomplete.addListener('place_changed', () => {
+      const place = this.autocomplete.getPlace();
+
+      if (!place.geometry || !place.geometry.location) {
+        console.log('No hay detalles disponibles para la dirección seleccionada');
+        return;
+      }
+
+      const addressDetails: AddressDetails = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+        formattedAddress: place.formatted_address || '',
+        street: this.getAddressComponent(place, 'route'),
+        streetNumber: this.getAddressComponent(place, 'street_number'),
+        administrativeAreaLevel3: this.getAddressComponent(place, 'administrative_area_level_3'),
+      };
+
+      this.updateFormFromAddressDetails(addressDetails);
+      this.currentMarkerPosition = { lat: addressDetails.lat, lng: addressDetails.lng };
+    });
+  }
+
+  private getAddressComponent(place: google.maps.places.PlaceResult, type: string): string {
+    return place.address_components?.find(c => c.types.includes(type))?.long_name || '';
   }
 
   private initForm() {
@@ -63,18 +105,15 @@ export class LocacionesFormComponent implements OnInit {
   }
 
   private setupFormListeners() {
-    const addressControls = ['direccion', 'numeracion'];
-
-    addressControls.forEach(controlName => {
-      this.form.get(controlName)?.valueChanges.pipe(
-        debounceTime(500),
-        switchMap(() => this.getFullAddress())
-      ).subscribe(
-        (value) => this.handleAddressUpdate(value as AddressDetails | null),
-        (err) => console.error('Error en geocodificación:', err)
-      );
-    });
+    this.form.get('direccion')?.valueChanges.pipe(
+      debounceTime(500),
+      switchMap(() => this.getFullAddress())
+    ).subscribe(
+      (details) => this.handleAddressUpdate(details as AddressDetails | null),
+      (err) => console.error('Error en geocodificación:', err)
+    );
   }
+
 
   private getFullAddress(): Observable<AddressDetails | null> {
     const direccionCompleta = `${this.form.value.direccion} ${this.form.value.numeracion}`.trim();
@@ -88,12 +127,9 @@ export class LocacionesFormComponent implements OnInit {
 
     this.currentMarkerPosition = { lat: details.lat, lng: details.lng };
 
-    // Si no se encuentra street, usar formattedAddress si no es un Plus Code
     let direccion = details.street || details.formattedAddress;
-
-    // Si direccion es un Plus Code, usar la comuna como fallback para evitar que se quede con un código no descriptivo
     if (direccion && direccion.includes('+')) {
-      direccion = details.formattedAddress; // Solo si no hay street y es Plus Code, usamos el formato completo
+      direccion = details.formattedAddress;
     }
 
     this.form.patchValue({
@@ -104,7 +140,6 @@ export class LocacionesFormComponent implements OnInit {
       comuna: this.locacionMaps.findComuna(details.administrativeAreaLevel3, this.comunas)
     }, { emitEvent: false });
   }
-
 
   onMapPositionChanged(details: AddressDetails) {
     this.updateFormFromAddressDetails(details);
