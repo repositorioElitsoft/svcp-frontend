@@ -160,17 +160,17 @@ export class TiposDireccionesComponent implements OnInit {
       width: '600px',
       height: '400px',
       data: {
-        titulo: titulo,
-        mensaje: mensaje,
-        textoBotonCancelar: textoBotonCancelar,
-        textoBotonConfirmar: textoBotonConfirmar
+        titulo,
+        mensaje,
+        textoBotonCancelar,
+        textoBotonConfirmar
       }
     });
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
         const ids = selectedItems.map(item => item.id);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
+        console.log("Datos a enviar para eliminar:", { ids });
 
         this.tiposDireccionesService.borrarTodos(ids).subscribe({
           next: () => {
@@ -178,13 +178,12 @@ export class TiposDireccionesComponent implements OnInit {
             this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
             this.hasSelection = false;
 
-            // Actualizar las propiedades de paginación
+            // Actualizar propiedades de paginación
             this.totalElements -= ids.length;
             this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
-            // Ajustar pageNumber si es necesario
             if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
+              this.pageNumber = this.totalPages - 1;
             }
 
             // Recargar los datos
@@ -198,7 +197,6 @@ export class TiposDireccionesComponent implements OnInit {
               this.sharedTableComponent.selection.clear();
             }
 
-            // Depurar el estado del paginador
             console.log("Estado del paginador después de eliminar:", {
               pageNumber: this.pageNumber,
               totalElements: this.totalElements,
@@ -207,13 +205,13 @@ export class TiposDireccionesComponent implements OnInit {
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
+            const mensajeError = this.translate.instant(convertErrorMessageToI18(err.message));
+            this.toastr.error(mensajeError);
           }
         });
       }
     });
   }
-
   onDeleteSingleSelected(id: string) {
     console.log("Eliminar seleccionado:", id);
 
@@ -278,7 +276,7 @@ export class TiposDireccionesComponent implements OnInit {
       }
     });
   }
-  
+
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -292,7 +290,7 @@ export class TiposDireccionesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }
@@ -314,7 +312,7 @@ export class TiposDireccionesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id","desc");
+        this.obtenerDatos("id", "desc");
       }
     });
   }

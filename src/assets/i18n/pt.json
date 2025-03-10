@@ -460,9 +460,67 @@
         "toastr": {
             "success": "Operação bem-sucedida",
             "errors": {
-                "generic": "Operação falhou",
-                "integridadViolada": "Não pôde ser eliminado por estar associado a uma entidade",
-                "invalid_description": "Descriçiôn invãlida"
+                "errors": {
+                    "cliente": {
+                        "NO_ENCONTRADO": "O cliente não foi encontrado.",
+                        "INTEGRIDAD_VIOLADA": "A integridade dos dados do cliente foi violada.",
+                        "REQUERIDO": "O campo cliente é obrigatório.",
+                        "DUPLICADO": "Já existe um cliente com os mesmos dados.",
+                        "CONTRASENA_REQUERIDO": "A senha do cliente é obrigatória.",
+                        "CORREO_DUPLICADO": "O e-mail do cliente já está registrado.",
+                        "CORREO_REQUERIDO": "O e-mail do cliente é obrigatório.",
+                        "CORREO_NO_ENCONTRADO": "O e-mail do cliente não foi encontrado.",
+                        "ID_REQUERIDO": "O ID do cliente é obrigatório.",
+                        "ID_INVALIDO": "O ID do cliente não é válido."
+                    },
+                    "contacto": {
+                        "NO_ENCONTRADO": "O contato não foi encontrado.",
+                        "INTEGRIDAD_VIOLADA": "A integridade dos dados do contato foi violada.",
+                        "REQUERIDO": "O campo contato é obrigatório.",
+                        "DUPLICADO": "Já existe um contato com os mesmos dados.",
+                        "ID_REQUERIDO": "O ID do contato é obrigatório.",
+                        "ID_INVALIDO": "O ID do contato não é válido."
+                    },
+                    "documentoIdentificacao": {
+                        "NO_ENCONTRADO": "O documento de identificação não foi encontrado.",
+                        "INTEGRIDAD_VIOLADA": "A integridade dos dados do documento de identificação foi violada.",
+                        "REQUERIDO": "O documento de identificação é obrigatório.",
+                        "DUPLICADO": "Já existe um documento de identificação com os mesmos dados.",
+                        "NUMERO_REQUERIDO": "O número do documento de identificação é obrigatório.",
+                        "DIGITO_VERIFICADOR_REQUERIDO": "O dígito verificador do documento de identificação é obrigatório."
+                    },
+                    "empleado": {
+                        "NO_ENCONTRADO": "O empregado não foi encontrado.",
+                        "INTEGRIDAD_VIOLADA": "A integridade dos dados do empregado foi violada.",
+                        "REQUERIDO": "O campo empregado é obrigatório.",
+                        "DUPLICADO": "Já existe um empregado com os mesmos dados.",
+                        "CONTRASENA_REQUERIDO": "A senha do empregado é obrigatória.",
+                        "CORREO_DUPLICADO": "O e-mail do empregado já está registrado.",
+                        "CORREO_REQUERIDO": "O e-mail do empregado é obrigatório.",
+                        "CORREO_NO_ENCONTRADO": "O e-mail do empregado não foi encontrado.",
+                        "ID_REQUERIDO": "O ID do empregado é obrigatório.",
+                        "ID_INVALIDO": "O ID do empregado não é válido."
+                    },
+                    "general": {
+                        "ERROR_INTERNO": "Ocorreu um erro interno no servidor."
+                    },
+                    "tipoDireccion": {
+                        "NO_ENCONTRADO": "O tipo de endereço não foi encontrado.",
+                        "INTEGRIDAD_VIOLADA": "A integridade dos dados do tipo de endereço foi violada.",
+                        "REQUERIDO": "O campo tipo de endereço é obrigatório.",
+                        "DUPLICADO": "Já existe um tipo de endereço com os mesmos dados.",
+                        "ID_REQUERIDO": "O ID do tipo de endereço é obrigatório.",
+                        "ID_INVALIDO": "O ID do tipo de endereço não é válido."
+                    },
+                    "tipoDocumentoIdentificacao": {
+                        "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                        "INTEGRIDAD_VIOLADA": "A integridade dos dados do tipo de documento de identificação foi violada.",
+                        "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                        "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                        "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                        "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                    }
+                }
             }
         }
     }

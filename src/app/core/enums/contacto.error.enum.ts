@@ -1,0 +1,8 @@
+export enum ContactoError {
+    NO_ENCONTRADO = "CNTC_000",
+    INTEGRIDAD_VIOLADA = "CNTC_001",
+    REQUERIDO = "CNTC_002",
+    DUPLICADO = "CNTC_003",
+    ID_REQUERIDO = "CNTC_004",
+    ID_INVALIDO = "CNTC_005"
+}

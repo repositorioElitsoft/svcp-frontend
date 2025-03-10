@@ -1,0 +1,8 @@
+export enum TipoDireccionError {
+    NO_ENCONTRADO = 'TPDR_000',
+    INTEGRIDAD_VIOLADA = 'TPDR_001',
+    REQUERIDO = 'TPDR_002',
+    DUPLICADO = 'TPDR_003',
+    ID_REQUERIDO = 'TPDR_004',
+    ID_INVALIDO = 'TPDR_005'
+}
