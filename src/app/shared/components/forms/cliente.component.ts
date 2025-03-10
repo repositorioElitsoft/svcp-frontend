@@ -41,6 +41,7 @@ import { Cliente } from '../../../core/models/cliente.model';
 import { catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { EstadoService } from '../../../core/services/estado.service';
+import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
 
 @Component({
   selector: 'app-cliente-create-form',
@@ -153,9 +154,9 @@ export class ClienteFormComponent implements OnInit {
     /*services-init-call*/
 
     this.tipoClienteService.buscarTodos().subscribe({
-      next: (tipoCliente: TipoCliente[]) => {
-        console.log("created entity ", tipoCliente)
-        this.tipoCliente = tipoCliente
+      next: (response: ApiEntityResponse<TipoCliente[]>) => {
+        console.log("created entity ", response.data)
+        this.tipoCliente = response.data
       }
     })
 

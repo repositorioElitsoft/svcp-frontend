@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { TipoCliente } from '../../core/models/tipo-cliente.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,17 +17,19 @@ export class TipoClienteService {
         'Content-Type': 'application/json'
     });
 
-    buscar(tipoClienteId: number): Observable<TipoCliente> {
-        return this.http.get<TipoCliente>(`${this.url}tipos-clientes/${tipoClienteId}`);
+    buscar(tipoClienteId: number): Observable<ApiEntityResponse<TipoCliente>> {
+        return this.http.get<ApiEntityResponse<TipoCliente>>(`${this.url}tipos-clientes/${tipoClienteId}`);
     }
 
-    buscarTodos(): Observable<TipoCliente[]> {
-        return this.http.get<TipoCliente[]>(`${this.url}tipos-clientes`, { headers: this.headers });
+    buscarTodos(): Observable<ApiEntityResponse<TipoCliente[]>> {
+        return this.http.get<ApiEntityResponse<TipoCliente[]>>(`${this.url}tipos-clientes`, { headers: this.headers });
     }
 
-    borrar(tipoClienteId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipos-clientes/${tipoClienteId}`);
+
+    borrar(tipoClienteId: number): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}tipos-clientes/${tipoClienteId}`);
     }
+
 
     borrarTodos(ids: number[]): Observable<any> {
         return this.http.delete<any>(`${this.url}tipos-clientes/lote`, { headers: this.headers, body: ids });
@@ -36,9 +39,10 @@ export class TipoClienteService {
         return this.http.put<TipoCliente>(`${this.url}tipos-clientes/${tipoClienteId}`, tipoCliente);
     }
 
-    crear(tipoCliente: TipoCliente): Observable<TipoCliente> {
-        return this.http.post<TipoCliente>(`${this.url}tipos-clientes`, tipoCliente);
+    crear(tipoCliente: TipoCliente): Observable<ApiEntityResponse<TipoCliente>> {
+        return this.http.post<ApiEntityResponse<TipoCliente>>(`${this.url}tipos-clientes`, tipoCliente);
     }
+
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
         console.log("filtros", filtros)
