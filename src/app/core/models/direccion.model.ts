@@ -3,7 +3,7 @@ import { Comuna } from "./comuna.models";
 import { Contacto } from "./contacto.model";
 import { Estado } from "./estado.model";
 import { Sector } from "./sector.model";
-import { TipoDireccion } from "./tipo-direccion.model";
+import { TiposDirecciones } from "./tipos-direcciones.model";
 
 export interface Direccion {
     id: number;
@@ -15,7 +15,7 @@ export interface Direccion {
     comuna: Comuna;
     sector: Sector;
     contacto: Contacto;
-    tipoDireccion: TipoDireccion;
+    tipoDireccion: TiposDirecciones;
     imagenPerfil?: string;
     latitud?: number;
     longitud?: number;
