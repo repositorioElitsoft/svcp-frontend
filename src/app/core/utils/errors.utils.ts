@@ -50,7 +50,8 @@ const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
         '009': 'ID_INVALIDO'
     },
     ERRI: {
-        '000': 'ERROR_INTERNO'
+        '000': 'ERROR_INTERNO',
+        '001': 'INTEGRIDAD_VIOLADA',
     },
     TPDR: {
         '000': 'NO_ENCONTRADO',

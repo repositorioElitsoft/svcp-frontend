@@ -1,7 +1,7 @@
 import { Cliente } from "./cliente.model";
 import { Comuna } from "./comuna.models";
 import { Contacto } from "./contacto.model";
-import { Estado } from "./estado.model";
+import { Estado } from "./estados.model";
 import { Sector } from "./sector.model";
 import { TiposDirecciones } from "./tipos-direcciones.model";
 

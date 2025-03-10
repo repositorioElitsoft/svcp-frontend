@@ -1,7 +1,7 @@
 import { AgrupacionComercial } from "./agrupacion-comercial.model";
 import { ClasificacionCliente } from "./clasificacion-cliente.model";
 import { Direccion } from "./direccion.model";
-import { Estado } from "./estado.model";
+import { Estado } from "./estados.model";
 import { SegmentacionCliente } from "./segmentacion-cliente.model";
 import { TipoCliente } from "./tipo-cliente.model";
 

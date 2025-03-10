@@ -504,7 +504,8 @@
                     "ID_INVALIDO": "El ID del empleado no es válido."
                 },
                 "general": {
-                    "ERROR_INTERNO": "Ha ocurrido un error interno en el servidor."
+                    "ERROR_INTERNO": "Ha ocurrido un error interno en el servidor.",
+                    "INTEGRIDAD_VIOLADA": "Se ha violado la integridad de los datos."
                 },
                 "tipoDireccion": {
                     "NO_ENCONTRADO": "El tipo de dirección no fue encontrado.",

@@ -8,18 +8,20 @@
 		<mat-step>
 			<app-upload-image></app-upload-image>
 			<app-informacion-personal></app-informacion-personal>
-			<button mat-button (click)="nextStep()">{{"mantenedores.siguiente" | translate}}</button>
+			<button class="elitsoft-btn" (click)="nextStep() ">{{"mantenedores.siguiente" |
+				translate}}</button>
 		</mat-step>
 		<mat-step>
 			<app-datos-contacto></app-datos-contacto>
 			<app-direccion-ubicacion></app-direccion-ubicacion>
-			<button mat-button matStepperPrevious>{{"mantenedores.volver" | translate}}</button>
-			<button mat-button matStepperNext>{{"mantenedores.siguiente" | translate}}</button>
+			<button class="elitsoft-warn mr-2" matStepperPrevious>{{"mantenedores.volver" | translate}}</button>
+			<button class="elitsoft-btn" matStepperNext>{{"mantenedores.siguiente" | translate}}</button>
 		</mat-step>
 		<mat-step>
 			<app-informacion-laboral></app-informacion-laboral>
-			<button mat-button matStepperPrevious>{{"mantenedores.volver" | translate}}</button>
-			<button (click)="onSubmit()">{{"mantenedores.formularios.guardar" | translate}}</button>
+			<button class="elitsoft-warn mr-2" matStepperPrevious>{{"mantenedores.volver" | translate}}</button>
+			<button class="elitsoft-btn" (click)="onSubmit()">{{"mantenedores.formularios.guardar" |
+				translate}}</button>
 		</mat-step>
 	</mat-stepper>
 

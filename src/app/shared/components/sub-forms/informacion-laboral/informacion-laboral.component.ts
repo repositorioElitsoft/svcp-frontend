@@ -5,7 +5,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
 import { TipoEmpleadoService } from '../../../../core/services/tipo-empleado.service';
 import { EstadoService } from '../../../../core/services/estado.service';
-import { Estado } from '../../../../core/models/estado.model';
+import { Estado } from '../../../../core/models/estados.model';
 import { TipoEmpleado } from '../../../../core/models/tipo-empleado.model';
 import { RoleService } from '../../../../core/services/role.service';
 import { Role } from '../../../../core/models/role.model';

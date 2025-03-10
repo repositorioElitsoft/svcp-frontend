@@ -1,6 +1,6 @@
 import { Comuna } from "./comuna.models";
 import { Empleado } from "./empleado.model";
-import { Estado } from "./estado.model";
+import { Estado } from "./estados.model";
 
 export interface DireccionEmpleado {
     id: number;

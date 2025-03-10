@@ -283,7 +283,7 @@ export class EmpleadoComponent implements OnInit {
 
   agregarServicio() {
     const dialogRef = this.dialog.open(EmpleadoFormComponent, {
-      width: '400px',
+      width: '600px',
       data: {
         esActualizar: false,
       }

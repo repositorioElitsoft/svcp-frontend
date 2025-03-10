@@ -17,7 +17,7 @@ import { ClasificacionClienteService } from '../../../core/services/clasificacio
 import { ClasificacionCliente } from '../../../core/models/clasificacion-cliente.model';
 
 
-import { Estado } from '../../../core/models/estado.model';
+
 
 import { AgrupacionComercialService } from '../../../core/services/agrupacion-comercial.service';
 import { AgrupacionComercial } from '../../../core/models/agrupacion-comercial.model';
@@ -42,6 +42,7 @@ import { catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { EstadoService } from '../../../core/services/estado.service';
 import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
+import { Estado } from '../../../core/models/estados.model';
 
 @Component({
   selector: 'app-cliente-create-form',

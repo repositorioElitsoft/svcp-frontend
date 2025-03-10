@@ -164,7 +164,7 @@
 			<mat-label>{{ 'mantenedores.formularios.cliente.label.estado' | translate }}</mat-label>
 			<mat-select formControlName="estado">
 				<mat-option *ngFor="let option of estado" [value]="option">
-					{{ option.descripcionEstado }}
+					{{ option.descripcion }}
 				</mat-option>
 			</mat-select>
 		</mat-form-field>
