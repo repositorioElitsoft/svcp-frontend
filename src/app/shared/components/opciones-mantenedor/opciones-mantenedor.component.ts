@@ -16,7 +16,7 @@ import { TranslateModule } from "@ngx-translate/core"
     {{ 'opciones-mantenedor.botonAgregar.texto' | translate }}
       </button>
 
-     <button [disabled]="!hasSelection"
+     <button 
     class="elitsoft-btn"
     (click)="onExportar()">
     <mat-icon>download</mat-icon>
