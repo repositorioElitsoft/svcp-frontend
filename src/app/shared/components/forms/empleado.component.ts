@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject, model } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, inject, model } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -61,7 +61,7 @@ import { InformacionLaboralComponent } from '../sub-forms/informacion-laboral/in
   templateUrl: `./empleado.component.html`,
   styles: [],
 })
-export class EmpleadoFormComponent implements OnInit {
+export class EmpleadoFormComponent implements AfterViewInit {
 
 
   readonly dialogRef = inject(MatDialogRef<EmpleadoFormComponent>);
@@ -86,27 +86,32 @@ export class EmpleadoFormComponent implements OnInit {
   ) {
 
   }
-
-  ngOnInit() {
+  ngAfterViewInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'descripcionEmpleado'
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
-      //this.uploadImageForm.patch(null)
-      this.datosContactosForm.patch(this.data.object)
-      this.informacionLaboral.patch(this.data.object)
-      this.informacionPersonal.patch(this.data.object)
+      if (this.datosContactosForm) {
+        this.datosContactosForm.patch(this.data.object);
+      } else {
+        console.error("datosContactosForm no está disponible");
+      }
 
+      if (this.informacionLaboral) {
+        this.informacionLaboral.patch(this.data.object);
+      } else {
+        console.error("informacionLaboral no está disponible");
+      }
 
-      //console.log("Datos en el formulario después de patchValue:", this.form.value);
+      if (this.informacionPersonal) {
+        this.informacionPersonal.patch(this.data.object);
+      } else {
+        console.error("informacionPersonal no está disponible");
+      }
     } else {
       console.error("No se recibió un objeto válido en 'data'");
     }
-    /*services-init-call*/
-
-
   }
 
   nextStep() {

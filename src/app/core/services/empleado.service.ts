@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Empleado } from '../../core/models/empleado.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,8 +17,8 @@ export class EmpleadoService {
         'Content-Type': 'application/json'
     });
 
-    buscar(empleadoId: number): Observable<Empleado> {
-        return this.http.get<Empleado>(`${this.url}empleados/${empleadoId}`);
+    buscar(empleadoId: number): Observable<ApiEntityResponse<Empleado>> {
+        return this.http.get<ApiEntityResponse<Empleado>>(`${this.url}empleados/${empleadoId}`);
     }
 
     buscarTodos(): Observable<Empleado[]> {
