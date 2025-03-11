@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild, ViewChildren, QueryList, ElementRef, ChangeDetectorRef, OnInit } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild, ViewChildren, QueryList, ElementRef, ChangeDetectorRef, OnInit, TemplateRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatTableModule } from "@angular/material/table";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -32,6 +32,7 @@ export class SharedTableComponent {
   @Input() simpleSearchField: string = "";
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() deleteSingleSelected = new EventEmitter<string>();
+  @Input() additionalActionsTemplate!: TemplateRef<any>; // Nuevo input para recibir el template de acciones adicionales
   @Output() viewSelected = new EventEmitter<string>();
   @Output() editSelected = new EventEmitter<string>();
   @Output() selectionChange = new EventEmitter<any[]>(); // Nuevo Output para notificar cambios en la selección

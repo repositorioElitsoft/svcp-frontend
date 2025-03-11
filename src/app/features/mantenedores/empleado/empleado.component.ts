@@ -116,7 +116,6 @@ export class EmpleadoComponent implements OnInit {
 
 
 
-
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
@@ -322,6 +321,9 @@ export class EmpleadoComponent implements OnInit {
     });
   }
 
+  addLocacion(id: string) {
+    console.log('Custom action for id:', id);
+  }
 
 
 }

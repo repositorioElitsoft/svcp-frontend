@@ -24,16 +24,24 @@
 
 
         <!-- Table Section -->
+        <ng-template #additionalActions let-element>
+            <!-- Botón adicional para ver detalles -->
+            <button (click)="addLocacion(element.id)">
+                <mat-icon>map</mat-icon>
+            </button>
+        </ng-template>
 
         <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
             <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
-                [translationGroup]="'mantenedores.empleado'" [displayedColumns]="displayedColumns"
+                [translationGroup]="'mantenedores.tipoEmpleado'" [displayedColumns]="displayedColumns"
                 [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
                 [totalPages]="totalPages" [pageSize]="pageSize" (deleteSingleSelected)="onDeleteSingleSelected($event)"
                 (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
                 (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-                (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'nombre'"
-                (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
+                (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTipoEmpleado'"
+                (filterDelete)="onFilterDeleted($event)" [filters]='[]' [additionalActionsTemplate]="additionalActions">
+                <!-- Pasar el template adicional -->
+            </app-shared-table>
         </div>
     </div>
 </section>
