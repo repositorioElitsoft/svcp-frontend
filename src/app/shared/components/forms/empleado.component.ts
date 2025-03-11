@@ -32,7 +32,6 @@ import { UploadImageComponent } from "../upload-image/upload-image/upload-image.
 import { InformacionPersonalComponent } from '../sub-forms/informacion-personal/informacion-personal.component';
 import { DatosContactoComponent } from '../sub-forms/datos-contacto/datos-contacto.component';
 import { InformacionLaboralComponent } from '../sub-forms/informacion-laboral/informacion-laboral.component';
-import { DireccionUbicacionComponent } from '../sub-forms/direccion-ubicacion/direccion-ubicacion.component';
 
 @Component({
   selector: 'app-empleado-create-form',
@@ -57,7 +56,6 @@ import { DireccionUbicacionComponent } from '../sub-forms/direccion-ubicacion/di
     TituloDialogoComponent,
     UploadImageComponent,
     DatosContactoComponent,
-    DireccionUbicacionComponent,
     InformacionLaboralComponent
   ],
   templateUrl: `./empleado.component.html`,
@@ -73,7 +71,6 @@ export class EmpleadoFormComponent implements OnInit {
 
   @ViewChild(UploadImageComponent) uploadImageForm!: UploadImageComponent
   @ViewChild(DatosContactoComponent) datosContactosForm!: DatosContactoComponent
-  @ViewChild(DireccionUbicacionComponent) direccionUbicacionForm!: DireccionUbicacionComponent
   @ViewChild(InformacionLaboralComponent) informacionLaboral!: InformacionLaboralComponent
   @ViewChild(InformacionPersonalComponent) informacionPersonal!: InformacionPersonalComponent
 
@@ -99,7 +96,6 @@ export class EmpleadoFormComponent implements OnInit {
 
       //this.uploadImageForm.patch(null)
       this.datosContactosForm.patch(this.data.object)
-      this.direccionUbicacionForm.patch(this.data.object)
       this.informacionLaboral.patch(this.data.object)
       this.informacionPersonal.patch(this.data.object)
 
@@ -124,7 +120,6 @@ export class EmpleadoFormComponent implements OnInit {
     //this.uploadImageForm.form.value
 
     this.datosContactosForm.form.value
-    this.direccionUbicacionForm.form.value
     this.informacionLaboral.form.value
     this.informacionPersonal.form.value
 

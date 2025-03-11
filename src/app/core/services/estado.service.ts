@@ -21,7 +21,7 @@ export class EstadoService {
     }
 
     buscarTodos(): Observable<Estado[]> {
-        return this.http.get<Estado[]>(`${this.url}estados/lote`, { headers: this.headers });
+        return this.http.get<Estado[]>(`${this.url}estados`, { headers: this.headers });
     }
 
     borrar(estadoId: number): Observable<any> {

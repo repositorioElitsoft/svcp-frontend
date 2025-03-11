@@ -48,23 +48,29 @@ export class InformacionPersonalComponent {
 
   ngOnInit() {
     this.form = this.fb.group({
-      /*inputsflag*/
-      id: [null,],
+      id: [null],
       nombre: [null, Validators.required],
       apellidoPaterno: [null, Validators.required],
       apellidoMaterno: [null, Validators.required],
-      tipoDocumento: [{}, Validators.required],
-      numeroDocumento: [null, Validators.required],
+      documentoIdentificacion: this.fb.group({
+        id: [null],
+        numero: [null, Validators.required],
+        digitoVerificador: [null],
+        tipoDocumentoIdentificacion: [null, Validators.required], // Cambiado a solo 'id'
+      }),
       fechaNacimiento: [null, Validators.required],
     });
 
+    // Cargar los tipos de documentos
     this.tipoDocumentoIdentificacionesService.buscarTodos().subscribe({
       next: (tipos: TipoDocumentoIdentificacion[]) => {
-        this.tiposDocumentos = tipos
-      }, error: (error: any) => {
-        console.error("Fallo al buscar entidades ", error)
+        this.tiposDocumentos = tipos;
+        console.log('Tipos de documentos cargados:', this.tiposDocumentos);
+      },
+      error: (error: any) => {
+        console.error("Fallo al buscar entidades ", error);
       }
-    })
+    });
   }
 
   patch(value: any) {

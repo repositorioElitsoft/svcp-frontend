@@ -9,6 +9,7 @@ import { Estado } from '../../../../core/models/estados.model';
 import { TipoEmpleado } from '../../../../core/models/tipo-empleado.model';
 import { RoleService } from '../../../../core/services/role.service';
 import { Role } from '../../../../core/models/role.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-informacion-laboral',
@@ -22,6 +23,7 @@ import { Role } from '../../../../core/models/role.model';
     MatSelect,
     MatOption,
     ReactiveFormsModule,
+    CommonModule
   ],
   templateUrl: './informacion-laboral.component.html',
   styleUrl: './informacion-laboral.component.css'
@@ -54,28 +56,31 @@ export class InformacionLaboralComponent implements OnInit {
   ngOnInit(): void {
     this.roleService.buscarTodos().subscribe({
       next: (roles: Role[]) => {
-        this.roles = roles
+        this.roles = roles;
       },
       error: (err) => {
-        console.error("Error at getting estados ", err)
+        console.error("Error at getting estados ", err);
       }
-    })
+    });
+
     this.estadoService.buscarTodos().subscribe({
       next: (estados: Estado[]) => {
-        this.estados = estados
+        this.estados = estados;
       },
       error: (err) => {
-        console.error("Error at getting estados ", err)
+        console.error("Error at getting estados ", err);
       }
-    })
+    });
+
     this.tipoEmpleadoService.buscarTodos().subscribe({
       next: (tiposEmpleados: TipoEmpleado[]) => {
-        this.tiposEmpleados = tiposEmpleados
+        console.log("Tipos de Empleados recibidos:", tiposEmpleados);
+        this.tiposEmpleados = tiposEmpleados;
       },
       error: (err) => {
-        console.error("Error at getting tiposEmpleados ", err)
+        console.error("Error at getting tiposEmpleados ", err);
       }
-    })
+    });
   }
 
 

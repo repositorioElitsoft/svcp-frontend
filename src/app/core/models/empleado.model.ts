@@ -1,3 +1,6 @@
+import { DocumentoIdentificacionError } from "../enums/documento-identificacion.error.enum";
+import { DocumentoIdentificacion } from "./documentoIdentificacion.model";
+
 export interface Empleado {
     id: number;
     nombre: string;
@@ -14,4 +17,6 @@ export interface Empleado {
     tipoEmpleadoId: number;
     roleId: number;
     estadoId: number;
+    documentoIdentificacion: DocumentoIdentificacion
+
 }

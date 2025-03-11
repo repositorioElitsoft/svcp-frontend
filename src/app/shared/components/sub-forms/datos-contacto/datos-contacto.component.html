@@ -1,33 +1,37 @@
 <form [formGroup]="form">
-    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
-        <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.email' | translate
-            }}</mat-label>
-        <input matInput formControlName="email" [attr.placeholder]="'mantenedores.formularios.email' | translate"
-            class="w-full dark:text-white text-base">
-        <mat-error *ngIf="form.get('email')?.hasError('required')" class="text-red-500 text-base">
-            {{ 'mantenedores.formularios.campoRequerido' | translate }}
-        </mat-error>
-    </mat-form-field>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+            <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.email' | translate
+                }}</mat-label>
+            <input matInput formControlName="email" [attr.placeholder]="'mantenedores.formularios.email' | translate"
+                class="w-full dark:text-white text-base">
+            <mat-error *ngIf="form.get('email')?.hasError('required')" class="text-red-500 text-base">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
-        <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.telefonoFijo' | translate
-            }}</mat-label>
-        <input matInput formControlName="telefonoFijo"
-            [attr.placeholder]="'mantenedores.formularios.telefonoFijo' | translate"
-            class="w-full dark:text-white text-base">
-        <mat-error *ngIf="form.get('telefonoFijo')?.hasError('required')" class="text-red-500 text-base">
-            {{ 'mantenedores.formularios.campoRequerido' | translate }}
-        </mat-error>
-    </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+            <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.telefonoFijo' | translate
+                }}</mat-label>
+            <input matInput formControlName="telefonoFijo"
+                [attr.placeholder]="'mantenedores.formularios.telefonoFijo' | translate"
+                class="w-full dark:text-white text-base">
+            <mat-error *ngIf="form.get('telefonoFijo')?.hasError('required')" class="text-red-500 text-base">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
-        <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.telefonoMovil' | translate
-            }}</mat-label>
-        <input matInput formControlName="telefonoMovil"
-            [attr.placeholder]="'mantenedores.formularios.telefonoMovil' | translate"
-            class="w-full dark:text-white text-base">
-        <mat-error *ngIf="form.get('telefonoMovil')?.hasError('required')" class="text-red-500 text-base">
-            {{ 'mantenedores.formularios.campoRequerido' | translate }}
-        </mat-error>
-    </mat-form-field>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+            <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.telefonoMovil' | translate
+                }}</mat-label>
+            <input matInput formControlName="telefonoMovil"
+                [attr.placeholder]="'mantenedores.formularios.telefonoMovil' | translate"
+                class="w-full dark:text-white text-base">
+            <mat-error *ngIf="form.get('telefonoMovil')?.hasError('required')" class="text-red-500 text-base">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
+    </div>
 </form>
