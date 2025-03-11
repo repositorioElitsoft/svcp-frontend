@@ -4,7 +4,7 @@ import { SharedTableComponent } from "../../../shared/components/shared-table/sh
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { OpcionesMantenedorComponent } from "../../../shared/components/opciones-mantenedor/opciones-mantenedor.component";
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 import { EmpleadoFormComponent } from "../../../shared/components/forms/empleado.component";
 import { ExportarDocService } from "../../../core/services/exportar-doc.service";
@@ -20,7 +20,7 @@ import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 @Component({
   selector: "app-empleado",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, RouterModule],
   templateUrl: "./empleado.component.html",
   styleUrl: "./empleado.component.css",
 })
@@ -320,9 +320,10 @@ export class EmpleadoComponent implements OnInit {
       }
     });
   }
-
+  // Acción cuando se hace clic en el botón
   addLocacion(id: string) {
-    console.log('Custom action for id:', id);
+    console.log('ID recibido:', id);
+    this.router.navigate([`/empleados/direccion-empleado`, id]);  // Navegar a la pantalla con el id
   }
 
 

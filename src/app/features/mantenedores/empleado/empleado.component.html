@@ -26,8 +26,8 @@
         <!-- Table Section -->
         <ng-template #additionalActions let-element>
             <!-- Botón adicional para ver detalles -->
-            <button (click)="addLocacion(element.id)">
-                <mat-icon>map</mat-icon>
+            <button mat-icon-button color="primary" (click)="addLocacion(element.id)">
+                <mat-icon>visibility</mat-icon>
             </button>
         </ng-template>
 
@@ -45,3 +45,5 @@
         </div>
     </div>
 </section>
+
+<router-outlet></router-outlet>
