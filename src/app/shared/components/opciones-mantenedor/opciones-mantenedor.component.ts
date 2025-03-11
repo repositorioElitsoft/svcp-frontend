@@ -72,10 +72,11 @@ export class OpcionesMantenedorComponent {
     this.agregar.emit();
   }
 
+
   onExportar() {
     this.botonExportar.accion();
-    console.log("Exportando datos:", this.selectedData); // Verificar datos antes de exportar
-    this.exportar.emit(this.selectedData); // Emitimos la data seleccionada
+    console.log("Solicitando exportación de datos"); // Verificar que se está emitiendo el evento
+    this.exportar.emit(); // Emitimos el evento sin datos
   }
 
   onConfig() {

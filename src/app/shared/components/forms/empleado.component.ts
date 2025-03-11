@@ -32,6 +32,8 @@ import { UploadImageComponent } from "../upload-image/upload-image/upload-image.
 import { InformacionPersonalComponent } from '../sub-forms/informacion-personal/informacion-personal.component';
 import { DatosContactoComponent } from '../sub-forms/datos-contacto/datos-contacto.component';
 import { InformacionLaboralComponent } from '../sub-forms/informacion-laboral/informacion-laboral.component';
+import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+
 
 @Component({
   selector: 'app-empleado-create-form',
@@ -145,9 +147,9 @@ export class EmpleadoFormComponent implements AfterViewInit {
           this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
           this.dialogRef.close(response);
         },
-        error: (error) => {
-          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-          this.toastr.error(errorMessage);
+        error: (err: any) => {
+          console.error("Error al eliminar elemento:", err);
+          this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
         }
       })
 
@@ -158,11 +160,11 @@ export class EmpleadoFormComponent implements AfterViewInit {
           this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
           this.dialogRef.close(response);
         },
-        error: (error) => {
-          const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-          this.toastr.error(errorMessage);
+        error: (err: any) => {
+          console.log("Código de error recibido:", err.errorCode); // Verificar qué contiene errorCode
+          this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
         }
-      })
+      });
     }
   }
 }

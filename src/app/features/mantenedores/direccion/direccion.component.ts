@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { TableData, TableDataService } from "../../../core/services/table-data.service";
 import { SharedTableComponent } from "../../../shared/components/shared-table/shared-table.component";
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -75,9 +74,14 @@ export class DireccionComponent implements OnInit {
     console.log("Eliminar seleccionados:", ids);
   }
 
-  exportarExcel(selectedItems: TableData[]) {
-    console.log("Exportando los siguientes elementos:", selectedItems);
-    this.exportService.exportToExcel(selectedItems, this.titulo);
+  exportarExcel() {
+    console.log("Recibida solicitud de exportación");
+    // Llama al servicio para recuperar todos los datos
+    this.direccionService.buscarTodos().subscribe((data: any[]) => {
+      console.log("Data recuperada:", data); // Verificar datos antes de exportar
+      // Pasar la data y el título al servicio de exportación
+      this.exportService.exportToExcel(data, this.titulo);
+    });
   }
 
   volver() {

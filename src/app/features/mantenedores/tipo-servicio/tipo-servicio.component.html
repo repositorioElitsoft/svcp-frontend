@@ -17,7 +17,7 @@
             <div class="w-full sm:w-auto">
                 <!-- Botones y Acciones -->
                 <app-opciones-mantenedor [hasSelection]="hasSelection" [selectedData]="selectedData"
-                    (agregar)="agregarServicio()" (exportar)="exportarExcel($event)" (eliminar)="eliminar($event)">
+                    (agregar)="agregarServicio()" (exportar)="exportarExcel()" (eliminar)="eliminar($event)">
                 </app-opciones-mantenedor>
             </div>
         </div>
@@ -27,9 +27,9 @@
 
         <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
             <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
-                [translationGroup]="'mantenedores.tipoServicio'" [displayedColumns]="displayedColumns" [dataSource]="dataSource"
-                [pageNumber]="pageNumber" [totalElements]="totalElements" [totalPages]="totalPages"
-                [pageSize]="pageSize" (deleteSingleSelected)="onDeleteSingleSelected($event)"
+                [translationGroup]="'mantenedores.tipoServicio'" [displayedColumns]="displayedColumns"
+                [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
+                [totalPages]="totalPages" [pageSize]="pageSize" (deleteSingleSelected)="onDeleteSingleSelected($event)"
                 (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
                 (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
                 (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTipoServicio'"

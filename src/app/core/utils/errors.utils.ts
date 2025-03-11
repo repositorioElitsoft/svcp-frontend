@@ -72,36 +72,54 @@ const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
 };
 
 
-export function convertErrorMessageToI18(input: string): string {
-    const codeMatch = input.match(/^([A-Z]{4})_(\d{3})$/);
+export function convertErrorMessageToI18(response: any): string {
+    // Verificar la estructura completa de la respuesta para asegurarnos de que errorCode existe
+    console.log("Estructura completa de la respuesta:", response);
+
+    const errorCode = response.errorCode; // Accediendo directamente a errorCode
+
+    if (!errorCode) {
+        console.log("ErrorCode no encontrado en el objeto de error");
+        return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
+    }
+
+    console.log("Código de error recibido:", errorCode);
+
+    const codeMatch = errorCode.match(/^([A-Z]+)_(\d{3})$/); // Expresión regular para separar el prefijo y sufijo
 
     if (!codeMatch) {
+        console.log("Error en la expresión regular, no se pudo dividir el errorCode");
         return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
     }
 
-    const prefix = codeMatch[1];
-    const suffix = codeMatch[2];
+    const prefix = codeMatch[1]; // Prefijo
+    const suffix = codeMatch[2]; // Sufijo
 
-    const section = prefixToSection[prefix];
+    console.log("Prefijo:", prefix);
+    console.log("Sufijo:", suffix);
+
+    const section = prefixToSection[prefix]; // Buscar la sección correspondiente al prefijo
     if (!section) {
+        console.log("Sección no encontrada para el prefijo:", prefix);
         return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
     }
 
-    const errorMap = errorKeyMappings[prefix];
+    const errorMap = errorKeyMappings[prefix]; // Buscar el mapeo de errores
     if (!errorMap) {
+        console.log("ErrorMap no encontrado para el prefijo:", prefix);
         return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
     }
 
-    const errorKey = errorMap[suffix];
+    const errorKey = errorMap[suffix]; // Obtener el mensaje del error
     if (!errorKey) {
+        console.log("ErrorKey no encontrado para el sufijo:", suffix);
         return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
     }
 
-    // Si es error general, retornar directamente su path
+    // Si es un error general, retornar el path correspondiente
     if (prefix === 'ERRI') {
         return `alertas.toastr.errors.general.${errorKey}`;
     }
 
     return `alertas.toastr.errors.${section}.${errorKey}`;
 }
-
