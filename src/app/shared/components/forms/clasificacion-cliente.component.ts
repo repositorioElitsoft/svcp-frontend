@@ -70,8 +70,8 @@ export class ClasificacionClienteFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  clasificacionClienteDesc: [null, Validators.required],
+      id: [null,],
+      clasificacionClienteDesc: [null, Validators.required],
     });
   }
 
@@ -85,8 +85,8 @@ export class ClasificacionClienteFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-clasificacionClienteDesc: this.data.object.clasificacionClienteDesc,
+        id: this.data.object.id,
+        clasificacionClienteDesc: this.data.object.clasificacionClienteDesc,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -104,8 +104,8 @@ clasificacionClienteDesc: this.data.object.clasificacionClienteDesc,
     if (this.form.valid) {
       const formData: ClasificacionCliente = {
         /*form-fields-submit*/
-id: this.form.value.id,
-clasificacionClienteDesc: this.form.value.clasificacionClienteDesc,
+        id: this.form.value.id,
+        clasificacionClienteDesc: this.form.value.clasificacionClienteDesc,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -130,7 +130,7 @@ clasificacionClienteDesc: this.form.value.clasificacionClienteDesc,
             this.toastr.success(this.translate.instant('alertas.toastr.success'));
             this.dialogRef.close(true);
           },
-          error: (error) => { 
+          error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }

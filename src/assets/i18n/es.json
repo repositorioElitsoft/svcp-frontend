@@ -80,6 +80,7 @@
     },
     "mantenedores": {
         "volver": "Volver",
+        "siguiente": "Siguiente",
         "id": "Id",
         "agrupacionComercial": {
             "id": "Id",
@@ -133,7 +134,17 @@
             "nombre": "Nombre",
             "apellidoPaterno": "Apellido Paterno",
             "apellidoMaterno": "Apellido Materno",
-            "imagenPerfil": "Imagen"
+            "imagenPerfil": "Imagen",
+            "tipoEmpleado": "Tipo Empleado",
+            "nombreUsuario": "Usuario",
+            "email": "Email",
+            "telefonoFijo": "Teléfono",
+            "telefonoMovil": "Celular",
+            "fechaNacimiento": "Fecha Nacimiento",
+            "contrasena": "Contraseña",
+            "role": "Rol",
+            "estado": "Estado",
+            "documentoIdentificacion": "Documento"
         },
         "gestionContrato": {
             "id": "Id",
@@ -336,11 +347,12 @@
                 "label.rut": "RUT",
                 "label.rutDv": "DV",
                 "label.nombreUsuario": "Nombre de Usuario",
-                "label.tipoEmpleadoId": "Tipo de Empleado",
+                "label.descripcion": "Tipo de Empleado",
                 "label.roleId": "Rol",
-                "label.estadoId": "Estado",
+                "label.estado": "Estado",
                 "label.numeroDocumento": "Número Documento",
-                "label.tipoDocumento": "Tipo Documento"
+                "label.tipoDocumento": "Tipo Documento",
+                "label.documentoIdentificacion": "N° de Documento"
             },
             "gestionContrato": {
                 "tituloEditar": "Editar Gestión de Contrato",
@@ -427,7 +439,7 @@
                 "tituloEditar": "Editar Tipo de Empleado",
                 "tituloAgregar": "Crear Tipo de Empleado",
                 "label.descripcionTipoEmpleado": "Descripción del Tipo de Empleado",
-                "descripcion": "Ingrese la descripción del tipo de empleado"
+                "descripcionTipoEmpleado": "Ingrese la descripción del tipo de empleado"
             },
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Producto",
