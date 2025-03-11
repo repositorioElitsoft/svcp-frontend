@@ -291,6 +291,7 @@
                 "label.rut": "Rut",
                 "label.rutDv": "DV",
                 "label.fechaNacimiento": "Fecha Nacimiento",
+                "label.fechaNacimientoDescripcion": "Ingrese Fecha de Nacimiento",
                 "label.imagenPerfil?": "Imagen de Perfil",
                 "label.email?": "Email",
                 "label.campo1?": " Campo 1",
