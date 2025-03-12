@@ -14,9 +14,11 @@ import { AddressDetails } from "../../../../core/models/address-details.model";
 import { Comuna } from "../../../../core/models/comuna.model";
 import { Observable } from "rxjs/internal/Observable";
 import { of } from "rxjs";
+import { Estado } from "../../../../core/models/estados.model";
+import { Empleado } from "../../../../core/models/empleado.model";
 
 @Component({
-  selector: "app-locaciones-form",
+  selector: "app-locaciones-empleado-form",
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -29,14 +31,15 @@ import { of } from "rxjs";
     MatIconModule,
     MatSlideToggleModule,
   ],
-  templateUrl: "./locaciones-form.component.html",
+  templateUrl: "./locaciones-empleado-form.component.html",
 })
-export class LocacionesFormComponent implements OnInit, AfterViewInit {
+export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
   @ViewChild('autocompleteInput') autocompleteInput!: ElementRef;
   form!: FormGroup;
   initialPosition = { lat: -33.4489, lng: -70.6693 };
   currentMarkerPosition!: google.maps.LatLngLiteral;
   comunas: Comuna[] = [];
+  estados: Estado[] = [];
   private autocomplete!: google.maps.places.Autocomplete;
 
   constructor(
@@ -52,16 +55,16 @@ export class LocacionesFormComponent implements OnInit, AfterViewInit {
 
   private initForm() {
     this.form = this.fb.group({
-      nombre: [""],
-      comuna: [""],
-      direccion: [""],
+      id: [null],
+      estado: [null as Estado | null],
+      comuna: [null as Comuna | null],
+      calle: [""],
       numeracion: [""],
-      referencia: [""],
       latitud: [null],
       longitud: [null],
-      sector: [""],
-      tipoLocacion: [""],
-      solicitaEvidencia: [false],
+      descripcion: [""],
+      referencia: [""],
+      empleado: [null as Empleado | null]
     });
   }
 
@@ -119,7 +122,7 @@ export class LocacionesFormComponent implements OnInit, AfterViewInit {
 
 
   private getFullAddress(): Observable<AddressDetails | null> {
-    const direccionCompleta = `${this.form.value.direccion} ${this.form.value.numeracion}`.trim();
+    const direccionCompleta = `${this.form.value.calle} ${this.form.value.numeracion}`.trim();
     return direccionCompleta
       ? this.locacionMaps.geocodeAddress(direccionCompleta)
       : of(null);
@@ -130,13 +133,13 @@ export class LocacionesFormComponent implements OnInit, AfterViewInit {
 
     this.currentMarkerPosition = { lat: details.lat, lng: details.lng };
 
-    let direccion = details.street || details.formattedAddress;
-    if (direccion && direccion.includes('+')) {
-      direccion = details.formattedAddress;
+    let calle = details.street || details.formattedAddress;
+    if (calle && calle.includes('+')) {
+      calle = details.formattedAddress;
     }
 
     this.form.patchValue({
-      direccion: direccion,
+      calle: calle,
       numeracion: details.streetNumber,
       latitud: details.lat,
       longitud: details.lng,
@@ -150,7 +153,7 @@ export class LocacionesFormComponent implements OnInit, AfterViewInit {
 
   private updateFormFromAddressDetails(details: AddressDetails) {
     this.form.patchValue({
-      direccion: details.street,
+      calle: details.street,
       numeracion: details.streetNumber,
       latitud: details.lat,
       longitud: details.lng,

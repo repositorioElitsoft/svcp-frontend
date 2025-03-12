@@ -1,0 +1,45 @@
+<mat-expansion-panel [expanded]="true" class="shadow-md rounded-lg overflow-hidden">
+    <mat-expansion-panel-header class="py-4 px-4">
+        <div class="flex items-center space-x-2 text-indigo-700">
+            <mat-icon>place</mat-icon>
+            <span class="font-medium">{{ location.name }}</span>
+        </div>
+        <div class="ml-auto flex space-x-1">
+            <button mat-icon-button class="text-indigo-600">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="text-red-500">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </mat-expansion-panel-header>
+
+    <div class="px-4 pb-4">
+        <div class="pb-2 mb-4 border-b border-gray-200">
+            <span class="font-medium text-base">Contactos ({{ location.contacts.length }})</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-gray-50 p-3 rounded-md" *ngFor="let contact of location.contacts">
+                <div class="flex flex-col space-y-2">
+                    <div class="flex items-center space-x-2">
+                        <mat-icon class="text-gray-500 text-xl">person</mat-icon>
+                        <span>{{ contact.name }}</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <mat-icon class="text-gray-500 text-xl">credit_card</mat-icon>
+                        <span>{{ contact.id }}</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <mat-icon class="text-gray-500 text-xl">phone</mat-icon>
+                        <span>{{ contact.phone }}</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <mat-icon class="text-gray-500 text-xl">email</mat-icon>
+                        <span>{{ contact.email }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-expansion-panel>
