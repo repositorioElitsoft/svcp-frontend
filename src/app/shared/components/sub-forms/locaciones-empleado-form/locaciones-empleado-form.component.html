@@ -1,10 +1,18 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4 p-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Primera fila -->
+
         <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Estado</mat-label>
-            <mat-select formControlName="estado">
-                <mat-option *ngFor="let est of estados" [value]="est.id">{{ est.descripcion }}</mat-option>
+            <mat-label>Región</mat-label>
+            <mat-select (selectionChange)="onRegionSeleccionada($event.value)">
+                <mat-option *ngFor="let reg of regiones" [value]="reg.id">{{ reg.descripcionRegion }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Provincia</mat-label>
+            <mat-select (selectionChange)="onProvinciaSeleccionada($event.value)">
+                <mat-option *ngFor="let prov of provincias" [value]="prov.id">{{ prov.descripcionCiudad }}</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -15,18 +23,28 @@
             </mat-select>
         </mat-form-field>
 
+
+
         <!-- Segunda fila -->
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Dirección</mat-label>
-            <input matInput #autocompleteInput placeholder="Ingrese Calle y Número" formControlName="calle">
+            <input matInput #autocompleteInput placeholder="Ingrese Calle y Número" [value]="direccionCombinada"
+                (blur)="separarDireccion()" (input)="actualizarDireccion($event)">
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Nº de calle</mat-label>
-            <input matInput formControlName="numeracion" placeholder="Nº de calle">
-        </mat-form-field>
 
-        <!-- Tercera fila -->
+
+    </div>
+
+    <!-- Mapa -->
+    <div class="mt-4 border rounded-lg overflow-hidden">
+        <app-map [initialPosition]="initialPosition" [markerPosition]="currentMarkerPosition"
+            (positionChanged)="onMapPositionChanged($event)">
+        </app-map>
+    </div>
+
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <!-- Tercera fila -->
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Referencia</mat-label>
             <textarea matInput formControlName="referencia" rows="3" placeholder="Referencia"></textarea>
@@ -38,11 +56,14 @@
         </mat-form-field>
     </div>
 
-    <!-- Mapa -->
-    <div class="mt-4 border rounded-lg overflow-hidden">
-        <app-map [initialPosition]="initialPosition" [markerPosition]="currentMarkerPosition"
-            (positionChanged)="onMapPositionChanged($event)">
-        </app-map>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado">
+                <mat-option *ngFor="let est of estados" [value]="est.id">{{ est.descripcion }}</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 
     <!-- Botón de guardar -->

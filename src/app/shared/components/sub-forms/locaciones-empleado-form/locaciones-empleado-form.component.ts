@@ -16,6 +16,12 @@ import { Observable } from "rxjs/internal/Observable";
 import { of } from "rxjs";
 import { Estado } from "../../../../core/models/estados.model";
 import { Empleado } from "../../../../core/models/empleado.model";
+import { Provincia } from "../../../../core/models/provincia.models";
+import { Region } from "../../../../core/models/region.models";
+import { ComunaService } from "../../../../core/services/comuna.service";
+import { ProvinciaService } from "../../../../core/services/provincias.service";
+import { RegionService } from "../../../../core/services/regiones.service";
+import { EstadoService } from "../../../../core/services/estado.service";
 
 @Component({
   selector: "app-locaciones-empleado-form",
@@ -40,16 +46,25 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
   currentMarkerPosition!: google.maps.LatLngLiteral;
   comunas: Comuna[] = [];
   estados: Estado[] = [];
+  provincias: Provincia[] = [];
+  regiones: Region[] = [];
+  direccionCombinada: string = '';
   private autocomplete!: google.maps.places.Autocomplete;
 
   constructor(
     private fb: FormBuilder,
-    private locacionMaps: LocacionMapsService
+    private locacionMaps: LocacionMapsService,
+    private provinciaService: ProvinciaService,
+    private comunaService: ComunaService,
+    private regionService: RegionService,
+    private estadoServicio: EstadoService
   ) { }
 
   ngOnInit() {
     this.initForm();
     this.setupFormListeners();
+    this.cargarUbicaciones()
+    this.cargarEstado();
   }
 
 
@@ -149,7 +164,9 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
 
   onMapPositionChanged(details: AddressDetails) {
     this.updateFormFromAddressDetails(details);
+    this.direccionCombinada = `${details.street} ${details.streetNumber}`;  // Actualiza la dirección combinada
   }
+
 
   private updateFormFromAddressDetails(details: AddressDetails) {
     this.form.patchValue({
@@ -166,4 +183,114 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
       console.log("Formulario enviado:", this.form.value);
     }
   }
+
+  private cargarUbicaciones() {
+    // Cargar todas las regiones al inicio
+    this.regionService.buscarTodos().subscribe(regiones => {
+      this.regiones = regiones;
+    });
+
+    this.form.get('region')?.valueChanges.subscribe(region => {
+      if (region) {
+        console.log('ID de la región:', region.id);  // Asegúrate de que el ID de la región es correcto
+
+        if (region.id) {
+          // Resetear provincia y comuna cuando cambia la región
+          this.form.patchValue({ provincia: null, comuna: null });
+          this.form.get('provincia')?.disable();
+          this.form.get('comuna')?.disable();
+
+          // Cargar provincias filtradas por la región seleccionada
+          this.provinciaService.buscarTodos(region.id).subscribe(provincias => {
+            this.provincias = provincias;
+            this.form.get('provincia')?.enable();
+          });
+        } else {
+          console.error('El ID de la región es undefined o inválido');
+        }
+      }
+    });
+
+
+    // Escuchar cambios en Provincia
+    this.form.get('region')?.valueChanges.subscribe(region => {
+      console.log('Valor de región:', region);  // Verifica el valor completo del objeto 'region'
+      if (region && region.id) {
+        console.log('ID de la región:', region.id);  // Verifica que el ID de la región es válido
+        this.form.patchValue({ provincia: null, comuna: null });
+        this.form.get('provincia')?.disable();
+        this.form.get('comuna')?.disable();
+
+        // Llamada al servicio con el ID de la región
+        this.provinciaService.buscarTodos(region.id).subscribe(provincias => {
+          this.provincias = provincias;
+          this.form.get('provincia')?.enable();
+        });
+      } else {
+        console.error('El ID de la región es inválido:', region);
+      }
+    });
+  }
+
+  onRegionSeleccionada(regionId: number) {
+    console.log('ID de la región:', regionId);  // Verifica que el ID de la región es válido
+    if (regionId) {
+      // Resetear provincia y comuna cuando cambia la región
+      this.form.patchValue({ provincia: null, comuna: null });
+      this.form.get('provincia')?.disable();
+      this.form.get('comuna')?.disable();
+
+      // Cargar provincias filtradas por la región seleccionada
+      this.provinciaService.buscarTodos(regionId).subscribe(provincias => {
+        this.provincias = provincias;
+        this.form.get('provincia')?.enable();
+      });
+    } else {
+      console.error('El ID de la región es inválido:', regionId);
+    }
+  }
+
+  onProvinciaSeleccionada(provincia: number) {
+    // Resetear comuna cuando cambia la provincia
+    this.form.patchValue({ comuna: null });
+    this.form.get('comuna')?.disable();
+
+    // Cargar comunas filtradas por la provincia seleccionada
+    this.comunaService.buscarTodos(provincia).subscribe(comunas => {
+      this.comunas = comunas;
+      this.form.get('comuna')?.enable();
+    });
+  }
+
+  cargarEstado() {
+    this.estadoServicio.buscarTodos().subscribe(estados => {
+      this.estados = estados;
+    });
+
+  }
+  // Actualiza la dirección combinada en el input
+  actualizarDireccion(event: any) {
+    this.direccionCombinada = event.target.value;
+  }
+
+  // Separa la dirección y el número cuando el input pierde el foco
+  separarDireccion() {
+    const direccionCompleta = this.direccionCombinada.trim();
+    const match = direccionCompleta.match(/^(.*\D)\s(\d+)$/);
+
+    if (match) {
+      this.form.patchValue({
+        calle: match[1].trim(),
+        numeracion: match[2]
+      });
+    } else {
+      // Si no se puede separar, asigna la dirección completa a la calle
+      this.form.patchValue({
+        calle: direccionCompleta,
+        numeracion: ''
+      });
+    }
+  }
+
+
 }
