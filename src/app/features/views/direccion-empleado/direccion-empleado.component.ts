@@ -17,7 +17,6 @@ import { LocacionesEmpleadoFormComponent } from '../../../shared/components/sub-
 })
 export class DireccionEmpleadoComponent implements OnInit {
   id: string | null = null;
-
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
