@@ -22,6 +22,7 @@ import { ComunaService } from "../../../../core/services/comuna.service";
 import { ProvinciaService } from "../../../../core/services/provincias.service";
 import { RegionService } from "../../../../core/services/regiones.service";
 import { EstadoService } from "../../../../core/services/estado.service";
+import { DireccionEmpleadoService } from "../../../../core/services/direccion-empleado.service";
 
 @Component({
   selector: "app-locaciones-empleado-form",
@@ -59,7 +60,8 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
     private provinciaService: ProvinciaService,
     private comunaService: ComunaService,
     private regionService: RegionService,
-    private estadoServicio: EstadoService
+    private estadoServicio: EstadoService,
+    private direccionEmpleado: DireccionEmpleadoService
   ) { }
 
   ngOnInit() {
@@ -74,15 +76,15 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
   private initForm() {
     this.form = this.fb.group({
       id: [null],
-      estado: [null as Estado | null],
-      comuna: [null as Comuna | null],
+      estado: [{ id: 1 }],
+      comuna: [null],
       calle: [""],
       numeracion: [""],
       latitud: [null],
       longitud: [null],
       descripcion: [""],
       referencia: [""],
-      empleado: [null as Empleado | null]
+      empleado: [{ id: this.id }]
     });
   }
 
@@ -181,11 +183,7 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
     }, { emitEvent: false });
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      console.log("Formulario enviado:", this.form.value);
-    }
-  }
+
 
   private cargarUbicaciones() {
     // Cargar todas las regiones al inicio
@@ -294,6 +292,25 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
       });
     }
   }
+  // Método que se llama cuando se hace clic en el botón
+  onSubmit() {
+    if (this.form.valid) {
+      console.log("Formulario enviado:", this.form.value);
 
+      // Llamada al servicio para guardar el empleado
+      this.direccionEmpleado.crear(this.form.value).subscribe(
+        (empleado) => {
+          console.log('Empleado guardado:', empleado);
+          // Aquí puedes agregar lógica adicional si es necesario, como mostrar un mensaje de éxito.
+        },
+        (error) => {
+          console.error('Error al guardar el empleado:', error);
+          // Manejo de errores
+        }
+      );
+    } else {
+      console.log("Formulario no válido");
+    }
+  }
 
 }
