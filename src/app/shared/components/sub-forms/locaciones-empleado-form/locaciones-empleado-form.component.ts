@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input, EventEmitter, Output } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { LocacionMapsService } from "../../../../core/services/locacion-maps.service";
@@ -15,7 +15,6 @@ import { Comuna } from "../../../../core/models/comuna.model";
 import { Observable } from "rxjs/internal/Observable";
 import { of } from "rxjs";
 import { Estado } from "../../../../core/models/estados.model";
-import { Empleado } from "../../../../core/models/empleado.model";
 import { Provincia } from "../../../../core/models/provincia.models";
 import { Region } from "../../../../core/models/region.models";
 import { ComunaService } from "../../../../core/services/comuna.service";
@@ -23,6 +22,9 @@ import { ProvinciaService } from "../../../../core/services/provincias.service";
 import { RegionService } from "../../../../core/services/regiones.service";
 import { EstadoService } from "../../../../core/services/estado.service";
 import { DireccionEmpleadoService } from "../../../../core/services/direccion-empleado.service";
+import { convertErrorMessageToI18 } from "../../../../core/utils/errors.utils";
+import { TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-locaciones-empleado-form",
@@ -51,7 +53,7 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
   regiones: Region[] = [];
   direccionCombinada: string = '';
   @Input() id: string | null = null;
-
+  @Output() formularioEnviado = new EventEmitter<void>();
   private autocomplete!: google.maps.places.Autocomplete;
 
   constructor(
@@ -61,7 +63,8 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
     private comunaService: ComunaService,
     private regionService: RegionService,
     private estadoServicio: EstadoService,
-    private direccionEmpleado: DireccionEmpleadoService
+    private direccionEmpleado: DireccionEmpleadoService,
+    private translate: TranslateService, private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -76,7 +79,7 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
   private initForm() {
     this.form = this.fb.group({
       id: [null],
-      estado: [{ id: 1 }],
+      estado: [{ id: null }],
       comuna: [null],
       calle: [""],
       numeracion: [""],
@@ -298,19 +301,43 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
       console.log("Formulario enviado:", this.form.value);
 
       // Llamada al servicio para guardar el empleado
-      this.direccionEmpleado.crear(this.form.value).subscribe(
-        (empleado) => {
+      this.direccionEmpleado.crear(this.form.value).subscribe({
+        next: (empleado) => {
           console.log('Empleado guardado:', empleado);
-          // Aquí puedes agregar lógica adicional si es necesario, como mostrar un mensaje de éxito.
+          this.toastr.success(this.translate.instant('alertas.toastr.success')); // Mensaje de éxito
+
+          // Emitir el evento de éxito al padre
+          this.formularioEnviado.emit();
+
+          // Restablecer el formulario a su estado inicial
+          this.form.reset({
+            estado: { id: 1 },  // Asignar valores iniciales
+            empleado: { id: this.id },
+            comuna: null,
+            calle: "",
+            numeracion: "",
+            latitud: null,
+            longitud: null,
+            descripcion: "",
+            referencia: "",
+          });
+
+          // Restablecer la dirección combinada y cualquier otro estado local
+          this.direccionCombinada = '';
         },
-        (error) => {
+        error: (error) => {
           console.error('Error al guardar el empleado:', error);
-          // Manejo de errores
+          this.toastr.error(this.translate.instant(convertErrorMessageToI18(error.message))); // Mensaje de error
         }
-      );
+      });
     } else {
       console.log("Formulario no válido");
+      this.toastr.warning(this.translate.instant('alertas.toastr.formularioInvalido')); // Advertencia si el formulario no es válido
     }
+  }
+
+  onEnviarFormulario() {
+    this.formularioEnviado.emit();  // El formulario se envió correctamente
   }
 
 }

@@ -26,7 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ExpansionPanelLocacionComponent implements OnInit {
 
   @Input() id: string | null = null;
-  direccionEmpleados: DireccionEmpleado[] = [];  // Cambiado a un arreglo
+  direccionEmpleados: DireccionEmpleado[] = [];
   mensajeNoDatos: string = 'No hay locaciones registradas. Agrega una para comenzar.';
   panelOpenState = false;
 
@@ -48,9 +48,8 @@ export class ExpansionPanelLocacionComponent implements OnInit {
         sortDirection: 'ASC'
       };
       this.direccionEmpleadoService.buscarFiltrado(filtros).subscribe((response: any) => {
-        // Verifica que la respuesta contenga la propiedad 'content' que es un arreglo
         if (response.content && Array.isArray(response.content)) {
-          this.direccionEmpleados = response.content;  // Asigna el arreglo de direcciones
+          this.direccionEmpleados = response.content;
           console.log(this.direccionEmpleados);
         } else {
           console.log('No se encontraron direcciones');
@@ -61,6 +60,12 @@ export class ExpansionPanelLocacionComponent implements OnInit {
     }
   }
 
+  // Nuevo método para actualizar los datos
+  actualizarData() {
+    console.log('Actualizando datos en el componente hijo...');
+    this.obtenerDireccionEmpleado();  // Llama a obtenerDireccionEmpleado para actualizar la data
+  }
+
   obtenerInformacionNoDisponible(value: any): string {
     return value ? value : 'Información no disponible';
   }
@@ -68,13 +73,11 @@ export class ExpansionPanelLocacionComponent implements OnInit {
   eliminarDireccion(id: number) {
     console.log("Eliminar seleccionado:", id);
 
-    // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.direccionEmpleado.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
 
-    // Abrir diálogo de confirmación
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
         titulo: titulo,
@@ -84,7 +87,6 @@ export class ExpansionPanelLocacionComponent implements OnInit {
       }
     });
 
-    // Suscribirse a la respuesta del diálogo
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         this.direccionEmpleadoService.borrar(id).subscribe({
@@ -102,7 +104,4 @@ export class ExpansionPanelLocacionComponent implements OnInit {
     });
   }
 
-
 }
-
-
