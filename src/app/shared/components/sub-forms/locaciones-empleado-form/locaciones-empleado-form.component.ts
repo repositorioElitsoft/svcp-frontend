@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { LocacionMapsService } from "../../../../core/services/locacion-maps.service";
@@ -49,6 +49,8 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
   provincias: Provincia[] = [];
   regiones: Region[] = [];
   direccionCombinada: string = '';
+  @Input() id: string | null = null;
+
   private autocomplete!: google.maps.places.Autocomplete;
 
   constructor(
@@ -65,6 +67,7 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
     this.setupFormListeners();
     this.cargarUbicaciones()
     this.cargarEstado();
+    console.log('ID recibido:', this.id);
   }
 
 

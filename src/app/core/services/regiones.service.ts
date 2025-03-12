@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Comuna } from "../models/comuna.models";
+import { Region } from "../models/region.models";
+
 
 
 
@@ -10,7 +11,7 @@ import { Comuna } from "../models/comuna.models";
     providedIn: 'root',
     deps: [HttpClient]
 })
-export class ComunaService {
+export class RegionService {
     readonly url = `${environment.apiUrl}`
     constructor(private http: HttpClient) { }
 
@@ -18,29 +19,29 @@ export class ComunaService {
         'Content-Type': 'application/json'
     });
 
-    buscar(comunaId: number): Observable<Comuna> {
-        return this.http.get<Comuna>(`${this.url}comunas/${comunaId}`);
+    buscar(regionId: number): Observable<Region> {
+        return this.http.get<Region>(`${this.url}regiones/${regionId}`);
     }
 
-    buscarTodos(provinciaId: number): Observable<Comuna[]> {
-        return this.http.get<Comuna[]>(`${this.url}comunas/provincias/${provinciaId}`
-        );
+    buscarTodos(): Observable<Region[]> {
+        return this.http.get<Region[]>(`${this.url}regiones/paises/1`);
     }
 
-    borrar(comunaId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}comunas/${comunaId}`);
+
+    borrar(regionId: number): Observable<any> {
+        return this.http.delete<any>(`${this.url}regiones/${regionId}`);
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}comunas/lote`, { body: ids });
+        return this.http.delete<any>(`${this.url}regiones/lote`, { body: ids });
     }
 
-    actualizar(comunaId: number, comuna: Comuna): Observable<Comuna> {
-        return this.http.put<Comuna>(`${this.url}comunas/${comunaId}`, comuna);
+    actualizar(regionId: number, region: Region): Observable<Region> {
+        return this.http.put<Region>(`${this.url}regiones/${regionId}`, region);
     }
 
-    crear(comuna: Comuna): Observable<Comuna> {
-        return this.http.post<Comuna>(`${this.url}comunas`, comuna);
+    crear(region: Region): Observable<Region> {
+        return this.http.post<Region>(`${this.url}regiones`, region);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
@@ -54,6 +55,6 @@ export class ComunaService {
         }
         console.log("params", params)
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/comunas`, { params });
+        return this.http.get(`${this.url}core/filter/regiones`, { params });
     }
 }

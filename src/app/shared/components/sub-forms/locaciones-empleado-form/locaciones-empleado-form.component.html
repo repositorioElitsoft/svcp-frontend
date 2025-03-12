@@ -68,8 +68,15 @@
 
     <!-- Botón de guardar -->
     <div class="flex justify-end mt-6">
-        <button class="elitsoft-btn" type="submit" class="px-6">
-            Guardar
+
+        <button class="elitsoft-warn mr-4" type="submit">
+            Cancelar
         </button>
+
+        <button class="elitsoft-btn" type="submit">
+            {{ form.value.id ? 'Actualizar' : 'Guardar' }}
+        </button>
+
+
     </div>
 </form>

@@ -1,20 +1,21 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatTabsModule } from '@angular/material/tabs';  // Ensure this is imported correctly
-import { LocacionesFormComponent } from '../../../shared/components/sub-forms/locaciones-form/locaciones-form.component';
+import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ExpansionPanelLocacionComponent } from '../../../shared/components/expansion-panel-locacion/expansion-panel-locacion.component';
+import { LocacionesEmpleadoFormComponent } from '../../../shared/components/sub-forms/locaciones-empleado-form/locaciones-empleado-form.component';
 
 @Component({
   selector: 'app-direccion-empleado',
   standalone: true,
   imports: [
     CommonModule,
-    MatTabsModule, LocacionesFormComponent
+    MatTabsModule, LocacionesEmpleadoFormComponent, ExpansionPanelLocacionComponent
   ],
   templateUrl: './direccion-empleado.component.html',
-  styleUrls: ['./direccion-empleado.component.css']  // Corrected property name (should be 'styleUrls' instead of 'styleUrl')
+  styleUrls: ['./direccion-empleado.component.css']
 })
-export class DireccionEmpleadoComponent {
+export class DireccionEmpleadoComponent implements OnInit {
   id: string | null = null;
 
   constructor(private route: ActivatedRoute) { }
