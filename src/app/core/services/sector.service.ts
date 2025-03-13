@@ -20,8 +20,8 @@ export class SectorService {
         return this.http.get<Sector>(`${this.url}sectores/${sectorId}`);
     }
 
-    buscarTodos(): Observable<Sector[]> {
-        return this.http.get<Sector[]>(`${this.url}sectores`, { headers: this.headers });
+    buscarTodos(zonaId: number): Observable<Sector[]> {
+        return this.http.get<Sector[]>(`${this.url}sectores/zonas/${zonaId}`, { headers: this.headers });
     }
 
     borrar(sectorId: number): Observable<any> {

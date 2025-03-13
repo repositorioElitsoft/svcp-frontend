@@ -74,15 +74,13 @@ export class SectorComponent implements OnInit {
     console.log("Eliminar seleccionados:", ids);
   }
 
-  exportarExcel() {
-    console.log("Recibida solicitud de exportación");
-    // Llama al servicio para recuperar todos los datos
-    this.sectorService.buscarTodos().subscribe((data: any[]) => {
-      console.log("Data recuperada:", data); // Verificar datos antes de exportar
-      // Pasar la data y el título al servicio de exportación
-      this.exportService.exportToExcel(data, this.titulo);
-    });
-  }
+  // exportarExcel() {
+  //   console.log("Recibida solicitud de exportación");
+  //   this.sectorService.buscarTodos().subscribe((data: any[]) => {
+  //     console.log("Data recuperada:", data);
+  //     this.exportService.exportToExcel(data, this.titulo);
+  //   });
+  // }
 
 
   volver() {

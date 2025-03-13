@@ -92,10 +92,8 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
     this.cargarUbicaciones();
     this.cargarEstado();
     this.cargarTipoDireccion();
-    this.cargarSector();
+    this.escucharCambioZona();
     this.cargarZonas();
-    this.updateZona();
-
   }
   private initForm() {
     this.form = this.fb.group({
@@ -106,11 +104,8 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       numeracion: [""],
       referencia: [""],
       comuna: [{ id: null }],
-      sector: this.fb.group({ // Grupo anidado para el sector
-        id: [51], // Control para el ID del sector
-        zona: this.fb.group({ // Grupo anidado para la zona dentro del sector
-          id: [6] // Control para el ID de la zona
-        })
+      sector: this.fb.group({
+        id: [null],
       }),
       contacto: [{ id: 1 }],
       tipoDireccion: [null],
@@ -120,8 +115,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       estado: [{ id: null }],
       flagEvidencia: ["N"]
     });
-
-
   }
 
   ngAfterViewInit() {
@@ -344,65 +337,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   }
 
 
-  cargarSector() {
-    this.sectorService.buscarTodos().subscribe(
-      (response) => {
-        this.sectores = response;  // Asigna la respuesta de la API al arreglo de tiposDirecciones
-      },
-      (error) => {
-        console.error('Error al cargar los tipos de dirección:', error);  // Maneja cualquier error en la llamada a la API
-      }
-    );
-  }
-  cargarZonas() {
-    this.zonaService.buscarTodos().subscribe(
-      (response) => {
-        this.zonas = response;  // Asigna la respuesta de la API al arreglo de tiposDirecciones
-      },
-      (error) => {
-        console.error('Error al cargar los tipos de dirección:', error);  // Maneja cualquier error en la llamada a la API
-      }
-    );
-  }
-
-  updateZona(): void {
-    this.form.get('sector.id')?.valueChanges.subscribe((sectorId: number) => {
-      if (sectorId) {
-        // Buscar el sector seleccionado
-        const sectorSeleccionado = this.sectores.find(sector => sector.id === sectorId);
-        if (sectorSeleccionado) {
-          // Actualizar la zona dentro del sector
-          this.form.get('sector.zona.id')?.setValue(sectorSeleccionado.zona.id);
-        }
-      }
-    });
-  }
-
-
-  // private cargarDireccion(direccionId: string) {
-  //   this.direccion.buscar(Number(direccionId)).subscribe(
-  //     (direccion) => {
-  //       this.form.patchValue({
-  //         id: direccion.id,
-  //         calle: direccion.calle,
-  //         numeracion: direccion.numeracion,
-  //         latitud: direccion.latitud,
-  //         longitud: direccion.longitud,
-  //         comuna: direccion.comuna,
-  //         descripcion: direccion.descripcion,
-  //         referencia: direccion.referencia
-  //       });
-  //       this.currentMarkerPosition = { lat: direccion.latitud, lng: direccion.longitud };
-  //     },
-  //     (error) => {
-  //       console.error('Error al cargar la dirección:', error);
-  //       this.toastr.error(this.translate.instant('alertas.toastr.errorDireccionNoEncontrada'));
-  //     }
-  //   );
-  // }
-
-
-
   // Método que se llama cuando se hace clic en el botón
   onSubmit() {
     if (this.form.valid) {
@@ -423,7 +357,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
           zona: {
             id: this.form.value.sector.zona.id // Asignar el ID de la zona dentro del sector
             ,
-
             descripcionZona: ""
           },
 
@@ -455,7 +388,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
             numeracion: "",
             referencia: "",
             comuna: { id: null },
-            sector: { id: null, zona: { id: null } }, // Restablecer sector y zona
+            sector: { id: null }, // Restablecer sector y zona
             contacto: null,
             tipoDireccion: null,
             imagenPerfil: "",
@@ -477,14 +410,86 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       this.toastr.warning(this.translate.instant('alertas.toastr.formularioInvalido')); // Advertencia si el formulario no es válido
     }
 
-
-
   }
+
+
 
   // Método para cambiar entre "S" y "N"
   toggleEvidencia(event: MatSlideToggleChange) {
     this.form.patchValue({ flagEvidencia: event.checked ? "S" : "N" });
   }
+
+
+
+  escucharCambioZona() {
+    // Escuchar cambios en la zona
+    this.form.get('sector.zona')?.valueChanges.subscribe((zona: any) => {
+      console.log('Valor de la zona seleccionada:', zona); // Verificar valor completo de la zona
+      if (zona && zona.id) {
+        console.log('ID de la zona:', zona.id); // Verificar el ID de la zona
+
+        // Resetear el sector cuando cambia la zona
+        this.form.patchValue({ sector: { id: null } });
+        this.form.get('sector')?.disable();
+
+        // Llamada al servicio con el ID de la zona para cargar los sectores correspondientes
+        this.sectorService.buscarTodos(zona.id).subscribe(sectores => {
+          this.sectores = sectores;
+          this.form.get('sector')?.enable();  // Habilitar el campo sector una vez cargados los sectores
+        });
+      } else {
+        console.error('El ID de la zona es inválido:', zona);
+      }
+    });
+  }
+
+  onZonaSeleccionada(zonaId: number) {
+    console.log('ID de la zona seleccionada:', zonaId); // Verificar el ID de la zona
+    if (zonaId) {
+      // Resetear el sector cuando cambia la zona
+      this.form.patchValue({ sector: { id: null } });
+      this.form.get('sector')?.disable();
+
+      // Cargar sectores filtrados por la zona seleccionada
+      this.sectorService.buscarTodos(zonaId).subscribe(sectores => {
+        this.sectores = sectores;
+        this.form.get('sector')?.enable(); // Habilitar el campo sector una vez cargados los sectores
+      });
+    } else {
+      console.error('El ID de la zona es inválido:', zonaId);
+    }
+  }
+
+  cargarSector(zonaId: number) {
+    if (zonaId) {
+      this.sectorService.buscarTodos(zonaId).subscribe(
+        (response) => {
+          this.sectores = response;
+        },
+        (error) => {
+          console.error('Error al cargar los sectores:', error);
+        }
+      );
+    } else {
+      this.sectores = [];  // Limpiar sectores si no hay zona seleccionada
+    }
+  }
+
+  cargarZonas() {
+    this.zonaService.buscarTodos().subscribe(
+      (response) => {
+        this.zonas = response;
+        if (this.form.get('zona')?.value) {
+          // Si ya hay una zona seleccionada al cargar, cargar los sectores de inmediato
+          this.cargarSector(this.form.get('zona')?.value);
+        }
+      },
+      (error) => {
+        console.error('Error al cargar las zonas:', error);
+      }
+    );
+  }
+
 
 
 }

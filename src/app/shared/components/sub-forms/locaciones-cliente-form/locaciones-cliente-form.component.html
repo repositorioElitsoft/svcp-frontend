@@ -40,25 +40,29 @@
                 (blur)="separarDireccion()" (input)="actualizarDireccion($event)">
         </mat-form-field>
 
-        <!-- Sector -->
+        <!-- Zona -->
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Zona</mat-label>
+            <mat-select (selectionChange)="onZonaSeleccionada($event.value)">
+                <mat-option *ngFor="let tipo of zonas" [value]="tipo.id">
+                    {{ tipo.descripcionZona }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Sector</mat-label>
-            <mat-select formControlName="sector"> <!-- Usa formControlName para el sector -->
-                <mat-option *ngFor="let tipo of sectores" [value]="tipo.id"> <!-- Usa tipo.id -->
+            <mat-select formGroupName="sector" formControlName="id" [disabled]="sectores.length === 0">
+                <mat-option *ngIf="sectores.length === 0" disabled>
+                    No hay sectores disponibles
+                </mat-option>
+                <mat-option *ngFor="let tipo of sectores" [value]="tipo.id">
                     {{ tipo.descripcionSector }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
-        <!-- Zona -->
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Zona</mat-label>
-            <mat-select formControlName="zona"> <!-- Usa formControlName para la zona -->
-                <mat-option *ngFor="let tipo of zonas" [value]="tipo.id"> <!-- Usa tipo.id -->
-                    {{ tipo.descripcionZona }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+
 
 
 
