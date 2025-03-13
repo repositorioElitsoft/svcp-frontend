@@ -21,14 +21,21 @@ import { ComunaService } from "../../../../core/services/comuna.service";
 import { ProvinciaService } from "../../../../core/services/provincias.service";
 import { RegionService } from "../../../../core/services/regiones.service";
 import { EstadoService } from "../../../../core/services/estado.service";
-import { DireccionEmpleadoService } from "../../../../core/services/direccion-empleado.service";
 import { convertErrorMessageToI18 } from "../../../../core/utils/errors.utils";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { TiposDireccionesService } from "../../../../core/services/tipos-direcciones.service";
+import { DireccionService } from "../../../../core/services/direccion.service";
+import { TiposDirecciones } from "../../../../core/models/tipos-direcciones.model";
+import { Sector } from "../../../../core/models/sector.model";
+import { Zona } from "../../../../core/models/zona.model";
+import { SectorService } from "../../../../core/services/sector.service";
+import { ZonaService } from "../../../../core/services/zona.service";
+import { Direccion } from "../../../../core/models/direccion.model";
 
 @Component({
-  selector: "app-locaciones-empleado-form",
+  selector: "app-locaciones-cliente-form",
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -41,9 +48,9 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
     MatIconModule,
     MatSlideToggleModule,
   ],
-  templateUrl: "./locaciones-empleado-form.component.html",
+  templateUrl: "./locaciones-cliente-form.component.html",
 })
-export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
+export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   @ViewChild('autocompleteInput') autocompleteInput!: ElementRef;
   form!: FormGroup;
   initialPosition = { lat: -33.4489, lng: -70.6693 };
@@ -57,6 +64,11 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
   @Output() formularioEnviado = new EventEmitter<void>();
   @Inject(MAT_DIALOG_DATA) public data: any  // Inyecta los datos del modal
   private autocomplete!: google.maps.places.Autocomplete;
+  tiposDirecciones: TiposDirecciones[] = [];
+  sectores: Sector[] = [];
+  zonas: Zona[] = [];
+  selectedSectorId: number | null = null; // Definir la variable para el sector seleccionado
+  selectedZonaId: number | null = null;   // Definir la variable para la zona seleccionada
 
 
   constructor(
@@ -66,42 +78,47 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
     private comunaService: ComunaService,
     private regionService: RegionService,
     private estadoServicio: EstadoService,
-    private direccionEmpleado: DireccionEmpleadoService,
-    private translate: TranslateService, private toastr: ToastrService
+    private direccion: DireccionService,
+    private translate: TranslateService, private toastr: ToastrService,
+    private tipoDireccionService: TiposDireccionesService,
+    private sectorService: SectorService,
+    private zonaService: ZonaService
+
   ) { }
 
   ngOnInit() {
-    // Ejecuta las funciones iniciales primero
     this.initForm();
     this.setupFormListeners();
     this.cargarUbicaciones();
     this.cargarEstado();
+    this.cargarTipoDireccion();
+    this.cargarSector();
+    this.cargarZonas();
+    this.updateZona();
 
-    // Usa setTimeout para retrasar los console.log
-    setTimeout(() => {
-      console.log('Datos recibidos en el modal:', this.data);
-      if (this.data && this.data.direccionId !== undefined) {
-        console.log('Direccion ID recibido:', this.data.direccionId);
-      } else {
-        console.log('No se recibió direccionId en los datos');
-      }
-    }, 0); // 0 milisegundos para ejecutar después de la ejecución actual
   }
-
-
-
   private initForm() {
     this.form = this.fb.group({
       id: [null],
-      estado: [{ id: null }],
-      comuna: [null],
+      cliente: [this.id],
+      descripcionDireccion: [""],
       calle: [""],
       numeracion: [""],
+      referencia: [""],
+      comuna: [{ id: null }],
+      sector: this.fb.group({ // Grupo anidado para el sector
+        id: [null], // Control para el ID del sector
+        zona: this.fb.group({ // Grupo anidado para la zona dentro del sector
+          id: [null] // Control para el ID de la zona
+        })
+      }),
+      contacto: [{ id: 1 }],
+      tipoDireccion: [null],
+      imagenPerfil: [""],
       latitud: [null],
       longitud: [null],
-      descripcion: [""],
-      referencia: [""],
-      empleado: [{ id: this.id }]
+      estado: [{ id: null }],
+      flagEvidencia: [""]
     });
   }
 
@@ -309,13 +326,118 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
+  onEnviarFormulario() {
+    this.formularioEnviado.emit();  // El formulario se envió correctamente
+  }
+
+  cargarTipoDireccion() {
+    this.tipoDireccionService.buscarTodos().subscribe(
+      (response) => {
+        this.tiposDirecciones = response.data;  // Asigna la respuesta de la API al arreglo de tiposDirecciones
+      },
+      (error) => {
+        console.error('Error al cargar los tipos de dirección:', error);  // Maneja cualquier error en la llamada a la API
+      }
+    );
+  }
+
+
+  cargarSector() {
+    this.sectorService.buscarTodos().subscribe(
+      (response) => {
+        this.sectores = response;  // Asigna la respuesta de la API al arreglo de tiposDirecciones
+      },
+      (error) => {
+        console.error('Error al cargar los tipos de dirección:', error);  // Maneja cualquier error en la llamada a la API
+      }
+    );
+  }
+  cargarZonas() {
+    this.zonaService.buscarTodos().subscribe(
+      (response) => {
+        this.zonas = response;  // Asigna la respuesta de la API al arreglo de tiposDirecciones
+      },
+      (error) => {
+        console.error('Error al cargar los tipos de dirección:', error);  // Maneja cualquier error en la llamada a la API
+      }
+    );
+  }
+
+  updateZona(): void {
+    this.form.get('sector.id')?.valueChanges.subscribe((sectorId: number) => {
+      if (sectorId) {
+        // Buscar el sector seleccionado
+        const sectorSeleccionado = this.sectores.find(sector => sector.id === sectorId);
+        if (sectorSeleccionado) {
+          // Actualizar la zona dentro del sector
+          this.form.get('sector.zona.id')?.setValue(sectorSeleccionado.zona.id);
+        }
+      }
+    });
+  }
+
+
+  // private cargarDireccion(direccionId: string) {
+  //   this.direccion.buscar(Number(direccionId)).subscribe(
+  //     (direccion) => {
+  //       this.form.patchValue({
+  //         id: direccion.id,
+  //         calle: direccion.calle,
+  //         numeracion: direccion.numeracion,
+  //         latitud: direccion.latitud,
+  //         longitud: direccion.longitud,
+  //         comuna: direccion.comuna,
+  //         descripcion: direccion.descripcion,
+  //         referencia: direccion.referencia
+  //       });
+  //       this.currentMarkerPosition = { lat: direccion.latitud, lng: direccion.longitud };
+  //     },
+  //     (error) => {
+  //       console.error('Error al cargar la dirección:', error);
+  //       this.toastr.error(this.translate.instant('alertas.toastr.errorDireccionNoEncontrada'));
+  //     }
+  //   );
+  // }
+
+
+
   // Método que se llama cuando se hace clic en el botón
   onSubmit() {
     if (this.form.valid) {
       console.log("Formulario enviado:", this.form.value);
 
-      // Llamada al servicio para guardar el empleado
-      this.direccionEmpleado.crear(this.form.value).subscribe({
+      // Crear el objeto direccion con la estructura adecuada
+      const direccion: Direccion = {
+        id: this.form.value.id,
+        cliente: this.form.value.cliente,
+        descripcionDireccion: this.form.value.descripcionDireccion,
+        calle: this.form.value.calle,
+        numeracion: this.form.value.numeracion,
+        referencia: this.form.value.referencia,
+        comuna: this.form.value.comuna,
+        sector: {
+          id: this.form.value.sector.id, // Asignar el ID del sector
+          descripcionSector: "",
+          zona: {
+            id: this.form.value.sector.zona.id // Asignar el ID de la zona dentro del sector
+            ,
+
+            descripcionZona: ""
+          },
+
+        },
+        contacto: this.form.value.contacto,
+        tipoDireccion: this.form.value.tipoDireccion,
+        imagenPerfil: this.form.value.imagenPerfil,
+        latitud: this.form.value.latitud,
+        longitud: this.form.value.longitud,
+        estado: this.form.value.estado,
+        flagEvidencia: this.form.value.flagEvidencia
+      };
+
+      // Llamada al servicio para guardar la dirección
+      this.direccion.crear(direccion).subscribe({
         next: (empleado) => {
           console.log('Empleado guardado:', empleado);
           this.toastr.success(this.translate.instant('alertas.toastr.success')); // Mensaje de éxito
@@ -326,14 +448,19 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
           // Restablecer el formulario a su estado inicial
           this.form.reset({
             estado: { id: 1 },  // Asignar valores iniciales
-            empleado: { id: this.id },
-            comuna: null,
+            cliente: null,
+            descripcionDireccion: "",
             calle: "",
             numeracion: "",
+            referencia: "",
+            comuna: { id: null },
+            sector: { id: null, zona: { id: null } }, // Restablecer sector y zona
+            contacto: null,
+            tipoDireccion: null,
+            imagenPerfil: "",
             latitud: null,
             longitud: null,
-            descripcion: "",
-            referencia: "",
+            flagEvidencia: ""
           });
 
           // Restablecer la dirección combinada y cualquier otro estado local
@@ -349,36 +476,5 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
       this.toastr.warning(this.translate.instant('alertas.toastr.formularioInvalido')); // Advertencia si el formulario no es válido
     }
   }
-
-  onEnviarFormulario() {
-    this.formularioEnviado.emit();  // El formulario se envió correctamente
-  }
-
-
-  private cargarDireccion(direccionId: string) {
-    this.direccionEmpleado.buscar(Number(direccionId)).subscribe(
-      (direccion) => {
-        // Aquí asumimos que la respuesta contiene los datos necesarios de la dirección
-        this.form.patchValue({
-          id: direccion.id,
-          calle: direccion.calle,
-          numeracion: direccion.numeracion,
-          latitud: direccion.latitud,
-          longitud: direccion.longitud,
-          comuna: direccion.comuna,
-          descripcion: direccion.descripcion,
-          referencia: direccion.referencia
-        });
-
-        // Si quieres actualizar la posición del marcador en el mapa
-        this.currentMarkerPosition = { lat: direccion.latitud, lng: direccion.longitud };
-      },
-      (error) => {
-        console.error('Error al cargar la dirección:', error);
-        this.toastr.error(this.translate.instant('alertas.toastr.errorDireccionNoEncontrada'));
-      }
-    );
-  }
-
 
 }

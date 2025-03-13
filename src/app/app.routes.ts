@@ -18,6 +18,7 @@ import { TareaComponent } from './features/mantenedores/tarea/tarea.component';
 import { DireccionComponent } from './features/mantenedores/direccion/direccion.component';
 import { TiposDireccionesComponent } from './features/mantenedores/tipos-direcciones/tipos-direcciones.component';
 import { DireccionEmpleadoComponent } from './features/views/direccion-empleado/direccion-empleado.component';
+import { LocacionClienteComponent } from './features/views/locacion-cliente/locacion-cliente.component';
 
 export const routes: Routes = [
     {
@@ -103,6 +104,10 @@ export const routes: Routes = [
                     {
                         path: "direccion-empleado/:id", // Ruta independiente
                         component: DireccionEmpleadoComponent
+                    },
+                    {
+                        path: "locacion-cliente/:id", // Ruta independiente
+                        component: LocacionClienteComponent
                     },
                     {
                         path: "locaciones",

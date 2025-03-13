@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,6 +26,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class ExpansionPanelLocacionComponent implements OnInit {
 
   @Input() id: string | null = null;
+  @Output() editarDireccionEvent = new EventEmitter<number>(); // Emitir el id de la dirección
+
   direccionEmpleados: DireccionEmpleado[] = [];
   mensajeNoDatos: string = 'No hay locaciones registradas. Agrega una para comenzar.';
   panelOpenState = false;
@@ -102,6 +104,10 @@ export class ExpansionPanelLocacionComponent implements OnInit {
         });
       }
     });
+  }
+
+  editarDireccion(id: number) {
+    this.editarDireccionEvent.emit(id);
   }
 
 }

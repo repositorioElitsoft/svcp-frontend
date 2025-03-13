@@ -3,19 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ExpansionPanelLocacionComponent } from '../../../shared/components/expansion-panel-locacion/expansion-panel-locacion.component';
-import { LocacionesEmpleadoFormComponent } from '../../../shared/components/sub-forms/locaciones-empleado-form/locaciones-empleado-form.component';
+import { LocacionesClienteFormComponent } from '../../../shared/components/sub-forms/locaciones-cliente-form/locaciones-cliente-form.component';
 
 @Component({
-  selector: 'app-direccion-empleado',
+  selector: 'app-locacion-cliente',
   standalone: true,
   imports: [
     CommonModule,
-    MatTabsModule, LocacionesEmpleadoFormComponent, ExpansionPanelLocacionComponent
+    MatTabsModule, LocacionesClienteFormComponent, ExpansionPanelLocacionComponent
   ],
-  templateUrl: './direccion-empleado.component.html',
-  styleUrls: ['./direccion-empleado.component.css']
+  templateUrl: './locacion-cliente.component.html',
 })
-export class DireccionEmpleadoComponent implements OnInit {
+export class LocacionClienteComponent implements OnInit {
   id: string | null = null;
   idDireccionParaEditar: number | null = null;
 
@@ -25,7 +24,7 @@ export class DireccionEmpleadoComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    console.log('Empleado ID:', this.id);
+
   }
 
   // Método para manejar el evento del formulario

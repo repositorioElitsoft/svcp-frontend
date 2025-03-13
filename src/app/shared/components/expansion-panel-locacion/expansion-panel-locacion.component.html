@@ -10,7 +10,7 @@
                 </span>
             </div>
             <div class="ml-auto flex space-x-1">
-                <button mat-icon-button class="text-indigo-600">
+                <button mat-icon-button class="text-indigo-600" (click)="editarDireccion(direccionEmpleado.id)">
                     <mat-icon>edit</mat-icon>
                 </button>
                 <button mat-icon-button class="text-red-500" (click)="eliminarDireccion(direccionEmpleado.id)">

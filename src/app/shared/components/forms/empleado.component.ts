@@ -16,7 +16,6 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 
 import {
   MAT_DIALOG_DATA,
-  MatDialog,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
