@@ -1,11 +1,5 @@
 <form [formGroup]="form" class="space-y-4 p-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Primera fila -->
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Nombre</mat-label>
-            <input matInput formControlName="descripcionDireccion" placeholder="Nombre">
-        </mat-form-field>
-
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Tipo de locación</mat-label>
             <mat-select formControlName="tipoDireccion">
@@ -104,8 +98,11 @@
         <!-- Toggle para solicitar evidencia -->
         <div class="flex items-center gap-4 py-2 text-lg">
             <span class="text-gray-700 font-medium">Solicita evidencia</span>
-            <mat-slide-toggle formControlName="flagEvidencia" color="primary"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="form.get('flagEvidencia')?.value === 'S'" (change)="toggleEvidencia($event)"
+                color="primary">
+            </mat-slide-toggle>
         </div>
+
 
     </div>
 

@@ -24,9 +24,10 @@ export class DireccionService {
         return this.http.get<Direccion[]>(`${this.url}direcciones`, { headers: this.headers });
     }
 
-    borrar(direccionId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}direcciones/${direccionId}`);
+    borrar(direccionId: number, clienteId: number): Observable<any> {
+        return this.http.delete<any>(`http://localhost:8080/api/v1/direcciones/${direccionId}/clientes/${clienteId}`);
     }
+
 
     borrarTodos(ids: number[]): Observable<any> {
         return this.http.delete<any>(`${this.url}direcciones/lote`, { headers: this.headers, body: ids });

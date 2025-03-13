@@ -8,7 +8,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatSlideToggleChange, MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { AddressDetails } from "../../../../core/models/address-details.model";
 import { Comuna } from "../../../../core/models/comuna.model";
@@ -118,8 +118,10 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       latitud: [null],
       longitud: [null],
       estado: [{ id: null }],
-      flagEvidencia: ["S"]
+      flagEvidencia: ["N"]
     });
+
+
   }
 
   ngAfterViewInit() {
@@ -197,7 +199,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       numeracion: details.streetNumber,
       latitud: details.lat,
       longitud: details.lng,
-      comuna: this.locacionMaps.findComuna(details.administrativeAreaLevel3, this.comunas)
+
     }, { emitEvent: false });
   }
 
@@ -213,7 +215,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       numeracion: details.streetNumber,
       latitud: details.lat,
       longitud: details.lng,
-      comuna: this.locacionMaps.findComuna(details.administrativeAreaLevel3, this.comunas)
     }, { emitEvent: false });
   }
 
@@ -475,9 +476,15 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       console.log("Formulario no válido");
       this.toastr.warning(this.translate.instant('alertas.toastr.formularioInvalido')); // Advertencia si el formulario no es válido
     }
+
+
+
   }
 
-
+  // Método para cambiar entre "S" y "N"
+  toggleEvidencia(event: MatSlideToggleChange) {
+    this.form.patchValue({ flagEvidencia: event.checked ? "S" : "N" });
+  }
 
 
 }

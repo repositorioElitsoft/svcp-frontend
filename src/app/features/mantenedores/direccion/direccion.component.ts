@@ -238,9 +238,9 @@ export class DireccionComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
-        console.log("Eliminando elemento con ID:", id);
+        console.log("Eliminando elemento con ID:", id, "y Cliente ID:", id);
 
-        this.direccionService.borrar(Number(id)).subscribe({
+        this.direccionService.borrar(Number(id), Number(id)).subscribe({
           next: () => {
             console.log("Elemento eliminado exitosamente:", id);
 
@@ -281,6 +281,7 @@ export class DireccionComponent implements OnInit {
         });
       }
     });
+
   }
 
   /* **********************************CRUD   - CREATE ***********************************/
