@@ -100,16 +100,16 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   private initForm() {
     this.form = this.fb.group({
       id: [null],
-      cliente: [this.id],
+      cliente: this.fb.group({ id: this.id }),
       descripcionDireccion: [""],
       calle: [""],
       numeracion: [""],
       referencia: [""],
       comuna: [{ id: null }],
       sector: this.fb.group({ // Grupo anidado para el sector
-        id: [null], // Control para el ID del sector
+        id: [51], // Control para el ID del sector
         zona: this.fb.group({ // Grupo anidado para la zona dentro del sector
-          id: [null] // Control para el ID de la zona
+          id: [6] // Control para el ID de la zona
         })
       }),
       contacto: [{ id: 1 }],
@@ -118,7 +118,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       latitud: [null],
       longitud: [null],
       estado: [{ id: null }],
-      flagEvidencia: [""]
+      flagEvidencia: ["S"]
     });
   }
 
@@ -476,5 +476,8 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       this.toastr.warning(this.translate.instant('alertas.toastr.formularioInvalido')); // Advertencia si el formulario no es válido
     }
   }
+
+
+
 
 }
