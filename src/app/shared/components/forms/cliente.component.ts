@@ -1,51 +1,33 @@
-import { Component, OnInit, inject, model } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ClienteService } from '../../../core/services/cliente.service';
-import { MatError, MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
+import { CommonModule } from "@angular/common"
+import { Component, OnInit, inject, model } from "@angular/core"
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from "@angular/forms"
+import { MatButtonModule } from "@angular/material/button"
+import { MatOptionModule } from "@angular/material/core"
+import { MatDialogContent, MatDialogActions, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog"
+import { MatFormFieldModule, MatError } from "@angular/material/form-field"
+import { MatIconModule } from "@angular/material/icon"
+import { MatInputModule } from "@angular/material/input"
+import { MatSelectModule } from "@angular/material/select"
+import { TranslateModule, TranslateService } from "@ngx-translate/core"
+import { ToastrService } from "ngx-toastr"
+import { AgrupacionComercial } from "../../../core/models/agrupacion-comercial.model"
+import { ApiEntityResponse } from "../../../core/models/api-entity-response.model"
+import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model"
+import { Cliente } from "../../../core/models/cliente.model"
+import { Estado } from "../../../core/models/estados.model"
+import { SegmentacionCliente } from "../../../core/models/segmentacion-cliente.model"
+import { TipoCliente } from "../../../core/models/tipo-cliente.model"
+import { AgrupacionComercialService } from "../../../core/services/agrupacion-comercial.service"
+import { ClasificacionClienteService } from "../../../core/services/clasificacion-cliente.service"
+import { ClienteService } from "../../../core/services/cliente.service"
+import { EstadoService } from "../../../core/services/estado.service"
+import { SegmentacionClienteService } from "../../../core/services/segmentacion-cliente.service"
+import { TipoClienteService } from "../../../core/services/tipo-cliente.service"
+import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component"
 
-/*services-imports*/
-import { TipoClienteService } from '../../../core/services/tipo-cliente.service';
-import { TipoCliente } from '../../../core/models/tipo-cliente.model';
-
-import { ClasificacionClienteService } from '../../../core/services/clasificacion-cliente.service';
-import { ClasificacionCliente } from '../../../core/models/clasificacion-cliente.model';
-
-
-
-
-import { AgrupacionComercialService } from '../../../core/services/agrupacion-comercial.service';
-import { AgrupacionComercial } from '../../../core/models/agrupacion-comercial.model';
-
-import { SegmentacionClienteService } from '../../../core/services/segmentacion-cliente.service';
-import { SegmentacionCliente } from '../../../core/models/segmentacion-cliente.model';
-
-
-
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
-import { Cliente } from '../../../core/models/cliente.model';
-import { catchError, tap, throwError } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import { EstadoService } from '../../../core/services/estado.service';
-import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
-import { Estado } from '../../../core/models/estados.model';
 
 @Component({
-  selector: 'app-cliente-create-form',
+  selector: "app-cliente-create-form",
   standalone: true,
   imports: [
     CommonModule,
@@ -59,6 +41,7 @@ import { Estado } from '../../../core/models/estados.model';
     MatDialogActions,
     MatDialogClose,
     MatError,
+    MatIconModule,
     TranslateModule,
     TituloDialogoComponent,
   ],
@@ -66,19 +49,19 @@ import { Estado } from '../../../core/models/estados.model';
   styles: [],
 })
 export class ClienteFormComponent implements OnInit {
-  form!: FormGroup;
+  form!: FormGroup
+  showAdditionalInfo = false
 
-  readonly dialogRef = inject(MatDialogRef<ClienteFormComponent>);
-  readonly data = inject<any>(MAT_DIALOG_DATA);
-  readonly esActualizar = model(this.data.esActualizar);
+  readonly dialogRef = inject(MatDialogRef<ClienteFormComponent>)
+  readonly data = inject<any>(MAT_DIALOG_DATA)
+  readonly esActualizar = model(this.data.esActualizar)
 
   /*variable-declarations*/
-  tipoCliente: TipoCliente[] = [];
-  clasificacionCliente: ClasificacionCliente[] = [];
-  estado: Estado[] = [];
-  agrupacionComercial: AgrupacionComercial[] = [];
-  segmentacionCliente: SegmentacionCliente[] = [];
-
+  tipoCliente: TipoCliente[] = []
+  clasificacionCliente: ClasificacionCliente[] = []
+  estado: Estado[] = []
+  agrupacionComercial: AgrupacionComercial[] = []
+  segmentacionCliente: SegmentacionCliente[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -95,7 +78,7 @@ export class ClienteFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-      id: [null,],
+      id: [null],
       nombre: [null, Validators.required],
       apellidoPaterno: [null, Validators.required],
       apellidoMaterno: [null, Validators.required],
@@ -114,16 +97,15 @@ export class ClienteFormComponent implements OnInit {
       direcciones: [null, Validators.required],
       agrupacionComercial: [{}, Validators.required],
       segmentacionCliente: [{}, Validators.required],
-    });
+    })
   }
 
   ngOnInit() {
-    console.log("Datos recibidos en el formulario:", this.data);
+    console.log("Datos recibidos en el formulario:", this.data)
 
     // Verificar si 'data.object' existe y tiene el campo 'descripcionCliente'
     if (this.esActualizar() && this.data?.object) {
-      console.log("Objeto recibido:", this.data.object);
-
+      console.log("Objeto recibido:", this.data.object)
 
       this.form.patchValue({
         /*object-fields-edit*/
@@ -146,11 +128,11 @@ export class ClienteFormComponent implements OnInit {
         direcciones: this.data.object.direcciones,
         agrupacionComercial: this.data.object.agrupacionComercial,
         segmentacionCliente: this.data.object.segmentacionCliente,
-      });
+      })
 
-      console.log("Datos en el formulario después de patchValue:", this.form.value);
+      console.log("Datos en el formulario después de patchValue:", this.form.value)
     } else {
-      console.error("No se recibió un objeto válido en 'data'");
+      console.error("No se recibió un objeto válido en 'data'")
     }
     /*services-init-call*/
 
@@ -158,46 +140,40 @@ export class ClienteFormComponent implements OnInit {
       next: (response: ApiEntityResponse<TipoCliente[]>) => {
         console.log("created entity ", response.data)
         this.tipoCliente = response.data
-      }
+      },
     })
-
 
     this.clasificacionClienteService.buscarTodos().subscribe({
       next: (clasificacionCliente: ClasificacionCliente[]) => {
         console.log("created entity ", clasificacionCliente)
         this.clasificacionCliente = clasificacionCliente
-      }
+      },
     })
-
 
     this.estadoService.buscarTodos().subscribe({
       next: (estado: Estado[]) => {
         console.log("created entity ", estado)
         this.estado = estado
-      }
+      },
     })
-
 
     this.agrupacionComercialService.buscarTodos().subscribe({
       next: (agrupacionComercial: AgrupacionComercial[]) => {
         console.log("created entity ", agrupacionComercial)
         this.agrupacionComercial = agrupacionComercial
-      }
+      },
     })
-
 
     this.segmentacionClienteService.buscarTodos().subscribe({
       next: (segmentacionCliente: SegmentacionCliente[]) => {
         console.log("created entity ", segmentacionCliente)
         this.segmentacionCliente = segmentacionCliente
-      }
+      },
     })
-
-
   }
 
   onSubmit() {
-    console.log("Formulario enviado:", this.form.value);
+    console.log("Formulario enviado:", this.form.value)
 
     if (this.form.valid) {
       const formData: Cliente = {
@@ -221,38 +197,37 @@ export class ClienteFormComponent implements OnInit {
         direcciones: this.form.value.direcciones,
         agrupacionComercial: this.form.value.agrupacionComercial,
         segmentacionCliente: this.form.value.segmentacionCliente,
-      };
+      }
 
-      console.log("Datos mapeados para enviar:", formData);
+      console.log("Datos mapeados para enviar:", formData)
 
       // Cierra el formulario con los datos correctos
       if (this.esActualizar()) {
         this.clienteService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.toastr.success(this.translate.instant("mantenedores.formularios.toastr.success"))
+            this.dialogRef.close(response)
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-          }
+            const errorMessage = error.error?.message || this.translate.instant("mantenedores.formularios.toastr.error")
+            this.toastr.error(errorMessage)
+          },
         })
-
-      }
-      else {
+      } else {
         this.clienteService.crear(formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
-            this.dialogRef.close(response);
+            this.toastr.success(this.translate.instant("mantenedores.formularios.toastr.success"))
+            this.dialogRef.close(response)
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
-            this.toastr.error(errorMessage);
-          }
+            const errorMessage = error.error?.message || this.translate.instant("mantenedores.formularios.toastr.error")
+            this.toastr.error(errorMessage)
+          },
         })
       }
     } else {
-      console.log("Formulario no válido");
+      console.log("Formulario no válido")
     }
   }
 }
+

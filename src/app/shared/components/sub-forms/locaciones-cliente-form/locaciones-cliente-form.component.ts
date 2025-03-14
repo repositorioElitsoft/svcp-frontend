@@ -342,6 +342,13 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
     if (this.form.valid) {
       console.log("Formulario enviado:", this.form.value);
 
+      const sectorN: Sector = {
+        id: this.form.value.sector.id,
+        descripcionSector: '',
+        zona: null
+      };
+
+      console.log("ID de sectorN", this.form.value.sector.id);
       // Crear el objeto direccion con la estructura adecuada
       const direccion: Direccion = {
         id: this.form.value.id,
@@ -351,16 +358,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
         numeracion: this.form.value.numeracion,
         referencia: this.form.value.referencia,
         comuna: this.form.value.comuna,
-        sector: {
-          id: this.form.value.sector.id, // Asignar el ID del sector
-          descripcionSector: "",
-          zona: {
-            id: this.form.value.sector.zona.id // Asignar el ID de la zona dentro del sector
-            ,
-            descripcionZona: ""
-          },
-
-        },
+        sector: sectorN,
         contacto: this.form.value.contacto,
         tipoDireccion: this.form.value.tipoDireccion,
         imagenPerfil: this.form.value.imagenPerfil,

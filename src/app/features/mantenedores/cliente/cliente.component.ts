@@ -56,7 +56,7 @@ export class ClienteComponent implements OnInit {
 
   onViewSelected(id: string): void {
     const dialogRef = this.dialog.open(ClienteFormComponent, {
-      width: '400px',
+      width: '800px',
       data: {
         esActualizar: true,
         object: this.dataSource.find(item => item.id === Number(id))
