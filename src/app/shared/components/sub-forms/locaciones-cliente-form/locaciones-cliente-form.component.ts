@@ -92,7 +92,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
     this.cargarUbicaciones();
     this.cargarEstado();
     this.cargarTipoDireccion();
-    this.escucharCambioZona();
     this.cargarZonas();
   }
   private initForm() {
@@ -104,10 +103,8 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       numeracion: [""],
       referencia: [""],
       comuna: [{ id: null }],
-      sector: this.fb.group({
-        id: [null],
-      }),
-      contacto: [{ id: 1 }],
+      sector: [{ id: null }],
+      contacto: [{ id: null }],
       tipoDireccion: [null],
       imagenPerfil: [""],
       latitud: [null],
@@ -219,46 +216,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       this.regiones = regiones;
     });
 
-    this.form.get('region')?.valueChanges.subscribe(region => {
-      if (region) {
-        console.log('ID de la región:', region.id);  // Asegúrate de que el ID de la región es correcto
-
-        if (region.id) {
-          // Resetear provincia y comuna cuando cambia la región
-          this.form.patchValue({ provincia: null, comuna: null });
-          this.form.get('provincia')?.disable();
-          this.form.get('comuna')?.disable();
-
-          // Cargar provincias filtradas por la región seleccionada
-          this.provinciaService.buscarTodos(region.id).subscribe(provincias => {
-            this.provincias = provincias;
-            this.form.get('provincia')?.enable();
-          });
-        } else {
-          console.error('El ID de la región es undefined o inválido');
-        }
-      }
-    });
-
-
-    // Escuchar cambios en Provincia
-    this.form.get('region')?.valueChanges.subscribe(region => {
-      console.log('Valor de región:', region);  // Verifica el valor completo del objeto 'region'
-      if (region && region.id) {
-        console.log('ID de la región:', region.id);  // Verifica que el ID de la región es válido
-        this.form.patchValue({ provincia: null, comuna: null });
-        this.form.get('provincia')?.disable();
-        this.form.get('comuna')?.disable();
-
-        // Llamada al servicio con el ID de la región
-        this.provinciaService.buscarTodos(region.id).subscribe(provincias => {
-          this.provincias = provincias;
-          this.form.get('provincia')?.enable();
-        });
-      } else {
-        console.error('El ID de la región es inválido:', region);
-      }
-    });
   }
 
   onRegionSeleccionada(regionId: number) {
@@ -266,13 +223,10 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
     if (regionId) {
       // Resetear provincia y comuna cuando cambia la región
       this.form.patchValue({ provincia: null, comuna: null });
-      this.form.get('provincia')?.disable();
-      this.form.get('comuna')?.disable();
-
       // Cargar provincias filtradas por la región seleccionada
       this.provinciaService.buscarTodos(regionId).subscribe(provincias => {
         this.provincias = provincias;
-        this.form.get('provincia')?.enable();
+
       });
     } else {
       console.error('El ID de la región es inválido:', regionId);
@@ -282,12 +236,9 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   onProvinciaSeleccionada(provincia: number) {
     // Resetear comuna cuando cambia la provincia
     this.form.patchValue({ comuna: null });
-    this.form.get('comuna')?.disable();
-
     // Cargar comunas filtradas por la provincia seleccionada
     this.comunaService.buscarTodos(provincia).subscribe(comunas => {
       this.comunas = comunas;
-      this.form.get('comuna')?.enable();
     });
   }
 
@@ -324,7 +275,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   onEnviarFormulario() {
     this.formularioEnviado.emit();  // El formulario se envió correctamente
   }
-
   cargarTipoDireccion() {
     this.tipoDireccionService.buscarTodos().subscribe(
       (response) => {
@@ -341,14 +291,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   onSubmit() {
     if (this.form.valid) {
       console.log("Formulario enviado:", this.form.value);
-
-      const sectorN: Sector = {
-        id: this.form.value.sector.id,
-        descripcionSector: '',
-        zona: null
-      };
-
-      console.log("ID de sectorN", this.form.value.sector.id);
       // Crear el objeto direccion con la estructura adecuada
       const direccion: Direccion = {
         id: this.form.value.id,
@@ -358,7 +300,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
         numeracion: this.form.value.numeracion,
         referencia: this.form.value.referencia,
         comuna: this.form.value.comuna,
-        sector: sectorN,
+        sector: this.form.value.sector,
         contacto: this.form.value.contacto,
         tipoDireccion: this.form.value.tipoDireccion,
         imagenPerfil: this.form.value.imagenPerfil,
@@ -376,10 +318,9 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
 
           // Emitir el evento de éxito al padre
           this.formularioEnviado.emit();
-
           // Restablecer el formulario a su estado inicial
           this.form.reset({
-            estado: { id: 1 },  // Asignar valores iniciales
+            estado: { id: null },  // Asignar valores iniciales
             cliente: null,
             descripcionDireccion: "",
             calle: "",
@@ -410,8 +351,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
 
   }
 
-
-
   // Método para cambiar entre "S" y "N"
   toggleEvidencia(event: MatSlideToggleChange) {
     this.form.patchValue({ flagEvidencia: event.checked ? "S" : "N" });
@@ -419,68 +358,27 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
 
 
 
-  escucharCambioZona() {
-    // Escuchar cambios en la zona
-    this.form.get('sector.zona')?.valueChanges.subscribe((zona: any) => {
-      console.log('Valor de la zona seleccionada:', zona); // Verificar valor completo de la zona
-      if (zona && zona.id) {
-        console.log('ID de la zona:', zona.id); // Verificar el ID de la zona
-
-        // Resetear el sector cuando cambia la zona
-        this.form.patchValue({ sector: { id: null } });
-        this.form.get('sector')?.disable();
-
-        // Llamada al servicio con el ID de la zona para cargar los sectores correspondientes
-        this.sectorService.buscarTodos(zona.id).subscribe(sectores => {
-          this.sectores = sectores;
-          this.form.get('sector')?.enable();  // Habilitar el campo sector una vez cargados los sectores
-        });
-      } else {
-        console.error('El ID de la zona es inválido:', zona);
-      }
-    });
-  }
-
   onZonaSeleccionada(zonaId: number) {
     console.log('ID de la zona seleccionada:', zonaId); // Verificar el ID de la zona
     if (zonaId) {
       // Resetear el sector cuando cambia la zona
       this.form.patchValue({ sector: { id: null } });
-      this.form.get('sector')?.disable();
-
-      // Cargar sectores filtrados por la zona seleccionada
       this.sectorService.buscarTodos(zonaId).subscribe(sectores => {
         this.sectores = sectores;
-        this.form.get('sector')?.enable(); // Habilitar el campo sector una vez cargados los sectores
+        //   this.form.get('sector')?.enable(); // Habilitar el campo sector una vez cargados los sectores
+
       });
     } else {
       console.error('El ID de la zona es inválido:', zonaId);
     }
   }
 
-  cargarSector(zonaId: number) {
-    if (zonaId) {
-      this.sectorService.buscarTodos(zonaId).subscribe(
-        (response) => {
-          this.sectores = response;
-        },
-        (error) => {
-          console.error('Error al cargar los sectores:', error);
-        }
-      );
-    } else {
-      this.sectores = [];  // Limpiar sectores si no hay zona seleccionada
-    }
-  }
+
 
   cargarZonas() {
     this.zonaService.buscarTodos().subscribe(
       (response) => {
         this.zonas = response;
-        if (this.form.get('zona')?.value) {
-          // Si ya hay una zona seleccionada al cargar, cargar los sectores de inmediato
-          this.cargarSector(this.form.get('zona')?.value);
-        }
       },
       (error) => {
         console.error('Error al cargar las zonas:', error);

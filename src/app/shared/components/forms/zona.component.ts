@@ -70,8 +70,8 @@ export class ZonaFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  descripcionZona: [null, Validators.required],
+      id: [null,],
+      descripcionZona: [null, Validators.required],
     });
   }
 
@@ -85,8 +85,8 @@ export class ZonaFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-descripcionZona: this.data.object.descripcionZona,
+        id: this.data.object.id,
+        descripcionZona: this.data.object.descripcionZona,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -104,8 +104,8 @@ descripcionZona: this.data.object.descripcionZona,
     if (this.form.valid) {
       const formData: Zona = {
         /*form-fields-submit*/
-id: this.form.value.id,
-descripcionZona: this.form.value.descripcionZona,
+        id: this.form.value.id,
+        descripcionZona: this.form.value.descripcionZona,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -130,7 +130,7 @@ descripcionZona: this.form.value.descripcionZona,
             this.toastr.success(this.translate.instant('alertas.toastr.success'));
             this.dialogRef.close(true);
           },
-          error: (error) => { 
+          error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }

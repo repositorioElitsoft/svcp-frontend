@@ -27,7 +27,7 @@
         <mat-label class="text-lg">{{
             'mantenedores.formularios.tipoEmpleado.label.descripcionTipoEmpleado' |
             translate }}</mat-label>
-        <mat-select formControlName="tipoEmpleado">
+        <mat-select formControlName="tipoEmpleado" [compareWith]="compareTipoEmpleado">
             <mat-option class="text-base w-full" *ngFor="let option of tiposEmpleados" [value]="option">
                 {{ option.descripcionTipoEmpleado}}
             </mat-option>
@@ -38,7 +38,7 @@
         <mat-label class="text-lg">{{
             'mantenedores.formularios.empleado.label.rol' |
             translate }}</mat-label>
-        <mat-select formControlName="role">
+        <mat-select formControlName="role" [compareWith]="compareRole">
             <mat-option class="text-base w-full" *ngFor="let option of roles" [value]="option">
                 {{ option.nombreRol}}
             </mat-option>
@@ -49,7 +49,7 @@
         <mat-label class="text-lg">{{
             'mantenedores.formularios.empleado.label.estado' |
             translate }}</mat-label>
-        <mat-select formControlName="estado">
+        <mat-select formControlName="estado" [compareWith]="compareEstado">
             <mat-option class="text-base w-full" *ngFor="let option of estados" [value]="option">
                 {{ option.descripcion}}
             </mat-option>

@@ -31,26 +31,6 @@
 					</mat-error>
 				</mat-form-field>
 
-				<!-- Tipo de documento -->
-				<mat-form-field appearance="outline" class="w-full">
-					<mat-label>Tipo de documento</mat-label>
-					<mat-select>
-						<mat-option value="rut">RUT</mat-option>
-						<mat-option value="dni">DNI</mat-option>
-						<mat-option value="pasaporte">Pasaporte</mat-option>
-					</mat-select>
-				</mat-form-field>
-
-
-
-				<!-- Nº documento -->
-				<mat-form-field appearance="outline" class="w-full">
-					<mat-label>Nº documento</mat-label>
-					<input matInput formControlName="rut">
-					<mat-error *ngIf="form.get('rut')?.hasError('required')">
-						{{ 'mantenedores.formularios.campoRequerido' | translate }}
-					</mat-error>
-				</mat-form-field>
 
 				<!-- Tipo de cliente -->
 				<mat-form-field appearance="outline" class="w-full">

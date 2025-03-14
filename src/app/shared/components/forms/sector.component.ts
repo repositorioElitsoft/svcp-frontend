@@ -11,8 +11,8 @@ import { MatOptionModule } from '@angular/material/core';
 import { convertErrorMessageToI18 } from '../../../core/utils/errors.utils';
 /*services-imports*/
 import { ZonaService } from '../../../core/services/zona.service';
-				import { Zona } from '../../../core/models/zona.model'; 
-				
+import { Zona } from '../../../core/models/zona.model';
+
 
 
 import {
@@ -58,7 +58,7 @@ export class SectorFormComponent implements OnInit {
   readonly esActualizar = model(this.data.esActualizar);
 
   /*variable-declarations*/
-zona: Zona[] = [];
+  zona: Zona[] = [];
 
 
   constructor(
@@ -67,14 +67,14 @@ zona: Zona[] = [];
     private translate: TranslateService,
     private toastr: ToastrService,
     /*other-services-injection*/
-private zonaService: ZonaService,
+    private zonaService: ZonaService,
   ) {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  descripcionSector: [null, Validators.required],
-  zona: [{}, Validators.required],
+      id: [null,],
+      descripcionSector: [null, Validators.required],
+      zona: [{}, Validators.required],
     });
   }
 
@@ -88,9 +88,9 @@ private zonaService: ZonaService,
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-descripcionSector: this.data.object.descripcionSector,
-zona: this.data.object.zona,
+        id: this.data.object.id,
+        descripcionSector: this.data.object.descripcionSector,
+        zona: this.data.object.zona,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -99,14 +99,14 @@ zona: this.data.object.zona,
     }
     /*services-init-call*/
 
-					this.zonaService.buscarTodos().subscribe({
-						next:(zona :Zona[])=>{
-							this.zona = zona
-							const foundzona = this.zona.find(e => e.id === this.data.object.zona.id);
-				  			this.form.patchValue({ zona: foundzona })
-						}
-					})
-				
+    this.zonaService.buscarTodos().subscribe({
+      next: (zona: Zona[]) => {
+        this.zona = zona
+        const foundzona = this.zona.find(e => e.id === this.data.object.zona.id);
+        this.form.patchValue({ zona: foundzona })
+      }
+    })
+
 
   }
 
@@ -116,9 +116,9 @@ zona: this.data.object.zona,
     if (this.form.valid) {
       const formData: Sector = {
         /*form-fields-submit*/
-id: this.form.value.id,
-descripcionSector: this.form.value.descripcionSector,
-zona: this.form.value.zona,
+        id: this.form.value.id,
+        descripcionSector: this.form.value.descripcionSector,
+        zona: this.form.value.zona,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -143,7 +143,7 @@ zona: this.form.value.zona,
             this.toastr.success(this.translate.instant('alertas.toastr.success'));
             this.dialogRef.close(true);
           },
-          error: (error) => { 
+          error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }
