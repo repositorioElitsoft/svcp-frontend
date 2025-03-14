@@ -33,6 +33,7 @@ import { Zona } from "../../../../core/models/zona.model";
 import { SectorService } from "../../../../core/services/sector.service";
 import { ZonaService } from "../../../../core/services/zona.service";
 import { Direccion } from "../../../../core/models/direccion.model";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 @Component({
   selector: "app-locaciones-cliente-form",
@@ -47,6 +48,7 @@ import { Direccion } from "../../../../core/models/direccion.model";
     MatButtonModule,
     MatIconModule,
     MatSlideToggleModule,
+    MatExpansionModule
   ],
   templateUrl: "./locaciones-cliente-form.component.html",
 })
@@ -69,6 +71,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   zonas: Zona[] = [];
   selectedSectorId: number | null = null; // Definir la variable para el sector seleccionado
   selectedZonaId: number | null = null;   // Definir la variable para la zona seleccionada
+  expanded: boolean = false;
 
 
   constructor(
@@ -372,8 +375,6 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       console.error('El ID de la zona es inválido:', zonaId);
     }
   }
-
-
 
   cargarZonas() {
     this.zonaService.buscarTodos().subscribe(

@@ -1,15 +1,33 @@
 <form [formGroup]="form" class="space-y-4 p-4">
+
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="descripcionDireccion" placeholder="Descripción">
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Tipo de locación</mat-label>
+        <mat-select formControlName="tipoDireccion">
+            <mat-option *ngFor="let tipo of tiposDirecciones" [value]="tipo">
+                {{ tipo.descripcion }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
+
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado">
+            <mat-option *ngFor="let est of estados" [value]="est">
+                {{ est.descripcion }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Tipo de locación</mat-label>
-            <mat-select formControlName="tipoDireccion">
-                <mat-option *ngFor="let tipo of tiposDirecciones" [value]="tipo">
-                    {{ tipo.descripcion }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Región</mat-label>
             <mat-select (selectionChange)="onRegionSeleccionada($event.value)">
@@ -74,22 +92,6 @@
             <textarea matInput formControlName="referencia" rows="3" placeholder="Referencia"></textarea>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Descripción</mat-label>
-            <textarea matInput formControlName="descripcionDireccion" rows="3" placeholder="Descripción"></textarea>
-        </mat-form-field>
-    </div>
-
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Estado</mat-label>
-            <mat-select formControlName="estado">
-                <mat-option *ngFor="let est of estados" [value]="est">
-                    {{ est.descripcion }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
 
         <!-- Toggle para solicitar evidencia -->
         <div class="flex items-center gap-4 py-2 text-lg">
@@ -98,6 +100,12 @@
                 color="primary">
             </mat-slide-toggle>
         </div>
+    </div>
+
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
 
 
     </div>
