@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input, EventEmitter, Output, Inject } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input, EventEmitter, Output, Inject, SimpleChanges } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { LocacionMapsService } from "../../../../core/services/locacion-maps.service";
@@ -34,6 +34,7 @@ import { SectorService } from "../../../../core/services/sector.service";
 import { ZonaService } from "../../../../core/services/zona.service";
 import { Direccion } from "../../../../core/models/direccion.model";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { ApiEntityResponse } from "../../../../core/models/api-entity-response.model";
 
 @Component({
   selector: "app-locaciones-cliente-form",
@@ -63,6 +64,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   regiones: Region[] = [];
   direccionCombinada: string = '';
   @Input() id: string | null = null;
+  @Input() direccionId: number | null = null; // Recibe el ID de la dirección a editar
   @Output() formularioEnviado = new EventEmitter<void>();
   @Inject(MAT_DIALOG_DATA) public data: any  // Inyecta los datos del modal
   private autocomplete!: google.maps.places.Autocomplete;
@@ -101,7 +103,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
     this.form = this.fb.group({
       id: [null],
       cliente: this.fb.group({ id: this.id }),
-      descripcionDireccion: [""],
+      descripcion: [""],
       calle: [""],
       numeracion: [""],
       referencia: [""],
@@ -120,6 +122,22 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.initAutocomplete();
   }
+
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['direccionId']) {
+      if (this.direccionId) {
+        console.log('📩 Nuevo direccionId recibido:', this.direccionId);
+        this.cargarDatosDireccion(this.direccionId);
+      } else {
+        // Reinicia el formulario si no hay direccionId
+        this.initForm();
+      }
+    }
+  }
+
+
 
   private initAutocomplete() {
     this.autocomplete = new google.maps.places.Autocomplete(
@@ -217,6 +235,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
     // Cargar todas las regiones al inicio
     this.regionService.buscarTodos().subscribe(regiones => {
       this.regiones = regiones;
+      console.log('variable direccion', this.direccionId)
     });
 
   }
@@ -298,7 +317,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       const direccion: Direccion = {
         id: this.form.value.id,
         cliente: this.form.value.cliente,
-        descripcionDireccion: this.form.value.descripcionDireccion,
+        descripcion: this.form.value.descripcion,
         calle: this.form.value.calle,
         numeracion: this.form.value.numeracion,
         referencia: this.form.value.referencia,
@@ -325,7 +344,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
           this.form.reset({
             estado: { id: null },  // Asignar valores iniciales
             cliente: null,
-            descripcionDireccion: "",
+            descripcion: "",
             calle: "",
             numeracion: "",
             referencia: "",
@@ -386,6 +405,63 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       }
     );
   }
+
+
+
+  private cargarDatosDireccion(direccionId: number) {
+    const clienteId = this.id ? parseInt(this.id, 10) : 0;
+
+    this.direccion.buscar(direccionId, clienteId).subscribe({
+      next: (direccion: ApiEntityResponse<Direccion>) => {
+        if (direccion) {
+          console.log('Datos de la dirección recibidos:', direccion);
+
+          this.cargarUbicaciones();
+          this.onRegionSeleccionada(16);
+          this.onProvinciaSeleccionada(161);
+          this.cargarZonas();
+          this.onZonaSeleccionada(6);
+          this.cargarEstado();
+          this.cargarTipoDireccion();
+
+          this.form.patchValue({
+            id: direccion.data.id,
+            cliente: { id: direccion.data.cliente?.id || null },
+            descripcion: direccion.data.descripcion || '',
+            calle: direccion.data.calle || '',
+            numeracion: direccion.data.numeracion || '',
+            referencia: direccion.data.referencia || '',
+            comuna: { id: direccion.data.comuna?.id || null, descripcionComuna: direccion.data.comuna?.descripcionComuna || '' },
+            sector: { id: direccion.data.sector?.id || null, descripcionSector: direccion.data.sector?.descripcionSector || '' },
+            contacto: { id: direccion.data.contacto?.id || null, nombre: direccion.data.contacto?.nombre || '' },
+            tipoDireccion: { id: direccion.data.tipoDireccion?.id || null, descripcion: direccion.data.tipoDireccion?.descripcion || '' },
+            imagenPerfil: direccion.data.imagenPerfil || '',
+            latitud: direccion.data.latitud || null,
+            longitud: direccion.data.longitud || null,
+            estado: { id: direccion.data.estado?.id || null, descripcion: direccion.data.estado?.descripcion || '' },
+            flagEvidencia: direccion.data.flagEvidencia || 'N'
+          });
+
+
+
+
+
+
+          // Actualizar la posición del mapa si es necesario
+          this.currentMarkerPosition = {
+            lat: direccion.data.latitud || this.initialPosition.lat,
+            lng: direccion.data.longitud || this.initialPosition.lng
+          };
+        }
+      },
+      error: (error: any) => {
+        console.error("Error al cargar la dirección:", error);
+        this.toastr.error("Error al cargar los datos de la dirección.");
+      }
+    });
+  }
+
+
 
 
 

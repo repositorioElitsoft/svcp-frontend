@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Direccion } from '../../core/models/direccion.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,9 +17,10 @@ export class DireccionService {
         'Content-Type': 'application/json'
     });
 
-    buscar(direccionId: number): Observable<Direccion> {
-        return this.http.get<Direccion>(`${this.url}direcciones/${direccionId}`);
+    buscar(direccionId: number, clienteId: number): Observable<ApiEntityResponse<Direccion>> {
+        return this.http.get<ApiEntityResponse<Direccion>>(`${this.url}direcciones/${direccionId}/clientes/${clienteId}`);
     }
+
 
     buscarTodos(): Observable<Direccion[]> {
         return this.http.get<Direccion[]>(`${this.url}direcciones`, { headers: this.headers });

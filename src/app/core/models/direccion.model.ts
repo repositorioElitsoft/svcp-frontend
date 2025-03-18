@@ -8,7 +8,7 @@ import { TiposDirecciones } from "./tipos-direcciones.model";
 export interface Direccion {
     id: number;
     cliente: Cliente;
-    descripcionDireccion?: string;
+    descripcion?: string;
     calle?: string;
     numeracion?: string;
     referencia?: string;
