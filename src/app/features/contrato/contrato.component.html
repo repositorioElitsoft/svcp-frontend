@@ -14,17 +14,43 @@
                     {{ 'contrato.titulo' | translate }}
                 </h1>
             </div>
-            <div class="w-full sm:w-auto">
-                <!-- Botones y Acciones -->
 
+        </div>
+
+        <!-- Sección Filtro -->
+        <div class="bg-blue-500 w-full h-12  p-4 gap-4 dark:bg-neutral-800">
+            <app-filtros-contrato></app-filtros-contrato>
+        </div>
+        <section class="h-14"></section>
+        <!-- Sección Etiqueta -->
+        <div class="bg-red-500 w-full h-12 mt-6 mb-6 p-4 gap-4 dark:bg-neutral-800 grid grid-cols-2">
+            <div></div> <!-- Columna 1 vacía -->
+            <div class="flex items-center justify-center"> <!-- Columna 2 con el h1 -->
+                <h1>ETIQUETA NUMERO CONTRATO</h1>
             </div>
         </div>
 
 
-        <!-- Table Section -->
 
-        <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
-
+        <!-- Sección Etiqueta -->
+        <div class="bg-green-500 mt-6  mb-6w-full h-12  p-4 gap-4 dark:bg-neutral-800">
+            <app-cliente-contrato></app-cliente-contrato>
         </div>
+
+
+        <!-- Sección Etiqueta -->
+        <div class="bg-yellow-500 mt-6  mb-6w-full h-12  p-4 gap-4 dark:bg-neutral-800">
+            <app-locacion></app-locacion>
+        </div>
+
+
+
+
+
+
+
+
+
+
     </div>
 </section>

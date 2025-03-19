@@ -4,11 +4,14 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { FiltrosContratoComponent } from './shared/filtros-contrato/filtros-contrato.component';
+import { LocacionComponent } from './shared/locacion/locacion.component';
+import { ClienteContratoComponent } from '../../cliente-contrato/cliente-contrato.component';
 
 @Component({
   selector: 'app-contrato',
   standalone: true,
-  imports: [MatIcon, TranslateModule],
+  imports: [MatIcon, TranslateModule, FiltrosContratoComponent, LocacionComponent, ClienteContratoComponent],
   templateUrl: './contrato.component.html',
   styleUrls: ['./contrato.component.css'] // Corregido de 'styleUrl' a 'styleUrls'
 })
