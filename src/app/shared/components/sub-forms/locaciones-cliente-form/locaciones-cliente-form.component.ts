@@ -13,7 +13,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { AddressDetails } from "../../../../core/models/address-details.model";
 import { Comuna } from "../../../../core/models/comuna.model";
 import { Observable } from "rxjs/internal/Observable";
-import { of } from "rxjs";
+import { lastValueFrom, of } from "rxjs";
 import { Estado } from "../../../../core/models/estados.model";
 import { Provincia } from "../../../../core/models/provincia.models";
 import { Region } from "../../../../core/models/region.models";
@@ -74,7 +74,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   selectedSectorId: number | null = null; // Definir la variable para el sector seleccionado
   selectedZonaId: number | null = null;   // Definir la variable para la zona seleccionada
   expanded: boolean = false;
-
+  paisId: number = 1;
 
   constructor(
     private fb: FormBuilder,
@@ -233,7 +233,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
 
   private cargarUbicaciones() {
     // Cargar todas las regiones al inicio
-    this.regionService.buscarTodos().subscribe(regiones => {
+    this.regionService.buscarTodos(this.paisId).subscribe(regiones => {
       this.regiones = regiones;
       console.log('variable direccion', this.direccionId)
     });
@@ -408,58 +408,117 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
 
 
 
-  private cargarDatosDireccion(direccionId: number) {
+  private async cargarDatosDireccion(direccionId: number) {
     const clienteId = this.id ? parseInt(this.id, 10) : 0;
 
-    this.direccion.buscar(direccionId, clienteId).subscribe({
-      next: (direccion: ApiEntityResponse<Direccion>) => {
-        if (direccion) {
-          console.log('Datos de la dirección recibidos:', direccion);
+    try {
+      // 1. Cargar dirección principal
+      const direccion = await lastValueFrom(
+        this.direccion.buscar(direccionId, clienteId)
+      );
 
-          this.cargarUbicaciones();
-          this.onRegionSeleccionada(16);
-          this.onProvinciaSeleccionada(161);
-          this.cargarZonas();
-          this.onZonaSeleccionada(6);
-          this.cargarEstado();
-          this.cargarTipoDireccion();
-
-          this.form.patchValue({
-            id: direccion.data.id,
-            cliente: { id: direccion.data.cliente?.id || null },
-            descripcion: direccion.data.descripcion || '',
-            calle: direccion.data.calle || '',
-            numeracion: direccion.data.numeracion || '',
-            referencia: direccion.data.referencia || '',
-            comuna: { id: direccion.data.comuna?.id || null, descripcionComuna: direccion.data.comuna?.descripcionComuna || '' },
-            sector: { id: direccion.data.sector?.id || null, descripcionSector: direccion.data.sector?.descripcionSector || '' },
-            contacto: { id: direccion.data.contacto?.id || null, nombre: direccion.data.contacto?.nombre || '' },
-            tipoDireccion: { id: direccion.data.tipoDireccion?.id || null, descripcion: direccion.data.tipoDireccion?.descripcion || '' },
-            imagenPerfil: direccion.data.imagenPerfil || '',
-            latitud: direccion.data.latitud || null,
-            longitud: direccion.data.longitud || null,
-            estado: { id: direccion.data.estado?.id || null, descripcion: direccion.data.estado?.descripcion || '' },
-            flagEvidencia: direccion.data.flagEvidencia || 'N'
-          });
-
-
-
-
-
-
-          // Actualizar la posición del mapa si es necesario
-          this.currentMarkerPosition = {
-            lat: direccion.data.latitud || this.initialPosition.lat,
-            lng: direccion.data.longitud || this.initialPosition.lng
-          };
-        }
-      },
-      error: (error: any) => {
-        console.error("Error al cargar la dirección:", error);
-        this.toastr.error("Error al cargar los datos de la dirección.");
+      if (!direccion) {
+        console.log('No se recibieron datos de la dirección');
+        return;
       }
-    });
+
+      console.log('Datos de la dirección recibidos:', direccion);
+
+      // 2. Cargar regiones (depende del país)
+      const regiones = await lastValueFrom(
+        this.regionService.buscarTodos(this.paisId)
+      );
+      this.regiones = regiones;
+      console.log('Regiones cargadas:', regiones);
+
+      // 3. Cargar provincias (depende de regiones)
+      const provincias = await lastValueFrom(
+        this.provinciaService.buscarTodos(16)
+      );
+      this.provincias = provincias;
+      console.log('Provincias cargadas:', provincias);
+
+      // 4. Cargar comunas (depende de provincias)
+      const comunas = await lastValueFrom(
+        this.comunaService.buscarTodos(161)
+      );
+      this.comunas = comunas;
+      console.log('Comunas cargadas:', comunas);
+
+      // 5. Cargar zonas
+      const zonas = await lastValueFrom(
+        this.zonaService.buscarTodos()
+      );
+      this.zonas = zonas;
+      console.log('Zonas cargadas:', zonas);
+
+      // 6. Cargar sectores
+      const sectores = await lastValueFrom(
+        this.sectorService.buscarTodos(6)
+      );
+      this.sectores = sectores;
+      console.log('Sectores cargados:', sectores);
+
+      // 7. Cargar estados de servicio
+      const estados = await lastValueFrom(
+        this.estadoServicio.buscarTodos()
+      );
+      this.estados = estados;
+      console.log('Estados de servicio cargados:', estados);
+
+      // 8. Cargar tipos de dirección
+      const tiposDireccion = await lastValueFrom(
+        this.tipoDireccionService.buscarTodos()
+      );
+      this.tiposDirecciones = tiposDireccion.data;
+      console.log('Tipos de dirección cargados:', tiposDireccion.data);
+
+      // Actualizar formulario después de cargar todos los datos
+      this.form.patchValue({
+        id: direccion.data.id,
+        cliente: { id: direccion.data.cliente?.id || null },
+        descripcion: direccion.data.descripcion || '',
+        calle: direccion.data.calle || '',
+        numeracion: direccion.data.numeracion || '',
+        referencia: direccion.data.referencia || '',
+        comuna: {
+          id: direccion.data.comuna?.id || null,
+          descripcionComuna: direccion.data.comuna?.descripcionComuna || ''
+        },
+        sector: {
+          id: direccion.data.sector?.id || null,
+          descripcionSector: direccion.data.sector?.descripcionSector || ''
+        },
+        contacto: {
+          id: direccion.data.contacto?.id || null,
+          nombre: direccion.data.contacto?.nombre || ''
+        },
+        tipoDireccion: {
+          id: direccion.data.tipoDireccion?.id || null,
+          descripcion: direccion.data.tipoDireccion?.descripcion || ''
+        },
+        imagenPerfil: direccion.data.imagenPerfil || '',
+        latitud: direccion.data.latitud || null,
+        longitud: direccion.data.longitud || null,
+        estado: {
+          id: direccion.data.estado?.id || null,
+          descripcion: direccion.data.estado?.descripcion || ''
+        },
+        flagEvidencia: direccion.data.flagEvidencia || 'N'
+      });
+
+      // Actualizar posición del mapa
+      this.currentMarkerPosition = {
+        lat: direccion.data.latitud || this.initialPosition.lat,
+        lng: direccion.data.longitud || this.initialPosition.lng
+      };
+
+    } catch (error) {
+      console.error('Error en el proceso de carga:', error);
+      this.toastr.error("Error al cargar los datos de la dirección.");
+    }
   }
+
 
 
 

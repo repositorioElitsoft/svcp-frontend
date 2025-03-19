@@ -23,8 +23,8 @@ export class RegionService {
         return this.http.get<Region>(`${this.url}regiones/${regionId}`);
     }
 
-    buscarTodos(): Observable<Region[]> {
-        return this.http.get<Region[]>(`${this.url}regiones/paises/1`);
+    buscarTodos(paisId: number): Observable<Region[]> {
+        return this.http.get<Region[]>(`${this.url}regiones/paises/${paisId}`);
     }
 
 

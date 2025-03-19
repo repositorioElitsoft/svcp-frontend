@@ -52,6 +52,7 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
   estados: Estado[] = [];
   provincias: Provincia[] = [];
   regiones: Region[] = [];
+  paisId: number = 1;
   direccionCombinada: string = '';
   @Input() id: string | null = null;
   @Output() formularioEnviado = new EventEmitter<void>();
@@ -204,7 +205,7 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
 
   private cargarUbicaciones() {
     // Cargar todas las regiones al inicio
-    this.regionService.buscarTodos().subscribe(regiones => {
+    this.regionService.buscarTodos(this.paisId).subscribe(regiones => {
       this.regiones = regiones;
     });
 
