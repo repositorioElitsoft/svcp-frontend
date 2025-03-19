@@ -129,8 +129,15 @@ export class SharedTableComponent {
   }
 
   protected onPageChanged(newPage: number) {
+    console.log("Cambiando a la página:", newPage);
+    this.selection.clear();
+    console.log("Selección limpiada.");
+
+    this.notifySelectionChange(); // Asegura que OpcionesMantenedorComponent se actualiza
     this.pageChanged.emit(newPage);
   }
+
+
 
 
   protected onSort(selectedColumnName: string, columnIndex: number) {
