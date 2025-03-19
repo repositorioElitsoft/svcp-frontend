@@ -33,6 +33,7 @@ export class SectorComponent implements OnInit {
   pageNumber = 0
   totalPages = 0
   pageSize = 5;
+  zonaId = null;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
@@ -74,13 +75,38 @@ export class SectorComponent implements OnInit {
     console.log("Eliminar seleccionados:", ids);
   }
 
-  // exportarExcel() {
-  //   console.log("Recibida solicitud de exportación");
-  //   this.sectorService.buscarTodos().subscribe((data: any[]) => {
-  //     console.log("Data recuperada:", data);
-  //     this.exportService.exportToExcel(data, this.titulo);
-  //   });
-  // }
+
+  exportarExcel(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    const filtros = {
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
+      sortField: sortField,
+      sortDirection: sortDirection,
+      ...optionalFilter
+    };
+
+    console.log("Recibida solicitud de exportación con filtros:", filtros);
+
+    this.sectorService.buscarFiltrado(filtros).subscribe(
+      (response: any) => {
+        console.log("Respuesta completa de la API:", response);
+
+        // Extraer solo la lista de datos desde 'content'
+        const dataArray = response?.content ?? [];
+
+        if (!Array.isArray(dataArray)) {
+          console.error("Error: La respuesta no contiene un array en 'content'.", response);
+          return;
+        }
+
+        console.log("Data extraída para exportación:", dataArray);
+        this.exportService.exportToExcel(dataArray, this.titulo);
+      },
+      (error) => {
+        console.error("Error al recuperar datos para exportación:", error);
+      }
+    );
+  }
 
 
   volver() {

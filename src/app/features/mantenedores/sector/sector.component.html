@@ -17,7 +17,7 @@
             <div class="w-full sm:w-auto">
                 <!-- Botones y Acciones -->
                 <app-opciones-mantenedor [hasSelection]="hasSelection" [selectedData]="selectedData"
-                    (agregar)="agregarServicio()" (eliminar)="eliminar($event)">
+                    (agregar)="agregarServicio()" (exportar)="exportarExcel()" (eliminar)="eliminar($event)">
                 </app-opciones-mantenedor>
             </div>
         </div>
