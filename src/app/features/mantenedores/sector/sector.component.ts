@@ -78,8 +78,8 @@ export class SectorComponent implements OnInit {
 
   exportarExcel(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     const filtros = {
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize,
+      pageNumber: 0,
+      pageSize: 2000,
       sortField: sortField,
       sortDirection: sortDirection,
       ...optionalFilter

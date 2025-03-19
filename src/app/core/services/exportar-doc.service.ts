@@ -9,41 +9,31 @@ export class ExportarDocService {
 
     constructor() { }
 
-    // Función para exportar a Excel con estilos
-    exportToExcel(data: any[], filename: string) {
-        // Usamos las claves del primer objeto para generar los encabezados automáticamente
-        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-
-        // Aplicar estilos a los encabezados
-        const headerStyle = {
-            fill: {
-                fgColor: { rgb: "4F81BD" } // Color de fondo azul
-            },
-            font: {
-                color: { rgb: "FFFFFF" }, // Color de texto blanco
-                bold: true // Texto en negrita
-            },
-            alignment: {
-                horizontal: 'center' // Centrar el texto
-            },
-            border: {
-                top: { style: 'thin', color: { rgb: "000000" } },
-                bottom: { style: 'thin', color: { rgb: "000000" } },
-                left: { style: 'thin', color: { rgb: "000000" } },
-                right: { style: 'thin', color: { rgb: "000000" } }
-            }
-        };
-
-        // Obtener el rango de los encabezados
-        if (ws['!ref']) {
-            const range = XLSX.utils.decode_range(ws['!ref']);
-            for (let C = range.s.c; C <= range.e.c; ++C) {
-                const cellAddress = XLSX.utils.encode_cell({ r: range.s.r, c: C });
-                if (!ws[cellAddress]) continue;
-                ws[cellAddress].s = headerStyle;
+    // Función para aplanar objetos anidados manteniendo el ID del objeto principal y renombrando las descripciones
+    private flattenObject(obj: any, parentKey: string = ''): any {
+        let flattened: any = {};
+        for (let key in obj) {
+            if (!obj.hasOwnProperty(key)) continue;
+            if (key === 'id' && parentKey === '') { // Mantener el ID del objeto principal
+                flattened[key] = obj[key];
+            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                Object.assign(flattened, this.flattenObject(obj[key], key));
+            } else if (!key.endsWith('id')) { // Excluir claves con 'id' en objetos anidados
+                flattened[parentKey || key] = obj[key];
             }
         }
+        return flattened;
+    }
 
+    // Función para exportar a Excel con objetos anidados correctamente desplegados
+    exportToExcel(data: any[], filename: string) {
+        // Aplanar cada objeto de la lista
+        const flattenedData = data.map(item => this.flattenObject(item));
+
+        // Crear hoja de cálculo
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(flattenedData);
+
+        // Crear libro de trabajo y agregar hoja
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -54,18 +44,12 @@ export class ExportarDocService {
         saveAs(new Blob([wbout], { type: 'application/octet-stream' }), `${filename}.xlsx`);
     }
 
-    // Función para exportar a CSV
+    // Función para exportar a CSV con objetos anidados correctamente desplegados
     exportToCSV(data: any[], filename: string) {
-        // Usamos las claves del primer objeto para generar los encabezados automáticamente
-        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-
-        // Convertimos la hoja de trabajo a formato CSV
+        const flattenedData = data.map(item => this.flattenObject(item));
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(flattenedData);
         const csv: string = XLSX.utils.sheet_to_csv(ws);
-
-        // Creamos el archivo y lo descargamos
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         saveAs(blob, `${filename}.csv`);
     }
-
-
 }

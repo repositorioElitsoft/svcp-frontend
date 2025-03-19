@@ -474,7 +474,7 @@
         "cancelar": "Cancelar",
         "eliminar": "Eliminar",
         "toastr": {
-            "success": "Operación exitosa",
+            "success": "Acción realizada con éxito",
             "errors": {
                 "cliente": {
                     "NO_ENCONTRADO": "El cliente no fue encontrado.",
