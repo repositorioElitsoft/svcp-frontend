@@ -19,6 +19,7 @@ import { DireccionComponent } from './features/mantenedores/direccion/direccion.
 import { TiposDireccionesComponent } from './features/mantenedores/tipos-direcciones/tipos-direcciones.component';
 import { DireccionEmpleadoComponent } from './features/views/direccion-empleado/direccion-empleado.component';
 import { LocacionClienteComponent } from './features/views/locacion-cliente/locacion-cliente.component';
+import { ContratoComponent } from './features/contrato/contrato.component';
 
 export const routes: Routes = [
     {
@@ -42,6 +43,16 @@ export const routes: Routes = [
             {
                 path: "home",
                 component: HomeComponent
+            },
+            {
+
+                path: "gestion-de-contratos",
+                children: [
+                    {
+                        path: "contrato/:id", // Ruta independiente
+                        component: ContratoComponent
+                    }
+                ]
             },
             {
                 path: "mantenedores",
@@ -116,7 +127,8 @@ export const routes: Routes = [
                     {
                         path: "tipos-direcciones",
                         component: TiposDireccionesComponent
-                    }
+                    },
+
                     /*ruta_nueva*/
                 ]
             }
