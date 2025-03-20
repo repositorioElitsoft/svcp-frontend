@@ -25,7 +25,7 @@ export class SharedTableComponent {
   @Input() totalElements: number = 0;
   @Input() pageNumber = 0
   @Input() totalPages = 0
-  @Input() pageSize = 5;  // Tamaño por defecto para la paginación
+  @Input() pageSize = 10;  // Tamaño por defecto para la paginación
   @Input() translationGroup = ""
   @Input() filters: any[] = []
   @Input() filtersLabels: any[] = []

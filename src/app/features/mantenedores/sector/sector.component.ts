@@ -32,7 +32,7 @@ export class SectorComponent implements OnInit {
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
   totalPages = 0
-  pageSize = 5;
+  pageSize = 10;
   zonaId = null;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
