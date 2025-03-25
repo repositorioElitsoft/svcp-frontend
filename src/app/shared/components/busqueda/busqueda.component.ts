@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { CommonModule } from '@angular/common';  // Agregado
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -13,31 +15,36 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    CommonModule,  // Agregado
     TranslateModule
   ],
   templateUrl: './busqueda.component.html',
-  styleUrl: './busqueda.component.css'
+  styleUrls: ['./busqueda.component.css']
 })
 export class BusquedaComponent {
   @Input() field: string = '';
   @Input() value: string = '';
-  @Input() isSimpleSearch: boolean = false
+  @Input() filterOptions: { label: string; value: string }[] = [];
+  @Input() isSimpleSearch: boolean = false;
   @Output() valueChange = new EventEmitter<{ field: string; value: string }>();
-  @Output() simpleSearch = new EventEmitter<{ [x: string]: string; }>();
+  @Output() simpleSearch = new EventEmitter<{ [x: string]: string }>();
+  @Output() filterSearch = new EventEmitter<{ filter: string; value: string }>();
+
+  selectedFilter: string = '';
 
   onValueChange() {
-    if (this.isSimpleSearch) return
+    if (this.isSimpleSearch) return;
     this.valueChange.emit({ field: this.field, value: this.value });
   }
-  makeSimpleSearch() {
-    console.log('attempting to make simple search, is simple search?', this.isSimpleSearch);
-    if (!this.isSimpleSearch) return;
-    const newObject = { [this.field]: this.value }
-    console.log("filtering by ", newObject)
-    this.simpleSearch.emit(newObject);
+
+  executeSearch() {
+    if (this.selectedFilter) {
+      this.filterSearch.emit({ filter: this.selectedFilter, value: this.value });
+    } else {
+      this.simpleSearch.emit({ [this.field]: this.value });
+    }
   }
 
   constructor(private translate: TranslateService) { }
-
-
 }
