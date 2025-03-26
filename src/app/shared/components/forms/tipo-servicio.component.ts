@@ -114,7 +114,7 @@ export class TipoServicioFormComponent implements OnInit {
       if (this.esActualizar()) {
         this.tipoServicioService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {

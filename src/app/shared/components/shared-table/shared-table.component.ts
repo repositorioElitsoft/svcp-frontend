@@ -30,7 +30,6 @@ export class SharedTableComponent {
   @Input() filters: any[] = []
   @Input() filtersLabels: any[] = []
   @Input() simpleSearchField: string = "";
-  @Input() filterSearchField: string = "";
   @Input() filterSearch: string = "";
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() deleteSingleSelected = new EventEmitter<string>();
@@ -100,10 +99,6 @@ export class SharedTableComponent {
     return this.applyfilter.emit(values);
   }
 
-  makeFilterSearch(values: any) {
-    console.log("simple search activated ", values)
-    return this.applyfilter.emit(values);
-  }
 
   protected filter() {
     const search = this.filterInputs.map(filter => ({

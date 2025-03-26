@@ -114,7 +114,7 @@ export class TrabajoFormComponent implements OnInit {
       if (this.esActualizar()) {
         this.trabajoService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {

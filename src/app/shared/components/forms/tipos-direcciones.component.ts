@@ -114,7 +114,7 @@ export class TiposDireccionesFormComponent implements OnInit {
       if (this.esActualizar()) {
         this.tiposDireccionesService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {

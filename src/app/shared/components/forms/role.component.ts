@@ -70,8 +70,8 @@ export class RoleFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  nombreRol: [null, Validators.required],
+      id: [null,],
+      nombreRol: [null, Validators.required],
     });
   }
 
@@ -85,8 +85,8 @@ export class RoleFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-nombreRol: this.data.object.nombreRol,
+        id: this.data.object.id,
+        nombreRol: this.data.object.nombreRol,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -104,8 +104,8 @@ nombreRol: this.data.object.nombreRol,
     if (this.form.valid) {
       const formData: Role = {
         /*form-fields-submit*/
-id: this.form.value.id,
-nombreRol: this.form.value.nombreRol,
+        id: this.form.value.id,
+        nombreRol: this.form.value.nombreRol,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -114,7 +114,7 @@ nombreRol: this.form.value.nombreRol,
       if (this.esActualizar()) {
         this.roleService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
@@ -130,7 +130,7 @@ nombreRol: this.form.value.nombreRol,
             this.toastr.success(this.translate.instant('alertas.toastr.success'));
             this.dialogRef.close(true);
           },
-          error: (error) => { 
+          error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }

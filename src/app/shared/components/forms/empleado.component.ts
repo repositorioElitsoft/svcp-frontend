@@ -143,7 +143,7 @@ export class EmpleadoFormComponent implements AfterViewInit {
     if (this.esActualizar()) {
       this.empleadoService.actualizar(formData.id, formData).subscribe({
         next: (response) => {
-          this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+          this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
           this.dialogRef.close(response);
         },
         error: (err: any) => {
