@@ -27,7 +27,7 @@
     </div>
 
     <div class="flex justify-between bg-gray-100 p-4  gap-4 rounded-t-lg dark:bg-neutral-800">
-        <app-busqueda (simpleSearch)="makeSimpleSearch($event)" [field]="simpleSearchField"
+        <app-busqueda (simpleSearch)="makeSimpleSearch($event)" [tableData]="dataSource" [field]="simpleSearchField"
             [isSimpleSearch]="true"></app-busqueda>
         <div>
             @if(filtersLabels.length > 0){

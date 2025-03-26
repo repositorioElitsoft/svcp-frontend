@@ -30,6 +30,7 @@ export class SectorComponent implements OnInit {
   titulo: string = 'Sector'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
+  dataForBusqueda: any[] = [];
   pageNumber = 0
   totalPages = 0
   pageSize = 10;
@@ -349,5 +350,10 @@ export class SectorComponent implements OnInit {
   }
 
 
+
+  onDataEmitted(data: any[]) {
+    this.dataForBusqueda = data;
+    // Aquí podrías hacer algún procesamiento adicional si es necesario.
+  }
 
 }

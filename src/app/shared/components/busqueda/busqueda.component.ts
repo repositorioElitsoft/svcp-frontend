@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,15 +30,45 @@ export class BusquedaComponent {
   @Output() valueChange = new EventEmitter<{ field: string; value: string }>();
   @Output() simpleSearch = new EventEmitter<{ [x: string]: string }>();
   @Output() filterSearch = new EventEmitter<{ filter: string; value: string }>();
+  @Input() tableData: any[] = [];
 
   selectedFilter: string = '';
 
-  ngOnChanges() {
-    console.log('field:', this.field);
-    console.log('value:', this.value);
-    console.log('filterOptions:', this.filterOptions);
-    console.log('isSimpleSearch:', this.isSimpleSearch);
+  ngOnChanges(changes: SimpleChanges) {
+
+    // Verificamos si tableData ha cambiado y mostramos su contenido
+    if (changes['tableData']) {
+      console.log('tableData recibida:', this.tableData);
+    }
+
+    // Si cambia tableData y contiene datos, intentamos extraer las zonas
+    if (changes['tableData'] && this.tableData && this.tableData.length > 0) {
+      const zonesMap = new Map<number, string>();
+
+      // Recorremos la data de la tabla y extraemos las zonas
+      this.tableData.forEach(item => {
+        // Suponemos que la propiedad que contiene el objeto zona se llama "zona"
+        if (item.zona && typeof item.zona === 'object') {
+          const zoneId = item.zona.id;
+          // Se puede usar 'descripcion' o 'nombre' según cómo venga la zona
+          const zoneLabel = item.zona.descripcionZona || item.zona.descripcionZona || 'Zona';
+          zonesMap.set(zoneId, zoneLabel);
+        }
+      });
+
+      // Convertimos el Map en un arreglo de opciones
+      const zoneOptions = Array.from(zonesMap.entries()).map(([id, label]) => ({
+        label: label,
+        // Puedes asignar el id directamente o un objeto, según lo necesites
+        value: JSON.stringify({ id, label })
+      }));
+
+      // Actualizamos filterOptions con las zonas encontradas
+      this.filterOptions = zoneOptions;
+      console.log('filterOptions actualizadas:', this.filterOptions);
+    }
   }
+
 
   onValueChange() {
     if (this.isSimpleSearch) return;
@@ -47,16 +77,20 @@ export class BusquedaComponent {
 
   executeSearch() {
     if (this.selectedFilter) {
-      this.filterSearch.emit({ filter: this.selectedFilter, value: this.value });
+      const selectedZone = JSON.parse(this.selectedFilter); // Convertimos el string en objeto
+
+      console.log('Emitiendo filterSearch:', { filter: selectedZone.id, value: selectedZone.id });
+      this.filterSearch.emit({ filter: selectedZone.id, value: selectedZone.id }); // Emitimos solo el ID
     } else {
+      console.log('Emitiendo simpleSearch:', { [this.field]: this.value });
       this.simpleSearch.emit({ [this.field]: this.value });
     }
   }
 
+
+
   shouldShowSearch(): boolean {
-    return this.filterOptions.some(option =>
-      typeof option.value === 'object' && option.value !== null && Object.keys(option.value).length > 0
-    );
+    return this.filterOptions.length > 0;
   }
 
 

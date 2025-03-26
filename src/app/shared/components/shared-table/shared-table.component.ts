@@ -47,6 +47,7 @@ export class SharedTableComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;  // Paginador como input
   @ViewChildren('sortHeader') sortHeaders!: QueryList<ElementRef>
+  @Output() dataEmitted = new EventEmitter<any[]>();
 
   selection = new SelectionModel<any>(true, []);
 
@@ -203,8 +204,11 @@ export class SharedTableComponent {
 
   // Actualizar el dataSource con paginación
   ngOnChanges() {
-    this.dataSourceSubject.next(this.dataSource.slice(0, this.pageSize));  // Mostrar solo las primeras filas
+    const dataSlice = this.dataSource.slice(0, this.pageSize); // Obtener solo la parte paginada
+    this.dataSourceSubject.next(dataSlice);
+    this.dataEmitted.emit(dataSlice); // Emitir la data actualizada
   }
+
 
 
 
