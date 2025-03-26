@@ -32,7 +32,7 @@ export class TareaComponent implements OnInit {
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
   totalPages = 0
-  pageSize = 5;
+  pageSize = 10;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
