@@ -27,9 +27,10 @@ export class BusquedaComponent {
   @Input() value: string = '';
   @Input() filterOptions: { label: string; value: string }[] = [];
   @Input() isSimpleSearch: boolean = false;
+  @Input() isfilterSearch: boolean = false;
   @Output() valueChange = new EventEmitter<{ field: string; value: string }>();
   @Output() simpleSearch = new EventEmitter<{ [x: string]: string }>();
-  @Output() filterSearch = new EventEmitter<{ filter: string; value: string }>();
+  @Output() filterSearch = new EventEmitter<{ [x: string]: string }>();
   @Input() tableData: any[] = [];
 
   selectedFilter: string = '';
@@ -56,7 +57,7 @@ export class BusquedaComponent {
       }));
 
       // Agregar opción "No seleccionar"
-      this.filterOptions = [{ label: 'No seleccionar', value: '' }, ...zoneOptions];
+      this.filterOptions = [{ label: 'No seleccionado', value: '' }, ...zoneOptions];
 
       console.log('filterOptions actualizadas:', this.filterOptions);
     }
@@ -65,6 +66,9 @@ export class BusquedaComponent {
   onValueChange() {
     if (this.isSimpleSearch) return;
     this.valueChange.emit({ field: this.field, value: this.value });
+
+    if (this.isfilterSearch) return;
+    this.valueChange.emit({ field: this.field, value: this.value })
   }
 
   executeSearch() {
