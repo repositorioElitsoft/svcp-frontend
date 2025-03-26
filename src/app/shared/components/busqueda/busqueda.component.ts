@@ -35,40 +35,32 @@ export class BusquedaComponent {
   selectedFilter: string = '';
 
   ngOnChanges(changes: SimpleChanges) {
-
-    // Verificamos si tableData ha cambiado y mostramos su contenido
     if (changes['tableData']) {
       console.log('tableData recibida:', this.tableData);
     }
 
-    // Si cambia tableData y contiene datos, intentamos extraer las zonas
     if (changes['tableData'] && this.tableData && this.tableData.length > 0) {
       const zonesMap = new Map<number, string>();
 
-      // Recorremos la data de la tabla y extraemos las zonas
       this.tableData.forEach(item => {
-        // Suponemos que la propiedad que contiene el objeto zona se llama "zona"
         if (item.zona && typeof item.zona === 'object') {
           const zoneId = item.zona.id;
-          // Se puede usar 'descripcion' o 'nombre' según cómo venga la zona
-          const zoneLabel = item.zona.descripcionZona || item.zona.descripcionZona || 'Zona';
+          const zoneLabel = item.zona.descripcionZona || item.zona.nombre || 'Zona';
           zonesMap.set(zoneId, zoneLabel);
         }
       });
 
-      // Convertimos el Map en un arreglo de opciones
       const zoneOptions = Array.from(zonesMap.entries()).map(([id, label]) => ({
         label: label,
-        // Puedes asignar el id directamente o un objeto, según lo necesites
         value: JSON.stringify({ id, label })
       }));
 
-      // Actualizamos filterOptions con las zonas encontradas
-      this.filterOptions = zoneOptions;
+      // Agregar opción "No seleccionar"
+      this.filterOptions = [{ label: 'No seleccionar', value: '' }, ...zoneOptions];
+
       console.log('filterOptions actualizadas:', this.filterOptions);
     }
   }
-
 
   onValueChange() {
     if (this.isSimpleSearch) return;
@@ -76,24 +68,19 @@ export class BusquedaComponent {
   }
 
   executeSearch() {
-    if (this.selectedFilter) {
-      const selectedZone = JSON.parse(this.selectedFilter); // Convertimos el string en objeto
-
+    if (this.selectedFilter && this.selectedFilter !== '') {
+      const selectedZone = JSON.parse(this.selectedFilter);
       console.log('Emitiendo filterSearch:', { filter: selectedZone.id, value: selectedZone.id });
-      this.filterSearch.emit({ filter: selectedZone.id, value: selectedZone.id }); // Emitimos solo el ID
+      this.filterSearch.emit({ filter: selectedZone.id, value: selectedZone.id });
     } else {
       console.log('Emitiendo simpleSearch:', { [this.field]: this.value });
       this.simpleSearch.emit({ [this.field]: this.value });
     }
   }
 
-
-
   shouldShowSearch(): boolean {
     return this.filterOptions.length > 0;
   }
-
-
 
   constructor(private translate: TranslateService) { }
 }
