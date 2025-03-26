@@ -70,8 +70,8 @@ export class TipoProductoFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  descripcionTipoProducto: [null, Validators.required],
+      id: [null,],
+      descripcionTipoProducto: [null, Validators.required],
     });
   }
 
@@ -85,8 +85,8 @@ export class TipoProductoFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-descripcionTipoProducto: this.data.object.descripcionTipoProducto,
+        id: this.data.object.id,
+        descripcionTipoProducto: this.data.object.descripcionTipoProducto,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -104,8 +104,8 @@ descripcionTipoProducto: this.data.object.descripcionTipoProducto,
     if (this.form.valid) {
       const formData: TipoProducto = {
         /*form-fields-submit*/
-id: this.form.value.id,
-descripcionTipoProducto: this.form.value.descripcionTipoProducto,
+        id: this.form.value.id,
+        descripcionTipoProducto: this.form.value.descripcionTipoProducto,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -114,7 +114,7 @@ descripcionTipoProducto: this.form.value.descripcionTipoProducto,
       if (this.esActualizar()) {
         this.tipoProductoService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
@@ -127,10 +127,10 @@ descripcionTipoProducto: this.form.value.descripcionTipoProducto,
       else {
         this.tipoProductoService.crear(formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
-          error: (error) => { 
+          error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }

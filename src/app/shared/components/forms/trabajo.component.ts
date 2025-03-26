@@ -70,8 +70,8 @@ export class TrabajoFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  descripcionTrabajo: [null, Validators.required],
+      id: [null,],
+      descripcionTrabajo: [null, Validators.required],
     });
   }
 
@@ -85,8 +85,8 @@ export class TrabajoFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-descripcionTrabajo: this.data.object.descripcionTrabajo,
+        id: this.data.object.id,
+        descripcionTrabajo: this.data.object.descripcionTrabajo,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -104,8 +104,8 @@ descripcionTrabajo: this.data.object.descripcionTrabajo,
     if (this.form.valid) {
       const formData: Trabajo = {
         /*form-fields-submit*/
-id: this.form.value.id,
-descripcionTrabajo: this.form.value.descripcionTrabajo,
+        id: this.form.value.id,
+        descripcionTrabajo: this.form.value.descripcionTrabajo,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -114,11 +114,11 @@ descripcionTrabajo: this.form.value.descripcionTrabajo,
       if (this.esActualizar()) {
         this.trabajoService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            const errorMessage = error.error?.message || this.translate.instant('alertas.toastr.error');
             this.toastr.error(errorMessage);
           }
         })
@@ -127,10 +127,10 @@ descripcionTrabajo: this.form.value.descripcionTrabajo,
       else {
         this.trabajoService.crear(formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
-          error: (error) => { 
+          error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }

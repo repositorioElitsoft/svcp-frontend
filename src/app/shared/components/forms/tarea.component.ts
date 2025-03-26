@@ -70,8 +70,8 @@ export class TareaFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  descripcionTarea: [null, Validators.required],
+      id: [null,],
+      descripcionTarea: [null, Validators.required],
     });
   }
 
@@ -85,8 +85,8 @@ export class TareaFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-descripcionTarea: this.data.object.descripcionTarea,
+        id: this.data.object.id,
+        descripcionTarea: this.data.object.descripcionTarea,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -104,8 +104,8 @@ descripcionTarea: this.data.object.descripcionTarea,
     if (this.form.valid) {
       const formData: Tarea = {
         /*form-fields-submit*/
-id: this.form.value.id,
-descripcionTarea: this.form.value.descripcionTarea,
+        id: this.form.value.id,
+        descripcionTarea: this.form.value.descripcionTarea,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -114,11 +114,11 @@ descripcionTarea: this.form.value.descripcionTarea,
       if (this.esActualizar()) {
         this.tareaService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            const errorMessage = error.error?.message || this.translate.instant('alertas.toastr.error');
             this.toastr.error(errorMessage);
           }
         })
@@ -127,10 +127,10 @@ descripcionTarea: this.form.value.descripcionTarea,
       else {
         this.tareaService.crear(formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
-          error: (error) => { 
+          error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }
