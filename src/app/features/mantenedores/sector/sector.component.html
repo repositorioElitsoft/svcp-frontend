@@ -31,8 +31,8 @@
             (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
             (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
             (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"
-            [simpleSearchField]="'descripcionSector'" (filterDelete)="onFilterDeleted($event)"
-            [filters]='[]'></app-shared-table>
+            [simpleSearchField]="'descripcionSector'" [filterSearch]="'descripcionZona'"
+            (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
     </div>
 </div>
 

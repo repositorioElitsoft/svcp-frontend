@@ -30,6 +30,7 @@ export class SharedTableComponent {
   @Input() filters: any[] = []
   @Input() filtersLabels: any[] = []
   @Input() simpleSearchField: string = "";
+  @Input() filterSearch: string = "";
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() deleteSingleSelected = new EventEmitter<string>();
   @Input() additionalActionsTemplate!: TemplateRef<any>; // Nuevo input para recibir el template de acciones adicionales
@@ -222,6 +223,9 @@ export class SharedTableComponent {
     this.notifySelectionChange();
   }
 
+  get endItem(): number {
+    return Math.min((this.pageNumber + 1) * this.pageSize, this.totalElements);
+  }
 
 
 }
