@@ -17,7 +17,7 @@ import { TranslateModule } from "@ngx-translate/core"
       </button>
 
      <button 
-    class="elitsoft-btn"
+    class="elitsoft-warn"
     (click)="onExportar()">
     <mat-icon>download</mat-icon>
     {{ 'opciones-mantenedor.botonExportar.texto' | translate }}
