@@ -461,7 +461,15 @@
         "cancelar": "Cancel",
         "eliminar": "Delete",
         "toastr": {
-            "success": "Operation successful",
+            "guardar": {
+                "success": "Record successfully entered"
+            },
+            "editar": {
+                "success": "Information has been successfully modified"
+            },
+            "eliminar": {
+                "success": "Deletion has been successfully completed"
+            },
             "errors": {
                 "errors": {
                     "cliente": {

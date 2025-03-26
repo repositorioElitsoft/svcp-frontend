@@ -458,7 +458,15 @@
         "cancelar": "Cancelar",
         "eliminar": "Excluir",
         "toastr": {
-            "success": "Operação bem-sucedida",
+            "guardar": {
+                "success": "Registro inserido com sucesso"
+            },
+            "editar": {
+                "success": "Informação foi modificada com sucesso"
+            },
+            "eliminar": {
+                "success": "A exclusão foi realizada com sucesso"
+            },
             "errors": {
                 "errors": {
                     "cliente": {

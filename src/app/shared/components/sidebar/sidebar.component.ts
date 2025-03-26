@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, QueryList, ViewChildren } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ExpansionPanelComponent } from "../expansion-panel/expansion-panel.component";
-
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { SidebarItemLinkComponent } from "../sidebar-item-link/sidebar-item-link.component";
@@ -26,20 +25,16 @@ import { TranslateModule } from '@ngx-translate/core';
 export class SidebarComponent {
   @ViewChildren('panel') expansionPanels!: QueryList<ExpansionPanelComponent>;
   isExpanded: boolean = false;
+  menus: any = [];
+  show = true;
+  @Input() title: string = "";
+  @Input() img: string = "";
 
-  menus: any = []
-  show = true
-  @Input() title: string = ""
-  @Input() img: string = ""
-
-  constructor(private http: HttpClient, private router: Router) {
-
+  constructor(private http: HttpClient, private router: Router, private elementRef: ElementRef) {
     this.http.get('/assets/routes.json').subscribe((data) => {
       this.menus = data;
-
     });
   }
-
 
   ngOnInit(): void {
     this.checkRoute();
@@ -48,21 +43,15 @@ export class SidebarComponent {
 
   private checkRoute() {
     this.show = this.router.url !== '/login';
-
-
   }
 
-
   handleShrink(index: number) {
-    console.log("attemp to shink", index)
     this.expansionPanels.forEach((panel, i) => {
       if (i === index) {
         if (!this.isExpanded) {
-          this.isExpanded = true
+          this.isExpanded = true;
           this.togglePanels();
-          setTimeout(() => { panel.toggleExpand() }, 150)
-
-
+          setTimeout(() => { panel.toggleExpand() }, 150);
         }
       }
     });
@@ -79,14 +68,19 @@ export class SidebarComponent {
   }
 
   togglePanels() {
-    // Iterate over each panel and toggle the isShrinked property
     this.expansionPanels.forEach(panel => {
       panel.isShrinked = !panel.isShrinked;
       if (!this.isExpanded) {
-        panel.shrink()
+        panel.shrink();
       }
     });
   }
 
-
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if (this.isExpanded && !this.elementRef.nativeElement.contains(event.target)) {
+      this.isExpanded = false;
+      this.togglePanels();
+    }
+  }
 }
