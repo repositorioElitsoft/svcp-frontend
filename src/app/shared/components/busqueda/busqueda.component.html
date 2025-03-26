@@ -1,8 +1,8 @@
-<div class="flex w-full space-x-4 ">
+<div class="flex w-full  flex-wrap md:flex-nowrap gap-4 justify-center md:justify-start">
     <!-- Buscar (input) -->
-    <div class="w-1/2">
+    <div class="w-full md:w-3/5 flex justify-center"> <!-- 100% en móviles y 3/5 en desktop -->
         <div
-            class="w-full h-[52.23px] px-3 py-2 rounded-lg border-2 border-[#C2C2C2]  flex justify-between items-center dark:!text-gray-100">
+            class="w-full md:w-[300px] md:h-[44px] px-3 py-2 rounded-lg border-2 border-[#C2C2C2] flex justify-between items-center dark:text-gray-100">
             <input [(ngModel)]="value" type="text"
                 class="w-full h-full bg-transparent border-0 outline-none text-[#757575] text-lg font-roboto font-normal dark:text-[#ccc]"
                 (ngModelChange)="onValueChange()" [placeholder]="'home.placeholder-search' | translate" />
@@ -14,21 +14,23 @@
         </div>
     </div>
 
-    <!-- Filtro -->
-    <div class="w-1/4  flex  items-center ">
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Filtrar por</mat-label>
-            <mat-select [(ngModel)]="selectedFilter">
+    <!-- Filtro (Select estilizado con Tailwind) -->
+    <div class="w-full md:w-2/5 flex justify-center"> <!-- 100% en móviles y 2/5 en desktop -->
+        <div
+            class="w-full md:w-[200px] md:h-[44px] px-3 py-2 rounded-lg border-2 border-[#C2C2C2] flex justify-between items-center bg-white dark:bg-[#1e1e1e]">
+            <mat-select [(ngModel)]="selectedFilter" class="w-full text-lg text-[#757575] dark:text-[#ccc]">
                 <mat-option *ngIf="!filterOptions.length" disabled>Sin datos disponibles</mat-option>
                 <mat-option *ngFor="let option of filterOptions" [value]="option.value">{{ option.label }}</mat-option>
             </mat-select>
-        </mat-form-field>
+        </div>
     </div>
 
-    <!-- Nuevo botón de buscar (al final) -->
-    <div class="w-1/4 justify-center items-center">
-        <button (click)="executeSearch()" class="elitsoft-btn w-full  ">
+    <!-- Botón de buscar -->
+    <div class="w-full md:w-1/4 flex justify-center"> <!-- 100% en móviles y 1/4 en desktop -->
+        <button (click)="executeSearch()"
+            class="w-full md:w-[200px] md:h-[44px] elitsoft-btn flex justify-center items-center text-center">
             {{ 'mantenedores.buscar' | translate }}
         </button>
     </div>
+
 </div>
