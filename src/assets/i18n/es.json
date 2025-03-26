@@ -527,7 +527,7 @@
                     "ID_INVALIDO": "El ID del empleado no es válido."
                 },
                 "general": {
-                    "ERROR_INTERNO": "Ha ocurrido un error interno en el servidor.",
+                    "ERROR_INTERNO": "No se pudo eliminar el registro. Por favor, verifique.",
                     "INTEGRIDAD_VIOLADA": "Se ha violado la integridad de los datos."
                 },
                 "tipoDireccion": {
