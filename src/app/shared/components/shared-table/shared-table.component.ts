@@ -236,24 +236,55 @@ export class SharedTableComponent {
   getVisiblePages(): number[] {
     const total = this.totalPages;
     const current = this.pageNumber;
+    const maxVisible = 4; // máximo botones visibles (incluye 1ª y última)
 
-    // Si hay 5 o menos páginas, muestra todas
-    if (total <= 5) {
+    // Si total es menor o igual que el máximo, se muestran todas las páginas
+    if (total <= maxVisible) {
       return Array.from({ length: total }, (_, i) => i);
     }
 
-    // Si la página actual está en las primeras posiciones
+    const pages: number[] = [];
+    const firstPage = 0;
+    const lastPage = total - 1;
+
+    // Siempre se muestra la primera página
+    pages.push(firstPage);
+
+    // Calcular el rango central: queremos mostrar 3 elementos (previo, actual, siguiente)
+    // pero si estamos cerca de los extremos, se extiende el rango para llenar el máximo visible
+    let start = current - 1;
+    let end = current + 1;
+
+    // Si el current está muy al principio, forzamos un rango inicial
     if (current <= 2) {
-      return [0, 1, 2, -1, total - 1];
+      start = 1;
+      end = 3;
+    }
+    // Si el current está muy al final, ajustamos el rango para las últimas páginas
+    else if (current >= total - 3) {
+      start = total - 4;
+      end = total - 2;
     }
 
-    // Si la página actual está en las últimas posiciones
-    if (current >= total - 3) {
-      return [0, -1, total - 3, total - 2, total - 1];
+    // Si hay un salto entre la primera página y el inicio del rango, insertamos el ellipsis
+    if (start > firstPage + 1) {
+      pages.push(-1);
     }
 
-    // En caso intermedio, muestra la primera, la actual y la última, con puntos suspensivos
-    return [0, -1, current, -1, total - 1];
+    // Insertamos el rango central
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    // Si hay un salto entre el final del rango y la última página, insertamos el ellipsis
+    if (end < lastPage - 1) {
+      pages.push(-1);
+    }
+
+    // Se muestra siempre la última página
+    pages.push(lastPage);
+
+    return pages;
   }
 
 

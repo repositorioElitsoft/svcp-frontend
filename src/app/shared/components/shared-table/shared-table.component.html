@@ -143,9 +143,8 @@
                 arrow_left
             </button>
 
-            <ng-container *ngIf="totalPages > 1">
+            <ng-container *ngIf="totalPages >= 1">
                 <ng-container *ngFor="let page of getVisiblePages()">
-                    <!-- Si es -1 se muestra el ellipsis -->
                     <ng-container *ngIf="page === -1; else pageButton">
                         <span class="px-2">...</span>
                     </ng-container>
@@ -157,6 +156,7 @@
                     </ng-template>
                 </ng-container>
             </ng-container>
+
 
             <!-- Página siguiente -->
             <button [disabled]="pageNumber === totalPages - 1"
