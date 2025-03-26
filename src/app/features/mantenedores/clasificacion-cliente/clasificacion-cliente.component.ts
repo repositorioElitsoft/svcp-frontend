@@ -32,7 +32,7 @@ export class ClasificacionClienteComponent implements OnInit {
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
   totalPages = 0
-  pageSize = 5;
+  pageSize = 10;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
@@ -195,7 +195,7 @@ export class ClasificacionClienteComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
             // Limpiar selecciones en el componente hijo
             if (this.sharedTableComponent) {
@@ -260,7 +260,7 @@ export class ClasificacionClienteComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
             // Limpiar selección si existe un componente compartido
             if (this.sharedTableComponent) {

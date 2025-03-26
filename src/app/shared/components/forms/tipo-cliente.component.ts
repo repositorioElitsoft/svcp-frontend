@@ -70,8 +70,8 @@ export class TipoClienteFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  nombre: [null, Validators.required],
+      id: [null,],
+      nombre: [null, Validators.required],
     });
   }
 
@@ -85,8 +85,8 @@ export class TipoClienteFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-nombre: this.data.object.nombre,
+        id: this.data.object.id,
+        nombre: this.data.object.nombre,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -104,8 +104,8 @@ nombre: this.data.object.nombre,
     if (this.form.valid) {
       const formData: TipoCliente = {
         /*form-fields-submit*/
-id: this.form.value.id,
-nombre: this.form.value.nombre,
+        id: this.form.value.id,
+        nombre: this.form.value.nombre,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -114,7 +114,7 @@ nombre: this.form.value.nombre,
       if (this.esActualizar()) {
         this.tipoClienteService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
@@ -127,10 +127,10 @@ nombre: this.form.value.nombre,
       else {
         this.tipoClienteService.crear(formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
-          error: (error) => { 
+          error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }

@@ -114,7 +114,7 @@ export class ClasificacionClienteFormComponent implements OnInit {
       if (this.esActualizar()) {
         this.clasificacionClienteService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
@@ -127,7 +127,7 @@ export class ClasificacionClienteFormComponent implements OnInit {
       else {
         this.clasificacionClienteService.crear(formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
