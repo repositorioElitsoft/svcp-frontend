@@ -70,8 +70,8 @@ export class TipoEmpleadoFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-  id: [null,],
-  descripcionTipoEmpleado: [null, Validators.required],
+      id: [null,],
+      descripcionTipoEmpleado: [null, Validators.required],
     });
   }
 
@@ -85,8 +85,8 @@ export class TipoEmpleadoFormComponent implements OnInit {
 
       this.form.patchValue({
         /*object-fields-edit*/
-id: this.data.object.id,
-descripcionTipoEmpleado: this.data.object.descripcionTipoEmpleado,
+        id: this.data.object.id,
+        descripcionTipoEmpleado: this.data.object.descripcionTipoEmpleado,
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -104,8 +104,8 @@ descripcionTipoEmpleado: this.data.object.descripcionTipoEmpleado,
     if (this.form.valid) {
       const formData: TipoEmpleado = {
         /*form-fields-submit*/
-id: this.form.value.id,
-descripcionTipoEmpleado: this.form.value.descripcionTipoEmpleado,
+        id: this.form.value.id,
+        descripcionTipoEmpleado: this.form.value.descripcionTipoEmpleado,
       };
 
       console.log("Datos mapeados para enviar:", formData);
@@ -114,11 +114,11 @@ descripcionTipoEmpleado: this.form.value.descripcionTipoEmpleado,
       if (this.esActualizar()) {
         this.tipoEmpleadoService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            const errorMessage = error.error?.message || this.translate.instant('alertas.toastr.error');
             this.toastr.error(errorMessage);
           }
         })
@@ -127,10 +127,10 @@ descripcionTipoEmpleado: this.form.value.descripcionTipoEmpleado,
       else {
         this.tipoEmpleadoService.crear(formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
-          error: (error) => { 
+          error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }
