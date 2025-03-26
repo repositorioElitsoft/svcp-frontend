@@ -56,7 +56,8 @@
     },
     "home": {
         "placeholder-search": "Enter a search",
-        "welcome": "Hello"
+        "welcome": "Hello",
+        "seleccion": "Choose an option"
     },
     "perfil": {
         "myprofile": "My Profile",

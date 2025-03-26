@@ -56,7 +56,8 @@
     },
     "home": {
         "placeholder-search": "Ingrese una búsqueda",
-        "welcome": "Hola"
+        "welcome": "Hola",
+        "seleccion": "Seleccione una opción"
     },
     "perfil": {
         "myprofile": "Mi Perfil",
