@@ -114,11 +114,11 @@ export class ZonaFormComponent implements OnInit {
       if (this.esActualizar()) {
         this.zonaService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('mantenedores.formularios.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }
         })
@@ -127,7 +127,7 @@ export class ZonaFormComponent implements OnInit {
       else {
         this.zonaService.crear(formData).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {

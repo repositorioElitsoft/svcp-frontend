@@ -545,6 +545,14 @@
                     "DUPLICADO": "Ya existe un tipo de documento de identificación con los mismos datos.",
                     "ID_REQUERIDO": "El ID del tipo de documento de identificación es requerido.",
                     "ID_INVALIDO": "El ID del tipo de documento de identificación no es válido."
+                },
+                "zona": {
+                    "NO_ENCONTRADO": "El tipo de documento de identificación no fue encontrado.",
+                    "INTEGRIDAD_VIOLADA": "Se violó la integridad de los datos del tipo de documento de identificación.",
+                    "REQUERIDO": "El tipo de documento de identificación es requerido.",
+                    "DUPLICADO": "Ya existe un tipo de documento de identificación con los mismos datos.",
+                    "ID_REQUERIDO": "El ID del tipo de documento de identificación es requerido.",
+                    "ID_INVALIDO": "El ID del tipo de documento de identificación no es válido."
                 }
             }
         }

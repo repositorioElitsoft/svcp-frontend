@@ -197,7 +197,7 @@ export class ZonaComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
             // Limpiar selecciones en el componente hijo
             if (this.sharedTableComponent) {
@@ -262,8 +262,7 @@ export class ZonaComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
-
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
             // Limpiar selección si existe un componente compartido
             if (this.sharedTableComponent) {
               this.sharedTableComponent.selection.clear();
