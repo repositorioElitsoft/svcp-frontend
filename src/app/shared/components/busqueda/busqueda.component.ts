@@ -33,15 +33,28 @@ export class BusquedaComponent {
 
   selectedFilter: string = '';
 
+  ngOnChanges() {
+    // Verifica si las propiedades Input están recibiendo datos
+    console.log('field:', this.field);
+    console.log('value:', this.value);
+    console.log('filterOptions:', this.filterOptions);
+    console.log('isSimpleSearch:', this.isSimpleSearch);
+  }
+
   onValueChange() {
+    console.log('onValueChange triggered');
     if (this.isSimpleSearch) return;
+    console.log('Emitting valueChange:', { field: this.field, value: this.value });
     this.valueChange.emit({ field: this.field, value: this.value });
   }
 
   executeSearch() {
+    console.log('executeSearch triggered');
     if (this.selectedFilter) {
+      console.log('Emitting filterSearch:', { filter: this.selectedFilter, value: this.value });
       this.filterSearch.emit({ filter: this.selectedFilter, value: this.value });
     } else {
+      console.log('Emitting simpleSearch:', { [this.field]: this.value });
       this.simpleSearch.emit({ [this.field]: this.value });
     }
   }
