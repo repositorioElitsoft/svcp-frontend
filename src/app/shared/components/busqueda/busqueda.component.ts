@@ -42,6 +42,7 @@ export class BusquedaComponent {
     if (changes['tableData'] && this.tableData && this.tableData.length > 0) {
       const zonesMap = new Map<number, string>();
 
+      // Recorremos tableData para encontrar las zonas
       this.tableData.forEach(item => {
         if (item.zona && typeof item.zona === 'object') {
           const zoneId = item.zona.id;
@@ -50,15 +51,20 @@ export class BusquedaComponent {
         }
       });
 
-      const zoneOptions = Array.from(zonesMap.entries()).map(([id, label]) => ({
-        label: label,
-        value: JSON.stringify({ id, label })
-      }));
+      // Si hay zonas, generamos las opciones
+      if (zonesMap.size > 0) {
+        const zoneOptions = Array.from(zonesMap.entries()).map(([id, label]) => ({
+          label: label,
+          value: JSON.stringify({ id, label })
+        }));
 
-      // Agregar opción "No seleccionar"
-      this.filterOptions = [{ label: 'No seleccionado', value: '' }, ...zoneOptions];
-
-      console.log('filterOptions actualizadas:', this.filterOptions);
+        // Agregar opción "No seleccionado"
+        this.filterOptions = [{ label: 'No seleccionado', value: '' }, ...zoneOptions];
+        console.log('filterOptions actualizadas:', this.filterOptions);
+      } else {
+        // Si no hay zonas, se vacían las opciones
+        this.filterOptions = [];
+      }
     }
   }
 
@@ -79,8 +85,8 @@ export class BusquedaComponent {
   }
 
   shouldShowSearch(): boolean {
+    // Aquí evaluamos si hay opciones de filtro (zonas) disponibles
     return this.filterOptions.length > 0;
   }
-
   constructor(private translate: TranslateService) { }
 }
