@@ -54,13 +54,12 @@ export class BusquedaComponent {
   }
 
   shouldShowSearch(): boolean {
-    // Implementa la lógica de validación aquí
-    return true; // Cambia esto con la condición real
+    return this.filterOptions.some(option =>
+      typeof option.value === 'object' && option.value !== null && Object.keys(option.value).length > 0
+    );
   }
 
-  shouldShowFilter(): boolean {
-    return this.filterOptions.length > 0;
-  }
+
 
   constructor(private translate: TranslateService) { }
 }
