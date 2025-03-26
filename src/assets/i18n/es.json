@@ -475,7 +475,15 @@
         "cancelar": "Cancelar",
         "eliminar": "Eliminar",
         "toastr": {
-            "success": "Acción realizada con éxito",
+            "guardar": {
+                "success": "Registro ingresado correctamente"
+            },
+            "editar": {
+                "success": "Información a sido modificada con éxito"
+            },
+            "eliminar": {
+                "success": "Se ha realizado la eliminación correctamente"
+            },
             "errors": {
                 "cliente": {
                     "NO_ENCONTRADO": "El cliente no fue encontrado.",
