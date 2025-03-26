@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { CommonModule } from '@angular/common';  // Agregado
+import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -16,7 +16,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    CommonModule,  // Agregado
+    CommonModule,
     TranslateModule
   ],
   templateUrl: './busqueda.component.html',
@@ -34,7 +34,6 @@ export class BusquedaComponent {
   selectedFilter: string = '';
 
   ngOnChanges() {
-    // Verifica si las propiedades Input están recibiendo datos
     console.log('field:', this.field);
     console.log('value:', this.value);
     console.log('filterOptions:', this.filterOptions);
@@ -42,21 +41,25 @@ export class BusquedaComponent {
   }
 
   onValueChange() {
-    console.log('onValueChange triggered');
     if (this.isSimpleSearch) return;
-    console.log('Emitting valueChange:', { field: this.field, value: this.value });
     this.valueChange.emit({ field: this.field, value: this.value });
   }
 
   executeSearch() {
-    console.log('executeSearch triggered');
     if (this.selectedFilter) {
-      console.log('Emitting filterSearch:', { filter: this.selectedFilter, value: this.value });
       this.filterSearch.emit({ filter: this.selectedFilter, value: this.value });
     } else {
-      console.log('Emitting simpleSearch:', { [this.field]: this.value });
       this.simpleSearch.emit({ [this.field]: this.value });
     }
+  }
+
+  shouldShowSearch(): boolean {
+    // Implementa la lógica de validación aquí
+    return true; // Cambia esto con la condición real
+  }
+
+  shouldShowFilter(): boolean {
+    return this.filterOptions.length > 0;
   }
 
   constructor(private translate: TranslateService) { }

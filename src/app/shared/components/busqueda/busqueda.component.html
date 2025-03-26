@@ -15,7 +15,7 @@
     </div>
 
     <!-- Filtro (Select estilizado con Tailwind) -->
-    <div class="w-full md:w-2/5 flex justify-center"> <!-- 100% en móviles y 2/5 en desktop -->
+    <div *ngIf="shouldShowFilter()" class="w-full md:w-2/5 flex justify-center">
         <div
             class="w-full md:w-[200px] md:h-[44px] px-3 py-2 rounded-lg border-2 border-[#C2C2C2] flex justify-between items-center bg-white dark:bg-[#1e1e1e]">
             <mat-select [(ngModel)]="selectedFilter" class="w-full text-lg text-[#757575] dark:text-[#ccc]">
