@@ -233,4 +233,30 @@ export class SharedTableComponent {
   }
 
 
+  getVisiblePages(): number[] {
+    const total = this.totalPages;
+    const current = this.pageNumber;
+
+    // Si hay 5 o menos páginas, muestra todas
+    if (total <= 5) {
+      return Array.from({ length: total }, (_, i) => i);
+    }
+
+    // Si la página actual está en las primeras posiciones
+    if (current <= 2) {
+      return [0, 1, 2, -1, total - 1];
+    }
+
+    // Si la página actual está en las últimas posiciones
+    if (current >= total - 3) {
+      return [0, -1, total - 3, total - 2, total - 1];
+    }
+
+    // En caso intermedio, muestra la primera, la actual y la última, con puntos suspensivos
+    return [0, -1, current, -1, total - 1];
+  }
+
+
+
+
 }

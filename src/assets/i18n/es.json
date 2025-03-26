@@ -480,7 +480,7 @@
                 "success": "Registro ingresado correctamente"
             },
             "editar": {
-                "success": "Información a sido modificada con éxito"
+                "success": "Información ha sido modificada con éxito"
             },
             "eliminar": {
                 "success": "Se ha realizado la eliminación correctamente"
