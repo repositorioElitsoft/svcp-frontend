@@ -28,7 +28,7 @@ export class SidebarComponent {
   menus: any = [];
   show = true;
   @Input() title: string = "";
-  @Input() img: string = "";
+  @Input() img: string = "./assets/Logo.svg";
 
   constructor(private http: HttpClient, private router: Router, private elementRef: ElementRef) {
     this.http.get('/assets/routes.json').subscribe((data) => {
