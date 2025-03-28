@@ -32,7 +32,7 @@ export class TipoProductoService {
 
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipos-productos/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}tipos-productos/lote`);
     }
 
     actualizar(tipoProductoId: number, tipoProducto: TipoProducto): Observable<TipoProducto> {

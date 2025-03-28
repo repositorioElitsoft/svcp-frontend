@@ -398,7 +398,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
   cargarZonas() {
     this.zonaService.buscarTodos().subscribe(
       (response) => {
-        this.zonas = response;
+        this.zonas = response.data;
       },
       (error) => {
         console.error('Error al cargar las zonas:', error);
@@ -449,7 +449,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       const zonas = await lastValueFrom(
         this.zonaService.buscarTodos()
       );
-      this.zonas = zonas;
+      this.zonas = zonas.data;
       console.log('Zonas cargadas:', zonas);
 
       // 6. Cargar sectores

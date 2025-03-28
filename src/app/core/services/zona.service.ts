@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Zona } from '../../core/models/zona.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,17 +17,21 @@ export class ZonaService {
         'Content-Type': 'application/json'
     });
 
-    buscar(zonaId: number): Observable<Zona> {
-        return this.http.get<Zona>(`${this.url}zonas/${zonaId}`);
+
+
+    buscar(zonaId: number): Observable<ApiEntityResponse<Zona>> {
+        return this.http.get<ApiEntityResponse<Zona>>(`${this.url}zonas/${zonaId}`);
     }
 
-    buscarTodos(): Observable<Zona[]> {
-        return this.http.get<Zona[]>(`${this.url}zonas`, { headers: this.headers });
+    buscarTodos(): Observable<ApiEntityResponse<Zona[]>> {
+        return this.http.get<ApiEntityResponse<Zona[]>>(`${this.url}zonas`);
     }
 
-    borrar(zonaId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}zonas/${zonaId}`);
+
+    borrar(zonaId: number): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}zonas/${zonaId}`);
     }
+
 
     borrarTodos(ids: number[]): Observable<any> {
         return this.http.delete<any>(`${this.url}zonas/lote`, { headers: this.headers, body: ids });

@@ -28,6 +28,7 @@ import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.compone
 import { Sector } from '../../../core/models/sector.model';
 import { catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
 
 @Component({
   selector: 'app-sector-create-form',
@@ -100,10 +101,10 @@ export class SectorFormComponent implements OnInit {
     /*services-init-call*/
 
     this.zonaService.buscarTodos().subscribe({
-      next: (zona: Zona[]) => {
-        this.zona = zona
+      next: (response: ApiEntityResponse<Zona[]>) => {
+        this.zona = response.data;
         const foundzona = this.zona.find(e => e.id === this.data.object.zona.id);
-        this.form.patchValue({ zona: foundzona })
+        this.form.patchValue({ zona: foundzona });
       }
     })
 
