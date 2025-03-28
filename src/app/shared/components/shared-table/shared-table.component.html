@@ -125,12 +125,12 @@
     <div class="m-4"></div>
     <!-- Paginador -->
     <div
-        class="w-full bg-gray-100 h-11 flex justify-between items-center text-neutral-600 px-4 rounded-lg dark:bg-neutral-500 text-lg sticky left-0 z-10">
+        class="w-full bg-gray-100 h-11 flex justify-between items-center text-neutral-600 px-2 rounded-lg dark:bg-neutral-500 text-lg sticky left-0 z-10">
         <div>
             {{ dataSource.length }} - {{ endItem }} {{ 'table.of' | translate }} {{ totalElements }}
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1">
             <!-- Ir a primera página -->
             <button [disabled]="pageNumber === 0"
                 class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
@@ -148,10 +148,10 @@
             <ng-container *ngIf="totalPages >= 1">
                 <ng-container *ngFor="let page of getVisiblePages()">
                     <ng-container *ngIf="page === -1; else pageButton">
-                        <span class="px-2">...</span>
+                        <span class="px-0">...</span>
                     </ng-container>
                     <ng-template #pageButton>
-                        <button [class.font-bold]="page === pageNumber" class="text-gray-600 hover:text-gray-800 px-2"
+                        <button [class.font-bold]="page === pageNumber" class=" text-gray-600 hover:text-gray-800 px:0 "
                             (click)="onPageChanged(page)">
                             {{ page + 1 }}
                         </button>
