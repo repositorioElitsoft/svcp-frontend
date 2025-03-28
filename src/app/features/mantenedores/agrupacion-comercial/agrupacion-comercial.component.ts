@@ -115,7 +115,12 @@ export class AgrupacionComercialComponent implements OnInit {
           });
 
           console.log("Data formateada con traducciones para exportación:", translatedData);
-          this.exportService.exportToExcel(translatedData, this.titulo);
+
+          // Obtener el título traducido para el nombre del archivo
+          this.translate.get('mantenedores.agrupacionComercial.titulo').subscribe(title => {
+            // Usar el título traducido para el nombre del archivo
+            this.exportService.exportToExcel(translatedData, title);
+          });
         });
       },
       (error) => {
@@ -123,6 +128,8 @@ export class AgrupacionComercialComponent implements OnInit {
       }
     );
   }
+
+
 
 
   volver() {

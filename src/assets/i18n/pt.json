@@ -179,7 +179,7 @@
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Segmentação do Cliente",
-            "descripcionSegmentacionCliente": "Descrição da Segmentação do Cliente"
+            "descripcion": "Descrição da Segmentação do Cliente"
         },
         "servicio": {
             "id": "Id",
