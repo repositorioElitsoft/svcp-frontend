@@ -115,7 +115,12 @@ export class TipoEmpleadoComponent implements OnInit {
           });
 
           console.log("Data formateada con traducciones para exportación:", translatedData);
-          this.exportService.exportToExcel(translatedData, this.titulo);
+
+          // Obtener el título traducido para el nombre del archivo
+          this.translate.get('mantenedores.tipoEmpleado.titulo').subscribe(title => {
+            // Usar el título traducido para el nombre del archivo
+            this.exportService.exportToExcel(translatedData, title);
+          });
         });
       },
       (error) => {
@@ -123,6 +128,7 @@ export class TipoEmpleadoComponent implements OnInit {
       }
     );
   }
+
 
   volver() {
     this.router.navigate(['/portal/home']);

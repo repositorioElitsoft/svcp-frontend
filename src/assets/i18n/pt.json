@@ -65,9 +65,9 @@
         "logout": "Sair"
     },
     "table": {
-        "filtrosSeleccionados": "Filtros seleccionados {{count}}",
+        "filtrosSeleccionados": "Filtros selecionados {{count}}",
         "actions": "Ações",
-        "seleccionados": "{{count}} seleccionados",
+        "seleccionados": "{{count}} selecionados",
         "of": "de"
     },
     "opciones-mantenedor": {

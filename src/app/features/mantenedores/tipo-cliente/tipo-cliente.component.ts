@@ -116,7 +116,12 @@ export class TipoClienteComponent implements OnInit {
           });
 
           console.log("Data formateada con traducciones para exportación:", translatedData);
-          this.exportService.exportToExcel(translatedData, this.titulo);
+
+          // Obtener el título traducido para el nombre del archivo
+          this.translate.get('mantenedores.tipoCliente.titulo').subscribe(title => {
+            // Usar el título traducido para el nombre del archivo
+            this.exportService.exportToExcel(translatedData, title);
+          });
         });
       },
       (error) => {
@@ -124,7 +129,6 @@ export class TipoClienteComponent implements OnInit {
       }
     );
   }
-
 
 
   volver() {
