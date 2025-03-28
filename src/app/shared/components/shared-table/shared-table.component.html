@@ -26,7 +26,8 @@
         <button *ngIf="filters.length > 0" (click)="filter()"> Buscar </button>
     </div>
 
-    <div class="flex justify-between bg-gray-100 p-4  gap-4 rounded-t-lg dark:bg-neutral-800">
+    <div class="flex justify-between bg-gray-100 p-4 gap-4 rounded-t-lg dark:bg-neutral-800 
+    w-[calc(88vw)] sm:w-auto overflow-x-auto sm:sticky sm:left-0 sm:z-10">
         <app-busqueda (simpleSearch)="makeSimpleSearch($event)" [tableData]="dataSource" [field]="simpleSearchField"
             [isSimpleSearch]="true"></app-busqueda>
         <div>
@@ -41,8 +42,9 @@
             </button>
             }
         </div>
-
     </div>
+
+
 
 
     <table mat-table [dataSource]="dataSource" class="w-full" *ngIf="dataSource.length > 0; else noDataTemplate">
