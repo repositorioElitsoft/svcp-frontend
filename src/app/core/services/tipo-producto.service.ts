@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { TipoProducto } from '../../core/models/tipo-producto.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,17 +17,19 @@ export class TipoProductoService {
         'Content-Type': 'application/json'
     });
 
-    buscar(tipoProductoId: number): Observable<TipoProducto> {
-        return this.http.get<TipoProducto>(`${this.url}tipos-productos/${tipoProductoId}`);
+    buscar(tipoProductoId: number): Observable<ApiEntityResponse<TipoProducto>> {
+        return this.http.get<ApiEntityResponse<TipoProducto>>(`${this.url}tipos-productos/${tipoProductoId}`);
     }
 
-    buscarTodos(): Observable<TipoProducto[]> {
-        return this.http.get<TipoProducto[]>(`${this.url}tipos-productos`, { headers: this.headers });
+    buscarTodos(): Observable<ApiEntityResponse<TipoProducto[]>> {
+        return this.http.get<ApiEntityResponse<TipoProducto[]>>(`${this.url}tipos-productos`);
     }
 
-    borrar(tipoProductoId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipos-productos/${tipoProductoId}`);
+
+    borrar(tipoProductoId: number): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}tipos-productos/${tipoProductoId}`);
     }
+
 
     borrarTodos(ids: number[]): Observable<any> {
         return this.http.delete<any>(`${this.url}tipos-productos/lote`, { headers: this.headers, body: ids });

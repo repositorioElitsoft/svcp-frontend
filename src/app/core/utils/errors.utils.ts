@@ -5,7 +5,9 @@ const prefixToSection: { [key: string]: string } = {
     EMPL: 'empleado',
     ERRI: 'general',
     TPDR: 'tipoDireccion',
-    TPDI: 'tipoDocumentoIdentificacion'
+    TPDI: 'tipoDocumentoIdentificacion',
+    TPCL: 'tipoCliente',
+    TPPR: 'tipoProducto',
 };
 
 const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
@@ -69,14 +71,32 @@ const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
         '004': 'ID_REQUERIDO',
         '005': 'ID_INVALIDO'
     }
+    ,
+
+    TPCL: {
+        '000': 'NO_ENCONTRADO',
+        '001': 'INTEGRIDAD_VIOLADA',
+        '002': 'REQUERIDO',
+        '003': 'DUPLICADO',
+        '004': 'ID_REQUERIDO',
+        '005': 'ID_INVALIDO'
+    },
+    TPPR: {
+        '000': 'NO_ENCONTRADO',
+        '001': 'INTEGRIDAD_VIOLADA',
+        '002': 'REQUERIDO',
+        '003': 'DUPLICADO',
+        '004': 'ID_REQUERIDO',
+        '005': 'ID_INVALIDO'
+    }
 };
 
 
 export function convertErrorMessageToI18(response: any): string {
     // Verificar la estructura completa de la respuesta para asegurarnos de que errorCode existe
-    console.log("Estructura completa de la respuesta:", response);
+    console.log("Estructura completa de la respuesta:", response.error.errorCode); // <-- Cambiado a response.error.errorCode
 
-    const errorCode = response.errorCode; // Accediendo directamente a errorCode
+    const errorCode = response.error.errorCode; // Accediendo directamente a errorCode
 
     if (!errorCode) {
         console.log("ErrorCode no encontrado en el objeto de error");

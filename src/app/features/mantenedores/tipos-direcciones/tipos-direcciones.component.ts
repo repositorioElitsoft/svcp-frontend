@@ -213,7 +213,7 @@ export class TiposDireccionesComponent implements OnInit {
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
-            const mensajeError = this.translate.instant(convertErrorMessageToI18(err.message));
+            const mensajeError = this.translate.instant(convertErrorMessageToI18(err));
             this.toastr.error(mensajeError);
           }
         });
@@ -278,7 +278,7 @@ export class TiposDireccionesComponent implements OnInit {
           },
           error: (err: any) => {
             console.error("Error al eliminar elemento:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
       }

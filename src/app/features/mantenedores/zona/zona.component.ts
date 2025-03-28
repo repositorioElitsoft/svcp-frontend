@@ -213,7 +213,7 @@ export class ZonaComponent implements OnInit {
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
       }
@@ -277,7 +277,7 @@ export class ZonaComponent implements OnInit {
           },
           error: (err: any) => {
             console.error("Error al eliminar elemento:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
       }
