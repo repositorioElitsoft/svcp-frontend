@@ -31,8 +31,7 @@
 
         <app-busqueda (simpleSearch)="makeSimpleSearch($event)" [tableData]="dataSource" [field]="simpleSearchField"
             [isSimpleSearch]="true"></app-busqueda>
-        <div>
-            @if(filtersLabels.length > 0){
+        <div> @if(filtersLabels.length> 0){
             {{ 'table.filtrosSeleccionados' | translate: { count: filtersLabels.length } }}
             }
             @for (active of filtersLabels; track $index) {
