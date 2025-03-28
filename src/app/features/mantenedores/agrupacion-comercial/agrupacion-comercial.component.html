@@ -2,23 +2,30 @@
     class="container mx-auto p-4 rounded-lg overflow-hidden z-10  bg-white dark:bg-neutral-800 dark:border dark:border-white">
     <!-- Header Section -->
     <div
-        class="bg-white p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center sm:items-center mb-4 gap-4 dark:bg-neutral-800">
-        <div class="flex sm:flex-row items-center sm:space-x-2 w-full sm:w-auto">
-            <!-- Botón regresar (más grande en móvil) -->
-            <button class="elitsoft-warn text-base sm:text-base w-auto sm:w-auto" (click)="volver()">
+        class="bg-white p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center gap-4 dark:bg-neutral-800 sm:mb-0">
+
+        <!-- Contenedor del botón y el título -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 w-full">
+
+            <!-- Botón Volver (cambia de posición según la pantalla) -->
+            <button class="elitsoft-warn text-base w-auto sm:w-auto self-start sm:self-auto" (click)="volver()">
                 <mat-icon>arrow_back</mat-icon> {{ 'mantenedores.volver' | translate }}
             </button>
-            <!-- Titulo centrado en móvil y a la izquierda en desktop -->
-            <h1 class="text-xl sm:text-center sm:w-auto w-full text-center sm:text-left">
+
+            <!-- Título (centrado en móvil, alineado a la izquierda en escritorio) -->
+            <h1 class="text-xl text-center w-full sm:text-left sm:w-auto">
                 {{ 'mantenedores.agrupacionComercial.titulo' | translate }}
             </h1>
+
         </div>
+
+        <!-- Opciones del mantenedor -->
         <div class="w-full sm:w-auto">
-            <!-- Botones y Acciones -->
             <app-opciones-mantenedor [hasSelection]="hasSelection" [selectedData]="selectedData"
                 (agregar)="agregarServicio()" (exportar)="exportarExcel()" (eliminar)="eliminar($event)">
             </app-opciones-mantenedor>
         </div>
+
     </div>
 
 

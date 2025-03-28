@@ -81,6 +81,7 @@
     "mantenedores": {
         "volver": "Voltar",
         "id": "Id",
+        "buscar": "Buscar",
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Agrupamento Comercial",

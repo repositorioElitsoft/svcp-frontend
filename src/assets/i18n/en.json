@@ -82,6 +82,7 @@
     "mantenedores": {
         "volver": "Back",
         "siguiente": "Next",
+        "buscar": "Search",
         "id": "Id",
         "agrupacionComercial": {
             "id": "Id",
