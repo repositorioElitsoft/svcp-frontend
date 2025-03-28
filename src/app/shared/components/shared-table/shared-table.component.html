@@ -1,14 +1,14 @@
 <div class="overflow-x-auto ">
     <div *ngIf="selection.selected.length > 0"
-        class="inline-flex items-center text-lg space-x-2 p-2 text-gray-700 h-11 px-3 py-2  dark:bg-neutral-500  bg-gray-100 rounded-lg justify-start items-center gap-[30px] w-full">
+        class="inline-flex items-center text-lg space-x-2 p-2 text-gray-700 h-11 px-3 py-2  dark:bg-neutral-500  bg-gray-100 rounded-lg justify-start items-center gap-[30px] w-full sticky left-0 z-10 ">
         <span>{{ 'table.seleccionados' | translate: { count: selection.selected.length } }}</span>
         <button mat-icon-button (click)="selection.clear(); notifySelectionChange();">
-            <mat-icon class="text-red-500">close</mat-icon>
+            <mat-icon class="text-red-500 ">close</mat-icon>
         </button>
     </div>
     <div class="m-4"></div>
 
-    <div class="flex gap-4 rounded-t-lg bg-red-100 overflow-hidden dark:bg-neutral-800  ">
+    <div class="flex gap-4 rounded-t-lg bg-red-100 overflow-hidden dark:bg-neutral-800 ">
 
         @for (filter of filters; track $index) {
         <div class="col-span-1 w-full p-4">
