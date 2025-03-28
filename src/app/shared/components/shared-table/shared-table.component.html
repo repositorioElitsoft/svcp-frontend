@@ -8,7 +8,7 @@
     </div>
     <div class="m-4"></div>
 
-    <div class="flex gap-4 rounded-t-lg bg-gray-100 overflow-hidden dark:bg-neutral-800  ">
+    <div class="flex gap-4 rounded-t-lg bg-red-100 overflow-hidden dark:bg-neutral-800  ">
 
         @for (filter of filters; track $index) {
         <div class="col-span-1 w-full p-4">
@@ -26,8 +26,9 @@
         <button *ngIf="filters.length > 0" (click)="filter()"> Buscar </button>
     </div>
 
-    <div class="flex justify-between bg-gray-100 p-4 gap-4 rounded-t-lg dark:bg-neutral-800 
-w-auto overflow-x-auto sticky left-0 z-10">
+    <div
+        class="flex flex-col sm:flex-row justify-between bg-gray-100 p-4 gap-4 rounded-t-lg dark:bg-neutral-800 w-auto overflow-x-auto sticky left-0 z-10">
+
         <app-busqueda (simpleSearch)="makeSimpleSearch($event)" [tableData]="dataSource" [field]="simpleSearchField"
             [isSimpleSearch]="true"></app-busqueda>
         <div>
