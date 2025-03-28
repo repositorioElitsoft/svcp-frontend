@@ -9,34 +9,33 @@ import { TranslateModule } from "@ngx-translate/core"
   standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule, TranslateModule],
   template: `
-    <div class="flex items-center justify-between gap-3 text-lg">
-    <div class="flex items-center gap-3">
-     <button class="elitsoft-btn" (click)="onAgregar()">
-    <mat-icon>add</mat-icon>
-    {{ 'opciones-mantenedor.botonAgregar.texto' | translate }}
-      </button>
+<div class="flex items-center justify-between gap-3 text-lg flex-col sm:flex-row w-full">
+  
+  <!-- Contenedor de Agregar y Exportar -->
+  <div class="flex items-center gap-3 w-full sm:w-auto flex-col sm:flex-row">
+    
+    <button class="elitsoft-btn w-full sm:w-auto flex items-center justify-center gap-2" (click)="onAgregar()">
+      <mat-icon>add</mat-icon>
+      <span>{{ 'opciones-mantenedor.botonAgregar.texto' | translate }}</span>
+    </button>
 
-     <button 
-    class="elitsoft-warn"
-    (click)="onExportar()">
-    <mat-icon>download</mat-icon>
-    {{ 'opciones-mantenedor.botonExportar.texto' | translate }}
-     </button>
-    </div>
+    <button class="elitsoft-warn w-full sm:w-auto flex items-center justify-center gap-2" (click)="onExportar()">
+      <mat-icon>download</mat-icon>
+      <span>{{ 'opciones-mantenedor.botonExportar.texto' | translate }}</span>
+    </button>
+  </div>
 
+  <!-- Contenedor del botón de eliminar -->
+  <div class="flex justify-end w-full sm:w-auto">
+    <button [disabled]="!hasSelection"
+            class="elitsoft-btn-icon flex items-center justify-center gap-2"
+            (click)="onEliminar()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
 
-      <div class="flex items-center gap-2">
-        <!-- <button class="elitsoft-btn-icon" (click)="onConfig()">
-          <mat-icon>settings</mat-icon>
-        </button> -->
+</div>
 
-        <button [disabled]="!hasSelection"
-          class="elitsoft-btn-icon"
-          (click)="onEliminar()">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </div>
   `,
   styles: [
     `
