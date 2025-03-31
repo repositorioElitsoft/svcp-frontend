@@ -9,7 +9,8 @@ const prefixToSection: { [key: string]: string } = {
     TPDI: 'tipoDocumentoIdentificacion',
     TPCL: 'tipoCliente',
     TPPR: 'tipoProducto',
-    ZNAS: 'zona'
+    ZNAS: 'zona',
+    TPSEV: 'tipoServicio'
 };
 
 const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
@@ -107,6 +108,14 @@ const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
         '005': 'ID_INVALIDO'
     },
     ZNAS: {
+        '000': 'NO_ENCONTRADO',
+        '001': 'INTEGRIDAD_VIOLADA',
+        '002': 'REQUERIDO',
+        '003': 'DUPLICADO',
+        '004': 'ID_REQUERIDO',
+        '005': 'ID_INVALIDO'
+    },
+    TPSEV: {
         '000': 'NO_ENCONTRADO',
         '001': 'INTEGRIDAD_VIOLADA',
         '002': 'REQUERIDO',
