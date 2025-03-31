@@ -158,9 +158,9 @@ export class ClienteFormComponent implements OnInit {
     })
 
     this.agrupacionComercialService.buscarTodos().subscribe({
-      next: (agrupacionComercial: AgrupacionComercial[]) => {
-        console.log("created entity ", agrupacionComercial)
-        this.agrupacionComercial = agrupacionComercial
+      next: (response: ApiEntityResponse<AgrupacionComercial[]>) => {
+        console.log("created entity ", response.data)
+        this.agrupacionComercial = response.data
       },
     })
 

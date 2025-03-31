@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AgrupacionComercial } from '../../core/models/agrupacion-comercial.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,17 +17,20 @@ export class AgrupacionComercialService {
         'Content-Type': 'application/json'
     });
 
-    buscar(agrupacionComercialId: number): Observable<AgrupacionComercial> {
-        return this.http.get<AgrupacionComercial>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`);
+
+    buscar(agrupacionComercialId: number): Observable<ApiEntityResponse<AgrupacionComercial>> {
+        return this.http.get<ApiEntityResponse<AgrupacionComercial>>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`);
     }
 
-    buscarTodos(): Observable<AgrupacionComercial[]> {
-        return this.http.get<AgrupacionComercial[]>(`${this.url}agrupaciones-comerciales`, { headers: this.headers });
+    buscarTodos(): Observable<ApiEntityResponse<AgrupacionComercial[]>> {
+        return this.http.get<ApiEntityResponse<AgrupacionComercial[]>>(`${this.url}agrupaciones-comerciales`);
     }
 
-    borrar(agrupacionComercialId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`);
+
+    borrar(agrupacionComercialId: number): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`);
     }
+
 
     borrarTodos(ids: number[]): Observable<any> {
         return this.http.delete<any>(`${this.url}agrupaciones-comerciales/lote`, { headers: this.headers, body: ids });
