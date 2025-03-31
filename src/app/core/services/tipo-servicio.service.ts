@@ -33,7 +33,7 @@ export class TipoServicioService {
 
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipos-servicios/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}tipos-servicios/lote`, { body: ids });
     }
 
     actualizar(tipoServicioId: number, tipoServicio: TipoServicio): Observable<TipoServicio> {

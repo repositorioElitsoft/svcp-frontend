@@ -1,4 +1,5 @@
 const prefixToSection: { [key: string]: string } = {
+    GRCM: 'agrupacionComercial',
     CLNT: 'cliente',
     CNTC: 'contacto',
     DOID: 'documentoIdentificacion',
@@ -8,9 +9,25 @@ const prefixToSection: { [key: string]: string } = {
     TPDI: 'tipoDocumentoIdentificacion',
     TPCL: 'tipoCliente',
     TPPR: 'tipoProducto',
+    ZNAS: 'zona'
 };
 
 const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
+
+
+    GRCM: {
+        '000': 'NO_ENCONTRADO',
+        '001': 'INTEGRIDAD_VIOLADA',
+        '002': 'REQUERIDO',
+        '003': 'DUPLICADO',
+        '004': 'CONTRASENA_REQUERIDO',
+        '005': 'CORREO_DUPLICADO',
+        '006': 'CORREO_REQUERIDO',
+        '007': 'CORREO_NO_ENCONTRADO',
+        '008': 'ID_REQUERIDO',
+        '009': 'ID_INVALIDO'
+
+    },
     CLNT: {
         '000': 'NO_ENCONTRADO',
         '001': 'INTEGRIDAD_VIOLADA',
@@ -82,6 +99,14 @@ const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
         '005': 'ID_INVALIDO'
     },
     TPPR: {
+        '000': 'NO_ENCONTRADO',
+        '001': 'INTEGRIDAD_VIOLADA',
+        '002': 'REQUERIDO',
+        '003': 'DUPLICADO',
+        '004': 'ID_REQUERIDO',
+        '005': 'ID_INVALIDO'
+    },
+    ZNAS: {
         '000': 'NO_ENCONTRADO',
         '001': 'INTEGRIDAD_VIOLADA',
         '002': 'REQUERIDO',

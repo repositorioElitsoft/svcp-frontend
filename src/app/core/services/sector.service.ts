@@ -21,7 +21,7 @@ export class SectorService {
     }
 
     buscarTodos(zonaId: number): Observable<Sector[]> {
-        return this.http.get<Sector[]>(`${this.url}sectores/zonas/${zonaId}`, { headers: this.headers });
+        return this.http.get<Sector[]>(`${this.url}sectores/zonas/${zonaId}`);
     }
 
     borrar(sectorId: number): Observable<any> {
@@ -29,7 +29,7 @@ export class SectorService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}sectores/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}sectores/lote`, { body: ids });
     }
 
     actualizar(sectorId: number, sector: Sector): Observable<Sector> {

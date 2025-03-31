@@ -29,7 +29,7 @@ export class SegmentacionClienteService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}segmentaciones-clientes/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}segmentaciones-clientes/lote`, { body: ids });
     }
 
     actualizar(segmentacionClienteId: number, segmentacionCliente: SegmentacionCliente): Observable<SegmentacionCliente> {

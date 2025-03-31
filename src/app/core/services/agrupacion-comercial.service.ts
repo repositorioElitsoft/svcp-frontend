@@ -33,7 +33,7 @@ export class AgrupacionComercialService {
 
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}agrupaciones-comerciales/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}agrupaciones-comerciales/lote`, { body: ids });
     }
 
     actualizar(agrupacionComercialId: number, agrupacionComercial: AgrupacionComercial): Observable<AgrupacionComercial> {

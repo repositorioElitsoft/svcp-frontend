@@ -21,7 +21,7 @@ export class ClasificacionClienteService {
     }
 
     buscarTodos(): Observable<ClasificacionCliente[]> {
-        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificaciones-clientes`, { headers: this.headers });
+        return this.http.get<ClasificacionCliente[]>(`${this.url}clasificaciones-clientes`);
     }
 
     borrar(clasificacionClienteId: number): Observable<any> {
@@ -29,7 +29,7 @@ export class ClasificacionClienteService {
     }
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}clasificaciones-clientes/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}clasificaciones-clientes/lote`, { body: ids });
     }
 
     actualizar(clasificacionClienteId: number, clasificacionCliente: ClasificacionCliente): Observable<ClasificacionCliente> {

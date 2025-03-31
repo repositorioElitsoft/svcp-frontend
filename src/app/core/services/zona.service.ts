@@ -17,8 +17,6 @@ export class ZonaService {
         'Content-Type': 'application/json'
     });
 
-
-
     buscar(zonaId: number): Observable<ApiEntityResponse<Zona>> {
         return this.http.get<ApiEntityResponse<Zona>>(`${this.url}zonas/${zonaId}`);
     }
@@ -34,7 +32,7 @@ export class ZonaService {
 
 
     borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}zonas/lote`, { headers: this.headers, body: ids });
+        return this.http.delete<any>(`${this.url}zonas/lote`, { body: ids });
     }
 
     actualizar(zonaId: number, zona: Zona): Observable<Zona> {
