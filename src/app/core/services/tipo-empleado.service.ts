@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { TipoEmpleado } from '../../core/models/tipo-empleado.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,17 +17,19 @@ export class TipoEmpleadoService {
         'Content-Type': 'application/json'
     });
 
-    buscar(tipoEmpleadoId: number): Observable<TipoEmpleado> {
-        return this.http.get<TipoEmpleado>(`${this.url}tipos-empleados/${tipoEmpleadoId}`);
+    buscar(tipoEmpleadoId: number): Observable<ApiEntityResponse<TipoEmpleado>> {
+        return this.http.get<ApiEntityResponse<TipoEmpleado>>(`${this.url}tipos-empleados/${tipoEmpleadoId}`);
     }
 
-    buscarTodos(): Observable<TipoEmpleado[]> {
-        return this.http.get<TipoEmpleado[]>(`${this.url}tipos-empleados`, { headers: this.headers });
+    buscarTodos(): Observable<ApiEntityResponse<TipoEmpleado[]>> {
+        return this.http.get<ApiEntityResponse<TipoEmpleado[]>>(`${this.url}tipos-empleados`);
     }
 
-    borrar(tipoEmpleadoId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipos-empleados/${tipoEmpleadoId}`);
+
+    borrar(tipoEmpleadoId: number): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}tipos-empleados/${tipoEmpleadoId}`);
     }
+
 
     borrarTodos(ids: number[]): Observable<any> {
         return this.http.delete<any>(`${this.url}tipos-empleados/lote`, { body: ids });

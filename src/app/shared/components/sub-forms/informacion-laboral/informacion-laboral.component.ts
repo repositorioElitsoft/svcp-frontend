@@ -10,6 +10,7 @@ import { TipoEmpleado } from '../../../../core/models/tipo-empleado.model';
 import { RoleService } from '../../../../core/services/role.service';
 import { Role } from '../../../../core/models/role.model';
 import { CommonModule } from '@angular/common';
+import { ApiEntityResponse } from '../../../../core/models/api-entity-response.model';
 
 @Component({
   selector: 'app-informacion-laboral',
@@ -101,8 +102,8 @@ export class InformacionLaboralComponent implements OnInit {
 
     // Cargar tipos de empleados
     this.tipoEmpleadoService.buscarTodos().subscribe({
-      next: (tiposEmpleados: TipoEmpleado[]) => {
-        this.tiposEmpleados = tiposEmpleados;
+      next: (response: ApiEntityResponse<TipoEmpleado[]>) => {
+        this.tiposEmpleados = response.data; // Assuming 'data' contains the array of TipoEmpleado
         // Asignar valor inicial después de cargar los tipos de empleados
         this.form.patchValue({
           tipoEmpleado: this.tiposEmpleados.find(tipo => tipo.id === 1) // Cambia el ID según tu lógica

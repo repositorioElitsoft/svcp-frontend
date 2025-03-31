@@ -122,6 +122,14 @@ const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
         '003': 'DUPLICADO',
         '004': 'ID_REQUERIDO',
         '005': 'ID_INVALIDO'
+    },
+    TPEM: {
+        '000': 'NO_ENCONTRADO',
+        '001': 'INTEGRIDAD_VIOLADA',
+        '002': 'REQUERIDO',
+        '003': 'DUPLICADO',
+        '004': 'ID_REQUERIDO',
+        '005': 'ID_INVALIDO'
     }
 };
 
