@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Tarea } from '../../core/models/tarea.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,17 +17,19 @@ export class TareaService {
         'Content-Type': 'application/json'
     });
 
-    buscar(tareaId: number): Observable<Tarea> {
-        return this.http.get<Tarea>(`${this.url}tareas/${tareaId}`);
+    buscar(tareaId: number): Observable<ApiEntityResponse<Tarea>> {
+        return this.http.get<ApiEntityResponse<Tarea>>(`${this.url}tareas/${tareaId}`);
     }
 
-    buscarTodos(): Observable<Tarea[]> {
-        return this.http.get<Tarea[]>(`${this.url}tareas`, { headers: this.headers });
+    buscarTodos(): Observable<ApiEntityResponse<Tarea[]>> {
+        return this.http.get<ApiEntityResponse<Tarea[]>>(`${this.url}tareas`);
     }
 
-    borrar(tareaId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}tareas/${tareaId}`);
+
+    borrar(tareaId: number): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}tareas/${tareaId}`);
     }
+
 
     borrarTodos(ids: number[]): Observable<any> {
         return this.http.delete<any>(`${this.url}tareas/lote`, { headers: this.headers, body: ids });
