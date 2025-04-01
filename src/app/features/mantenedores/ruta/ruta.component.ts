@@ -23,7 +23,7 @@ import { RutaFormComponent } from "../../../shared/components/forms/ruta.compone
   templateUrl: "./ruta.component.html",
   styleUrl: "./ruta.component.css",
 })
-export class ZonaComponent implements OnInit {
+export class RutaComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: Rutas[] = []; // Ahora usa la interfaz zona
   titulo: string = 'Rutas'; // Puedes cambiarlo dinámicamente

@@ -20,6 +20,7 @@ import { TiposDireccionesComponent } from './features/mantenedores/tipos-direcci
 import { DireccionEmpleadoComponent } from './features/views/direccion-empleado/direccion-empleado.component';
 import { LocacionClienteComponent } from './features/views/locacion-cliente/locacion-cliente.component';
 import { ContratoComponent } from './features/contrato/contrato.component';
+import { RutaComponent } from './features/mantenedores/ruta/ruta.component';
 
 export const routes: Routes = [
     {
@@ -88,6 +89,9 @@ export const routes: Routes = [
                     {
                         path: "zonas",
                         component: ZonaComponent
+                    }, {
+                        path: "rutas",
+                        component: RutaComponent
                     },
                     {
                         path: "tipos-productos",
