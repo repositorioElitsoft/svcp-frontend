@@ -120,9 +120,13 @@ export class SharedTableComponent {
 
 
   get allColumns(): string[] {
-    return ['select', ...this.displayedColumns.filter(col => col !== 'id'), 'actions'];
+    return ['select', ...this.sortColumns, 'actions'];
   }
 
+
+  get sortColumns(): string[] {
+    return [...this.displayedColumns.filter(col => col !== 'id')];
+  }
 
   // Lógica para verificar si todas las filas están seleccionadas
   isAllSelected() {

@@ -65,7 +65,7 @@
         </ng-container>
 
         <!-- Dynamic Columns -->
-        <ng-container *ngFor="let column of displayedColumns; let i = index" [matColumnDef]="column">
+        <ng-container *ngFor="let column of sortColumns; let i = index" [matColumnDef]="column">
             <th mat-header-cell *matHeaderCellDef class="font-bold text-lg text-gray-700 ">
                 <div class="flex items-center">
                     {{ getTranslationGroup(column) | translate }}
