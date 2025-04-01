@@ -31,9 +31,10 @@ export class RutaService {
     }
 
 
-    borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}rutas/lote`, { body: ids });
+    borrarTodos(rutas: { id: number; descripcion: string | null }[]): Observable<any> {
+        return this.http.delete<any>(`${this.url}rutas/lote`, { body: rutas });
     }
+
 
     actualizar(rutaId: number, ruta: Rutas): Observable<Rutas> {
         return this.http.put<Rutas>(`${this.url}rutas/${rutaId}`, ruta);
