@@ -149,13 +149,13 @@ export class SharedTableComponent {
 
     this.sortHeaders.forEach((header, i) => {
       const element = header.nativeElement;
-      console.log("###")
-      console.log("selectedColumnName", selectedColumnName)
-      console.log("columnIndex", columnIndex)
-      console.log("header", header)
-      console.log("element", element)
-      console.log("i", i)
-      console.log("###")
+      //console.log("###")
+      //console.log("selectedColumnName", selectedColumnName)
+      //console.log("columnIndex", columnIndex)
+      //console.log("header", header)
+      //console.log("element", element)
+      //console.log("i", i)
+      //console.log("###")
       if (i === columnIndex) {
         console.log("Pasé este if")
         this.currentSortType = element.getAttribute('sortType') || '';
