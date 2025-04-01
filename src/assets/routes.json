@@ -168,12 +168,6 @@
                 "permission": "access.clientSegmentations",
                 "title": "sideBar.clientSegmentations",
                 "link": "portal/mantenedores/segmentaciones-clientes"
-            },
-            {
-                "type": "item",
-                "permission": "access.locations",
-                "title": "sideBar.locations",
-                "link": "portal/mantenedores/locaciones"
             }
         ]
     },
