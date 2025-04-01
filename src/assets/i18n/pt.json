@@ -225,7 +225,7 @@
         "ruta": {
             "id": "Id",
             "titulo": "Rotas",
-            "descripcion": "Descrição da Rotas"
+            "descripcion": "Descrição da Rota"
         },
         "formularios": {
             "campoRequerido": "Este campo é obrigatório",
