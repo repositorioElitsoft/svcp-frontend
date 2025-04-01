@@ -473,6 +473,12 @@
                 "tituloAgregar": "Crear Zona",
                 "label.descripcionZona": "Descripción de la Zona",
                 "descripcion": "Ingrese la descripción de la zona"
+            },
+            "zona": {
+                "tituloEditar": "Editar Ruta",
+                "tituloAgregar": "Crear Ruta",
+                "label.descripcionZona": "Descripción de la Ruta",
+                "descripcion": "Ingrese la descripción de la ruta"
             }
         }
     },

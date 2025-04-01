@@ -460,6 +460,12 @@
                 "tituloAgregar": "Create Zone",
                 "label.descripcionZona": "Zone Description",
                 "descripcion": "Enter the description of the zone"
+            },
+            "ruta": {
+                "tituloEditar": "Edit Route",
+                "tituloAgregar": "Create Route",
+                "label.descripcionZona": "Route Description",
+                "descripcion": "Enter the description of the route"
             }
         }
     },
