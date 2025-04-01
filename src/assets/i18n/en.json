@@ -30,6 +30,7 @@
         "productTypes": "Product Types",
         "zones": "Zones",
         "sectors": "Sectors",
+        "routes": "Routes",
         "communes": "Communes",
         "regions": "Regions",
         "countries": "Countries",
@@ -222,6 +223,11 @@
             "id": "Id",
             "titulo": "Zone",
             "descripcionZona": "Zone Description"
+        },
+        "rutas": {
+            "id": "Id",
+            "titulo": "Routes",
+            "descripcion": "Routes"
         },
         "formularios": {
             "campoRequerido": "This field is required",

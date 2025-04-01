@@ -16,7 +16,7 @@
                     </button>
                     <!-- Titulo centrado en móvil y a la izquierda en desktop -->
                     <h1 class="text-xl sm:text-center sm:w-auto w-full text-center sm:text-left">
-                        {{ 'mantenedores.zona.titulo' | translate }}
+                        {{ 'mantenedores.ruta.titulo' | translate }}
                     </h1>
                 </div>
 
@@ -33,13 +33,13 @@
 
             <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
                 <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
-                    [translationGroup]="'mantenedores.zona'" [displayedColumns]="displayedColumns"
+                    [translationGroup]="'mantenedores.ruta'" [displayedColumns]="displayedColumns"
                     [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
                     [totalPages]="totalPages" [pageSize]="pageSize"
                     (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
                     (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionZona'"
+                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcion'"
                     (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
             </div>
         </div>
