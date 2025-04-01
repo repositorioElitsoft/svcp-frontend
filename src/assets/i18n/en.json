@@ -224,7 +224,7 @@
             "titulo": "Zone",
             "descripcionZona": "Zone Description"
         },
-        "rutas": {
+        "ruta": {
             "id": "Id",
             "titulo": "Routes",
             "descripcion": "Routes Description"
@@ -464,7 +464,7 @@
             "ruta": {
                 "tituloEditar": "Edit Route",
                 "tituloAgregar": "Create Route",
-                "label.descripcionZona": "Route Description",
+                "label.descripcion": "Route Description",
                 "descripcion": "Enter the description of the route"
             }
         }
