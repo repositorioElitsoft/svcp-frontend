@@ -121,8 +121,11 @@ export class SharedTableComponent {
 
   // Getter dinámico para evitar problemas con @Input()
   get allColumns(): string[] {
-    return ['select', ...this.displayedColumns, 'actions'];
+    // Filtramos la columna 'id' para que no se muestre en la tabla
+    const filteredColumns = this.displayedColumns.filter(column => column !== 'id');
+    return ['select', ...filteredColumns, 'actions'];
   }
+
 
   // Lógica para verificar si todas las filas están seleccionadas
   isAllSelected() {
