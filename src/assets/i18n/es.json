@@ -235,10 +235,10 @@
             "titulo": "Zona",
             "descripcionZona": "Descripción de la Zona"
         },
-        "rutas": {
+        "ruta": {
             "id": "Id",
             "titulo": "Rutas",
-            "descripcion": "Rutas"
+            "descripcion": "Descripción de Rutas"
         },
         "formularios": {
             "campoRequerido": "Este campo es obligatorio",

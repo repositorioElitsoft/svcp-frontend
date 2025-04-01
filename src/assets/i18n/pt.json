@@ -222,6 +222,11 @@
             "titulo": "Zona",
             "descripcionZona": "Descrição da Zona"
         },
+        "ruta": {
+            "id": "Id",
+            "titulo": "Rotas",
+            "descripcion": "Descrição da Rotas"
+        },
         "formularios": {
             "campoRequerido": "Este campo é obrigatório",
             "botonCancelar": "Cancelar",
@@ -456,7 +461,7 @@
             "ruta": {
                 "tituloEditar": "Editar Ruta",
                 "tituloAgregar": "Criar Ruta",
-                "label.descripcionZona": "Descrição da Ruta",
+                "label.descripcion": "Descrição da Ruta",
                 "descripcion": "Insira a descrição da Ruta"
             }
         }

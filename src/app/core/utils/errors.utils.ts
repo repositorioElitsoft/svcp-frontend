@@ -10,7 +10,8 @@ const prefixToSection: { [key: string]: string } = {
     TPCL: 'tipoCliente',
     TPPR: 'tipoProducto',
     ZNAS: 'zona',
-    TPSEV: 'tipoServicio'
+    TPSEV: 'tipoServicio',
+    RUTA: 'ruta'
 };
 
 const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
@@ -124,6 +125,13 @@ const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
         '005': 'ID_INVALIDO'
     },
     TPEM: {
+        '000': 'NO_ENCONTRADO',
+        '001': 'INTEGRIDAD_VIOLADA',
+        '002': 'REQUERIDO',
+        '003': 'DUPLICADO',
+        '004': 'ID_REQUERIDO',
+        '005': 'ID_INVALIDO'
+    }, RUTA: {
         '000': 'NO_ENCONTRADO',
         '001': 'INTEGRIDAD_VIOLADA',
         '002': 'REQUERIDO',

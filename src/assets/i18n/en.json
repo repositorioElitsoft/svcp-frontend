@@ -227,7 +227,7 @@
         "rutas": {
             "id": "Id",
             "titulo": "Routes",
-            "descripcion": "Routes"
+            "descripcion": "Routes Description"
         },
         "formularios": {
             "campoRequerido": "This field is required",
