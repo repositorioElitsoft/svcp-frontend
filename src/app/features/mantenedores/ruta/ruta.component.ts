@@ -163,7 +163,7 @@ export class RutaComponent implements OnInit {
 
 
 
-  obtenerDatos(sortField: string = 'descripcion', sortDirection: string = 'asc', optionalFilter: any = {}) {
+  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
