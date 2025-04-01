@@ -459,10 +459,10 @@
                 "descripcion": "Insira a descrição da zona"
             },
             "ruta": {
-                "tituloEditar": "Editar Ruta",
-                "tituloAgregar": "Criar Ruta",
-                "label.descripcion": "Descrição da Ruta",
-                "descripcion": "Insira a descrição da Ruta"
+                "tituloEditar": "Editar Rota",
+                "tituloAgregar": "Criar Rota",
+                "label.descripcion": "Descrição da Rota",
+                "descripcion": "Insira a descrição da Rota"
             }
         }
     },
