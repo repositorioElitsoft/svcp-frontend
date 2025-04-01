@@ -145,7 +145,15 @@ export class SharedTableComponent {
 
     this.sortHeaders.forEach((header, i) => {
       const element = header.nativeElement;
+      console.log("###")
+      console.log("selectedColumnName", selectedColumnName)
+      console.log("columnIndex", columnIndex)
+      console.log("header", header)
+      console.log("element", element)
+      console.log("i", i)
+      console.log("###")
       if (i === columnIndex) {
+        console.log("Pasé este if")
         this.currentSortType = element.getAttribute('sortType') || '';
         if (this.currentSortType === 'asc') {
           this.currentSortType = "desc"
@@ -158,11 +166,13 @@ export class SharedTableComponent {
           element.setAttribute('sortType', 'asc');
         }
       } else {
+        console.log("no sort type")
         element.setAttribute('sortType', '');
       }
     });
     this.currentSortIndex = columnIndex;
     this.cdr.detectChanges();
+
     this.sort.emit({ selectedColumnName, currentSortType: this.currentSortType });
   }
 

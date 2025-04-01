@@ -71,6 +71,9 @@
             },
             "development": {
               "buildTarget": "svcp-frontend:build:development"
+            },
+            "qa": {
+              "buildTarget": "svcp-frontend:build:qa"
             }
           },
           "defaultConfiguration": "development"
