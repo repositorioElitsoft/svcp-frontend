@@ -119,11 +119,8 @@ export class SharedTableComponent {
   }
 
 
-  // Getter dinámico para evitar problemas con @Input()
   get allColumns(): string[] {
-    // Filtramos la columna 'id' para que no se muestre en la tabla
-    const filteredColumns = this.displayedColumns.filter(column => column !== 'id');
-    return ['select', ...filteredColumns, 'actions'];
+    return ['select', ...this.displayedColumns.filter(col => col !== 'id'), 'actions'];
   }
 
 
@@ -142,8 +139,6 @@ export class SharedTableComponent {
     this.notifySelectionChange(); // Asegura que OpcionesMantenedorComponent se actualiza
     this.pageChanged.emit(newPage);
   }
-
-
 
 
   protected onSort(selectedColumnName: string, columnIndex: number) {
