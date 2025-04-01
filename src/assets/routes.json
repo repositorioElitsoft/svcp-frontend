@@ -74,6 +74,11 @@
                         "link": "portal/mantenedores/sectores"
                     },
                     {
+                        "permission": "access.routes",
+                        "title": "sideBar.routes",
+                        "link": "portal/mantenedores/rutas"
+                    },
+                    {
                         "permission": "access.communes",
                         "title": "sideBar.communes",
                         "link": "portal/mantenedores/comunas"
