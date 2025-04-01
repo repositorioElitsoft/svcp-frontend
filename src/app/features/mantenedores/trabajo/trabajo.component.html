@@ -1,9 +1,8 @@
 <div class="grid grid-cols-10 ">
     <div class=" col-span-1 "></div>
-
     <div class=" col-span-8 ">
         <div
-            class="container mx-auto  rounded-lg overflow-hidden z-10  bg-white dark:bg-neutral-800 dark:border dark:border-white">
+            class="container mx-auto p-4 rounded-lg overflow-hidden z-10  bg-white dark:bg-neutral-800 dark:border dark:border-white">
             <!-- Header Section -->
             <div
                 class="bg-white p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center gap-4 dark:bg-neutral-800 sm:mb-0">
@@ -29,6 +28,8 @@
 
             </div>
 
+
+
             <!-- Table Section -->
 
             <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
@@ -39,17 +40,16 @@
                     (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
                     (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'desripcionTrabajo'"
+                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTrabajo'"
                     (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
             </div>
         </div>
+
+
+        <div class=" col-span-1 "></div>
+
+        <section class="min-h-10 w-full dark:bg-neutral-800">
+        </section>
+
+
     </div>
-
-
-    <div class=" col-span-1 "></div>
-
-    <section class="min-h-10 w-full dark:bg-neutral-800">
-    </section>
-
-
-</div>

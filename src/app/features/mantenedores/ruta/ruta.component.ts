@@ -163,7 +163,7 @@ export class RutaComponent implements OnInit {
 
 
 
-  obtenerDatos(sortField: string = 'descripcion', sortDirection: string = 'asc', optionalFilter: any = {}) {
+  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
@@ -218,17 +218,19 @@ export class RutaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
-        const ids = selectedItems.map(item => item.id);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
+        // Modificación: Convertimos `selectedItems` en un array de objetos con `id` y `descripcion`
+        const rutas = selectedItems.map(item => ({ id: item.id, descripcion: item.descripcion || null }));
 
-        this.rutaService.borrarTodos(ids).subscribe({
+        console.log("Datos a enviar para eliminar:", rutas);
+
+        this.rutaService.borrarTodos(rutas).subscribe({
           next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
+            console.log("Elementos eliminados exitosamente:", rutas);
+            this.dataSource = this.dataSource.filter(item => !rutas.some(ruta => ruta.id === item.id));
             this.hasSelection = false;
 
             // Actualizar las propiedades de paginación
-            this.totalElements -= ids.length;
+            this.totalElements -= rutas.length;
             this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
             // Ajustar pageNumber si es necesario
@@ -262,6 +264,7 @@ export class RutaComponent implements OnInit {
       }
     });
   }
+
 
   onDeleteSingleSelected(id: string) {
     console.log("Eliminar seleccionado:", id);

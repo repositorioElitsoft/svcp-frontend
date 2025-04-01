@@ -11,7 +11,8 @@ const prefixToSection: { [key: string]: string } = {
     TPPR: 'tipoProducto',
     ZNAS: 'zona',
     TPSEV: 'tipoServicio',
-    RUTA: 'ruta'
+    RUTA: 'ruta',
+    TPEM: 'tipoEmpleado'
 };
 
 const errorKeyMappings: { [key: string]: { [key: string]: string } } = {

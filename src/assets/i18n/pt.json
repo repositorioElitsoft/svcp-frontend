@@ -224,8 +224,8 @@
         },
         "ruta": {
             "id": "Id",
-            "titulo": "Rotas",
-            "descripcion": "Descrição da Rotas"
+            "titulo": "Rota",
+            "descripcion": "Descrição da Rota"
         },
         "formularios": {
             "campoRequerido": "Este campo é obrigatório",
@@ -459,10 +459,10 @@
                 "descripcion": "Insira a descrição da zona"
             },
             "ruta": {
-                "tituloEditar": "Editar Ruta",
-                "tituloAgregar": "Criar Ruta",
-                "label.descripcion": "Descrição da Ruta",
-                "descripcion": "Insira a descrição da Ruta"
+                "tituloEditar": "Editar Rota",
+                "tituloAgregar": "Criar Rota",
+                "label.descripcion": "Descrição da Rota",
+                "descripcion": "Insira a descrição da Rota"
             }
         }
     },
@@ -582,6 +582,14 @@
                     "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
                 },
                 "ruta": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "tipoEmpleado": {
                     "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
                     "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
                     "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
