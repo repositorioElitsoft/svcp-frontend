@@ -478,6 +478,14 @@
             "editar": {
                 "success": "Informação foi modificada com sucesso"
             },
+            "exportar": {
+                "todo": {
+                    "success": "A exportação foi concluída com sucesso. Todos os registros foram exportados."
+                },
+                "seleccionado": {
+                    "success": "A exportação foi concluída com sucesso. Os registros selecionados foram exportados."
+                }
+            },
             "eliminar": {
                 "success": "A exclusão foi realizada com sucesso"
             },
