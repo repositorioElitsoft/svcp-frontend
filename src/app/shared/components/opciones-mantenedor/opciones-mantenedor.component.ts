@@ -19,7 +19,7 @@ import { TranslateModule } from "@ngx-translate/core"
       <span>{{ 'opciones-mantenedor.botonAgregar.texto' | translate }}</span>
     </button>
 
-    <button class="elitsoft-warn w-full sm:w-auto flex items-center justify-center gap-2" (click)="onExportar()">
+    <button class="elitsoft-warn w-full sm:w-auto flex items-center justify-center gap-2" (click)="onExportar()" [disabled]="!hasSelection">
       <mat-icon>download</mat-icon>
       <span>{{ 'opciones-mantenedor.botonExportar.texto' | translate }}</span>
     </button>
@@ -71,12 +71,13 @@ export class OpcionesMantenedorComponent {
     this.agregar.emit();
   }
 
-
   onExportar() {
+    console.log("Esta es la data que exportarás:", this.selectedData);
     this.botonExportar.accion();
     console.log("Solicitando exportación de datos"); // Verificar que se está emitiendo el evento
-    this.exportar.emit(); // Emitimos el evento sin datos
+    this.exportar.emit(this.selectedData); // Emitimos la data seleccionada
   }
+
 
   onConfig() {
     this.botonConfig.accion();

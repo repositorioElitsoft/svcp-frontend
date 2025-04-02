@@ -50,7 +50,7 @@ export class SharedTableComponent {
   @Output() dataEmitted = new EventEmitter<any[]>();
 
   selection = new SelectionModel<any>(true, []);
-
+  selectedItems: any[] = [];
   emptyMessage: string = "No hay datos disponibles.";
   dataSourceSubject = new BehaviorSubject<any[]>([]);
 
@@ -66,8 +66,12 @@ export class SharedTableComponent {
 
   deleteFilter(field: string) {
     this.filterDelete.emit(field);
+
   }
 
+  ngOnInit() {
+    this.updateSelection();
+  }
 
   getField(value: any) {
     if (typeof value !== 'object' || value === null) {
@@ -135,15 +139,6 @@ export class SharedTableComponent {
     return numSelected === numRows;
   }
 
-  protected onPageChanged(newPage: number) {
-    console.log("Cambiando a la página:", newPage);
-    this.selection.clear();
-    console.log("Selección limpiada.");
-
-    this.notifySelectionChange(); // Asegura que OpcionesMantenedorComponent se actualiza
-    this.pageChanged.emit(newPage);
-  }
-
 
   protected onSort(selectedColumnName: string, columnIndex: number) {
 
@@ -184,8 +179,10 @@ export class SharedTableComponent {
   toggleAllRows() {
     if (this.isAllSelected()) {
       this.selection.clear();
+      this.selectedItems = [];  // Limpiar selectedItems cuando se deseleccionan todas
     } else {
       this.selection.select(...this.dataSource);
+      this.selectedItems = [...this.dataSource];  // Actualizar selectedItems cuando se seleccionan todas
     }
     this.notifySelectionChange(); // Notificar cambios en la selección
   }
@@ -212,6 +209,7 @@ export class SharedTableComponent {
 
   onSingleDelete(id: string) {
     this.deleteSingleSelected.emit(id);
+
   }
 
 
@@ -220,28 +218,8 @@ export class SharedTableComponent {
     const dataSlice = this.dataSource.slice(0, this.pageSize); // Obtener solo la parte paginada
     this.dataSourceSubject.next(dataSlice);
     this.dataEmitted.emit(dataSlice); // Emitir la data actualizada
-  }
+    this.updateSelection();
 
-
-
-
-  // Método para notificar cambios en la selección
-  notifySelectionChange() {
-    // Emitir los datos seleccionados como un array
-    this.selectionChange.emit(this.selection.selected);
-  }
-
-  // Método para manejar la selección/deselección de una fila individual
-  onRowSelection(row: any) {
-    // Alterna la selección de la fila (la selecciona si no está seleccionada, y la deselecciona si lo está)
-    this.selection.toggle(row);
-
-    // Notificar los cambios en la selección, incluyendo los datos seleccionados
-    this.notifySelectionChange();
-  }
-
-  get endItem(): number {
-    return Math.min((this.pageNumber + 1) * this.pageSize, this.totalElements);
   }
 
 
@@ -300,6 +278,65 @@ export class SharedTableComponent {
   }
 
 
+  // Sincroniza la selección con los elementos almacenados en selectedItems
+  private updateSelection() {
+    this.selection.clear();
+    this.dataSource.forEach(row => {
+      if (this.selectedItems.some(item => item.id === row.id)) {
+        this.selection.select(row);
+      }
+    });
+    this.cdr.detectChanges();
+  }
 
 
+
+  // Método para seleccionar o deseleccionar una fila
+  onRowSelection(row: any) {
+    if (this.selection.isSelected(row)) {
+      // Desmarcar la fila
+      this.selection.deselect(row);
+      this.selectedItems = this.selectedItems.filter(item => item.id !== row.id);
+    } else {
+      // Marcar la fila
+      this.selection.select(row);
+      this.selectedItems.push(row);
+    }
+    this.notifySelectionChange();
+  }
+
+  // Verifica si un checkbox debe estar marcado
+  isChecked(row: any): boolean {
+    return this.selectedItems.some(item => item.id === row.id);
+  }
+
+  // Notifica los cambios de selección
+  notifySelectionChange() {
+    this.selectionChange.emit(this.selectedItems);
+  }
+
+
+
+  protected onPageChanged(newPage: number) {
+    console.log("Cambiando a la página:", newPage);
+    this.selection.clear();
+    console.log("Selección limpiada.");
+    this.notifySelectionChange(); // Asegura que OpcionesMantenedorComponent se actualiza
+    this.pageChanged.emit(newPage);
+    this.updateSelection();
+  }
+
+
+
+  get endItem(): number {
+    return Math.min((this.pageNumber + 1) * this.pageSize, this.totalElements);
+  }
+
+
+  // Método para limpiar toda la selección
+  clearSelection() {
+    this.selection.clear();
+    this.selectedItems = [];
+    this.notifySelectionChange();
+  }
 }
