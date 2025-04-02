@@ -17,7 +17,8 @@
         "username": "Usuario",
         "password": "Contraseña",
         "emptyField": "Este campo no puede estar vacío.",
-        "signIn": "Ingresar"
+        "signIn": "Ingresar",
+        "forgotPassword": "¿Olvidaste tu contraseña?"
     },
     "sideBar": {
         "services": "Servicios",

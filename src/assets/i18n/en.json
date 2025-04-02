@@ -17,7 +17,8 @@
         "username": "Username",
         "password": "Password",
         "emptyField": "This field cannot be empty.",
-        "signIn": "Sign In"
+        "signIn": "Sign In",
+        "forgotPassword": "Forgot your password?"
     },
     "sideBar": {
         "services": "Services",

@@ -6,8 +6,8 @@
         <div class="text-lg text-[#616161] font-medium">{{ 'colorMode' | translate }}:</div>
     </div>
 
-    <app-toggle-group [selectedValue]="initialMode" [options]="colorModes" (valueChange)="onColorModeChange($event)"
-        [(ngModel)]="selectedColorMode" name="colorMode">
+    <app-toggle-group #toggleColorMode [selectedValue]="initialMode" [options]="colorModes"
+        (valueChange)="onColorModeChange($event)" [(ngModel)]="selectedColorMode" name="colorMode">
     </app-toggle-group>
 
     <!-- Language Section -->

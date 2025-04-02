@@ -39,6 +39,8 @@ export class ThemeService {
                 this.setMode(e.matches ? 'dark' : 'light');
             }
         });
+
+
     }
 
     private setState(state: ThemeState) {
@@ -68,5 +70,8 @@ export class ThemeService {
         // Add new theme and mode classes
         if (mode === 'dark') { document.body.classList.add("dark"); }
         document.body.classList.add(`${mode === 'dark' ? 'purple-green' : 'deeppurple-amber'}-theme`, `${mode}-mode`);
+
+        // Set fallback background color based on mode
+        document.documentElement.style.setProperty('--fallback-b1', mode === 'dark' ? '#2c2c2c' : 'white');
     }
 }

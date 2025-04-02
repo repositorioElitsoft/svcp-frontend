@@ -1,11 +1,11 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { map } from 'rxjs';
 import { ThemeService, Theme, Mode } from '../../../core/services/theme.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { ToggleGroupComponent } from '../toggle-group/toggle-group-component.component';
+import { ToggleGroupComponent, ToggleOption } from '../toggle-group/toggle-group-component.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core'; // Importa TranslateService
 import { FormControl } from '@angular/forms'; // Para el MatAutocomplete
 import { Observable } from 'rxjs'; // Para el MatAutocomplete
@@ -33,16 +33,17 @@ import { FontSizeService } from '../../../core/services/font-size.service';
   templateUrl: './dialogo-accesibilidad.component.html',
   styleUrl: './dialogo-accesibilidad.component.css',
 })
-export class DialogoAccesibilidadComponent implements OnInit {
+export class DialogoAccesibilidadComponent implements OnInit, AfterViewInit {
   constructor(
     public dialogRef: MatDialogRef<DialogoAccesibilidadComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private themeService: ThemeService,
     private translate: TranslateService,
-    private fontSizeService: FontSizeService
+    private fontSizeService: FontSizeService,
+    private cdr: ChangeDetectorRef
   ) { }
 
-  initialMode = '';
+  initialMode: string = "";
 
   themeState$ = this.themeService.currentState$;
 
@@ -66,15 +67,26 @@ export class DialogoAccesibilidadComponent implements OnInit {
   filteredLanguages!: Observable<string[]>;
   selectedLanguage: string = 'Español';
 
+  @ViewChild('toggleColorMode') toggleColorMode!: any;
+
   ngOnInit() {
     this.loadThemeFromLocalStorage();
     this.configureLanguageAutocomplete();
     this.subscribeToLanguageChanges();
     this.setSelectedLanguage();
     this.selectedFontSize = this.fontSizeService.getSelectedFontSize();
-
   }
 
+  ngAfterViewInit() {
+    if (this.toggleColorMode) {
+      setTimeout(() => {
+        this.toggleColorMode.selectedValue = this.initialMode;
+        console.log('Tema inicial:', this.initialMode);
+        this.cdr.detectChanges();
+        console.log('Tema inicial en toggle:', this.toggleColorMode.selectedValue);
+      });
+    }
+  }
 
   // Filtra los idiomas para el MatAutocomplete
   private _filterLanguages(value: string): string[] {
@@ -158,14 +170,12 @@ export class DialogoAccesibilidadComponent implements OnInit {
   }
 
   /**
- * Carga la opción de tema desde localStorage.
- */
+   * Carga la opción de tema desde localStorage.
+   */
   private loadThemeFromLocalStorage(): void {
     const option = localStorage.getItem('theme-option') ?? 'system';
     this.initialMode = option;
   }
-
-  /**
 
   /**
    * Configura el MatAutocomplete para los idiomas.
@@ -199,6 +209,4 @@ export class DialogoAccesibilidadComponent implements OnInit {
     this.selectedLanguage = this.getLanguageName(currentLanguage);
     console.log('Idioma actual:', currentLanguage, 'Idioma seleccionado:', this.selectedLanguage);
   }
-
-
 }

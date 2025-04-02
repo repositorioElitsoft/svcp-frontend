@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
@@ -29,7 +29,8 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    TranslateModule
+    TranslateModule,
+    RouterModule
 
   ],
   providers: [
@@ -43,6 +44,7 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 export class LoginComponent {
   form!: FormGroup
   errorMessage!: String
+  hidePassword: boolean = true;
 
   images: string[] = ["1.jpg", "2.jpg", "3.jpg", "4.jpg"]
 
