@@ -34,6 +34,7 @@ export class SectorComponent implements OnInit {
   pageNumber = 0
   totalPages = 0
   pageSize = 10;
+  showDiv: boolean = false;
   zonaId = null;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
@@ -76,8 +77,6 @@ export class SectorComponent implements OnInit {
     console.log("Eliminar seleccionados:", ids);
   }
 
-
-
   exportarExcel(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     // Usamos this.selectedData directamente en lugar de hacer la llamada a la API
     const dataArray = this.selectedData ?? [];
@@ -119,8 +118,6 @@ export class SectorComponent implements OnInit {
       });
     });
   }
-
-
 
   volver() {
     this.router.navigate(['/portal/home']);

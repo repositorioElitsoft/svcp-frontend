@@ -25,6 +25,7 @@ export class SharedTableComponent {
   @Input() totalElements: number = 0;
   @Input() pageNumber = 0
   @Input() totalPages = 0
+  @Input() showDiv: boolean = true;
   @Input() pageSize = 10;  // Tamaño por defecto para la paginación
   @Input() translationGroup = ""
   @Input() filters: any[] = []
@@ -53,7 +54,6 @@ export class SharedTableComponent {
   selectedItems: any[] = [];
   emptyMessage: string = "No hay datos disponibles.";
   dataSourceSubject = new BehaviorSubject<any[]>([]);
-
   currentSortType = '';
   currentSortIndex = -1;
   show = true
