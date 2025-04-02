@@ -86,7 +86,10 @@ export class TipoEmpleadoComponent implements OnInit {
     }
 
     // Obtener dinámicamente las claves de los datos
-    const columnKeys = Object.keys(dataArray[0]); // Extrae todas las claves del primer objeto
+    let columnKeys = Object.keys(dataArray[0]); // Extrae todas las claves del primer objeto
+
+    // Filtrar la clave 'id' para no incluirla en la exportación
+    columnKeys = columnKeys.filter(key => key !== 'id');
 
     // Generar claves de traducción basadas en el grupo de traducciones
     const translationKeys = columnKeys.map(key => `mantenedores.tipoEmpleado.${key}`);
@@ -112,6 +115,7 @@ export class TipoEmpleadoComponent implements OnInit {
       });
     });
   }
+
 
 
 
