@@ -77,37 +77,49 @@ export class SectorComponent implements OnInit {
   }
 
 
+
   exportarExcel(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
-    const filtros = {
-      pageNumber: 0,
-      pageSize: 2000,
-      sortField: sortField,
-      sortDirection: sortDirection,
-      ...optionalFilter
-    };
+    // Usamos this.selectedData directamente en lugar de hacer la llamada a la API
+    const dataArray = this.selectedData ?? [];
 
-    console.log("Recibida solicitud de exportación con filtros:", filtros);
+    console.log("Data seleccionada para exportación:", dataArray); // Verificar qué data será exportada
 
-    this.sectorService.buscarFiltrado(filtros).subscribe(
-      (response: any) => {
-        console.log("Respuesta completa de la API:", response);
+    if (!Array.isArray(dataArray) || dataArray.length === 0) {
+      console.error("Error: No hay datos para exportar.");
+      return;
+    }
 
-        // Extraer solo la lista de datos desde 'content'
-        const dataArray = response?.content ?? [];
+    // Obtener dinámicamente las claves de los datos
+    let columnKeys = Object.keys(dataArray[0]); // Extrae todas las claves del primer objeto
 
-        if (!Array.isArray(dataArray)) {
-          console.error("Error: La respuesta no contiene un array en 'content'.", response);
-          return;
-        }
+    // Filtrar la clave 'id' para no incluirla en la exportación
+    columnKeys = columnKeys.filter(key => key !== 'id');
 
-        console.log("Data extraída para exportación:", dataArray);
-        this.exportService.exportToExcel(dataArray, this.titulo);
-      },
-      (error) => {
-        console.error("Error al recuperar datos para exportación:", error);
-      }
-    );
+    // Generar claves de traducción basadas en el grupo de traducciones
+    const translationKeys = columnKeys.map(key => `mantenedores.sector.${key}`);
+
+    // Obtener las traducciones dinámicamente
+    this.translate.get(translationKeys).subscribe(translations => {
+      // Crear un nuevo array con nombres traducidos en lugar de claves originales
+      const translatedData = dataArray.map(item => {
+        const newItem: any = {};
+        columnKeys.forEach((key, index) => {
+          const translatedKey = translations[translationKeys[index]] || key; // Si no hay traducción, usa la clave original
+          newItem[translatedKey] = item[key];
+        });
+        return newItem;
+      });
+
+      console.log("Data formateada con traducciones para exportación:", translatedData);
+
+      // Obtener el título traducido para el nombre del archivo
+      this.translate.get('mantenedores.sector.titulo').subscribe(title => {
+        // Usar el título traducido para el nombre del archivo
+        this.exportService.exportToExcel(translatedData, title);
+      });
+    });
   }
+
 
 
   volver() {
