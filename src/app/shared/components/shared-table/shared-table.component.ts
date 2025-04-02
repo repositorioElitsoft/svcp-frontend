@@ -175,17 +175,6 @@ export class SharedTableComponent {
     this.sort.emit({ selectedColumnName, currentSortType: this.currentSortType });
   }
 
-  // Seleccionar o deseleccionar todas las filas
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      this.selectedItems = [];  // Limpiar selectedItems cuando se deseleccionan todas
-    } else {
-      this.selection.select(...this.dataSource);
-      this.selectedItems = [...this.dataSource];  // Actualizar selectedItems cuando se seleccionan todas
-    }
-    this.notifySelectionChange(); // Notificar cambios en la selección
-  }
 
   // Etiqueta para el checkbox de la fila
   checkboxLabel(row?: any): string {
@@ -278,9 +267,10 @@ export class SharedTableComponent {
   }
 
 
-  // Sincroniza la selección con los elementos almacenados en selectedItems
+
   private updateSelection() {
     this.selection.clear();
+    // Sincronizar la selección con los elementos de selectedItems
     this.dataSource.forEach(row => {
       if (this.selectedItems.some(item => item.id === row.id)) {
         this.selection.select(row);
@@ -319,10 +309,9 @@ export class SharedTableComponent {
 
   protected onPageChanged(newPage: number) {
     console.log("Cambiando a la página:", newPage);
-    this.selection.clear();
-    console.log("Selección limpiada.");
-    this.notifySelectionChange(); // Asegura que OpcionesMantenedorComponent se actualiza
     this.pageChanged.emit(newPage);
+
+    // Mantener la selección global
     this.updateSelection();
   }
 
@@ -339,4 +328,24 @@ export class SharedTableComponent {
     this.selectedItems = [];
     this.notifySelectionChange();
   }
+
+
+  // Seleccionar o deseleccionar todas las filas
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.selectedItems = [];  // Limpiar selectedItems cuando se deseleccionan todas
+    } else {
+      this.selection.select(...this.dataSource);
+      // Agregar los elementos seleccionados a selectedItems globalmente sin duplicados
+      this.selectedItems = [
+        ...new Map(
+          [...this.selectedItems, ...this.dataSource].map(item => [item.id, item])
+        ).values()
+      ];
+    }
+    this.notifySelectionChange(); // Notificar cambios en la selección
+  }
+
+
 }
