@@ -18,7 +18,12 @@
         "password": "Senha",
         "emptyField": "Este campo não pode estar vazio.",
         "signIn": "Entrar",
-        "forgotPassword": "Esqueceu sua senha?"
+        "forgotPassword": "Esqueceu sua senha?",
+        "errors": {
+            "invalidCredentials": "Nome de usuário ou senha inválidos.",
+            "unexpectedError": "Erro inesperado.",
+            "serverError": "Houve um problema ao contatar o servidor, tente novamente mais tarde."
+        }
     },
     "sideBar": {
         "services": "Serviços",
@@ -279,6 +284,13 @@
                 "descripcion": "Insira a descrição da classificação do cliente"
             },
             "cliente": {
+                "menus": {
+                    "datosGenerales": "Dados Gerais",
+                    "informacionComercial": "Informações Comerciais",
+                    "datosContacto": "Dados de Contato",
+                    "locaciones": "Localizações",
+                    "contactos": "Contatos"
+                },
                 "tituloEditar": "Editar Cliente",
                 "tituloAgregar": "Criar Cliente",
                 "label.nombre": "Nome",

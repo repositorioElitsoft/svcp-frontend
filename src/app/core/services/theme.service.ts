@@ -72,6 +72,6 @@ export class ThemeService {
         document.body.classList.add(`${mode === 'dark' ? 'purple-green' : 'deeppurple-amber'}-theme`, `${mode}-mode`);
 
         // Set fallback background color based on mode
-        document.documentElement.style.setProperty('--fallback-b1', mode === 'dark' ? '#2c2c2c' : 'white');
+        document.documentElement.style.setProperty('--fallback-b1', mode === 'dark' ? '#262626' : '#F3F4F6');
     }
 }

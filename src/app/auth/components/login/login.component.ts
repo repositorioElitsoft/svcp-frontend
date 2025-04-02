@@ -76,6 +76,7 @@ export class LoginComponent {
 
   openAccessibilityPanel() {
     this.dialog.open(DialogoAccesibilidadComponent, {
+      minWidth: '380px'
 
     })
   }
@@ -101,21 +102,17 @@ export class LoginComponent {
 
 
       },
-      error: (error: HttpErrorResponse) => {
-
-        if (error.status == 401) {
-          this.errorMessage = "Nombre de usuario o contraseña incorrectos."
+      error: (error: any) => {
+        console.log("error at login", error)
+        if (error.status == 401 || error.status == 403) {
+          this.errorMessage = this.translate.instant('login.errors.invalidCredentials')
           return
         }
-        this.errorMessage = "Error inesperado."
-        if (error.status == 403) {
-
-          this.errorMessage = "Nombre de usuario o contraseña incorrectos."
-        }
         if (error.status == 500) {
-          this.errorMessage = "Hubo un problema contactando al servidor, intente más tarde."
+          this.errorMessage = this.translate.instant('login.errors.serverError')
+          return
         }
-        console.log("error at login", this.errorMessage)
+        this.errorMessage = this.translate.instant('login.errors.unexpectedError')
       }
     })
   }

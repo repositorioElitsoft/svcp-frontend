@@ -18,7 +18,12 @@
         "password": "Password",
         "emptyField": "This field cannot be empty.",
         "signIn": "Sign In",
-        "forgotPassword": "Forgot your password?"
+        "forgotPassword": "Forgot your password?",
+        "errors": {
+            "invalidCredentials": "Invalid username or password.",
+            "unexpectedError": "Unexpected error.",
+            "serverError": "There was a problem contacting the server, please try again later."
+        }
     },
     "sideBar": {
         "services": "Services",
@@ -281,6 +286,13 @@
                 "descripcion": "Enter the description of the client classification"
             },
             "cliente": {
+                "menus": {
+                    "datosGenerales": "General Data",
+                    "informacionComercial": "Commercial Information",
+                    "datosContacto": "Contact Data",
+                    "locaciones": "Locations",
+                    "contactos": "Contacts"
+                },
                 "tituloEditar": "Edit Client",
                 "tituloAgregar": "Create Client",
                 "label.nombre": "Name",

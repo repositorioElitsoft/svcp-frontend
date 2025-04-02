@@ -1,6 +1,4 @@
 <div [ngClass]="{'hidden':!show}">
-
-
     <div [ngClass]="{'hidden':isExpanded}" (click)="onExpandPressed()"
         class="lg:hidden fixed z-[1000] top-0 left-0  mx-4 mt-2 text-6xl dark:text-white text-black  hover:cursor-pointer 
    dark:border border-white rounded-2xl dark:bg-neutral-800 bg-white shadow-2xl w-16 h-16 flex text-center justify-center items-center">
@@ -11,15 +9,18 @@
 
     <div [ngClass]="{
     'w-[0%] -translate-x-40 lg:translate-x-0 lg:w-[70px]': !isExpanded,
-    'w-[100%] translate-x-0 lg:w-[500px]': isExpanded
-  }"
-        class="lg:mx-8 lg:my-8 
-    py-6 px-2 fixed top-0 left-0
-    border-white dark:border
-    z-50 shadow-2xl rounded-[2.0rem] h-screen lg:h-[90vh] dark:bg-neutral-800 bg-white text-2xl transition-all duration-300 ease-in-out">
+    'w-[100%] translate-x-0 lg:w-[500px]': isExpanded,
+    'fixed top-0 left-0 h-screen lg:h-[90vh] ': !isForForms,
+    'absolute -top-4 -left-4 h-full': isForForms,
 
-        <div class="flex items-center gap-4 mb-16">
+  }" class="lg:mx-8 lg:my-8 
+    py-6 px-2 
+    border-white dark:border
+    z-50 shadow-2xl rounded-[2.0rem]  dark:bg-neutral-800 bg-white text-2xl transition-all duration-300 ease-in-out">
+
+        <div class="flex items-center gap-4 mb-16" *ngIf="!isForForms">
             <img class="w-[70px] " [src]="img">
+
             <div [ngClass]="{
             'w-14 opacity-0': !isExpanded,
             'w-full opacity-100': isExpanded
@@ -34,7 +35,10 @@
             </div>
         </div>
 
-        <div (click)="onExpandPressed()" class="absolute top-8 -right-8
+        <div (click)="onExpandPressed()" [ngClass]="{
+            'w-14 h-14 top-8 -right-8': !isForForms,
+            'w-8 h-8 top-4 -right-4': isForForms
+          }" class="absolute 
     hover:cursor-pointer 
     hidden lg:flex border-white dark:border 
     rounded-full shadow-2xl w-14 h-14 bg-white dark:bg-neutral-800  items-center justify-center ">
@@ -51,14 +55,16 @@
                 [isShrinked]="true" #panel>
                 @for (submenu of menu.menus; track $index) {
                 @if(submenu.type === "item"){
-                <app-sidebar-item-link [link]="submenu.link" [title]="submenu.title"></app-sidebar-item-link>
+                <app-sidebar-item-link (linkClick)="handleLinkClick($event)" [link]="submenu.link"
+                    [title]="submenu.title"></app-sidebar-item-link>
                 }
                 @if(submenu.type === "group"){
                 <div class="text-neutral-600 mb-10 font-medium text-2xl">
                     {{ submenu.title | translate}}
                 </div>
                 @for (subsubmenu of submenu.menus; track $index) {
-                <app-sidebar-item-link [link]="subsubmenu.link" [title]="subsubmenu.title"></app-sidebar-item-link>
+                <app-sidebar-item-link (linkClick)="handleLinkClick($event)" [link]="subsubmenu.link"
+                    [title]="subsubmenu.title"></app-sidebar-item-link>
                 }
                 }
                 }
