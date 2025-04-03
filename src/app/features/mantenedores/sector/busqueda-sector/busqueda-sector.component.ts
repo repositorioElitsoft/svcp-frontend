@@ -103,6 +103,7 @@ export class BusquedaSectorComponent implements OnInit {
     if (this.selectedFilter) {
       filter.zona = this.selectedFilter;
       const zonaLabel = this.getSelectedZonaLabel();
+      // Enviamos el label en lugar del value para mostrar
       labels.push({ field: 'zona', value: zonaLabel });
     }
 

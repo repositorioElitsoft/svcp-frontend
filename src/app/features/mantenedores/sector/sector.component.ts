@@ -193,7 +193,13 @@ export class SectorComponent implements OnInit {
       if (filter.field === 'descripcionSector') {
         newFilter.descripcionSector = filter.value;
       } else if (filter.field === 'zona') {
-        newFilter.zona = filter.value;
+        // Aquí usamos el ID almacenado en el filterOptions
+        const zonaOption = this.busquedaSector.filterOptions.find(
+          (opt: { label: string, value: string }) => opt.label === filter.value
+        );
+        if (zonaOption) {
+          newFilter.zona = zonaOption.value;
+        }
       }
     });
 
@@ -233,8 +239,6 @@ export class SectorComponent implements OnInit {
       this.pageSize = data.pageSize;
       this.totalElements = data.totalElements;
 
-      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
       this.dataSource = data.content.flat();
       if (data.content.length > 0) {
         this.displayedColumns = Object.keys(data.content[0]);
