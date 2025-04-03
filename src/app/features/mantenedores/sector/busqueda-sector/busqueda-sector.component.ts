@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BusquedaComponent } from '../../../../shared/components/busqueda/busqueda.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-busqueda-sector',
   standalone: true,
-  imports: [BusquedaComponent, TranslateModule],
+  imports: [BusquedaComponent, TranslateModule, CommonModule],
   templateUrl: './busqueda-sector.component.html',
   styleUrl: './busqueda-sector.component.css'
 })
