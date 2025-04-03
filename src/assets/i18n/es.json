@@ -186,10 +186,10 @@
             "titulo": "Región",
             "descripcionRegion": "Descripción de la Región"
         },
-        "rol": {
+        "role": {
             "id": "Id",
             "titulo": "Rol",
-            "descripcionRol": "Descripción del Rol"
+            "nombreRol": "Rol"
         },
         "sector": {
             "id": "Id",
@@ -413,11 +413,11 @@
                 "label.region": "Descripción de la Región",
                 "descripcion": "Ingrese la descripción de la región"
             },
-            "rol": {
+            "role": {
                 "tituloEditar": "Editar Rol",
                 "tituloAgregar": "Crear Rol",
-                "label.rol": "Descripción del Rol",
-                "descripcion": "Ingrese la descripción del rol"
+                "label.nombreRol": "Rol",
+                "nombreRol": "Ingrese el rol"
             },
             "sector": {
                 "tituloEditar": "Editar Sector",
@@ -639,6 +639,14 @@
                     "ID_INVALIDO": "El ID del tipo de documento de identificación no es válido."
                 },
                 "sector": {
+                    "NO_ENCONTRADO": "El tipo de documento de identificación no fue encontrado.",
+                    "INTEGRIDAD_VIOLADA": "El registro está actualmente asignado y no puede ser eliminado.",
+                    "REQUERIDO": "El tipo de documento de identificación es requerido.",
+                    "DUPLICADO": "Ya existe un tipo de documento de identificación con los mismos datos.",
+                    "ID_REQUERIDO": "El ID del tipo de documento de identificación es requerido.",
+                    "ID_INVALIDO": "El ID del tipo de documento de identificación no es válido."
+                },
+                "role": {
                     "NO_ENCONTRADO": "El tipo de documento de identificación no fue encontrado.",
                     "INTEGRIDAD_VIOLADA": "El registro está actualmente asignado y no puede ser eliminado.",
                     "REQUERIDO": "El tipo de documento de identificación es requerido.",

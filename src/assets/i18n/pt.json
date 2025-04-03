@@ -42,7 +42,7 @@
         "countries": "Países",
         "employees": "Empregado",
         "employeeTypes": "Tipo de Empregado",
-        "roles": "Funções",
+        "roles": "Cargo",
         "permissionAssignment": "Atribuição de Permissões",
         "roleAssignment": "Atribuição de Funções",
         "clients": "Clientes",
@@ -229,6 +229,11 @@
             "titulo": "Zona",
             "descripcionZona": "Descrição da Zona"
         },
+        "role": {
+            "id": "Id",
+            "titulo": "Cargo",
+            "nombreRol": "Descrição da Cargo"
+        },
         "ruta": {
             "id": "Id",
             "titulo": "Rota",
@@ -399,10 +404,10 @@
                 "descripcion": "Insira a descrição da região"
             },
             "rol": {
-                "tituloEditar": "Editar Função",
-                "tituloAgregar": "Criar Função",
-                "label": "Descrição da Função",
-                "descripcion": "Insira a descrição da função"
+                "tituloEditar": "Editar Cargo",
+                "tituloAgregar": "Criar Cargo",
+                "label": "Descrição da Cargo",
+                "descripcion": "Insira a descrição da Cargo"
             },
             "sector": {
                 "tituloEditar": "Editar Setor",
@@ -478,6 +483,12 @@
                 "tituloAgregar": "Criar Rota",
                 "label.descripcion": "Descrição da Rota",
                 "descripcion": "Insira a descrição da Rota"
+            },
+            "role": {
+                "tituloEditar": "Editar Cargo",
+                "tituloAgregar": "Criar Cargo",
+                "label": "Descrição da Cargo",
+                "descripcion": "Insira a descrição da Cargo"
             }
         }
     },
@@ -623,6 +634,14 @@
                     "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
                 },
                 "sector": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "role": {
                     "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
                     "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
                     "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
