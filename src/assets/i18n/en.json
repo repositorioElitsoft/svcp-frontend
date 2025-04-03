@@ -450,7 +450,7 @@
                 "tituloEditar": "Edit Product Type",
                 "tituloAgregar": "Create Product Type",
                 "label.descripcionTipoProducto": "Product Type Description",
-                "descripcion": "Enter the description of the product type"
+                "descripcionTipoProducto": "Enter the description of the product type"
             },
             "tipoServicio": {
                 "tituloEditar": "Edit Service Type",

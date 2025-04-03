@@ -30,9 +30,10 @@
             </div>
 
             <!--Search Genérico-->
-            <app-busqueda-generica [fieldName]="'descripcion'" [translationPrefix]="'mantenedores.tipoProducto'"
-                [translationFieldKey]="'descripcion'" [placeholderTranslationKey]="'table.digiteBusqueda'"
-                [buttonText]="'mantenedores.buscar'" (applyfilter)="buscar($event)">
+            <app-busqueda-generica [fieldName]="'descripcionTipoProducto'"
+                [translationPrefix]="'mantenedores.tipoProducto'" [translationFieldKey]="'descripcionTipoProducto'"
+                [placeholderTranslationKey]="'table.digiteBusqueda'" [buttonText]="'mantenedores.buscar'"
+                (applyfilter)="buscar($event)">
             </app-busqueda-generica>
 
             <!-- Table Section -->
@@ -45,7 +46,7 @@
                     (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
                     (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcion'"
+                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTipoProducto'"
                     (filterDelete)="onFilterDeleted($event)" [filters]="[]"></app-shared-table>
             </div>
         </div>
