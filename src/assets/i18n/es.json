@@ -77,7 +77,8 @@
         "actions": "Acciones",
         "seleccionados": "{{count}} seleccionados",
         "of": "de",
-        "dataDisponible": "No hay datos disponibles"
+        "dataDisponible": "No hay datos disponibles",
+        "digiteBusqueda": "Ingrese un"
     },
     "opciones-mantenedor": {
         "botonAgregar": {
@@ -468,7 +469,7 @@
                 "tituloEditar": "Editar Tipo de Producto",
                 "tituloAgregar": "Crear Tipo de Producto",
                 "label.descripcionTipoProducto": "Descripción del Tipo de Producto",
-                "descripcion": "Ingrese la descripción del tipo de producto"
+                "descripcionTipoProducto": "Ingrese la descripción del tipo de producto"
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Servicio",

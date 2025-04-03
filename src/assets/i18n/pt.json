@@ -76,7 +76,8 @@
         "actions": "Ações",
         "seleccionados": "{{count}} selecionados",
         "of": "de",
-        "dataDisponible": "Não há dados disponíveis"
+        "dataDisponible": "Não há dados disponíveis",
+        "digiteBusqueda": "Digite um"
     },
     "opciones-mantenedor": {
         "botonAgregar": {
@@ -174,11 +175,6 @@
             "titulo": "Região",
             "descripcionRegion": "Descrição da Região"
         },
-        "rol": {
-            "id": "Id",
-            "titulo": "Função",
-            "descripcionRol": "Descrição da Função"
-        },
         "sector": {
             "id": "Id",
             "titulo": "Setor",
@@ -232,7 +228,7 @@
         "role": {
             "id": "Id",
             "titulo": "Cargo",
-            "nombreRol": "Descrição da Cargo"
+            "nombreRol": "Cargo"
         },
         "ruta": {
             "id": "Id",
@@ -403,12 +399,6 @@
                 "label": "Descrição da Região",
                 "descripcion": "Insira a descrição da região"
             },
-            "rol": {
-                "tituloEditar": "Editar Cargo",
-                "tituloAgregar": "Criar Cargo",
-                "label": "Descrição da Cargo",
-                "descripcion": "Insira a descrição da Cargo"
-            },
             "sector": {
                 "tituloEditar": "Editar Setor",
                 "tituloAgregar": "Criar Setor",
@@ -458,7 +448,7 @@
                 "tituloEditar": "Editar Tipo de Produto",
                 "tituloAgregar": "Criar Tipo de Produto",
                 "label.descripcionTipoProducto": "Descrição do Tipo de Produto",
-                "descripcion": "Insira a descrição do tipo de produto"
+                "descripcionTipoProducto": "Insira a descrição do tipo de produto"
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Serviço",
@@ -487,8 +477,8 @@
             "role": {
                 "tituloEditar": "Editar Cargo",
                 "tituloAgregar": "Criar Cargo",
-                "label": "Descrição da Cargo",
-                "descripcion": "Insira a descrição da Cargo"
+                "label": "Cargo",
+                "descripcion": "Insira a Cargo"
             }
         }
     },

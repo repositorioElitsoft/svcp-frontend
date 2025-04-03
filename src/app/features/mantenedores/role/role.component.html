@@ -21,7 +21,7 @@
         </div>
     </div>
     <!-- Search Section -->
-
+    <app-busqueda-role (applyfilter)="buscar($event)"></app-busqueda-role>
     <!-- Table Section -->
     <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
         <app-shared-table (dataEmitted)="onDataEmitted($event)" [translationGroup]="'mantenedores.role'"

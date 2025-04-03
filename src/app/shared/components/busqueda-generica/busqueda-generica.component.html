@@ -1,0 +1,19 @@
+<div>
+    <div class="flex flex-col md:flex-row items-center gap-4 p-4">
+        <!-- Campo de búsqueda -->
+        <div class="w-full md:w-auto">
+            <div class="relative w-full md:w-[300px]">
+                <input [(ngModel)]="value" type="text"
+                    class="w-full h-[44px] px-4 py-2 rounded-lg border-2 border-[#C2C2C2] bg-white text-[#757575] text-lg outline-none"
+                    (ngModelChange)="onValueChange()" [placeholder]="getPlaceholderText()" />
+                <mat-icon class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#757575]">search</mat-icon>
+            </div>
+        </div>
+
+        <!-- Botón de búsqueda -->
+        <button *ngIf="showSearchButton" (click)="executeSearch()"
+            class="w-full md:w-auto h-[44px] px-8 rounded-lg bg-[#3f51b5] text-white hover:bg-[#303f9f] transition-colors">
+            {{ buttonText | translate }}
+        </button>
+    </div>
+</div>

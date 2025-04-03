@@ -11,15 +11,18 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { ZonaService } from "../../../core/services/zona.service";
 import { Zona } from "../../../core/models/zona.model";
+import { catchError, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
-import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils";
+import { BusquedaGenericaComponent } from '../../../shared/components/busqueda-generica/busqueda-generica.component';
+
 @Component({
   selector: "app-zona",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaGenericaComponent],
   templateUrl: "./zona.component.html",
   styleUrl: "./zona.component.css",
 })
@@ -34,7 +37,7 @@ export class ZonaComponent implements OnInit {
   pageSize = 10;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
-  activeOptionalFilters: any = [];
+  activeOptionalFilters: any[] = [];
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -168,18 +171,30 @@ export class ZonaComponent implements OnInit {
   }
 
 
-  buscar(filters: any) {
+  buscar(data: { filter: any, labels: any[] }) {
+    console.log('Método buscar llamado con:', data);
     this.pageNumber = 0;
-    this.obtenerDatos("id", "asc", filters);
+    this.activeOptionalFilters = data.labels;
+    this.obtenerDatos("id", "asc", data.filter);
   }
+
   onFilterDeleted(filterData: { field: string, value: string }) {
+    console.log('Eliminando filtro:', filterData);
+
+    // Actualizar los filtros activos
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );
-    const newFilter = this.activeOptionalFilters.reduce((acc: any, filter: { field: string, value: string }) => {
-      acc[filter.field] = filter.value;
-      return acc;
-    }, {});
+
+    // Reconstruir el objeto de filtro
+    const newFilter: any = {};
+    this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
+      if (filter.field === 'descripcionZona') {
+        newFilter.descripcionZona = filter.value;
+      }
+    });
+
+    // Obtener datos con los nuevos filtros
     this.obtenerDatos("id", "asc", newFilter);
   }
 
