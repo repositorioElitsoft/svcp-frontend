@@ -135,19 +135,24 @@ export class SectorComponent implements OnInit {
 
 
   buscar(filters: any) {
+    console.log('Método buscar llamado en SectorComponent');
+    console.log('Filtros recibidos:', filters);
+
     this.pageNumber = 0;
+
     // Asegurarse de que los filtros se procesen correctamente
+    let filterObject = filters;
+
     if (Array.isArray(filters)) {
       // Si es un array, convertir a objeto
-      const filterObject = filters.reduce((acc: any, filter: any) => {
+      filterObject = filters.reduce((acc: any, filter: any) => {
         acc[filter.field] = filter.value;
         return acc;
       }, {});
-      this.obtenerDatos("id", "asc", filterObject);
-    } else {
-      // Si ya es un objeto, usarlo directamente
-      this.obtenerDatos("id", "asc", filters);
     }
+
+    console.log('Filtros procesados:', filterObject);
+    this.obtenerDatos("id", "asc", filterObject);
   }
   onFilterDeleted(field: string) {
     this.activeOptionalFilters = this.activeOptionalFilters.filter((filter: any) => filter.field !== field);
@@ -171,6 +176,8 @@ export class SectorComponent implements OnInit {
 
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    console.log('obtenerDatos llamado con filtros:', optionalFilter);
+
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
@@ -178,6 +185,8 @@ export class SectorComponent implements OnInit {
       sortDirection: sortDirection,
       ...optionalFilter
     }
+
+    console.log('Filtros finales para la API:', mandatoryFilter);
 
     this.sectorService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Sector[]>) => {
       console.log("Datos recibidos:", data);

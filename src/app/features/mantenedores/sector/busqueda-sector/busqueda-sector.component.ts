@@ -80,22 +80,36 @@ export class BusquedaSectorComponent implements OnInit {
   }
 
   onValueChange() {
+    console.log('onValueChange llamado, value:', this.value);
     if (this.isSimpleSearch) return;
     this.valueChange.emit({ field: this.field, value: this.value });
   }
 
   executeSearch() {
-    if (this.selectedFilter && this.selectedFilter !== '') {
-      console.log('Emitiendo filterSearch:', { filter: this.selectedFilter, value: this.selectedFilter });
-      this.filterSearch.emit({ filter: this.selectedFilter, value: this.selectedFilter });
-    } else {
-      console.log('Emitiendo simpleSearch:', { [this.field]: this.value });
-      this.simpleSearch.emit({ [this.field]: this.value });
+    console.log('executeSearch llamado');
+    console.log('selectedFilter:', this.selectedFilter);
+    console.log('value:', this.value);
+
+    const filter: any = {};
+
+    // Si hay un valor en el input de búsqueda
+    if (this.value) {
+      filter.descripcionSector = this.value;
     }
+
+    // Si hay una zona seleccionada
+    if (this.selectedFilter) {
+      filter.zona = this.selectedFilter;
+    }
+
+    // Siempre emitimos el filtro, incluso si está vacío
+    // Esto hará que se recargue toda la data cuando no hay filtros
+    console.log('Emitiendo filtro:', filter);
+    this.applyfilter.emit(filter);
   }
 
   shouldShowSearch(): boolean {
-    return true; // Siempre mostramos el select ya que ahora cargamos las zonas del servicio
+    return true;
   }
 
   isKeyMissing(filter: any, key: string): boolean {
@@ -118,5 +132,20 @@ export class BusquedaSectorComponent implements OnInit {
 
   protected getTranslationGroup(column: string) {
     return this.translationGroup ? `${this.translationGroup}.${column}` : column;
+  }
+
+  clearValue() {
+    this.value = '';
+    this.executeSearch();
+  }
+
+  clearZona() {
+    this.selectedFilter = '';
+    this.executeSearch();
+  }
+
+  getSelectedZonaLabel(): string {
+    const selectedOption = this.filterOptions.find(opt => opt.value === this.selectedFilter);
+    return selectedOption ? selectedOption.label : '';
   }
 }

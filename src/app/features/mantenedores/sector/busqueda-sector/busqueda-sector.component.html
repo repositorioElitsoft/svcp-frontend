@@ -13,7 +13,7 @@
         <!-- Select de filtros -->
         <div class="w-full md:w-auto">
             <div class="w-full md:w-[200px]">
-                <mat-select [(ngModel)]="selectedFilter"
+                <mat-select [(ngModel)]="selectedFilter" (selectionChange)="onValueChange()"
                     class="w-full h-[44px] px-4 py-2 rounded-lg border-2 border-[#C2C2C2] bg-white text-[#757575] text-lg">
                     <mat-option *ngIf="!filterOptions.length" [disabled]="true">
                         {{ 'home.seleccion' | translate }}
@@ -28,21 +28,21 @@
         <!-- Botón de búsqueda -->
         <button (click)="executeSearch()"
             class="w-full md:w-auto h-[44px] px-8 rounded-lg bg-[#3f51b5] text-white hover:bg-[#303f9f] transition-colors">
-            Buscar
+            {{ 'Buscar' | translate }}
         </button>
     </div>
 
-    <!-- Filtros seleccionados -->
-    <div class="mt-4" *ngIf="filtersLabels.length > 0">
+    <!-- Filtros activos -->
+    <div class="mt-4 px-4" *ngIf="value || selectedFilter">
         <div class="flex flex-wrap gap-2">
-            @for (active of filtersLabels; track $index) {
-            <button (click)="deleteFilter(active.field)"
-                class="px-3 py-1 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center gap-2">
-                <span>{{ getTranslationGroup(active.field) | translate }}: {{ active.value }}</span>
-                <mat-icon class="text-red-500 h-4 w-4">close</mat-icon>
-            </button>
-            }
+            <div *ngIf="value" class="px-3 py-1 bg-gray-200 rounded-lg flex items-center gap-2">
+                <span>Búsqueda: {{ value }}</span>
+                <mat-icon class="text-red-500 h-4 w-4 cursor-pointer" (click)="clearValue()">close</mat-icon>
+            </div>
+            <div *ngIf="selectedFilter" class="px-3 py-1 bg-gray-200 rounded-lg flex items-center gap-2">
+                <span>Zona: {{ getSelectedZonaLabel() }}</span>
+                <mat-icon class="text-red-500 h-4 w-4 cursor-pointer" (click)="clearZona()">close</mat-icon>
+            </div>
         </div>
     </div>
-
 </div>
