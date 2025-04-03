@@ -1,0 +1,8 @@
+export enum TareaError {
+    NO_ENCONTRADO = 'TREA_000',
+    INTEGRIDAD_VIOLADA = 'TREA_001',
+    REQUERIDO = 'TREA_002',
+    DUPLICADO = 'TREA_003',
+    ID_REQUERIDO = 'TREA_004',
+    ID_INVALIDO = 'TREA_005'
+} 

@@ -1,0 +1,8 @@
+export enum RutaError {
+    NO_ENCONTRADO = 'RUTA_000',
+    INTEGRIDAD_VIOLADA = 'RUTA_001',
+    REQUERIDO = 'RUTA_002',
+    DUPLICADO = 'RUTA_003',
+    ID_REQUERIDO = 'RUTA_004',
+    ID_INVALIDO = 'RUTA_005'
+} 

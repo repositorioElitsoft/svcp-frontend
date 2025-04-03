@@ -1,3 +1,14 @@
+import { ClienteError } from '../enums/cliente.error.enum';
+import { ContactoError } from '../enums/contacto.error.enum';
+import { DocumentoIdentificacionError } from '../enums/documento-identificacion.error.enum';
+import { EmpleadoError } from '../enums/empleado.error.enum';
+import { GeneralError } from '../enums/error-general.error.enum';
+import { TipoDocumentoIdentificacionError } from '../enums/tipo-documento-enumeracion.error.enum';
+import { TipoDireccionError } from '../enums/tipo-direccion.error.enum';
+import { SectorError } from '../enums/sector.error.enum';
+import { RolesError } from '../enums/role.error.enum';
+
+// Mapa de prefijo a sección para construir los paths de i18n
 const prefixToSection: { [key: string]: string } = {
     GRCM: 'agrupacionComercial',
     CLNT: 'cliente',
@@ -13,203 +24,91 @@ const prefixToSection: { [key: string]: string } = {
     TPSEV: 'tipoServicio',
     RUTA: 'ruta',
     TPEM: 'tipoEmpleado',
-    SCTR: 'sector'
+    SCTR: 'sector',
+    RLES: 'role'
 };
 
-const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
+// Creamos un mapa inverso para buscar por código de error
+const errorCodeToKey: { [code: string]: string } = {};
 
+// Procesamos todos los enums de errores
+const errorEnums = [
+    ClienteError,
+    ContactoError,
+    DocumentoIdentificacionError,
+    EmpleadoError,
+    GeneralError,
+    TipoDocumentoIdentificacionError,
+    TipoDireccionError,
+    SectorError,
+    RolesError
+];
 
-    GRCM: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'CONTRASENA_REQUERIDO',
-        '005': 'CORREO_DUPLICADO',
-        '006': 'CORREO_REQUERIDO',
-        '007': 'CORREO_NO_ENCONTRADO',
-        '008': 'ID_REQUERIDO',
-        '009': 'ID_INVALIDO'
+// Creamos el mapa inverso de códigos
+errorEnums.forEach(enumObj => {
+    // Usamos type assertion para evitar errores de tipado
+    const enumAsRecord = enumObj as Record<string, string | number>;
+    Object.keys(enumAsRecord).forEach(key => {
+        if (isNaN(Number(key)) && typeof enumAsRecord[key] === 'string') {
+            errorCodeToKey[enumAsRecord[key] as string] = key;
+        }
+    });
+});
 
-    },
-    CLNT: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'CONTRASENA_REQUERIDO',
-        '005': 'CORREO_DUPLICADO',
-        '006': 'CORREO_REQUERIDO',
-        '007': 'CORREO_NO_ENCONTRADO',
-        '008': 'ID_REQUERIDO',
-        '009': 'ID_INVALIDO'
-    },
-    CNTC: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    },
-    DOID: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'NUMERO_REQUERIDO',
-        '005': 'DIGITO_VERIFICADOR_REQUERIDO'
-    },
-    EMPL: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'CONTRASENA_REQUERIDO',
-        '005': 'CORREO_DUPLICADO',
-        '006': 'CORREO_REQUERIDO',
-        '007': 'CORREO_NO_ENCONTRADO',
-        '008': 'ID_REQUERIDO',
-        '009': 'ID_INVALIDO',
-        '010': 'CREDENCIALES_INVALIDAS',
-        '011': 'EMPLEADO_DESVINCULADO'
-    },
-    ERRI: {
-        '000': 'ERROR_INTERNO',
-        '001': 'INTEGRIDAD_VIOLADA',
-    },
-    TPDR: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    },
-    TPDI: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    }
-    ,
-
-    TPCL: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    },
-    TPPR: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    },
-    ZNAS: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    },
-    TPSEV: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    },
-    TPEM: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    }, RUTA: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    },
-    SCTR: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    },
-    RLES: {
-        '000': 'NO_ENCONTRADO',
-        '001': 'INTEGRIDAD_VIOLADA',
-        '002': 'REQUERIDO',
-        '003': 'DUPLICADO',
-        '004': 'ID_REQUERIDO',
-        '005': 'ID_INVALIDO'
-    }
+// Mapeo común de sufijos numéricos a tipos de error
+const commonErrorTypes: { [suffix: string]: string } = {
+    '000': 'NO_ENCONTRADO',
+    '001': 'INTEGRIDAD_VIOLADA',
+    '002': 'REQUERIDO',
+    '003': 'DUPLICADO',
+    '004': 'ID_REQUERIDO',
+    '005': 'ID_INVALIDO'
 };
-
 
 export function convertErrorMessageToI18(response: any): string {
-    // Verificar la estructura completa de la respuesta para asegurarnos de que errorCode existe
-    console.log("Estructura completa de la respuesta:", response.error.errorCode); // <-- Cambiado a response.error.errorCode
-
-    const errorCode = response.error.errorCode; // Accediendo directamente a errorCode
+    const errorCode = response?.error?.errorCode;
 
     if (!errorCode) {
-        console.log("ErrorCode no encontrado en el objeto de error");
-        return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
+        return 'alertas.toastr.errors.general.ERROR_INTERNO';
     }
 
-    console.log("Código de error recibido:", errorCode);
+    // Buscar el código de error en el mapa inverso
+    const errorKey = errorCodeToKey[errorCode];
 
-    const codeMatch = errorCode.match(/^([A-Z]+)_(\d{3})$/); // Expresión regular para separar el prefijo y sufijo
+    // Extraer prefijo y sufijo del código
+    const codeMatch = errorCode.match(/^([A-Z]+)_(\d{3})$/);
 
     if (!codeMatch) {
-        console.log("Error en la expresión regular, no se pudo dividir el errorCode");
-        return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
+        return 'alertas.toastr.errors.general.ERROR_INTERNO';
     }
 
-    const prefix = codeMatch[1]; // Prefijo
-    const suffix = codeMatch[2]; // Sufijo
+    const prefix = codeMatch[1];
+    const suffix = codeMatch[2];
 
-    console.log("Prefijo:", prefix);
-    console.log("Sufijo:", suffix);
+    // Buscar la sección correspondiente al prefijo
+    const section = prefixToSection[prefix];
 
-    const section = prefixToSection[prefix]; // Buscar la sección correspondiente al prefijo
     if (!section) {
-        console.log("Sección no encontrada para el prefijo:", prefix);
-        return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
+        return 'alertas.toastr.errors.general.ERROR_INTERNO';
     }
 
-    const errorMap = errorKeyMappings[prefix]; // Buscar el mapeo de errores
-    if (!errorMap) {
-        console.log("ErrorMap no encontrado para el prefijo:", prefix);
-        return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
+    // Si tenemos la clave de error en el mapa, la usamos
+    if (errorKey) {
+        // Caso especial para errores generales
+        if (prefix === 'ERRI') {
+            return `alertas.toastr.errors.general.${errorKey}`;
+        }
+
+        return `alertas.toastr.errors.${section}.${errorKey}`;
     }
 
-    const errorKey = errorMap[suffix]; // Obtener el mensaje del error
-    if (!errorKey) {
-        console.log("ErrorKey no encontrado para el sufijo:", suffix);
-        return 'alertas.toastr.errors.general.ERROR_INTERNO'; // <-- Fallback a error general
-    }
+    // Si no la tenemos, usamos el mapeo común basado en el sufijo
+    const errorType = commonErrorTypes[suffix] || 'ERROR_DESCONOCIDO';
 
-    // Si es un error general, retornar el path correspondiente
+    // Caso especial para errores generales
     if (prefix === 'ERRI') {
-        return `alertas.toastr.errors.general.${errorKey}`;
+        return `alertas.toastr.errors.general.${errorType}`;
     }
 
-    return `alertas.toastr.errors.${section}.${errorKey}`;
+    return `alertas.toastr.errors.${section}.${errorType}`;
 }

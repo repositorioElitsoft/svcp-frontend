@@ -1,0 +1,8 @@
+export enum EstadoProductoError {
+    NO_ENCONTRADO = 'ESPR_000',
+    INTEGRIDAD_VIOLADA = 'ESPR_001',
+    REQUERIDO = 'ESPR_002',
+    DUPLICADO = 'ESPR_003',
+    ID_REQUERIDO = 'ESPR_004',
+    ID_INVALIDO = 'ESPR_005'
+} 

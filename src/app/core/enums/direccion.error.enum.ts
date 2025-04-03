@@ -1,0 +1,8 @@
+export enum DireccionError {
+    NO_ENCONTRADO = 'DRCC_000',
+    INTEGRIDAD_VIOLADA = 'DRCC_001',
+    REQUERIDO = 'DRCC_002',
+    DUPLICADO = 'DRCC_003',
+    ID_REQUERIDO = 'DRCC_004',
+    ID_INVALIDO = 'DRCC_005'
+} 

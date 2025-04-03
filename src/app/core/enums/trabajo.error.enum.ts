@@ -1,0 +1,8 @@
+export enum TrabajoError {
+    NO_ENCONTRADO = 'TRBJ_000',
+    INTEGRIDAD_VIOLADA = 'TRBJ_001',
+    REQUERIDO = 'TRBJ_002',
+    DUPLICADO = 'TRBJ_003',
+    ID_REQUERIDO = 'TRBJ_004',
+    ID_INVALIDO = 'TRBJ_005'
+} 

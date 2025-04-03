@@ -1,0 +1,8 @@
+export enum TipoEmpleadoError {
+    NO_ENCONTRADO = 'TPEM_000',
+    INTEGRIDAD_VIOLADA = 'TPEM_001',
+    REQUERIDO = 'TPEM_002',
+    DUPLICADO = 'TPEM_003',
+    ID_REQUERIDO = 'TPEM_004',
+    ID_INVALIDO = 'TPEM_005'
+} 

@@ -1,0 +1,8 @@
+export enum TipoServicioError {
+    NO_ENCONTRADO = 'TPSV_000',
+    INTEGRIDAD_VIOLADA = 'TPSV_001',
+    REQUERIDO = 'TPSV_002',
+    DUPLICADO = 'TPSV_003',
+    ID_REQUERIDO = 'TPSV_004',
+    ID_INVALIDO = 'TPSV_005'
+} 

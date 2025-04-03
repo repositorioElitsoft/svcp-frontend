@@ -1,0 +1,8 @@
+export enum ContratoError {
+    NO_ENCONTRADO = 'CONT_000',
+    INTEGRIDAD_VIOLADA = 'CONT_001',
+    REQUERIDO = 'CONT_002',
+    DUPLICADO = 'CONT_003',
+    ID_REQUERIDO = 'CONT_004',
+    ID_INVALIDO = 'CONT_005'
+} 

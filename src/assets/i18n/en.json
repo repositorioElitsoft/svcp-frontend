@@ -463,6 +463,12 @@
                 "label.descripcionTrabajo": "Work Description",
                 "descripcion": "Enter the description of the work"
             },
+            "tarea": {
+                "tituloEditar": "Edit Task",
+                "tituloAgregar": "Create Task",
+                "label.descripcionTarea": "Task Description",
+                "descripcion": "Enter the description of the task"
+            },
             "zona": {
                 "tituloEditar": "Edit Zone",
                 "tituloAgregar": "Create Zone",
