@@ -35,6 +35,7 @@ export class TiposDireccionesComponent implements OnInit {
   totalPages = 0
   pageSize = 5;
   totalElements = 0;
+  isLoading = false; // Variable para controlar el estado de carga
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,

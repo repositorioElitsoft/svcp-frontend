@@ -37,13 +37,14 @@ import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-g
 export class SegmentacionClienteComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: SegmentacionCliente[] = []; // Ahora usa la interfaz segmentacionCliente
-  titulo: string = 'Segmentacion cliente'; // Puedes cambiarlo dinámicamente
+  titulo: string = 'Segmentación Cliente'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
   totalPages = 0
   pageSize = 10;
   totalElements = 0;
+  isLoading = false; // Variable para controlar el estado de carga
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,

@@ -40,7 +40,7 @@
                 <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
                     [translationGroup]="'mantenedores.trabajo'" [displayedColumns]="displayedColumns"
                     [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
-                    [totalPages]="totalPages" [pageSize]="pageSize"
+                    [totalPages]="totalPages" [pageSize]="pageSize" [isLoading]="isLoading"
                     (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
                     (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"

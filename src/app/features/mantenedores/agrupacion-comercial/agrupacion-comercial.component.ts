@@ -36,6 +36,7 @@ export class AgrupacionComercialComponent implements OnInit {
   totalPages = 0
   pageSize = 10;
   totalElements = 0;
+  isLoading = false; // Variable para controlar el estado de carga
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any[] = [];
   constructor(private cdr: ChangeDetectorRef,
@@ -121,6 +122,8 @@ export class AgrupacionComercialComponent implements OnInit {
       this.toastr.success(this.translate.instant('alertas.toastr.exportar.seleccionado.success'));
     } else {
       console.log("CAMINO 2: No hay datos seleccionados, realizando llamada a API");
+      // Activar estado de carga
+      this.isLoading = true;
 
       // Si no hay datos seleccionados o están vacíos, llamar a la API
       const filtros = {
@@ -135,6 +138,9 @@ export class AgrupacionComercialComponent implements OnInit {
 
       this.agrupacionComercialService.buscarFiltrado(filtros).subscribe(
         (response: any) => {
+          // Desactivar estado de carga
+          this.isLoading = false;
+
           const apiData = response?.content ?? response?.data ?? [];
           console.log("CAMINO 2.1: Datos recibidos de API - Cantidad:", apiData.length);
 
@@ -147,9 +153,11 @@ export class AgrupacionComercialComponent implements OnInit {
           handleExport(apiData, 'mantenedores.agrupacionComercial');
           // Mostramos el mensaje específico para la exportación de datos de la API
           this.toastr.success(this.translate.instant('alertas.toastr.exportar.todo.success'));
-
         },
         (error) => {
+          // Desactivar estado de carga en caso de error
+          this.isLoading = false;
+
           console.error("CAMINO 2.2: Error en la solicitud a la API:", error);
           this.toastr.error("Ha ocurrido un error al obtener los datos para exportar.");
         }
@@ -212,6 +220,9 @@ export class AgrupacionComercialComponent implements OnInit {
 
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    // Activar el estado de carga
+    this.isLoading = true;
+
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
@@ -220,22 +231,33 @@ export class AgrupacionComercialComponent implements OnInit {
       ...optionalFilter
     }
 
-    this.agrupacionComercialService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<AgrupacionComercial[]>) => {
-      console.log("Datos recibidos:", data);
+    this.agrupacionComercialService.buscarFiltrado(mandatoryFilter).subscribe(
+      (data: PagedResponse<AgrupacionComercial[]>) => {
+        console.log("Datos recibidos:", data);
 
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
+        this.pageNumber = data.pageNumber
+        this.totalPages = data.totalPages
+        this.pageSize = data.pageSize;
+        this.totalElements = data.totalElements;
 
-      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]);
+        this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
+        this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
+        this.dataSource = data.content.flat();
+        if (data.content.length > 0) {
+          this.displayedColumns = Object.keys(data.content[0]);
+        }
+
+        // Desactivar el estado de carga
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error => {
+        console.error('Error al obtener datos:', error);
+        // Desactivar el estado de carga en caso de error
+        this.isLoading = false;
+        this.cdr.detectChanges();
       }
-      this.cdr.detectChanges();
-    });
+    );
   }
 
 

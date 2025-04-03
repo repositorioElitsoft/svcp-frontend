@@ -29,13 +29,14 @@ import { BusquedaGenericaComponent } from '../../../shared/components/busqueda-g
 export class TipoServicioComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: TipoServicio[] = []; // Ahora usa la interfaz tipoServicio
-  titulo: string = 'Tipo servicio'; // Puedes cambiarlo dinámicamente
+  titulo: string = 'Tipo Servicio'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
   totalPages = 0
   pageSize = 10;
   totalElements = 0;
+  isLoading = false; // Variable para controlar el estado de carga
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any[] = [];
   constructor(private cdr: ChangeDetectorRef,

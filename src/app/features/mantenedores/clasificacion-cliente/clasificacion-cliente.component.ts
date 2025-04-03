@@ -37,13 +37,14 @@ import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-g
 export class ClasificacionClienteComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: ClasificacionCliente[] = []; // Ahora usa la interfaz clasificacionCliente
-  titulo: string = 'Clasificacion cliente'; // Puedes cambiarlo dinámicamente
+  titulo: string = 'Clasificación Cliente'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
   totalPages = 0
   pageSize = 10;
   totalElements = 0;
+  isLoading = false; // Variable para controlar el estado de carga
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
@@ -181,6 +182,8 @@ export class ClasificacionClienteComponent implements OnInit {
 
 
   buscar(filters: any) {
+    // Activar el estado de carga
+    this.isLoading = true;
     console.log('Aplicando filtros desde búsqueda genérica:', filters);
     this.pageNumber = 0;
 
