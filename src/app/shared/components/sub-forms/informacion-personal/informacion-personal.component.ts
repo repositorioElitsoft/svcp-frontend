@@ -13,6 +13,9 @@ import { TituloDialogoComponent } from '../../titulo-dialogo/titulo-dialogo.comp
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TipoDocumentoIdentificacion } from '../../../../core/models/tipo-documento-identificacion.model';
 import { TipoDocumentoIdentificacionService } from '../../../../core/services/tipo-documento-identificacion.service';
+import { EstadoService } from '../../../../core/services/estado.service';
+import { Estado } from '../../../../core/models/estados.model';
+import { ApiEntityResponse } from '../../../../core/models/api-entity-response.model';
 
 
 @Component({
@@ -41,9 +44,10 @@ export class InformacionPersonalComponent {
   form!: FormGroup;
 
   tiposDocumentos: TipoDocumentoIdentificacion[] = [];
-
+  estados: Estado[] = [];
   constructor(
     private fb: FormBuilder,
+    private estadoService: EstadoService,
     private tipoDocumentoIdentificacionesService: TipoDocumentoIdentificacionService) { }
 
   ngOnInit() {
@@ -52,19 +56,26 @@ export class InformacionPersonalComponent {
       nombre: [null, Validators.required],
       apellidoPaterno: [null, Validators.required],
       apellidoMaterno: [null, Validators.required],
-      documentoIdentificacion: this.fb.group({
-        id: [null],
-        numero: [null, Validators.required],
-        digitoVerificador: [null],
-        tipoDocumentoIdentificacion: [null, Validators.required], // Cambiado a solo 'id'
-      }),
+      tipoDocumentoIdentificacion: [null, Validators.required],
+      numeroDocumentoIdentificacion: [null, Validators.required],
+      estado: [null, Validators.required],
       fechaNacimiento: [null, Validators.required],
     });
 
+    this.estadoService.buscarTodos().subscribe({
+      next: (estados: ApiEntityResponse<Estado[]>) => {
+        console.log('Estados cargados:', estados);
+        this.estados = estados.data;
+      },
+      error: (error: any) => {
+        console.error("Fallo al buscar entidades ", error);
+      }
+    });
     // Cargar los tipos de documentos
     this.tipoDocumentoIdentificacionesService.buscarTodos().subscribe({
-      next: (tipos: TipoDocumentoIdentificacion[]) => {
-        this.tiposDocumentos = tipos;
+      next: (tipos: ApiEntityResponse<TipoDocumentoIdentificacion[]>) => {
+
+        this.tiposDocumentos = tipos as any;
         console.log('Tipos de documentos cargados:', this.tiposDocumentos);
       },
       error: (error: any) => {

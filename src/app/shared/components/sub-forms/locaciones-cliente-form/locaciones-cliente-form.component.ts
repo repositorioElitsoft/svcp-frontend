@@ -266,7 +266,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
 
   cargarEstado() {
     this.estadoServicio.buscarTodos().subscribe(estados => {
-      this.estados = estados;
+      this.estados = estados.data;
     });
 
   }
@@ -463,7 +463,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       const estados = await lastValueFrom(
         this.estadoServicio.buscarTodos()
       );
-      this.estados = estados;
+      this.estados = estados.data;
       console.log('Estados de servicio cargados:', estados);
 
       // 8. Cargar tipos de dirección

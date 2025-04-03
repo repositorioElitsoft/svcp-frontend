@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { TipoDocumentoIdentificacion } from '../../core/models/tipo-documento-identificacion.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,12 +17,12 @@ export class TipoDocumentoIdentificacionService {
         'Content-Type': 'application/json'
     });
 
-    buscar(tipoDocumentoIdentificacionId: number): Observable<TipoDocumentoIdentificacion> {
-        return this.http.get<TipoDocumentoIdentificacion>(`${this.url}tipos-documentos-identificaciones/${tipoDocumentoIdentificacionId}`);
+    buscar(tipoDocumentoIdentificacionId: number): Observable<ApiEntityResponse<TipoDocumentoIdentificacion>> {
+        return this.http.get<ApiEntityResponse<TipoDocumentoIdentificacion>>(`${this.url}tipos-documentos-identificaciones/${tipoDocumentoIdentificacionId}`);
     }
 
-    buscarTodos(): Observable<TipoDocumentoIdentificacion[]> {
-        return this.http.get<TipoDocumentoIdentificacion[]>(`${this.url}tipos-documentos-identificaciones`, { headers: this.headers });
+    buscarTodos(): Observable<ApiEntityResponse<TipoDocumentoIdentificacion[]>> {
+        return this.http.get<ApiEntityResponse<TipoDocumentoIdentificacion[]>>(`${this.url}tipos-documentos-identificaciones`, { headers: this.headers });
     }
 
     borrar(tipoDocumentoIdentificacionId: number): Observable<any> {

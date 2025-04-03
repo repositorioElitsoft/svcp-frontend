@@ -283,7 +283,7 @@ export class LocacionesEmpleadoFormComponent implements OnInit, AfterViewInit {
 
   cargarEstado() {
     this.estadoServicio.buscarTodos().subscribe(estados => {
-      this.estados = estados;
+      this.estados = estados.data;
     });
 
   }

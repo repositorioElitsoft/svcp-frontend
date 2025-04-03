@@ -88,8 +88,8 @@ export class InformacionLaboralComponent implements OnInit {
 
     // Cargar estados
     this.estadoService.buscarTodos().subscribe({
-      next: (estados: Estado[]) => {
-        this.estados = estados;
+      next: (estados: ApiEntityResponse<Estado[]>) => {
+        this.estados = estados.data;
         // Asignar valor inicial después de cargar los estados
         this.form.patchValue({
           estado: this.estados.find(estado => estado.id === 1) // Cambia el ID según tu lógica

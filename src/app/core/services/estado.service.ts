@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Estado } from '../models/estados.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,12 +17,12 @@ export class EstadoService {
         'Content-Type': 'application/json'
     });
 
-    buscar(estadoId: number): Observable<Estado> {
-        return this.http.get<Estado>(`${this.url}estados/${estadoId}`);
+    buscar(estadoId: number): Observable<ApiEntityResponse<Estado>> {
+        return this.http.get<ApiEntityResponse<Estado>>(`${this.url}estados/${estadoId}`);
     }
 
-    buscarTodos(): Observable<Estado[]> {
-        return this.http.get<Estado[]>(`${this.url}estados`, { headers: this.headers });
+    buscarTodos(): Observable<ApiEntityResponse<Estado[]>> {
+        return this.http.get<ApiEntityResponse<Estado[]>>(`${this.url}estados`, { headers: this.headers });
     }
 
     borrar(estadoId: number): Observable<any> {

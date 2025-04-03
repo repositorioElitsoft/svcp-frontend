@@ -1,13 +1,16 @@
 <form [formGroup]="form">
+
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.nombre' | translate }}</mat-label>
+        <input matInput formControlName="nombre"
+            [attr.placeholder]="'mantenedores.formularios.nombre.descripcion' | translate" class="w-full text-lg">
+        <mat-error *ngIf="form.get('nombre')?.hasError('required')" class="text-red-500">
+            {{ 'mantenedores.formularios.campoRequerido' | translate }}
+        </mat-error>
+    </mat-form-field>
+
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.nombre' | translate }}</mat-label>
-            <input matInput formControlName="nombre"
-                [attr.placeholder]="'mantenedores.formularios.nombre.descripcion' | translate" class="w-full text-lg">
-            <mat-error *ngIf="form.get('nombre')?.hasError('required')" class="text-red-500">
-                {{ 'mantenedores.formularios.campoRequerido' | translate }}
-            </mat-error>
-        </mat-form-field>
 
         <mat-form-field appearance="outline" class="w-full">
             <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.apellidoPaterno' | translate
@@ -19,9 +22,6 @@
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
         </mat-form-field>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
         <mat-form-field appearance="outline" class="w-full">
             <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.apellidoMaterno' | translate
                 }}</mat-label>
@@ -33,34 +33,51 @@
             </mat-error>
         </mat-form-field>
 
-        <form [formGroup]="form">
-            <mat-form-field appearance="outline" class="w-full" formGroupName="documentoIdentificacion">
-                <mat-label class="text-lg">
-                    {{ 'mantenedores.formularios.tipoDocumentoIdentificacion.label.descripcion' | translate }}
-                </mat-label>
-                <mat-select formControlName="tipoDocumentoIdentificacion">
-                    <mat-option *ngFor="let option of tiposDocumentos" [value]="option">
-                        {{ option.descripcion }}
-                    </mat-option>
-                </mat-select>
-                <mat-error
-                    *ngIf="form.get('documentoIdentificacion.tipoDocumentoIdentificacion')?.hasError('required')">
-                    {{ 'mantenedores.formularios.campoRequerido' | translate }}
-                </mat-error>
-            </mat-form-field>
-        </form>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-lg">
+                {{ 'mantenedores.formularios.tipoDocumentoIdentificacion.label.descripcion' | translate }}
+            </mat-label>
+            <mat-select formControlName="tipoDocumentoIdentificacion">
+                <mat-option *ngFor="let option of tiposDocumentos" [value]="option">
+                    {{ option.descripcion }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('tipoDocumentoIdentificacion')?.hasError('required')">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.documentoIdentificacion' | translate
+                }}</mat-label>
+            <input matInput formControlName="numeroDocumentoIdentificacion"
+                [attr.placeholder]="'mantenedores.formularios.documentoIdentificacion' | translate"
+                class="w-full text-lg">
+            <mat-error *ngIf="form.get('numeroDocumentoIdentificacion')?.hasError('required')" class="text-red-500">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
 
 
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <mat-form-field appearance="outline" class="w-full" formGroupName="documentoIdentificacion">
-            <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.documentoIdentificacion' | translate
-                }}</mat-label>
-            <input matInput formControlName="numero"
-                [attr.placeholder]="'mantenedores.formularios.documentoIdentificacion' | translate"
-                class="w-full text-lg">
-            <mat-error *ngIf="form.get('documentoIdentificacion.numero')?.hasError('required')" class="text-red-500">
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-lg">
+                {{ 'mantenedores.formularios.estado.label.descripcion' | translate }}
+            </mat-label>
+            <mat-select formControlName="estado">
+                <mat-option *ngFor="let option of estados || []" [value]="option">
+                    {{ option.descripcion }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('estado')?.hasError('required')">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
         </mat-form-field>

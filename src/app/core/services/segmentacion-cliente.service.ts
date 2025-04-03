@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { SegmentacionCliente } from '../../core/models/segmentacion-cliente.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,12 +17,12 @@ export class SegmentacionClienteService {
         'Content-Type': 'application/json'
     });
 
-    buscar(segmentacionClienteId: number): Observable<SegmentacionCliente> {
-        return this.http.get<SegmentacionCliente>(`${this.url}segmentaciones-clientes/${segmentacionClienteId}`);
+    buscar(segmentacionClienteId: number): Observable<ApiEntityResponse<SegmentacionCliente>> {
+        return this.http.get<ApiEntityResponse<SegmentacionCliente>>(`${this.url}segmentaciones-clientes/${segmentacionClienteId}`);
     }
 
-    buscarTodos(): Observable<SegmentacionCliente[]> {
-        return this.http.get<SegmentacionCliente[]>(`${this.url}segmentaciones-clientes`, { headers: this.headers });
+    buscarTodos(): Observable<ApiEntityResponse<SegmentacionCliente[]>> {
+        return this.http.get<ApiEntityResponse<SegmentacionCliente[]>>(`${this.url}segmentaciones-clientes`, { headers: this.headers });
     }
 
     borrar(segmentacionClienteId: number): Observable<any> {

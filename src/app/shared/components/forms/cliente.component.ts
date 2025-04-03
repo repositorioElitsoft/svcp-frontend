@@ -27,6 +27,8 @@ import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.compone
 import { InformacionPersonalComponent } from "../sub-forms/informacion-personal/informacion-personal.component"
 import { SidebarItemLinkComponent } from "../sidebar/sidebar-item-link/sidebar-item-link.component"
 import { SidebarComponent } from "../sidebar/sidebar.component"
+import { InformacionComercialComponent } from "../sub-forms/informacion-comercial/informacion-comercial.component"
+import { DatosContactoComponent } from "../sub-forms/datos-contacto/datos-contacto.component"
 
 @Component({
   selector: "app-cliente-create-form",
@@ -48,7 +50,9 @@ import { SidebarComponent } from "../sidebar/sidebar.component"
     TituloDialogoComponent,
     InformacionPersonalComponent,
     SidebarItemLinkComponent,
-    SidebarComponent
+    SidebarComponent,
+    InformacionComercialComponent,
+    DatosContactoComponent
   ],
   templateUrl: `./cliente.component.html`,
   styles: [],
@@ -71,42 +75,14 @@ export class ClienteFormComponent implements OnInit {
   estado: Estado[] = []
   agrupacionComercial: AgrupacionComercial[] = []
   segmentacionCliente: SegmentacionCliente[] = []
+  pantallaActual = "datos-generales"
 
   constructor(
     private fb: FormBuilder,
     private clienteService: ClienteService,
     private translate: TranslateService,
     private toastr: ToastrService,
-    /*other-services-injection*/
-    private tipoClienteService: TipoClienteService,
-    private clasificacionClienteService: ClasificacionClienteService,
-    private estadoService: EstadoService,
-    private agrupacionComercialService: AgrupacionComercialService,
-    private segmentacionClienteService: SegmentacionClienteService,
   ) {
-    // Tipando el FormGroup
-    this.form = this.fb.group({
-      /*inputsflag*/
-      id: [null],
-      nombre: [null, Validators.required],
-      apellidoPaterno: [null, Validators.required],
-      apellidoMaterno: [null, Validators.required],
-      rut: [null, Validators.required],
-      rutDv: [null, Validators.required],
-      fechaNacimiento: [null, Validators.required],
-      imagenPerfil: [null, Validators.required],
-      email: [null, Validators.required],
-      campo1: [null, Validators.required],
-      campo2: [null, Validators.required],
-      telefonoFijo: [null, Validators.required],
-      telefonoMovil: [null, Validators.required],
-      tipoCliente: [{}, Validators.required],
-      clasificacionCliente: [{}, Validators.required],
-      estado: [{}, Validators.required],
-      direcciones: [null, Validators.required],
-      agrupacionComercial: [{}, Validators.required],
-      segmentacionCliente: [{}, Validators.required],
-    })
   }
 
   ngOnInit() {
@@ -116,127 +92,29 @@ export class ClienteFormComponent implements OnInit {
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object)
 
-      this.form.patchValue({
-        /*object-fields-edit*/
-        id: this.data.object.id,
-        nombre: this.data.object.nombre,
-        apellidoPaterno: this.data.object.apellidoPaterno,
-        apellidoMaterno: this.data.object.apellidoMaterno,
-        rut: this.data.object.rut,
-        rutDv: this.data.object.rutDv,
-        fechaNacimiento: this.data.object.fechaNacimiento,
-        imagenPerfil: this.data.object.imagenPerfil,
-        email: this.data.object.email,
-        campo1: this.data.object.campo1,
-        campo2: this.data.object.campo2,
-        telefonoFijo: this.data.object.telefonoFijo,
-        telefonoMovil: this.data.object.telefonoMovil,
-        tipoCliente: this.data.object.tipoCliente,
-        clasificacionCliente: this.data.object.clasificacionCliente,
-        estado: this.data.object.estado,
-        direcciones: this.data.object.direcciones,
-        agrupacionComercial: this.data.object.agrupacionComercial,
-        segmentacionCliente: this.data.object.segmentacionCliente,
-      })
-
       console.log("Datos en el formulario después de patchValue:", this.form.value)
     } else {
       console.error("No se recibió un objeto válido en 'data'")
     }
     /*services-init-call*/
 
-    this.tipoClienteService.buscarTodos().subscribe({
-      next: (response: ApiEntityResponse<TipoCliente[]>) => {
-        console.log("created entity ", response.data)
-        this.tipoCliente = response.data
-      },
-    })
-
-    this.clasificacionClienteService.buscarTodos().subscribe({
-      next: (clasificacionCliente: ClasificacionCliente[]) => {
-        console.log("created entity ", clasificacionCliente)
-        this.clasificacionCliente = clasificacionCliente
-      },
-    })
-
-    this.estadoService.buscarTodos().subscribe({
-      next: (estado: Estado[]) => {
-        console.log("created entity ", estado)
-        this.estado = estado
-      },
-    })
-
-    this.agrupacionComercialService.buscarTodos().subscribe({
-      next: (response: ApiEntityResponse<AgrupacionComercial[]>) => {
-        console.log("created entity ", response.data)
-        this.agrupacionComercial = response.data
-      },
-    })
-
-    this.segmentacionClienteService.buscarTodos().subscribe({
-      next: (segmentacionCliente: SegmentacionCliente[]) => {
-        console.log("created entity ", segmentacionCliente)
-        this.segmentacionCliente = segmentacionCliente
-      },
-    })
   }
 
   handleLinkClick(link: string) {
     console.log("Enlace clickeado:", link)
+    this.pantallaActual = link
   }
 
   onSubmit() {
     console.log("Formulario enviado:", this.form.value)
 
     if (this.form.valid) {
-      const formData: Cliente = {
-        /*form-fields-submit*/
-        id: this.form.value.id,
-        nombre: this.form.value.nombre,
-        apellidoPaterno: this.form.value.apellidoPaterno,
-        apellidoMaterno: this.form.value.apellidoMaterno,
-        rut: this.form.value.rut,
-        rutDv: this.form.value.rutDv,
-        fechaNacimiento: this.form.value.fechaNacimiento,
-        imagenPerfil: this.form.value.imagenPerfil,
-        email: this.form.value.email,
-        campo1: this.form.value.campo1,
-        campo2: this.form.value.campo2,
-        telefonoFijo: this.form.value.telefonoFijo,
-        telefonoMovil: this.form.value.telefonoMovil,
-        tipoCliente: this.form.value.tipoCliente,
-        clasificacionCliente: this.form.value.clasificacionCliente,
-        estado: this.form.value.estado,
-        direcciones: this.form.value.direcciones,
-        agrupacionComercial: this.form.value.agrupacionComercial,
-        segmentacionCliente: this.form.value.segmentacionCliente,
-      }
-
-      console.log("Datos mapeados para enviar:", formData)
 
       // Cierra el formulario con los datos correctos
       if (this.esActualizar()) {
-        this.clienteService.actualizar(formData.id, formData).subscribe({
-          next: (response) => {
-            this.toastr.success(this.translate.instant("mantenedores.formularios.toastr.success"))
-            this.dialogRef.close(response)
-          },
-          error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant("mantenedores.formularios.toastr.error")
-            this.toastr.error(errorMessage)
-          },
-        })
+
       } else {
-        this.clienteService.crear(formData).subscribe({
-          next: (response) => {
-            this.toastr.success(this.translate.instant("mantenedores.formularios.toastr.success"))
-            this.dialogRef.close(response)
-          },
-          error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant("mantenedores.formularios.toastr.error")
-            this.toastr.error(errorMessage)
-          },
-        })
+
       }
     } else {
       console.log("Formulario no válido")

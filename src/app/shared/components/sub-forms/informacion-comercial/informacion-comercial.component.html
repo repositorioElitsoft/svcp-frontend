@@ -1,0 +1,52 @@
+<form [formGroup]="form">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-lg">
+                {{ 'mantenedores.formularios.tipoCliente.label.descripcion' | translate }}
+            </mat-label>
+            <mat-select formControlName="tipoCliente">
+                <mat-option *ngFor="let option of tiposClientes" [value]="option">
+                    {{ option.nombre }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-lg">
+                {{ 'mantenedores.formularios.agrupacionComercial.label.descripcion' | translate }}
+            </mat-label>
+            <mat-select formControlName="agrupacionComercial">
+                <mat-option *ngFor="let option of agrupacionesComerciales" [value]="option">
+                    {{ option.nombreGrupoComercial }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-lg">
+                {{ 'mantenedores.formularios.segmentacionCliente.label.descripcion' | translate }}
+            </mat-label>
+            <mat-select formControlName="segmentacionCliente">
+                <mat-option *ngFor="let option of segmentacionesClientes" [value]="option">
+                    {{ option.descripcion }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-lg">
+                {{ 'mantenedores.formularios.campoAdicional1.label.descripcion' | translate }}
+            </mat-label>
+            <input matInput formControlName="campoAdicional1" class="w-full text-lg">
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label class="text-lg">
+            {{ 'mantenedores.formularios.campoAdicional2.label.descripcion' | translate }}
+        </mat-label>
+        <input matInput formControlName="campoAdicional2" class="w-full text-lg">
+    </mat-form-field>
+</form>

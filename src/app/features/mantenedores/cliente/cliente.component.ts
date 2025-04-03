@@ -17,6 +17,7 @@ import { HeadTableComponent } from "../../../shared/head-table/head-table.compon
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { ClienteCrearFormComponent } from "../../../shared/components/forms/cliente-crear.component";
 @Component({
   selector: "app-cliente",
   standalone: true,
@@ -286,7 +287,7 @@ export class ClienteComponent implements OnInit {
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
-    const dialogRef = this.dialog.open(ClienteFormComponent, {
+    const dialogRef = this.dialog.open(ClienteCrearFormComponent, {
 
       data: {
         esActualizar: false,
