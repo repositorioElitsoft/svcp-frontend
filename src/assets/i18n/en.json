@@ -615,6 +615,14 @@
                     "DUPLICADO": "An identification document type with the same data already exists.",
                     "ID_REQUERIDO": "The identification document type ID is required.",
                     "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "sector": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
                 }
             }
         }

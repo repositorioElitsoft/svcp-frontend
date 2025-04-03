@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Sector } from '../../core/models/sector.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -16,20 +17,20 @@ export class SectorService {
         'Content-Type': 'application/json'
     });
 
-    buscar(sectorId: number): Observable<Sector> {
-        return this.http.get<Sector>(`${this.url}sectores/${sectorId}`);
+    buscar(sectorId: number): Observable<ApiEntityResponse<Sector>> {
+        return this.http.get<ApiEntityResponse<Sector>>(`${this.url}sectores/${sectorId}`);
     }
 
-    buscarTodos(zonaId: number): Observable<Sector[]> {
-        return this.http.get<Sector[]>(`${this.url}sectores/zonas/${zonaId}`);
+    buscarTodos(zonaId: number): Observable<ApiEntityResponse<Sector[]>> {
+        return this.http.get<ApiEntityResponse<Sector[]>>(`${this.url}sectores/zonas/${zonaId}`);
     }
 
-    borrar(sectorId: number): Observable<any> {
-        return this.http.delete<any>(`${this.url}sectores/${sectorId}`);
+    borrar(sectorId: number): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}sectores/${sectorId}`);
     }
 
-    borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}sectores/lote`, { body: ids });
+    borrarTodos(ids: number[]): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}sectores/lote`, { headers: this.headers, body: ids });
     }
 
     actualizar(sectorId: number, sector: Sector): Observable<Sector> {

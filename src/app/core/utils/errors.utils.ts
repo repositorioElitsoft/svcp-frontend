@@ -12,7 +12,8 @@ const prefixToSection: { [key: string]: string } = {
     ZNAS: 'zona',
     TPSEV: 'tipoServicio',
     RUTA: 'ruta',
-    TPEM: 'tipoEmpleado'
+    TPEM: 'tipoEmpleado',
+    SCTR: 'sector'
 };
 
 const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
@@ -135,6 +136,14 @@ const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
         '004': 'ID_REQUERIDO',
         '005': 'ID_INVALIDO'
     }, RUTA: {
+        '000': 'NO_ENCONTRADO',
+        '001': 'INTEGRIDAD_VIOLADA',
+        '002': 'REQUERIDO',
+        '003': 'DUPLICADO',
+        '004': 'ID_REQUERIDO',
+        '005': 'ID_INVALIDO'
+    },
+    SCTR: {
         '000': 'NO_ENCONTRADO',
         '001': 'INTEGRIDAD_VIOLADA',
         '002': 'REQUERIDO',
