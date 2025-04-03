@@ -28,20 +28,25 @@
 
             </div>
 
-
+            <!-- Componente de búsqueda genérica -->
+            <app-busqueda-generica [fieldName]="'descripcionTipoCliente'"
+                [translationPrefix]="'mantenedores.tipoCliente'" [translationFieldKey]="'titulo'"
+                (applyfilter)="buscar($event)">
+            </app-busqueda-generica>
 
             <!-- Table Section -->
 
             <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
-                <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
+                <app-shared-table [filtersLabels]="activeOptionalFilters"
                     [translationGroup]="'mantenedores.tipoCliente'" [displayedColumns]="displayedColumns"
                     [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
                     [totalPages]="totalPages" [pageSize]="pageSize"
                     (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
                     (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTipoCliente'"
-                    (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
+                    (selectionChange)="onSelectionChange($event)" (filterDelete)="onFilterDeleted($event)"
+                    [filters]='[]'>
+                </app-shared-table>
             </div>
         </div>
 
