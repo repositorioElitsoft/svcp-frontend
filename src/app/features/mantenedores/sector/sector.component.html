@@ -23,7 +23,7 @@
 
 
     <!-- Table Section -->
-
+    <app-busqueda-sector></app-busqueda-sector>
     <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
         <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters" [showDiv]="showDiv"
             (dataEmitted)="onDataEmitted($event)" [translationGroup]="'mantenedores.sector'"

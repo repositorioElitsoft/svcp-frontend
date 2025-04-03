@@ -17,10 +17,11 @@ import { HeadTableComponent } from "../../../shared/head-table/head-table.compon
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { BusquedaSectorComponent } from "./busqueda-sector/busqueda-sector.component";
 @Component({
   selector: "app-sector",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, BusquedaSectorComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
   templateUrl: "./sector.component.html",
   styleUrl: "./sector.component.css",
 })
