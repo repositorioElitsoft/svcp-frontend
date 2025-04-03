@@ -16,10 +16,11 @@ import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { Rutas } from "../../../core/models/rutas.model";
 import { RutaService } from "../../../core/services/rutas.service";
 import { RutaFormComponent } from "../../../shared/components/forms/ruta.component";
+import { BusquedaGenericaComponent } from '../../../shared/components/busqueda-generica/busqueda-generica.component';
 @Component({
   selector: "app-zona",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaGenericaComponent],
   templateUrl: "./ruta.component.html",
   styleUrl: "./ruta.component.css",
 })
