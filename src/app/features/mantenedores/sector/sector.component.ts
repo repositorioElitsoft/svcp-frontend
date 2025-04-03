@@ -36,10 +36,11 @@ export class SectorComponent implements OnInit {
   totalPages = 0
   pageSize = 10;
   showDiv: boolean = false;
-  zonaId = null;
+  zona = null;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
+  @ViewChild('busquedaSector') busquedaSector!: BusquedaSectorComponent;
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -134,34 +135,32 @@ export class SectorComponent implements OnInit {
   }
 
 
-  buscar(filters: any) {
-    console.log('Método buscar llamado en SectorComponent');
-    console.log('Filtros recibidos:', filters);
-
-    this.pageNumber = 0;
-
-    // Asegurarse de que los filtros se procesen correctamente
-    let filterObject = filters;
-
-    if (Array.isArray(filters)) {
-      // Si es un array, convertir a objeto
-      filterObject = filters.reduce((acc: any, filter: any) => {
-        acc[filter.field] = filter.value;
-        return acc;
-      }, {});
-    }
-
-    console.log('Filtros procesados:', filterObject);
-    this.obtenerDatos("id", "asc", filterObject);
+  buscar(data: { filter: any, labels: any[] }) {
+    console.log('Método buscar llamado con:', data);
+    this.activeOptionalFilters = data.labels;
+    this.obtenerDatos("id", "asc", data.filter);
   }
-  onFilterDeleted(field: string) {
-    this.activeOptionalFilters = this.activeOptionalFilters.filter((filter: any) => filter.field !== field);
-    // Convertir activeOptionalFilters a objeto para la búsqueda
-    const filterObject = this.activeOptionalFilters.reduce((acc: any, filter: any) => {
-      acc[filter.field] = filter.value;
-      return acc;
-    }, {});
-    this.obtenerDatos("id", "asc", filterObject);
+
+  onFilterDelete(filterData: { field: string, value: string }) {
+    console.log('Eliminando filtro:', filterData);
+
+    // Actualizar los filtros activos
+    this.activeOptionalFilters = this.activeOptionalFilters.filter(
+      (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
+    );
+
+    // Reconstruir el objeto de filtro
+    const newFilter: any = {};
+    this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
+      if (filter.field === 'descripcionSector') {
+        newFilter.descripcionSector = filter.value;
+      } else if (filter.field === 'zona') {
+        newFilter.zona = filter.value;
+      }
+    });
+
+    // Obtener datos con los nuevos filtros
+    this.obtenerDatos("id", "asc", newFilter);
   }
 
 

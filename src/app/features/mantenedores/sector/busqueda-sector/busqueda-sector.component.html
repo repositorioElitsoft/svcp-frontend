@@ -31,18 +31,4 @@
             {{ 'Buscar' | translate }}
         </button>
     </div>
-
-    <!-- Filtros activos -->
-    <div class="mt-4 px-4" *ngIf="value || selectedFilter">
-        <div class="flex flex-wrap gap-2">
-            <div *ngIf="value" class="px-3 py-1 bg-gray-200 rounded-lg flex items-center gap-2">
-                <span>Búsqueda: {{ value }}</span>
-                <mat-icon class="text-red-500 h-4 w-4 cursor-pointer" (click)="clearValue()">close</mat-icon>
-            </div>
-            <div *ngIf="selectedFilter" class="px-3 py-1 bg-gray-200 rounded-lg flex items-center gap-2">
-                <span>Zona: {{ getSelectedZonaLabel() }}</span>
-                <mat-icon class="text-red-500 h-4 w-4 cursor-pointer" (click)="clearZona()">close</mat-icon>
-            </div>
-        </div>
-    </div>
 </div>

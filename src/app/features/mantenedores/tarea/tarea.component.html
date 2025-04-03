@@ -34,7 +34,7 @@
 
             <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
                 <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
-                    [translationGroup]="'mantenedores.tarea'" [displayedColumns]="displayedColumns"
+                    [translationGroup]="'mantenedores.tipoEmpleado'" [displayedColumns]="displayedColumns"
                     [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
                     [totalPages]="totalPages" [pageSize]="pageSize"
                     (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
@@ -44,7 +44,6 @@
                     (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
             </div>
         </div>
-
 
         <div class=" col-span-1 "></div>
 

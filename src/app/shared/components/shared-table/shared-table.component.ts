@@ -42,7 +42,7 @@ export class SharedTableComponent {
   @Output() applyfilter = new EventEmitter<any>();
   @Output() buscar = new EventEmitter<string>();
   @Output() pageChanged = new EventEmitter<number>();
-  @Output() filterDelete = new EventEmitter<string>();
+  @Output() filterDelete = new EventEmitter<{ field: string, value: string }>();
 
   @ViewChildren('filterInput') filterInputs!: QueryList<any>;
 
@@ -65,8 +65,7 @@ export class SharedTableComponent {
   }
 
   deleteFilter(field: string) {
-    this.filterDelete.emit(field);
-
+    this.filterDelete.emit({ field, value: '' });
   }
 
   ngOnInit() {
@@ -99,10 +98,12 @@ export class SharedTableComponent {
   }
 
   protected makeSimpleSearch(values: any) {
-    console.log("simple search activated ", values)
+    console.log("simple search activated ", values);
+    if (values && values.labels) {
+      this.filtersLabels = values.labels;
+    }
     return this.applyfilter.emit(values);
   }
-
 
   protected filter() {
     const search = this.filterInputs.map(filter => ({
@@ -118,15 +119,18 @@ export class SharedTableComponent {
       return acc;
     }, {} as Record<string, string>);
 
+    // Crear las etiquetas para los filtros
+    const labels = search
+      .filter(({ value }) => value)
+      .map(({ field, value }) => ({ field, value }));
 
-    this.applyfilter.emit(transformed);
+    this.filtersLabels = labels;
+    this.applyfilter.emit({ filter: transformed, labels });
   }
-
 
   get allColumns(): string[] {
     return ['select', ...this.sortColumns, 'actions'];
   }
-
 
   get sortColumns(): string[] {
     return [...this.displayedColumns.filter(col => col !== 'id')];
@@ -139,18 +143,9 @@ export class SharedTableComponent {
     return numSelected === numRows;
   }
 
-
   protected onSort(selectedColumnName: string, columnIndex: number) {
-
     this.sortHeaders.forEach((header, i) => {
       const element = header.nativeElement;
-      //console.log("###")
-      //console.log("selectedColumnName", selectedColumnName)
-      //console.log("columnIndex", columnIndex)
-      //console.log("header", header)
-      //console.log("element", element)
-      //console.log("i", i)
-      //console.log("###")
       if (i === columnIndex) {
         console.log("Pasé este if")
         this.currentSortType = element.getAttribute('sortType') || '';
@@ -175,7 +170,6 @@ export class SharedTableComponent {
     this.sort.emit({ selectedColumnName, currentSortType: this.currentSortType });
   }
 
-
   // Etiqueta para el checkbox de la fila
   checkboxLabel(row?: any): string {
     if (!row) {
@@ -184,12 +178,10 @@ export class SharedTableComponent {
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row ${row.position + 1}`;
   }
 
-
   // Emitir id de la fila seleccionada para ver
   onView(id: string) {
     this.viewSelected.emit(id);
   }
-
 
   // Emitir id de la fila seleccionada para editar
   onEdit(id: string) {
@@ -198,9 +190,7 @@ export class SharedTableComponent {
 
   onSingleDelete(id: string) {
     this.deleteSingleSelected.emit(id);
-
   }
-
 
   // Actualizar el dataSource con paginación
   ngOnChanges() {
@@ -208,9 +198,7 @@ export class SharedTableComponent {
     this.dataSourceSubject.next(dataSlice);
     this.dataEmitted.emit(dataSlice); // Emitir la data actualizada
     this.updateSelection();
-
   }
-
 
   getVisiblePages(): number[] {
     const total = this.totalPages;
@@ -266,8 +254,6 @@ export class SharedTableComponent {
     return pages;
   }
 
-
-
   private updateSelection() {
     this.selection.clear();
     // Sincronizar la selección con los elementos de selectedItems
@@ -278,8 +264,6 @@ export class SharedTableComponent {
     });
     this.cdr.detectChanges();
   }
-
-
 
   // Método para seleccionar o deseleccionar una fila
   onRowSelection(row: any) {
@@ -305,8 +289,6 @@ export class SharedTableComponent {
     this.selectionChange.emit(this.selectedItems);
   }
 
-
-
   protected onPageChanged(newPage: number) {
     console.log("Cambiando a la página:", newPage);
     this.pageChanged.emit(newPage);
@@ -315,12 +297,9 @@ export class SharedTableComponent {
     this.updateSelection();
   }
 
-
-
   get endItem(): number {
     return Math.min((this.pageNumber + 1) * this.pageSize, this.totalElements);
   }
-
 
   // Método para limpiar toda la selección
   clearSelection() {
@@ -328,7 +307,6 @@ export class SharedTableComponent {
     this.selectedItems = [];
     this.notifySelectionChange();
   }
-
 
   toggleAllRows() {
     if (this.isAllSelected()) {
@@ -350,4 +328,7 @@ export class SharedTableComponent {
     this.notifySelectionChange();
   }
 
+  onFilterDelete(field: string, value: string) {
+    this.filterDelete.emit({ field, value });
+  }
 }

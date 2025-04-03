@@ -91,21 +91,24 @@ export class BusquedaSectorComponent implements OnInit {
     console.log('value:', this.value);
 
     const filter: any = {};
+    const labels: any[] = [];
 
     // Si hay un valor en el input de búsqueda
     if (this.value) {
       filter.descripcionSector = this.value;
+      labels.push({ field: 'descripcionSector', value: this.value });
     }
 
     // Si hay una zona seleccionada
     if (this.selectedFilter) {
       filter.zona = this.selectedFilter;
+      const zonaLabel = this.getSelectedZonaLabel();
+      labels.push({ field: 'zona', value: zonaLabel });
     }
 
     // Siempre emitimos el filtro, incluso si está vacío
-    // Esto hará que se recargue toda la data cuando no hay filtros
-    console.log('Emitiendo filtro:', filter);
-    this.applyfilter.emit(filter);
+    console.log('Emitiendo filtro:', { filter, labels });
+    this.applyfilter.emit({ filter, labels });
   }
 
   shouldShowSearch(): boolean {

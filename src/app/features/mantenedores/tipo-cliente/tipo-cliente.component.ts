@@ -175,11 +175,16 @@ export class TipoClienteComponent implements OnInit {
     this.pageNumber = 0;
     this.obtenerDatos("id", "asc", filters);
   }
-  onFilterDeleted(field: string) {
-    this.activeOptionalFilters = this.activeOptionalFilters.filter((filter: any) => filter.field !== field);
-    this.obtenerDatos("id", "asc", this.activeOptionalFilters);
+  onFilterDeleted(filterData: { field: string, value: string }) {
+    this.activeOptionalFilters = this.activeOptionalFilters.filter(
+      (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
+    );
+    const newFilter = this.activeOptionalFilters.reduce((acc: any, filter: { field: string, value: string }) => {
+      acc[filter.field] = filter.value;
+      return acc;
+    }, {});
+    this.obtenerDatos("id", "asc", newFilter);
   }
-
 
 
   /********************************** TABLA - SHARED TABLE **********************************/

@@ -9,8 +9,7 @@
 
     <div class="m-4"></div>
 
-    <div class="flex gap-4 rounded-t-lg bg-red-100 overflow-hidden dark:bg-neutral-800 " *ngIf="showDiv">
-
+    <div class="flex gap-4 rounded-t-lg bg-red-100 overflow-hidden dark:bg-neutral-800 ">
         @for (filter of filters; track $index) {
         <div class="col-span-1 w-full p-4">
             @if(isKeyMissing(filter, "type")){
@@ -20,163 +19,161 @@
             }@else if (filter.type === 'select') {
             Select
             }
-
         </div>
         }
-
         <button *ngIf="filters.length > 0" (click)="filter()"> Buscar </button>
     </div>
 
-    <div class="flex flex-col sm:flex-row justify-between bg-gray-100 p-4 gap-4 rounded-t-lg dark:bg-neutral-800 w-auto overflow-x-auto sticky left-0 "
-        *ngIf="showDiv">
-
-        <app-busqueda (simpleSearch)="makeSimpleSearch($event)" [tableData]="dataSource" [field]="simpleSearchField"
-            [isSimpleSearch]="true"></app-busqueda>
-        <div> @if(filtersLabels.length> 0){
-            {{ 'table.filtrosSeleccionados' | translate: { count: filtersLabels.length } }}
-            }
-            @for (active of filtersLabels; track $index) {
-            <button (click)="deleteFilter(active.field)">
-                {{ getTranslationGroup(active.field) | translate }}:
-                {{ active.value }}
-                <span class="text-red-500 font-bold cursor-pointer">X</span> |
+    <!-- Filtros activos -->
+    <div class="flex flex-wrap gap-2 p-4 bg-gray-100 rounded-t-lg">
+        @if(filtersLabels && filtersLabels.length > 0) {
+        <span class="text-gray-600">{{ 'table.filtrosSeleccionados' | translate: { count: filtersLabels.length }
+            }}</span>
+        @for (filter of filtersLabels; track $index) {
+        <div class="flex items-center gap-2 px-3 py-1 bg-gray-200 rounded-full">
+            <span class="text-sm text-gray-600">{{ getTranslationGroup(filter.field) | translate }}: {{ filter.value
+                }}</span>
+            <button (click)="onFilterDelete(filter.field, filter.value)" class="text-gray-500 hover:text-gray-700">
+                <mat-icon class="text-sm">close</mat-icon>
             </button>
-            }
         </div>
+        }
+        }
     </div>
 
+    <div class="flex flex-col gap-4">
+        <!-- Tabla -->
+        <div class="overflow-x-auto">
+            <table mat-table [dataSource]="dataSource" class="w-full"
+                *ngIf="dataSource.length > 0; else noDataTemplate">
 
-
-
-    <table mat-table [dataSource]="dataSource" class="w-full" *ngIf="dataSource.length > 0; else noDataTemplate">
-
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>
-                <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                </mat-checkbox>
-            </th>
-            <td mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onRowSelection(row) : null"
-                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                </mat-checkbox>
-            </td>
-        </ng-container>
-
-        <!-- Dynamic Columns -->
-        <ng-container *ngFor="let column of sortColumns; let i = index" [matColumnDef]="column">
-            <th mat-header-cell *matHeaderCellDef class="font-bold text-lg text-gray-700 ">
-                <div class="flex items-center">
-                    {{ getTranslationGroup(column) | translate }}
-                    <span (click)="onSort(column, i)" #sortHeader sortType=""
-                        class="material-symbols-outlined hover:cursor-pointer">
-                        @if(currentSortIndex === i && currentSortType === "desc"){
-                        keyboard_arrow_down
-                        }
-                        @if(currentSortIndex === i && currentSortType === "asc"){
-                        keyboard_arrow_up
-                        }
-                        @if(currentSortIndex !== i){
-                        unfold_more
-                        }
-                    </span>
-                </div>
-            </th>
-            <td mat-cell class="text-lg" *matCellDef="let element"> {{ getField(element[column]) }} </td>
-        </ng-container>
-
-        <!-- Actions Column -->
-        <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef class="font-bold text-gray-700 text-lg">
-                {{ 'table.actions' | translate }}
-            </th>
-            <td mat-cell *matCellDef="let element" class="flex items-center gap-2">
-                <button mat-icon-button color="accent" (click)="onEdit(element.id)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" (click)="onSingleDelete(element.id)">
-                    <mat-icon>delete</mat-icon>
-                </button>
-                <!-- Aquí se incluye el template adicional si existe -->
-                <ng-container *ngIf="additionalActionsTemplate">
-                    <button mat-icon-button color="accent">
-                        <ng-container
-                            *ngTemplateOutlet="additionalActionsTemplate; context: { $implicit: element }"></ng-container>
-                    </button>
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onRowSelection(row) : null"
+                            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
+                    </td>
                 </ng-container>
 
-            </td>
-        </ng-container>
+                <!-- Dynamic Columns -->
+                <ng-container *ngFor="let column of sortColumns; let i = index" [matColumnDef]="column">
+                    <th mat-header-cell *matHeaderCellDef class="font-bold text-lg text-gray-700 ">
+                        <div class="flex items-center">
+                            {{ getTranslationGroup(column) | translate }}
+                            <span (click)="onSort(column, i)" #sortHeader sortType=""
+                                class="material-symbols-outlined hover:cursor-pointer">
+                                @if(currentSortIndex === i && currentSortType === "desc"){
+                                keyboard_arrow_down
+                                }
+                                @if(currentSortIndex === i && currentSortType === "asc"){
+                                keyboard_arrow_up
+                                }
+                                @if(currentSortIndex !== i){
+                                unfold_more
+                                }
+                            </span>
+                        </div>
+                    </th>
+                    <td mat-cell class="text-lg" *matCellDef="let element"> {{ getField(element[column]) }} </td>
+                </ng-container>
 
-
-
-        <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: allColumns;"></tr>
-    </table>
-
-    <!-- Mensaje cuando no hay datos -->
-    <ng-template #noDataTemplate>
-        <div class="text-center text-gray-500 py-4">
-            {{ emptyMessage }}
-        </div>
-    </ng-template>
-
-    <div class="m-4"></div>
-    <!-- Paginador -->
-    <div
-        class="w-full bg-gray-100 h-11 flex justify-between items-center text-neutral-600 px-2 rounded-lg dark:bg-neutral-500 text-lg sticky left-0 z-10">
-        <div>
-            {{ dataSource.length }} - {{ endItem }} {{ 'table.of' | translate }} {{ totalElements }}
-        </div>
-
-        <div class="flex items-center gap-1">
-            <!-- Ir a primera página -->
-            <button [disabled]="pageNumber === 0"
-                class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
-                (click)="onPageChanged(0)">
-                keyboard_double_arrow_left
-            </button>
-
-            <!-- Página anterior -->
-            <button [disabled]="pageNumber === 0"
-                class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
-                (click)="onPageChanged(pageNumber - 1)">
-                arrow_left
-            </button>
-
-            <ng-container *ngIf="totalPages >= 1">
-                <ng-container *ngFor="let page of getVisiblePages()">
-                    <ng-container *ngIf="page === -1; else pageButton">
-                        <span class="px-0">...</span>
-                    </ng-container>
-                    <ng-template #pageButton>
-                        <button [class.font-bold]="page === pageNumber" class=" text-gray-600 hover:text-gray-800 px:0 "
-                            (click)="onPageChanged(page)">
-                            {{ page + 1 }}
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef class="font-bold text-gray-700 text-lg">
+                        {{ 'table.actions' | translate }}
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="flex items-center gap-2">
+                        <button mat-icon-button color="accent" (click)="onEdit(element.id)">
+                            <mat-icon>edit</mat-icon>
                         </button>
-                    </ng-template>
+                        <button mat-icon-button color="accent" (click)="onSingleDelete(element.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <!-- Aquí se incluye el template adicional si existe -->
+                        <ng-container *ngIf="additionalActionsTemplate">
+                            <button mat-icon-button color="accent">
+                                <ng-container
+                                    *ngTemplateOutlet="additionalActionsTemplate; context: { $implicit: element }"></ng-container>
+                            </button>
+                        </ng-container>
+
+                    </td>
                 </ng-container>
-            </ng-container>
 
 
-            <!-- Página siguiente -->
-            <button [disabled]="pageNumber === totalPages - 1"
-                class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
-                (click)="onPageChanged(pageNumber + 1)">
-                arrow_right
-            </button>
 
-            <!-- Ir a última página -->
-            <button [disabled]="pageNumber === totalPages - 1"
-                class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
-                (click)="onPageChanged(totalPages - 1)">
-                keyboard_double_arrow_right
-            </button>
+                <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: allColumns;"></tr>
+            </table>
+
+            <!-- Mensaje cuando no hay datos -->
+            <ng-template #noDataTemplate>
+                <div class="text-center text-gray-500 py-4">
+                    {{ emptyMessage }}
+                </div>
+            </ng-template>
+
+            <div class="m-4"></div>
+            <!-- Paginador -->
+            <div
+                class="w-full bg-gray-100 h-11 flex justify-between items-center text-neutral-600 px-2 rounded-lg dark:bg-neutral-500 text-lg sticky left-0 z-10">
+                <div>
+                    {{ dataSource.length }} - {{ endItem }} {{ 'table.of' | translate }} {{ totalElements }}
+                </div>
+
+                <div class="flex items-center gap-1">
+                    <!-- Ir a primera página -->
+                    <button [disabled]="pageNumber === 0"
+                        class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
+                        (click)="onPageChanged(0)">
+                        keyboard_double_arrow_left
+                    </button>
+
+                    <!-- Página anterior -->
+                    <button [disabled]="pageNumber === 0"
+                        class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
+                        (click)="onPageChanged(pageNumber - 1)">
+                        arrow_left
+                    </button>
+
+                    <ng-container *ngIf="totalPages >= 1">
+                        <ng-container *ngFor="let page of getVisiblePages()">
+                            <ng-container *ngIf="page === -1; else pageButton">
+                                <span class="px-0">...</span>
+                            </ng-container>
+                            <ng-template #pageButton>
+                                <button [class.font-bold]="page === pageNumber"
+                                    class=" text-gray-600 hover:text-gray-800 px:0 " (click)="onPageChanged(page)">
+                                    {{ page + 1 }}
+                                </button>
+                            </ng-template>
+                        </ng-container>
+                    </ng-container>
+
+
+                    <!-- Página siguiente -->
+                    <button [disabled]="pageNumber === totalPages - 1"
+                        class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
+                        (click)="onPageChanged(pageNumber + 1)">
+                        arrow_right
+                    </button>
+
+                    <!-- Ir a última página -->
+                    <button [disabled]="pageNumber === totalPages - 1"
+                        class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
+                        (click)="onPageChanged(totalPages - 1)">
+                        keyboard_double_arrow_right
+                    </button>
+                </div>
+
+            </div>
         </div>
-
     </div>
-
-
 </div>
