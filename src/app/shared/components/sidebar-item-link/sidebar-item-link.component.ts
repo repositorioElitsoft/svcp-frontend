@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -13,6 +13,10 @@ export class SidebarItemLinkComponent {
 
   @Input() link: string = "";
   @Input() title: string = "";
+  @Output() linkClick = new EventEmitter<string>();
 
+  onClick() {
+    this.linkClick.emit(this.link);
+  }
 
 }

@@ -24,7 +24,9 @@ import { EstadoService } from "../../../core/services/estado.service"
 import { SegmentacionClienteService } from "../../../core/services/segmentacion-cliente.service"
 import { TipoClienteService } from "../../../core/services/tipo-cliente.service"
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component"
-
+import { InformacionPersonalComponent } from "../sub-forms/informacion-personal/informacion-personal.component"
+import { SidebarItemLinkComponent } from "../sidebar/sidebar-item-link/sidebar-item-link.component"
+import { SidebarComponent } from "../sidebar/sidebar.component"
 
 @Component({
   selector: "app-cliente-create-form",
@@ -44,6 +46,9 @@ import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.compone
     MatIconModule,
     TranslateModule,
     TituloDialogoComponent,
+    InformacionPersonalComponent,
+    SidebarItemLinkComponent,
+    SidebarComponent
   ],
   templateUrl: `./cliente.component.html`,
   styles: [],
@@ -51,6 +56,10 @@ import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.compone
 export class ClienteFormComponent implements OnInit {
   form!: FormGroup
   showAdditionalInfo = false
+  show = true
+  isExpanded = false
+
+  title = 'SVCP'
 
   readonly dialogRef = inject(MatDialogRef<ClienteFormComponent>)
   readonly data = inject<any>(MAT_DIALOG_DATA)
@@ -170,6 +179,10 @@ export class ClienteFormComponent implements OnInit {
         this.segmentacionCliente = segmentacionCliente
       },
     })
+  }
+
+  handleLinkClick(link: string) {
+    console.log("Enlace clickeado:", link)
   }
 
   onSubmit() {

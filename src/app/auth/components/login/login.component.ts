@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import SwiperCore from 'swiper';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { convertErrorMessageToI18 } from '../../../core/utils/errors.utils';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
@@ -29,7 +30,8 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    TranslateModule
+    TranslateModule,
+    RouterModule
 
   ],
   providers: [
@@ -43,6 +45,7 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 export class LoginComponent {
   form!: FormGroup
   errorMessage!: String
+  hidePassword: boolean = true;
 
   images: string[] = ["1.jpg", "2.jpg", "3.jpg", "4.jpg"]
 
@@ -74,6 +77,7 @@ export class LoginComponent {
 
   openAccessibilityPanel() {
     this.dialog.open(DialogoAccesibilidadComponent, {
+      minWidth: '380px'
 
     })
   }
@@ -99,21 +103,18 @@ export class LoginComponent {
 
 
       },
-      error: (error: HttpErrorResponse) => {
+      error: (error: any) => {
 
-        if (error.status == 401) {
-          this.errorMessage = "Nombre de usuario o contraseña incorrectos."
+        console.log("error at login", error)
+        if (error.status == 401 || error.status == 403) {
+          this.errorMessage = this.translate.instant(convertErrorMessageToI18(error));
           return
         }
-        this.errorMessage = "Error inesperado."
-        if (error.status == 403) {
-
-          this.errorMessage = "Nombre de usuario o contraseña incorrectos."
-        }
         if (error.status == 500) {
-          this.errorMessage = "Hubo un problema contactando al servidor, intente más tarde."
+          this.errorMessage = this.translate.instant('login.errors.serverError')
+          return
         }
-        console.log("error at login", this.errorMessage)
+        this.errorMessage = this.translate.instant('login.errors.unexpectedError')
       }
     })
   }

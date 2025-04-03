@@ -287,7 +287,7 @@ export class ClienteComponent implements OnInit {
 
   agregarServicio() {
     const dialogRef = this.dialog.open(ClienteFormComponent, {
-      width: '400px',
+
       data: {
         esActualizar: false,
       }

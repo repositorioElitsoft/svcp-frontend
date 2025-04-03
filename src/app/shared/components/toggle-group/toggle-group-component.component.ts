@@ -43,7 +43,7 @@ export class ToggleGroupComponent implements ControlValueAccessor {
   @Input() textSizeClass: string = 'text-lg'; // Valor por defecto
 
   // Valor interno del componente que se sincronizará con el modelo
-  selectedValue: any;
+  @Input() selectedValue: any;
 
   @Output() valueChange = new EventEmitter<any>();
 
@@ -53,6 +53,7 @@ export class ToggleGroupComponent implements ControlValueAccessor {
 
   // Método para manejar la selección de una opción
   onSelect(value: any) {
+    console.log("Seleccionando valor:", value);
     this.selectedValue = value;
     // Notifica a Angular el cambio de valor
     this.onChange(value);

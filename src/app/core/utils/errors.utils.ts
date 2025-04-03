@@ -69,7 +69,9 @@ const errorKeyMappings: { [key: string]: { [key: string]: string } } = {
         '006': 'CORREO_REQUERIDO',
         '007': 'CORREO_NO_ENCONTRADO',
         '008': 'ID_REQUERIDO',
-        '009': 'ID_INVALIDO'
+        '009': 'ID_INVALIDO',
+        '010': 'CREDENCIALES_INVALIDAS',
+        '011': 'EMPLEADO_DESVINCULADO'
     },
     ERRI: {
         '000': 'ERROR_INTERNO',

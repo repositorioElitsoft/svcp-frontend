@@ -17,7 +17,13 @@
         "username": "Usuário",
         "password": "Senha",
         "emptyField": "Este campo não pode estar vazio.",
-        "signIn": "Entrar"
+        "signIn": "Entrar",
+        "forgotPassword": "Esqueceu sua senha?",
+        "errors": {
+            "invalidCredentials": "Nome de usuário ou senha inválidos.",
+            "unexpectedError": "Erro inesperado.",
+            "serverError": "Houve um problema ao contatar o servidor, tente novamente mais tarde."
+        }
     },
     "sideBar": {
         "services": "Serviços",
@@ -278,6 +284,13 @@
                 "descripcion": "Insira a descrição da classificação do cliente"
             },
             "cliente": {
+                "menus": {
+                    "datosGenerales": "Dados Gerais",
+                    "informacionComercial": "Informações Comerciais",
+                    "datosContacto": "Dados de Contato",
+                    "locaciones": "Localizações",
+                    "contactos": "Contatos"
+                },
                 "tituloEditar": "Editar Cliente",
                 "tituloAgregar": "Criar Cliente",
                 "label.nombre": "Nome",
@@ -345,7 +358,8 @@
                 "label.roleId": "Cargo",
                 "label.estadoId": "Estado",
                 "label.numeroDocumento": "Número do Documento",
-                "label.tipoDocumento": "Tipo de Documento"
+                "label.tipoDocumento": "Tipo de Documento",
+                "label.documentoIdentificacion": "N° do Documento"
             },
             "gestionContrato": {
                 "tituloEditar": "Editar Gestão de Contrato",
@@ -528,7 +542,9 @@
                     "CORREO_REQUERIDO": "O e-mail do empregado é obrigatório.",
                     "CORREO_NO_ENCONTRADO": "O e-mail do empregado não foi encontrado.",
                     "ID_REQUERIDO": "O ID do empregado é obrigatório.",
-                    "ID_INVALIDO": "O ID do empregado não é válido."
+                    "ID_INVALIDO": "O ID do empregado não é válido.",
+                    "CREDENCIALES_INVALIDAS": "Credenciais inválidas.",
+                    "EMPLEADO_DESVINCULADO": "Acesso negado. Entre em contato com seu administrador."
                 },
                 "general": {
                     "ERROR_INTERNO": "Ocorreu um erro interno no servidor."

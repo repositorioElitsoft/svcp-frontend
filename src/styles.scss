@@ -7,12 +7,11 @@
 
 :root {
     --primary: #3F51B5;
-
     --mdc-outlined-text-field-outline-color: rgb(83, 83, 83);
-
+    --fallback-b1: #ffffff;
+    /* Default light mode value */
     --base-font-size: 0px;
     --bg-neutral-800: #252525;
-
 
     --main-h: 220;
     --main-s: 14%;
@@ -77,6 +76,8 @@
 body.dark {
     --primary: #2A3E5C;
     --placeholders: #b6b6b6;
+    --fallback-b1: #252525 !important;
+    /* Force dark mode value */
     --mdc-outlined-text-field-label-text-color: rgb(223, 223, 223);
     --mdc-outlined-text-field-outline-color: rgb(223, 223, 223);
     --mdc-outlined-text-field-hover-outline-color: rgb(202, 202, 202);
@@ -100,6 +101,8 @@ body {
 .light-mode {
     background-color: rgb(231, 231, 231);
     color: #161616;
+    --fallback-b1: #ffffff !important;
+    /* Force light mode value */
 }
 
 .dark-mode {

@@ -1,6 +1,6 @@
-<div class="bg-gray-100 dark:bg-neutral-800 lg:flex justify-center items-center min-h-screen h-full">
+<div class="bg-gray-100 dark:bg-neutral-800 lg:flex justify-center items-center min-h-screen  lg:h-full">
     <!-- Left: Image -->
-    <button (click)="openAccessibilityPanel()" class="fixed top-10 right-20 z-50">
+    <button (click)="openAccessibilityPanel()" class="fixed top-8 lg:top-10 right-8 lg:right-20 z-[1000]">
         <div class="relative w-11 h-11 flex items-center justify-center bg-[#d9d9d9] rounded-full">
             <mat-icon class="scale-150 text-gray-800 absolute">
                 accessibility
@@ -43,7 +43,7 @@
 
 
 
-    <div class="lg:-mt[0] lg:py-24 lg:px-28 lg:p-52 sm:20 p-8 w-full lg:w-1/2">
+    <div class="lg:-mt[0] sm:px-44 lg:py-24 lg:px-28 lg:p-52 sm:20 p-8 w-full lg:w-1/2">
 
 
 
@@ -71,12 +71,15 @@
 
                 <mat-form-field appearance="outline" class="w-full dark:!text-gray-100 text-lg">
                     <mat-label class="text-lg">{{ 'login.password' | translate }}</mat-label>
-                    <input matInput type="password" formControlName="password" id="password" placeholder="••••••••"
-                        class="w-full dark:!text-gray-100 text-lg" required>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" id="password"
+                        placeholder="••••••••" class="w-full dark:!text-gray-100 text-lg" required>
+                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
                     <mat-error *ngIf="form.get('password')?.hasError('required')">
                         {{ 'login.emptyField' | translate }} </mat-error>
                 </mat-form-field>
-
+                <a [routerLink]="'/login'" class="pl-4">{{ "login.forgotPassword" | translate }}</a>
             </div>
 
             <button type="submit" class="elitsoft-btn !py-3 text-lg rounded px-4 w-full"
