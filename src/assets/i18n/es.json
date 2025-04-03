@@ -549,7 +549,9 @@
                     "CORREO_REQUERIDO": "El correo electrónico del empleado es requerido.",
                     "CORREO_NO_ENCONTRADO": "No se encontró el correo electrónico del empleado.",
                     "ID_REQUERIDO": "El ID del empleado es requerido.",
-                    "ID_INVALIDO": "El ID del empleado no es válido."
+                    "ID_INVALIDO": "El ID del empleado no es válido.",
+                    "CREDENCIALES_INVALIDAS": "Usuarios y/o contraseñas inválidos.",
+                    "EMPLEADO_DESVINCULADO": "Acceso denegado. Contacte a su administrador."
                 },
                 "general": {
                     "ERROR_INTERNO": "No se pudo eliminar el registro. Por favor, verifique.",

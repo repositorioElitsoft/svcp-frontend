@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import SwiperCore from 'swiper';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { convertErrorMessageToI18 } from '../../../core/utils/errors.utils';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
@@ -103,9 +104,10 @@ export class LoginComponent {
 
       },
       error: (error: any) => {
+
         console.log("error at login", error)
         if (error.status == 401 || error.status == 403) {
-          this.errorMessage = this.translate.instant('login.errors.invalidCredentials')
+          this.errorMessage = this.translate.instant(convertErrorMessageToI18(error));
           return
         }
         if (error.status == 500) {
