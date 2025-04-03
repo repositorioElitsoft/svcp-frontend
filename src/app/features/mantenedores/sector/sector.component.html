@@ -38,12 +38,11 @@
                 <app-shared-table (dataEmitted)="onDataEmitted($event)" [translationGroup]="'mantenedores.sector'"
                     [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
                     [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
-                    [isLoading]="isLoading" [filtersLabels]="activeOptionalFilters"
-                    (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
-                    (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
-                    (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-                    (selectionChange)="onSelectionChange($event)" (filterDelete)="onFilterDelete($event)"
-                    [filters]='[]'>
+                    [filtersLabels]="activeOptionalFilters" (deleteSingleSelected)="onDeleteSingleSelected($event)"
+                    (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
+                    (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
+                    (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"
+                    (filterDelete)="onFilterDelete($event)" [filters]='[]'>
                 </app-shared-table>
             </div>
         </div>
