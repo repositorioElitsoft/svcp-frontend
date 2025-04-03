@@ -77,7 +77,8 @@
         "actions": "Actions",
         "seleccionados": "{{count}} selected",
         "of": "of",
-        "dataDisponible": "No data available"
+        "dataDisponible": "No data available",
+        "digiteBusqueda": "Enter a"
     },
     "opciones-mantenedor": {
         "botonAgregar": {
