@@ -48,15 +48,9 @@
         }
     </div>
 
-    <!-- Skeleton Loading -->
-    <div *ngIf="isLoading" class="flex flex-col gap-4">
-        <app-skeleton-table [columns]="allColumns.length" [rows]="pageSize > 10 ? 10 : pageSize" [showHeader]="true"
-            [showPagination]="true">
-        </app-skeleton-table>
-    </div>
 
     <!-- Contenido real de la tabla cuando no está cargando -->
-    <div *ngIf="!isLoading" class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4">
         <!-- Tabla -->
         <div class="overflow-x-auto">
             <table mat-table [dataSource]="dataSource" class="w-full"

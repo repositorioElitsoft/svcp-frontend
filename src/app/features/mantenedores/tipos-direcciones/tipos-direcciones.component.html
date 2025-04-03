@@ -29,12 +29,11 @@
             <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
                 [translationGroup]="'mantenedores.tiposDirecciones'" [displayedColumns]="displayedColumns"
                 [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
-                [totalPages]="totalPages" [pageSize]="pageSize" [isLoading]="isLoading"
-                (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
-                (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
-                (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"
-                [simpleSearchField]="'descripcionTipoDireccion'" (filterDelete)="onFilterDeleted($event)"
-                [filters]='[]'></app-shared-table>
+                [totalPages]="totalPages" [pageSize]="pageSize" (deleteSingleSelected)="onDeleteSingleSelected($event)"
+                (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
+                (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
+                (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTipoDireccion'"
+                (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
         </div>
     </div>
 </section>

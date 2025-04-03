@@ -43,7 +43,6 @@ export class SharedTableComponent {
   @Input() filtersLabels: any[] = []
   @Input() simpleSearchField: string = "";
   @Input() filterSearch: string = "";
-  @Input() isLoading: boolean = false; // Nueva propiedad para controlar cuando mostrar el skeleton
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() deleteSingleSelected = new EventEmitter<string>();
   @Input() additionalActionsTemplate!: TemplateRef<any>; // Nuevo input para recibir el template de acciones adicionales

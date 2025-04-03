@@ -34,11 +34,11 @@
         <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
             <app-shared-table [translationGroup]="'mantenedores.empleado'" [displayedColumns]="displayedColumns"
                 [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
-                [pageSize]="pageSize" [totalPages]="totalPages" [isLoading]="isLoading"
-                [filtersLabels]="activeOptionalFilters" (deleteSingleSelected)="onDeleteSingleSelected($event)"
-                (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
-                (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-                (selectionChange)="onSelectionChange($event)" (filterDelete)="onFilterDeleted($event)" [filters]='[]'>
+                [pageSize]="pageSize" [totalPages]="totalPages" [filtersLabels]="activeOptionalFilters"
+                (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
+                (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
+                (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"
+                (filterDelete)="onFilterDeleted($event)" [filters]='[]'>
             </app-shared-table>
         </div>
     </div>
