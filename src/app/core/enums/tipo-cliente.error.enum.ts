@@ -1,0 +1,8 @@
+export enum TipoClienteError {
+    NO_ENCONTRADO = 'TPCL_000',
+    INTEGRIDAD_VIOLADA = 'TPCL_001',
+    REQUERIDO = 'TPCL_002',
+    DUPLICADO = 'TPCL_003',
+    ID_REQUERIDO = 'TPCL_004',
+    ID_INVALIDO = 'TPCL_005'
+} 

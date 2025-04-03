@@ -1,0 +1,8 @@
+export enum ServicioTrabajoError {
+    NO_ENCONTRADO = 'SVTR_000',
+    INTEGRIDAD_VIOLADA = 'SVTR_001',
+    REQUERIDO = 'SVTR_002',
+    DUPLICADO = 'SVTR_003',
+    ID_REQUERIDO = 'SVTR_004',
+    ID_INVALIDO = 'SVTR_005'
+} 

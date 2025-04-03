@@ -1,0 +1,8 @@
+export enum ProductoError {
+    NO_ENCONTRADO = 'PROD_000',
+    INTEGRIDAD_VIOLADA = 'PROD_001',
+    REQUERIDO = 'PROD_002',
+    DUPLICADO = 'PROD_003',
+    ID_REQUERIDO = 'PROD_004',
+    ID_INVALIDO = 'PROD_005'
+} 

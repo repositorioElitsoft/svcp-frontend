@@ -1,0 +1,7 @@
+export enum RolesError {
+    NO_ENCONTRADO = 'RLES_000',
+    INTEGRIDAD_VIOLADA = 'RLES_001',
+    REQUERIDO = 'RLES_002',
+    DUPLICADO = 'RLES_003',
+    ID_REQUERIDO = 'RLES_004',
+}

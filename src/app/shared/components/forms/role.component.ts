@@ -131,7 +131,7 @@ export class RoleFormComponent implements OnInit {
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
+            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
             this.toastr.error(errorMessage);
           }
         })

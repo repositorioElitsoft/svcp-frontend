@@ -20,22 +20,18 @@
             </app-opciones-mantenedor>
         </div>
     </div>
-
-
-    <!-- Table Section -->
-    <app-busqueda-sector [filtersLabels]="activeOptionalFilters" (applyfilter)="buscar($event)"
-        (filterDelete)="onFilterDeleted($event)">
+    <!-- Search Section -->
+    <app-busqueda-sector (applyfilter)="buscar($event)">
     </app-busqueda-sector>
+    <!-- Table Section -->
     <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
-        <app-shared-table [filtersLabels]="activeOptionalFilters" [showDiv]="showDiv"
-            (dataEmitted)="onDataEmitted($event)" [translationGroup]="'mantenedores.sector'"
+        <app-shared-table (dataEmitted)="onDataEmitted($event)" [translationGroup]="'mantenedores.sector'"
             [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
             [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
-            (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
-            (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
-            (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"
-            [simpleSearchField]="'descripcionSector'" (filterDelete)="onFilterDeleted($event)"
-            [filters]="activeOptionalFilters">
+            [filtersLabels]="activeOptionalFilters" (deleteSingleSelected)="onDeleteSingleSelected($event)"
+            (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
+            (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
+            (selectionChange)="onSelectionChange($event)" (filterDelete)="onFilterDelete($event)">
         </app-shared-table>
     </div>
 </div>

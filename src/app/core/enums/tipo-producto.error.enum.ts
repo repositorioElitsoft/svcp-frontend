@@ -1,0 +1,8 @@
+export enum TipoProductoError {
+    NO_ENCONTRADO = 'TPPR_000',
+    INTEGRIDAD_VIOLADA = 'TPPR_001',
+    REQUERIDO = 'TPPR_002',
+    DUPLICADO = 'TPPR_003',
+    ID_REQUERIDO = 'TPPR_004',
+    ID_INVALIDO = 'TPPR_005'
+} 

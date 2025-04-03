@@ -60,7 +60,7 @@ export class BusquedaSectorComponent implements OnInit {
       next: (response: ApiEntityResponse<Zona[]>) => {
         if (response && response.data) {
           this.filterOptions = response.data.map((zona: Zona) => ({
-            label: zona.descripcionZona || 'Zona',
+            label: zona.descripcionZona || 'Zone',
             value: zona.id.toString()
           }));
           // Agregar opción "No seleccionado" al inicio
@@ -80,22 +80,40 @@ export class BusquedaSectorComponent implements OnInit {
   }
 
   onValueChange() {
+    console.log('onValueChange llamado, value:', this.value);
     if (this.isSimpleSearch) return;
     this.valueChange.emit({ field: this.field, value: this.value });
   }
 
   executeSearch() {
-    if (this.selectedFilter && this.selectedFilter !== '') {
-      console.log('Emitiendo filterSearch:', { filter: this.selectedFilter, value: this.selectedFilter });
-      this.filterSearch.emit({ filter: this.selectedFilter, value: this.selectedFilter });
-    } else {
-      console.log('Emitiendo simpleSearch:', { [this.field]: this.value });
-      this.simpleSearch.emit({ [this.field]: this.value });
+    console.log('executeSearch llamado');
+    console.log('selectedFilter:', this.selectedFilter);
+    console.log('value:', this.value);
+
+    const filter: any = {};
+    const labels: any[] = [];
+
+    // Si hay un valor en el input de búsqueda
+    if (this.value) {
+      filter.descripcionSector = this.value;
+      labels.push({ field: 'descripcionSector', value: this.value });
     }
+
+    // Si hay una zona seleccionada
+    if (this.selectedFilter) {
+      filter.zona = this.selectedFilter;
+      const zonaLabel = this.getSelectedZonaLabel();
+      // Enviamos el label en lugar del value para mostrar
+      labels.push({ field: 'zona', value: zonaLabel });
+    }
+
+    // Siempre emitimos el filtro, incluso si está vacío
+    console.log('Emitiendo filtro:', { filter, labels });
+    this.applyfilter.emit({ filter, labels });
   }
 
   shouldShowSearch(): boolean {
-    return true; // Siempre mostramos el select ya que ahora cargamos las zonas del servicio
+    return true;
   }
 
   isKeyMissing(filter: any, key: string): boolean {
@@ -118,5 +136,20 @@ export class BusquedaSectorComponent implements OnInit {
 
   protected getTranslationGroup(column: string) {
     return this.translationGroup ? `${this.translationGroup}.${column}` : column;
+  }
+
+  clearValue() {
+    this.value = '';
+    this.executeSearch();
+  }
+
+  clearZona() {
+    this.selectedFilter = '';
+    this.executeSearch();
+  }
+
+  getSelectedZonaLabel(): string {
+    const selectedOption = this.filterOptions.find(opt => opt.value === this.selectedFilter);
+    return selectedOption ? selectedOption.label : '';
   }
 }

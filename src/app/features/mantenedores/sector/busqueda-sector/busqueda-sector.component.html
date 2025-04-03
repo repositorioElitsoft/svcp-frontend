@@ -1,45 +1,34 @@
-<div class="flex flex-col md:flex-row items-center gap-4 p-4">
-    <!-- Campo de búsqueda -->
-    <div class="w-full md:w-auto">
-        <div class="relative w-full md:w-[300px]">
-            <input [(ngModel)]="value" type="text"
-                class="w-full h-[44px] px-4 py-2 rounded-lg border-2 border-[#C2C2C2] bg-white text-[#757575] text-lg outline-none"
-                (ngModelChange)="onValueChange()" [placeholder]="'Digite uma pesquisa'" />
-            <mat-icon class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#757575]">search</mat-icon>
+<div class="">
+    <div class="flex flex-col md:flex-row items-center gap-4 p-4">
+        <!-- Campo de búsqueda -->
+        <div class="w-full md:w-auto">
+            <div class="relative w-full md:w-[300px]">
+                <input [(ngModel)]="value" type="text"
+                    class="w-full h-[44px] px-4 py-2 rounded-lg border-2 border-[#C2C2C2] bg-white text-[#757575] text-lg outline-none"
+                    (ngModelChange)="onValueChange()" [placeholder]="'Digite uma pesquisa'" />
+                <mat-icon class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#757575]">search</mat-icon>
+            </div>
         </div>
-    </div>
 
-    <!-- Select de filtros -->
-    <div class="w-full md:w-auto">
-        <div class="w-full md:w-[200px]">
-            <mat-select [(ngModel)]="selectedFilter"
-                class="w-full h-[44px] px-4 py-2 rounded-lg border-2 border-[#C2C2C2] bg-white text-[#757575] text-lg">
-                <mat-option *ngIf="!filterOptions.length" [disabled]="true">
-                    {{ 'home.seleccion' | translate }}
-                </mat-option>
-                <mat-option *ngFor="let option of filterOptions" [value]="option.value">
-                    {{ option.label }}
-                </mat-option>
-            </mat-select>
+        <!-- Select de filtros -->
+        <div class="w-full md:w-auto">
+            <div class="w-full md:w-[200px]">
+                <mat-select [(ngModel)]="selectedFilter" (selectionChange)="onValueChange()"
+                    class="w-full h-[44px] px-4 py-2 rounded-lg border-2 border-[#C2C2C2] bg-white text-[#757575] text-lg">
+                    <mat-option *ngIf="!filterOptions.length" [disabled]="true">
+                        {{ 'home.seleccion' | translate }}
+                    </mat-option>
+                    <mat-option *ngFor="let option of filterOptions" [value]="option.value">
+                        {{ option.label }}
+                    </mat-option>
+                </mat-select>
+            </div>
         </div>
-    </div>
 
-    <!-- Botón de búsqueda -->
-    <button (click)="executeSearch()"
-        class="w-full md:w-auto h-[44px] px-8 rounded-lg bg-[#3f51b5] text-white hover:bg-[#303f9f] transition-colors">
-        Buscar
-    </button>
-</div>
-
-<!-- Filtros seleccionados -->
-<div class="mt-4" *ngIf="filtersLabels.length > 0">
-    <div class="flex flex-wrap gap-2">
-        @for (active of filtersLabels; track $index) {
-        <button (click)="deleteFilter(active.field)"
-            class="px-3 py-1 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center gap-2">
-            <span>{{ getTranslationGroup(active.field) | translate }}: {{ active.value }}</span>
-            <mat-icon class="text-red-500 h-4 w-4">close</mat-icon>
+        <!-- Botón de búsqueda -->
+        <button (click)="executeSearch()"
+            class="w-full md:w-auto h-[44px] px-8 rounded-lg bg-[#3f51b5] text-white hover:bg-[#303f9f] transition-colors">
+            {{ 'Buscar' | translate }}
         </button>
-        }
     </div>
 </div>

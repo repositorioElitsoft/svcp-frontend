@@ -385,10 +385,9 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
     if (zonaId) {
       // Resetear el sector cuando cambia la zona
       this.form.patchValue({ sector: { id: null } });
-      this.sectorService.buscarTodos(zonaId).subscribe(sectores => {
-        this.sectores = sectores;
+      this.sectorService.buscarTodos(zonaId).subscribe(response => {
+        this.sectores = response.data;
         //   this.form.get('sector')?.enable(); // Habilitar el campo sector una vez cargados los sectores
-
       });
     } else {
       console.error('El ID de la zona es inválido:', zonaId);
@@ -456,7 +455,7 @@ export class LocacionesClienteFormComponent implements OnInit, AfterViewInit {
       const sectores = await lastValueFrom(
         this.sectorService.buscarTodos(6)
       );
-      this.sectores = sectores;
+      this.sectores = sectores.data;
       console.log('Sectores cargados:', sectores);
 
       // 7. Cargar estados de servicio

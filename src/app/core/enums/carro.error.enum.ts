@@ -1,0 +1,8 @@
+export enum CarroError {
+    NO_ENCONTRADO = 'CARR_000',
+    INTEGRIDAD_VIOLADA = 'CARR_001',
+    REQUERIDO = 'CARR_002',
+    DUPLICADO = 'CARR_003',
+    ID_REQUERIDO = 'CARR_004',
+    ID_INVALIDO = 'CARR_005'
+} 

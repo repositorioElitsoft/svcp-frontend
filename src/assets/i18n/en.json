@@ -76,7 +76,8 @@
         "filtrosSeleccionados": "Selected filters ({{count}})",
         "actions": "Actions",
         "seleccionados": "{{count}} selected",
-        "of": "of"
+        "of": "of",
+        "dataDisponible": "No data available"
     },
     "opciones-mantenedor": {
         "botonAgregar": {
@@ -175,10 +176,10 @@
             "titulo": "Region",
             "descripcionRegion": "Region Description"
         },
-        "rol": {
+        "role": {
             "id": "Id",
             "titulo": "Role",
-            "descripcionRol": "Role Description"
+            "nombreRol": "Role"
         },
         "sector": {
             "id": "Id",
@@ -399,12 +400,6 @@
                 "label": "Region Description",
                 "descripcion": "Enter the description of the region"
             },
-            "rol": {
-                "tituloEditar": "Edit Role",
-                "tituloAgregar": "Create Role",
-                "label": "Role Description",
-                "descripcion": "Enter the description of the role"
-            },
             "sector": {
                 "tituloEditar": "Edit Sector",
                 "tituloAgregar": "Create Sector",
@@ -468,6 +463,12 @@
                 "label.descripcionTrabajo": "Work Description",
                 "descripcion": "Enter the description of the work"
             },
+            "tarea": {
+                "tituloEditar": "Edit Task",
+                "tituloAgregar": "Create Task",
+                "label.descripcionTarea": "Task Description",
+                "descripcion": "Enter the description of the task"
+            },
             "zona": {
                 "tituloEditar": "Edit Zone",
                 "tituloAgregar": "Create Zone",
@@ -479,6 +480,12 @@
                 "tituloAgregar": "Create Route",
                 "label.descripcion": "Route Description",
                 "descripcion": "Enter the description of the route"
+            },
+            "role": {
+                "tituloEditar": "Edit Role",
+                "tituloAgregar": "Create Role",
+                "label.nombreRol": "Role",
+                "nombreRol": "Enter the  role"
             }
         }
     },
@@ -608,6 +615,22 @@
                     "ID_INVALIDO": "The identification document type ID is not valid."
                 },
                 "tipoEmpleado": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "sector": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "role": {
                     "NO_ENCONTRADO": "The identification document type was not found.",
                     "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
                     "REQUERIDO": "The identification document type is required.",

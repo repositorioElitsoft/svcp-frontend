@@ -9,14 +9,15 @@ import { MatDialog } from "@angular/material/dialog";
 import { RoleFormComponent } from "../../../shared/components/forms/role.component";
 import { ExportarDocService } from "../../../core/services/exportar-doc.service";
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
-import { RoleService } from "../../../core/services/role.service";
-import { Role } from "../../../core/models/role.model";
 import { catchError, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { BusquedaSectorComponent } from "../sector/busqueda-sector/busqueda-sector.component";
+import { Role } from "../../../core/models/role.model";
+import { RoleService } from "../../../core/services/role.service";
 @Component({
   selector: "app-role",
   standalone: true,
@@ -26,16 +27,20 @@ import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 })
 export class RoleComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: Role[] = []; // Ahora usa la interfaz role
+  dataSource: Role[] = []; // Ahora usa la interfaz sector
   titulo: string = 'Role'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
+  dataForBusqueda: any[] = [];
   pageNumber = 0
   totalPages = 0
-  pageSize = 5;
+  pageSize = 10;
+  showDiv: boolean = false;
+  zona = null;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
+  @ViewChild('busquedaSector') busquedaSector!: BusquedaSectorComponent;
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -74,14 +79,84 @@ export class RoleComponent implements OnInit {
     console.log("Eliminar seleccionados:", ids);
   }
 
-  onExportar() {
-    console.log("Recibida solicitud de exportación");
-    // Llama al servicio para recuperar todos los datos
-    this.roleService.buscarTodos().subscribe((data: any[]) => {
-      console.log("Data recuperada:", data); // Verificar datos antes de exportar
-      // Pasar la data y el título al servicio de exportación
-      this.exportService.exportToExcel(data, this.titulo);
-    });
+  exportarExcel(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    const handleExport = (dataArray: any[], translationBase: string) => {
+      console.log("CAMINO: handleExport - Data recibida para procesar:", dataArray);
+
+      if (!Array.isArray(dataArray) || dataArray.length === 0) {
+        console.error("Error: No hay datos para exportar en handleExport.");
+        return;
+      }
+
+      let columnKeys = Object.keys(dataArray[0]);
+      if (translationBase === 'mantenedores.role') {
+        columnKeys = columnKeys.filter(key => key !== 'id');
+      }
+
+      const translationKeys = columnKeys.map(key => `${translationBase}.${key}`);
+
+      this.translate.get(translationKeys).subscribe(translations => {
+        const translatedData = dataArray.map(item => {
+          const newItem: any = {};
+          columnKeys.forEach((key, index) => {
+            const translatedKey = translations[translationKeys[index]] || key;
+            newItem[translatedKey] = item[key];
+          });
+          return newItem;
+        });
+
+        console.log("Data formateada para exportación:", translatedData);
+
+        this.translate.get(`${translationBase}.titulo`).subscribe(title => {
+          this.exportService.exportToExcel(translatedData, title);
+        });
+      });
+    };
+
+    // Verificar si this.selectedData existe y tiene contenido
+    console.log("VERIFICANDO SELECTED DATA:", this.selectedData);
+
+    if (this.selectedData && Array.isArray(this.selectedData) && this.selectedData.length > 0) {
+      console.log("CAMINO 1: Usando datos seleccionados - Cantidad:", this.selectedData.length);
+      handleExport(this.selectedData, 'mantenedores.role');
+      // Mostramos el mensaje específico para la exportación de datos seleccionados
+      this.toastr.success(this.translate.instant('alertas.toastr.exportar.seleccionado.success'));
+    } else {
+      console.log("CAMINO 2: No hay datos seleccionados, realizando llamada a API");
+
+      // Si no hay datos seleccionados o están vacíos, llamar a la API
+      const filtros = {
+        pageNumber: 0,
+        pageSize: 2000,
+        sortField: sortField,
+        sortDirection: sortDirection,
+        ...optionalFilter
+      };
+
+      console.log("Solicitando datos a la API con filtros:", filtros);
+
+      this.roleService.buscarFiltrado(filtros).subscribe(
+        (response: any) => {
+          const apiData = response?.content ?? response?.data ?? [];
+          console.log("CAMINO 2.1: Datos recibidos de API - Cantidad:", apiData.length);
+
+          if (apiData.length === 0) {
+            console.error("Error: La API no devolvió datos.");
+            this.toastr.error("No hay datos disponibles para exportar.");
+            return;
+          }
+
+          handleExport(apiData, 'mantenedores.role');
+          // Mostramos el mensaje específico para la exportación de datos de la API
+          this.toastr.success(this.translate.instant('alertas.toastr.exportar.todo.success'));
+
+        },
+        (error) => {
+          console.error("CAMINO 2.2: Error en la solicitud a la API:", error);
+          this.toastr.error("Ha ocurrido un error al obtener los datos para exportar.");
+        }
+      );
+    }
   }
 
   volver() {
@@ -98,13 +173,38 @@ export class RoleComponent implements OnInit {
   }
 
 
-  buscar(filters: any) {
-    this.pageNumber = 0;
-    this.obtenerDatos("id", "asc", filters);
+  buscar(data: { filter: any, labels: any[] }) {
+    console.log('Método buscar llamado con:', data);
+    this.activeOptionalFilters = data.labels;
+    this.obtenerDatos("id", "asc", data.filter);
   }
-  onFilterDeleted(field: string) {
-    this.activeOptionalFilters = this.activeOptionalFilters.filter((filter: any) => filter.field !== field);
-    this.obtenerDatos("id", "asc", this.activeOptionalFilters);
+
+  onFilterDelete(filterData: { field: string, value: string }) {
+    console.log('Eliminando filtro:', filterData);
+
+    // Actualizar los filtros activos
+    this.activeOptionalFilters = this.activeOptionalFilters.filter(
+      (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
+    );
+
+    // Reconstruir el objeto de filtro
+    const newFilter: any = {};
+    this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
+      if (filter.field === 'descripcionSector') {
+        newFilter.descripcionSector = filter.value;
+      } else if (filter.field === 'zona') {
+        // Aquí usamos el ID almacenado en el filterOptions
+        const zonaOption = this.busquedaSector.filterOptions.find(
+          (opt: { label: string, value: string }) => opt.label === filter.value
+        );
+        if (zonaOption) {
+          newFilter.zona = zonaOption.value;
+        }
+      }
+    });
+
+    // Obtener datos con los nuevos filtros
+    this.obtenerDatos("id", "asc", newFilter);
   }
 
 
@@ -119,6 +219,8 @@ export class RoleComponent implements OnInit {
 
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    console.log('obtenerDatos llamado con filtros:', optionalFilter);
+
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
@@ -126,6 +228,8 @@ export class RoleComponent implements OnInit {
       sortDirection: sortDirection,
       ...optionalFilter
     }
+
+    console.log('Filtros finales para la API:', mandatoryFilter);
 
     this.roleService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Role[]>) => {
       console.log("Datos recibidos:", data);
@@ -135,8 +239,6 @@ export class RoleComponent implements OnInit {
       this.pageSize = data.pageSize;
       this.totalElements = data.totalElements;
 
-      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
       this.dataSource = data.content.flat();
       if (data.content.length > 0) {
         this.displayedColumns = Object.keys(data.content[0]);
@@ -195,7 +297,7 @@ export class RoleComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
             // Limpiar selecciones en el componente hijo
             if (this.sharedTableComponent) {
@@ -211,7 +313,7 @@ export class RoleComponent implements OnInit {
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
       }
@@ -260,7 +362,7 @@ export class RoleComponent implements OnInit {
             this.obtenerDatos();
 
             // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('alertas.toastr.success'));
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
             // Limpiar selección si existe un componente compartido
             if (this.sharedTableComponent) {
@@ -276,7 +378,7 @@ export class RoleComponent implements OnInit {
           },
           error: (err: any) => {
             console.error("Error al eliminar elemento:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err.message)));
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
       }
@@ -324,5 +426,10 @@ export class RoleComponent implements OnInit {
   }
 
 
+
+  onDataEmitted(data: any[]) {
+    this.dataForBusqueda = data;
+    // Aquí podrías hacer algún procesamiento adicional si es necesario.
+  }
 
 }

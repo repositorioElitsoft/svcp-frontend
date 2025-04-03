@@ -1,0 +1,8 @@
+export enum SectorError {
+    NO_ENCONTRADO = 'SCTR_000',
+    INTEGRIDAD_VIOLADA = 'SCTR_001',
+    REQUERIDO = 'SCTR_002',
+    DUPLICADO = 'SCTR_003',
+    ID_REQUERIDO = 'SCTR_004',
+    ID_INVALIDO = 'SCTR_005'
+}

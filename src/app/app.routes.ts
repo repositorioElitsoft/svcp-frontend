@@ -21,6 +21,7 @@ import { DireccionEmpleadoComponent } from './features/views/direccion-empleado/
 import { LocacionClienteComponent } from './features/views/locacion-cliente/locacion-cliente.component';
 import { ContratoComponent } from './features/contrato/contrato.component';
 import { RutaComponent } from './features/mantenedores/ruta/ruta.component';
+import { RoleComponent } from './features/mantenedores/role/role.component';
 
 export const routes: Routes = [
     {
@@ -85,6 +86,10 @@ export const routes: Routes = [
                     {
                         path: "sectores",
                         component: SectorComponent
+                    },
+                    {
+                        path: "roles",
+                        component: RoleComponent
                     },
                     {
                         path: "zonas",

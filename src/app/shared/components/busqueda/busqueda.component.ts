@@ -28,8 +28,8 @@ export class BusquedaComponent {
   @Input() filterOptions: { label: string; value: string }[] = [];
   @Input() isSimpleSearch: boolean = false;
   @Output() valueChange = new EventEmitter<{ field: string; value: string }>();
-  @Output() simpleSearch = new EventEmitter<{ [x: string]: string }>();
-  @Output() filterSearch = new EventEmitter<{ filter: string; value: string }>();
+  @Output() simpleSearch = new EventEmitter<{ filter: any, labels: any[] }>();
+  @Output() filterSearch = new EventEmitter<{ filter: any, labels: any[] }>();
   @Input() tableData: any[] = [];
 
   selectedFilter: string = '';
@@ -74,19 +74,30 @@ export class BusquedaComponent {
   }
 
   executeSearch() {
+    const labels: any[] = [];
+    const filter: any = {};
+
     if (this.selectedFilter && this.selectedFilter !== '') {
       const selectedZone = JSON.parse(this.selectedFilter);
-      console.log('Emitiendo filterSearch:', { filter: selectedZone.id, value: selectedZone.id });
-      this.filterSearch.emit({ filter: selectedZone.id, value: selectedZone.id });
+      filter.zonaId = selectedZone.id;
+      labels.push({ field: 'Zona', value: selectedZone.label });
+      console.log('Emitiendo filterSearch:', { filter, labels });
+      this.filterSearch.emit({ filter, labels });
+    } else if (this.value) {
+      filter[this.field] = this.value;
+      labels.push({ field: this.field, value: this.value });
+      console.log('Emitiendo simpleSearch:', { filter, labels });
+      this.simpleSearch.emit({ filter, labels });
     } else {
-      console.log('Emitiendo simpleSearch:', { [this.field]: this.value });
-      this.simpleSearch.emit({ [this.field]: this.value });
+      // Si no hay filtros, emitimos un objeto vacío
+      console.log('Emitiendo sin filtros');
+      this.simpleSearch.emit({ filter: {}, labels: [] });
     }
   }
 
   shouldShowSearch(): boolean {
-    // Aquí evaluamos si hay opciones de filtro (zonas) disponibles
     return this.filterOptions.length > 0;
   }
+
   constructor(private translate: TranslateService) { }
 }

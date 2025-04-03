@@ -1,0 +1,8 @@
+export enum ContratoDetalleError {
+    NO_ENCONTRADO = 'CTDT_000',
+    INTEGRIDAD_VIOLADA = 'CTDT_001',
+    REQUERIDO = 'CTDT_002',
+    DUPLICADO = 'CTDT_003',
+    ID_REQUERIDO = 'CTDT_004',
+    ID_INVALIDO = 'CTDT_005'
+} 

@@ -1,0 +1,8 @@
+export enum TipoComponenteError {
+    NO_ENCONTRADO = 'TPCO_000',
+    INTEGRIDAD_VIOLADA = 'TPCO_001',
+    REQUERIDO = 'TPCO_002',
+    DUPLICADO = 'TPCO_003',
+    ID_REQUERIDO = 'TPCO_004',
+    ID_INVALIDO = 'TPCO_005'
+} 
