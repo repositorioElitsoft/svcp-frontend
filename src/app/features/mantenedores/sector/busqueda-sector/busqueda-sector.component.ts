@@ -28,7 +28,7 @@ import { ApiEntityResponse } from '../../../../core/models/api-entity-response.m
 export class BusquedaSectorComponent implements OnInit {
   @Input() field: string = '';
   @Input() value: string = '';
-  @Input() filterOptions: { label: string; value: string }[] = [];
+  @Input() filterOptions: any = [];
   @Input() isSimpleSearch: boolean = false;
   @Input() tableData: any[] = [];
   @Input() filters: any[] = [];
@@ -38,13 +38,13 @@ export class BusquedaSectorComponent implements OnInit {
   @Input() showDiv: boolean = true;
   @Input() translationGroup = "";
 
-  @Output() valueChange = new EventEmitter<{ field: string; value: string }>();
+
   @Output() simpleSearch = new EventEmitter<{ [x: string]: string }>();
   @Output() filterSearch = new EventEmitter<{ filter: string; value: string }>();
   @Output() applyfilter = new EventEmitter<any>();
   @Output() filterDelete = new EventEmitter<string>();
 
-  selectedFilter: string = '';
+  selectedFilter: any = {};
 
   constructor(
     private translate: TranslateService,
@@ -59,12 +59,11 @@ export class BusquedaSectorComponent implements OnInit {
     this.zonaService.buscarTodos().subscribe({
       next: (response: ApiEntityResponse<Zona[]>) => {
         if (response && response.data) {
-          this.filterOptions = response.data.map((zona: Zona) => ({
-            label: zona.descripcionZona || 'Zone',
-            value: zona.id.toString()
-          }));
+
+
+          this.filterOptions = response.data
           // Agregar opción "No seleccionado" al inicio
-          this.filterOptions.unshift({ label: 'No seleccionado', value: '' });
+          //this.filterOptions.unshift({ label: 'No seleccionado', value: '' });
         }
       },
       error: (error) => {
@@ -82,7 +81,6 @@ export class BusquedaSectorComponent implements OnInit {
   onValueChange() {
     console.log('onValueChange llamado, value:', this.value);
     if (this.isSimpleSearch) return;
-    this.valueChange.emit({ field: this.field, value: this.value });
   }
 
   executeSearch() {
@@ -101,10 +99,9 @@ export class BusquedaSectorComponent implements OnInit {
 
     // Si hay una zona seleccionada
     if (this.selectedFilter) {
-      filter.zona = this.selectedFilter;
-      const zonaLabel = this.getSelectedZonaLabel();
-      // Enviamos el label en lugar del value para mostrar
-      labels.push({ field: 'zona', value: zonaLabel });
+      filter.zona = this.selectedFilter?.id;
+
+      labels.push({ field: 'zona', value: this.selectedFilter.descripcionZona, id: this.selectedFilter.id });
     }
 
     // Siempre emitimos el filtro, incluso si está vacío
@@ -148,8 +145,5 @@ export class BusquedaSectorComponent implements OnInit {
     this.executeSearch();
   }
 
-  getSelectedZonaLabel(): string {
-    const selectedOption = this.filterOptions.find(opt => opt.value === this.selectedFilter);
-    return selectedOption ? selectedOption.label : '';
-  }
+
 }

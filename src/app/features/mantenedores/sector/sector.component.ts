@@ -176,6 +176,9 @@ export class SectorComponent implements OnInit {
   buscar(data: { filter: any, labels: any[] }) {
     console.log('Método buscar llamado con:', data);
     this.activeOptionalFilters = data.labels;
+    console.log("Data filter:", data.filter);
+
+
     this.obtenerDatos("id", "asc", data.filter);
   }
 
@@ -183,25 +186,39 @@ export class SectorComponent implements OnInit {
     console.log('Eliminando filtro:', filterData);
 
     // Actualizar los filtros activos
+    console.log("Filtros activos antes de eliminar:", this.activeOptionalFilters);
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
-      (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
+      (filter: { field: string, value: string, id: any }) => {
+        if (filter?.id) {
+          return !(filter.field === filterData.field && filter.id === filterData.value);
+        } else {
+          return !(filter.field === filterData.field && filter.value === filterData.value);
+        }
+      }
     );
+
+    console.log("Filtros activos:", this.activeOptionalFilters);
 
     // Reconstruir el objeto de filtro
     const newFilter: any = {};
-    this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
-      if (filter.field === 'descripcionSector') {
-        newFilter.descripcionSector = filter.value;
-      } else if (filter.field === 'zona') {
-        // Aquí usamos el ID almacenado en el filterOptions
-        const zonaOption = this.busquedaSector.filterOptions.find(
-          (opt: { label: string, value: string }) => opt.label === filter.value
-        );
-        if (zonaOption) {
-          newFilter.zona = zonaOption.value;
-        }
+
+
+    this.activeOptionalFilters.forEach((filter: { field: string, value: string, id: any }) => {
+
+      if (filter.id && filter.id !== null) {
+        newFilter[filter.field] = filter.id;
+      } else {
+        newFilter[filter.field] = filter.value;
       }
+
     });
+
+
+
+
+    console.log("Filtros finales:", newFilter);
+
+
 
     // Obtener datos con los nuevos filtros
     this.obtenerDatos("id", "asc", newFilter);

@@ -18,8 +18,8 @@
                     <mat-option *ngIf="!filterOptions.length" [disabled]="true">
                         {{ 'home.seleccion' | translate }}
                     </mat-option>
-                    <mat-option *ngFor="let option of filterOptions" [value]="option.value">
-                        {{ option.label }}
+                    <mat-option *ngFor="let option of filterOptions" [value]="option">
+                        {{ option.descripcionZona }}
                     </mat-option>
                 </mat-select>
             </div>

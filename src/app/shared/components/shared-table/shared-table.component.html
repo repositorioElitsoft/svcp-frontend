@@ -35,7 +35,7 @@
             <div class="inline-flex items-center">
                 <span class="text-gray-600">{{ getTranslationGroup(filter.field) | translate }}: &nbsp;{{ filter.value
                     }}</span>
-                <button (click)="onFilterDelete(filter.field, filter.value)"
+                <button (click)="onFilterDelete(filter.field, filter)"
                     class="ml-1 text-red-500 hover:text-red-700 flex items-center">
                     <mat-icon class="text-xl"
                         style="height: 20px; width: 20px; font-size: 20px; line-height: 20px;">close</mat-icon>

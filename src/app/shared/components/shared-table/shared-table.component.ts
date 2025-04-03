@@ -328,7 +328,7 @@ export class SharedTableComponent {
     this.notifySelectionChange();
   }
 
-  onFilterDelete(field: string, value: string) {
-    this.filterDelete.emit({ field, value });
+  onFilterDelete(field: string, filter: any) {
+    this.filterDelete.emit({ field, value: filter?.id || filter?.value });
   }
 }
