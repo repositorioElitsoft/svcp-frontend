@@ -330,22 +330,24 @@ export class SharedTableComponent {
   }
 
 
-  // Seleccionar o deseleccionar todas las filas
   toggleAllRows() {
     if (this.isAllSelected()) {
-      this.selection.clear();
-      this.selectedItems = [];  // Limpiar selectedItems cuando se deseleccionan todas
+      // Deseleccionar solo los elementos de la página actual
+      this.dataSource.forEach(row => this.selection.deselect(row));
+      // Filtrar selectedItems para eliminar solo los elementos de la página actual
+      this.selectedItems = this.selectedItems.filter(
+        selectedItem => !this.dataSource.some(pageItem => pageItem.id === selectedItem.id)
+      );
     } else {
+      // Seleccionar todos los elementos de la página actual
       this.selection.select(...this.dataSource);
-      // Agregar los elementos seleccionados a selectedItems globalmente sin duplicados
-      this.selectedItems = [
-        ...new Map(
-          [...this.selectedItems, ...this.dataSource].map(item => [item.id, item])
-        ).values()
-      ];
+      // Agregar elementos nuevos a selectedItems (evitando duplicados)
+      const newItems = this.dataSource.filter(
+        row => !this.selectedItems.some(item => item.id === row.id)
+      );
+      this.selectedItems = [...this.selectedItems, ...newItems];
     }
-    this.notifySelectionChange(); // Notificar cambios en la selección
+    this.notifySelectionChange();
   }
-
 
 }

@@ -494,6 +494,14 @@
             "editar": {
                 "success": "Information has been successfully modified"
             },
+            "exportar": {
+                "todo": {
+                    "success": "The export completed successfully. All records have been exported."
+                },
+                "seleccionado": {
+                    "success": "The export completed successfully. The selected records have been exported."
+                }
+            },
             "eliminar": {
                 "success": "Deletion has been successfully completed"
             },

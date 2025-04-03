@@ -507,6 +507,14 @@
             "editar": {
                 "success": "Información ha sido modificada con éxito"
             },
+            "exportar": {
+                "todo": {
+                    "success": "La exportación se completó con éxito. Se han exportado todos los registros."
+                },
+                "seleccionado": {
+                    "success": "La exportación se completó con éxito. Se han exportado los registros seleccionados."
+                }
+            },
             "eliminar": {
                 "success": "Se ha realizado la eliminación correctamente"
             },

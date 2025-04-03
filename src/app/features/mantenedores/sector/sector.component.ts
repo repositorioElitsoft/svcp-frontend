@@ -17,10 +17,11 @@ import { HeadTableComponent } from "../../../shared/head-table/head-table.compon
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { BusquedaSectorComponent } from "./busqueda-sector/busqueda-sector.component";
 @Component({
   selector: "app-sector",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, BusquedaSectorComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
   templateUrl: "./sector.component.html",
   styleUrl: "./sector.component.css",
 })
@@ -135,11 +136,27 @@ export class SectorComponent implements OnInit {
 
   buscar(filters: any) {
     this.pageNumber = 0;
-    this.obtenerDatos("id", "asc", filters);
+    // Asegurarse de que los filtros se procesen correctamente
+    if (Array.isArray(filters)) {
+      // Si es un array, convertir a objeto
+      const filterObject = filters.reduce((acc: any, filter: any) => {
+        acc[filter.field] = filter.value;
+        return acc;
+      }, {});
+      this.obtenerDatos("id", "asc", filterObject);
+    } else {
+      // Si ya es un objeto, usarlo directamente
+      this.obtenerDatos("id", "asc", filters);
+    }
   }
   onFilterDeleted(field: string) {
     this.activeOptionalFilters = this.activeOptionalFilters.filter((filter: any) => filter.field !== field);
-    this.obtenerDatos("id", "asc", this.activeOptionalFilters);
+    // Convertir activeOptionalFilters a objeto para la búsqueda
+    const filterObject = this.activeOptionalFilters.reduce((acc: any, filter: any) => {
+      acc[filter.field] = filter.value;
+      return acc;
+    }, {});
+    this.obtenerDatos("id", "asc", filterObject);
   }
 
 
