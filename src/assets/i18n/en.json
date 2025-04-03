@@ -96,47 +96,47 @@
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Commercial Grouping",
-            "nombreGrupoComercial": "Commercial Grouping Description"
+            "nombreGrupoComercial": "Commercial Grouping "
         },
         "asignacionPermiso": {
             "id": "Id",
             "titulo": "Permission Assignment",
-            "descripcionAsignacionPermiso": "Permission Assignment Description"
+            "descripcionAsignacionPermiso": "Permission Assignment "
         },
         "asignacionRol": {
             "id": "Id",
             "titulo": "Role Assignment",
-            "descripcionAsignacionRol": "Role Assignment Description"
+            "descripcionAsignacionRol": "Role Assignment "
         },
         "asignacionTarea": {
             "id": "Id",
             "titulo": "Task Assignment",
-            "descripcionAsignacionTarea": "Task Assignment Description"
+            "descripcionAsignacionTarea": "Task Assignment "
         },
         "asignacionTrabajo": {
             "id": "Id",
             "titulo": "Work Assignment",
-            "descripcionAsignacionTrabajo": "Work Assignment Description"
+            "descripcionAsignacionTrabajo": "Work Assignment "
         },
         "calendarizacion": {
             "id": "Id",
             "titulo": "Scheduling",
-            "descripcionCalendarizacion": "Scheduling Description"
+            "descripcionCalendarizacion": "Scheduling "
         },
         "clasificacionCliente": {
             "id": "Id",
             "titulo": "Client Classification",
-            "clasificacionClienteDesc": "Client Classification Description"
+            "clasificacionClienteDesc": "Client Classification "
         },
         "cliente": {
             "id": "Id",
             "titulo": "Client",
-            "descripcionCliente": "Client Description"
+            "descripcionCliente": "Client "
         },
         "comuna": {
             "id": "Id",
             "titulo": "Commune",
-            "descripcionComuna": "Commune Description"
+            "descripcionComuna": "Commune "
         },
         "empleado": {
             "id": "Id",
@@ -145,37 +145,37 @@
             "apellidoPaterno": "First Lastname",
             "apellidoMaterno": "Second Lastname",
             "imagenPerfil": "Image",
-            "descripcionEmpleado": "Employee Description"
+            "descripcionEmpleado": "Employee "
         },
         "gestionContrato": {
             "id": "Id",
             "titulo": "Contract Management",
-            "descripcionGestionContrato": "Contract Management Description"
+            "descripcionGestionContrato": "Contract Management "
         },
         "informeOt": {
             "id": "Id",
             "titulo": "OT Report",
-            "descripcionInformeOt": "OT Report Description"
+            "descripcionInformeOt": "OT Report "
         },
         "locacion": {
             "id": "Id",
             "titulo": "Location",
-            "descripcionLocacion": "Location Description"
+            "descripcionLocacion": "Location "
         },
         "pais": {
             "id": "Id",
             "titulo": "Country",
-            "descripcionPais": "Country Description"
+            "descripcionPais": "Country "
         },
         "producto": {
             "id": "Id",
             "titulo": "Product",
-            "descripcionProducto": "Product Description"
+            "descripcionProducto": "Product "
         },
         "region": {
             "id": "Id",
             "titulo": "Region",
-            "descripcionRegion": "Region Description"
+            "descripcionRegion": "Region "
         },
         "role": {
             "id": "Id",
@@ -185,57 +185,57 @@
         "sector": {
             "id": "Id",
             "titulo": "Sector",
-            "descripcionSector": "Sector Description"
+            "descripcionSector": "Sector "
         },
         "segmentacionCliente": {
             "id": "Id",
             "titulo": "Client Segmentation",
-            "descripcion": "Client Segmentation Description"
+            "descripcion": "Client Segmentation "
         },
         "servicio": {
             "id": "Id",
             "titulo": "Service",
-            "descripcionServicio": "Service Description"
+            "descripcionServicio": "Service "
         },
         "tarea": {
             "id": "Id",
             "titulo": "Task",
-            "descripcionTarea": "Task Description"
+            "descripcionTarea": "Task "
         },
         "tipoCliente": {
             "id": "Id",
             "titulo": "Client Type",
-            "nombre": "Client Type Description"
+            "nombre": "Client Type "
         },
         "tipoEmpleado": {
             "id": "Id",
             "titulo": "Employee Type",
-            "descripcionTipoEmpleado": "Employee Type Description"
+            "descripcionTipoEmpleado": "Employee Type"
         },
         "tipoProducto": {
             "id": "Id",
             "titulo": "Product Type",
-            "descripcionTipoProducto": "Product Type Description"
+            "descripcionTipoProducto": "Product Type"
         },
         "tipoServicio": {
             "id": "Id",
             "titulo": "Service Type",
-            "descripcionTipoServicio": "Service Type Description"
+            "descripcionTipoServicio": "Service Type"
         },
         "trabajo": {
             "id": "Id",
             "titulo": "Work",
-            "descripcionTrabajo": "Work Description"
+            "descripcionTrabajo": "Work"
         },
         "zona": {
             "id": "Id",
             "titulo": "Zone",
-            "descripcionZona": "Zone Description"
+            "descripcionZona": "Zone"
         },
         "ruta": {
             "id": "Id",
             "titulo": "Routes",
-            "descripcion": "Routes Description"
+            "descripcion": "Routes"
         },
         "formularios": {
             "campoRequerido": "This field is required",
@@ -248,44 +248,44 @@
             "agrupacionComercial": {
                 "tituloEditar": "Edit Commercial Grouping",
                 "tituloAgregar": "Create Commercial Grouping",
-                "label.nombreGrupoComercial": "Commercial Grouping Description",
-                "descripcion": "Enter the description of the commercial grouping"
+                "label.nombreGrupoComercial": "Commercial Grouping",
+                "descripcion": "Enter the commercial grouping"
             },
             "asignacionPermiso": {
                 "tituloEditar": "Edit Permission Assignment",
                 "tituloAgregar": "Create Permission Assignment",
-                "label.descripcionPermiso": "Permission Assignment Description",
-                "descripcion": "Enter the description of the permission assignment"
+                "label.descripcionPermiso": "Permission Assignment",
+                "descripcion": "Enter the permission assignment"
             },
             "asignacionRol": {
                 "tituloEditar": "Edit Role Assignment",
                 "tituloAgregar": "Create Role Assignment",
-                "label": "Role Assignment Description",
-                "descripcion": "Enter the description of the role assignment"
+                "label": "Role Assignment",
+                "descripcion": "Enter the role assignment"
             },
             "asignacionTarea": {
                 "tituloEditar": "Edit Task Assignment",
                 "tituloAgregar": "Create Task Assignment",
-                "label": "Task Assignment Description",
-                "descripcion": "Enter the description of the task assignment"
+                "label": "Task Assignment",
+                "descripcion": "Enter the task assignment"
             },
             "asignacionTrabajo": {
                 "tituloEditar": "Edit Work Assignment",
                 "tituloAgregar": "Create Work Assignment",
-                "label": "Work Assignment Description",
-                "descripcion": "Enter the description of the work assignment"
+                "label": "Work Assignment",
+                "descripcion": "Enter the work assignment"
             },
             "calendarizacion": {
                 "tituloEditar": "Edit Scheduling",
                 "tituloAgregar": "Create Scheduling",
-                "label": "Scheduling Description",
+                "label": "Scheduling",
                 "descripcion": "Enter the description of the scheduling"
             },
             "clasificacionCliente": {
                 "tituloEditar": "Edit Client Classification",
                 "tituloAgregar": "Create Client Classification",
-                "label.clasificacionClienteDesc": "Client Classification Description",
-                "descripcion": "Enter the description of the client classification"
+                "label.clasificacionClienteDesc": "Client Classification",
+                "descripcion": "Enter the client classification"
             },
             "cliente": {
                 "menus": {
@@ -320,8 +320,8 @@
             "comuna": {
                 "tituloEditar": "Edit Commune",
                 "tituloAgregar": "Create Commune",
-                "label.descripcionComuna": "Commune Description",
-                "descripcion": "Enter the description of the commune"
+                "label.descripcionComuna": "Commune",
+                "descripcion": "Enter the commune"
             },
             "direccionEmpleado": {
                 "tituloEditar": "Edit Address and Location",

@@ -17,10 +17,12 @@ import { HeadTableComponent } from "../../../shared/head-table/head-table.compon
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
+
 @Component({
   selector: "app-trabajo",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaGenericaComponent],
   templateUrl: "./trabajo.component.html",
   styleUrl: "./trabajo.component.css",
 })
@@ -168,11 +170,14 @@ export class TrabajoComponent implements OnInit {
   }
 
 
-  buscar(filters: any) {
+  buscar(data: { filter: any, labels: any[] }) {
+    console.log('Search input:', data);
     this.pageNumber = 0;
-    this.obtenerDatos("id", "asc", filters);
+    this.activeOptionalFilters = data.labels || [];
+    this.obtenerDatos("id", "asc", data.filter);
   }
   onFilterDeleted(filterData: { field: string, value: string }) {
+    console.log('Deleting filter:', filterData);
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );

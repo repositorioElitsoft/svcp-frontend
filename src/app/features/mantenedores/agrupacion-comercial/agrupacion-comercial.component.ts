@@ -16,11 +16,13 @@ import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
-import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils";
+import { BusquedaGenericaComponent } from '../../../shared/components/busqueda-generica/busqueda-generica.component';
+
 @Component({
   selector: "app-agrupacion-comercial",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaGenericaComponent],
   templateUrl: "./agrupacion-comercial.component.html",
   styleUrl: "./agrupacion-comercial.component.css",
 })
@@ -35,7 +37,7 @@ export class AgrupacionComercialComponent implements OnInit {
   pageSize = 10;
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
-  activeOptionalFilters: any = [];
+  activeOptionalFilters: any[] = [];
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -172,18 +174,29 @@ export class AgrupacionComercialComponent implements OnInit {
   }
 
 
-  buscar(filters: any) {
-    this.pageNumber = 0;
-    this.obtenerDatos("id", "asc", filters);
+  buscar(data: { filter: any, labels: any[] }) {
+    console.log('Método buscar llamado con:', data);
+    this.activeOptionalFilters = data.labels;
+    this.obtenerDatos("id", "asc", data.filter);
   }
+
   onFilterDeleted(filterData: { field: string, value: string }) {
+    console.log('Eliminando filtro:', filterData);
+
+    // Actualizar los filtros activos
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );
-    const newFilter = this.activeOptionalFilters.reduce((acc: any, filter: { field: string, value: string }) => {
-      acc[filter.field] = filter.value;
-      return acc;
-    }, {});
+
+    // Reconstruir el objeto de filtro
+    const newFilter: any = {};
+    this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
+      if (filter.field === 'nombreGrupoComercial') {
+        newFilter.nombreGrupoComercial = filter.value;
+      }
+    });
+
+    // Obtener datos con los nuevos filtros
     this.obtenerDatos("id", "asc", newFilter);
   }
 

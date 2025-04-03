@@ -29,6 +29,12 @@
 
             </div>
 
+            <!--Search Genérico-->
+            <app-busqueda-generica [fieldName]="'descripcion'" [translationPrefix]="'mantenedores.tipoProducto'"
+                [translationFieldKey]="'descripcion'" [placeholderTranslationKey]="'table.digiteBusqueda'"
+                [buttonText]="'mantenedores.buscar'" (applyfilter)="buscar($event)">
+            </app-busqueda-generica>
+
             <!-- Table Section -->
 
             <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">

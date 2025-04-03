@@ -28,7 +28,11 @@
 
             </div>
 
-
+            <!--Search Genérico-->
+            <app-busqueda-generica [fieldName]="'descripcionTrabajo'" [translationPrefix]="'mantenedores.trabajo'"
+                [translationFieldKey]="'descripcionTrabajo'" [placeholderTranslationKey]="'table.digiteBusqueda'"
+                [buttonText]="'mantenedores.buscar'" (applyfilter)="buscar($event)">
+            </app-busqueda-generica>
 
             <!-- Table Section -->
 
