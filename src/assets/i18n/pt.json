@@ -75,7 +75,8 @@
         "filtrosSeleccionados": "Filtros selecionados {{count}}",
         "actions": "Ações",
         "seleccionados": "{{count}} selecionados",
-        "of": "de"
+        "of": "de",
+        "dataDisponible": "Não há dados disponíveis"
     },
     "opciones-mantenedor": {
         "botonAgregar": {
