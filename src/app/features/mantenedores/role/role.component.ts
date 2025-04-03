@@ -18,10 +18,11 @@ import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { BusquedaSectorComponent } from "../sector/busqueda-sector/busqueda-sector.component";
 import { Role } from "../../../core/models/role.model";
 import { RoleService } from "../../../core/services/role.service";
+import { BusquedaRoleComponent } from "./busqueda-role/busqueda-role.component";
 @Component({
   selector: "app-role",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaRoleComponent],
   templateUrl: "./role.component.html",
   styleUrl: "./role.component.css",
 })
@@ -40,7 +41,7 @@ export class RoleComponent implements OnInit {
   totalElements = 0;
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
-  @ViewChild('busquedaSector') busquedaSector!: BusquedaSectorComponent;
+  @ViewChild('busquedaRol') busquedaRol!: BusquedaRoleComponent;
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -190,16 +191,8 @@ export class RoleComponent implements OnInit {
     // Reconstruir el objeto de filtro
     const newFilter: any = {};
     this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
-      if (filter.field === 'descripcionSector') {
-        newFilter.descripcionSector = filter.value;
-      } else if (filter.field === 'zona') {
-        // Aquí usamos el ID almacenado en el filterOptions
-        const zonaOption = this.busquedaSector.filterOptions.find(
-          (opt: { label: string, value: string }) => opt.label === filter.value
-        );
-        if (zonaOption) {
-          newFilter.zona = zonaOption.value;
-        }
+      if (filter.field === 'nombreRol') {
+        newFilter.nombreRol = filter.value;
       }
     });
 
