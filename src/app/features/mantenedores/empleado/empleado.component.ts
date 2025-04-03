@@ -32,8 +32,9 @@ export class EmpleadoComponent implements OnInit {
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
   totalPages = 0
-  pageSize = 5;
+  pageSize = 10;
   totalElements = 0;
+  isLoading = false; // Variable para controlar el estado de carga
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
@@ -123,6 +124,11 @@ export class EmpleadoComponent implements OnInit {
 
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    console.log('Obteniendo datos con filtros:', optionalFilter);
+
+    // Activar el estado de carga
+    this.isLoading = true;
+
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
@@ -131,22 +137,33 @@ export class EmpleadoComponent implements OnInit {
       ...optionalFilter
     }
 
-    this.empleadoService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Empleado[]>) => {
-      console.log("Datos recibidos:", data);
+    this.empleadoService.buscarFiltrado(mandatoryFilter).subscribe(
+      (data: PagedResponse<Empleado[]>) => {
+        console.log("Datos recibidos:", data);
 
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
+        this.pageNumber = data.pageNumber
+        this.totalPages = data.totalPages
+        this.pageSize = data.pageSize;
+        this.totalElements = data.totalElements;
 
-      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]);
+        this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
+        this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
+        this.dataSource = data.content.flat();
+        if (data.content.length > 0) {
+          this.displayedColumns = Object.keys(data.content[0]);
+        }
+
+        // Desactivar el estado de carga
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error => {
+        console.error('Error al obtener datos:', error);
+        // Desactivar el estado de carga en caso de error
+        this.isLoading = false;
+        this.cdr.detectChanges();
       }
-      this.cdr.detectChanges();
-    });
+    );
   }
 
 

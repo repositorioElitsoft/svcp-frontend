@@ -39,6 +39,7 @@ export class RoleComponent implements OnInit {
   showDiv: boolean = false;
   zona = null;
   totalElements = 0;
+  isLoading = false; // Variable para controlar el estado de carga
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
   @ViewChild('busquedaRol') busquedaRol!: BusquedaRoleComponent;
@@ -214,6 +215,9 @@ export class RoleComponent implements OnInit {
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     console.log('obtenerDatos llamado con filtros:', optionalFilter);
 
+    // Activar el estado de carga
+    this.isLoading = true;
+
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
@@ -224,20 +228,31 @@ export class RoleComponent implements OnInit {
 
     console.log('Filtros finales para la API:', mandatoryFilter);
 
-    this.roleService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Role[]>) => {
-      console.log("Datos recibidos:", data);
+    this.roleService.buscarFiltrado(mandatoryFilter).subscribe(
+      (data: PagedResponse<Role[]>) => {
+        console.log("Datos recibidos:", data);
 
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
+        this.pageNumber = data.pageNumber
+        this.totalPages = data.totalPages
+        this.pageSize = data.pageSize;
+        this.totalElements = data.totalElements;
 
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]);
+        this.dataSource = data.content.flat();
+        if (data.content.length > 0) {
+          this.displayedColumns = Object.keys(data.content[0]);
+        }
+
+        // Desactivar el estado de carga
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error => {
+        console.error('Error al obtener datos:', error);
+        // Desactivar el estado de carga en caso de error
+        this.isLoading = false;
+        this.cdr.detectChanges();
       }
-      this.cdr.detectChanges();
-    });
+    );
   }
 
 
