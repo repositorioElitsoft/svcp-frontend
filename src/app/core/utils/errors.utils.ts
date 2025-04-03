@@ -7,6 +7,17 @@ import { TipoDocumentoIdentificacionError } from '../enums/tipo-documento-enumer
 import { TipoDireccionError } from '../enums/tipo-direccion.error.enum';
 import { SectorError } from '../enums/sector.error.enum';
 import { RolesError } from '../enums/role.error.enum';
+import { TareaError } from '../enums/tarea.error.enum';
+import { ContratoDetalleProductoError } from '../enums/contrato-detalle-producto.error.enum';
+import { ContratoDetalleTipoProductoError } from '../enums/contrato-detalle-tipo-producto.error.enum';
+import { ContratoError } from '../enums/contrato.error.enum';
+import { ServicioError } from '../enums/servicio.error.enum';
+import { TipoEmpleadoError } from '../enums/tipo-empleado.error.enum';
+import { TipoProductoTipoComponenteError } from '../enums/tipo-producto-tipo-componente.error.enum';
+import { TipoProductoError } from '../enums/tipo-producto.error.enum';
+import { TrabajoError } from '../enums/trabajo.error.enum';
+import { ClasificacionClienteError } from '../enums/clasificacion-cliente.error.enum';
+import { CarroError } from '../enums/carro.error.enum';
 
 // Mapa de prefijo a sección para construir los paths de i18n
 const prefixToSection: { [key: string]: string } = {
@@ -41,7 +52,18 @@ const errorEnums = [
     TipoDocumentoIdentificacionError,
     TipoDireccionError,
     SectorError,
-    RolesError
+    RolesError,
+    TareaError,
+    ServicioError,
+    TipoProductoError,
+    TipoProductoTipoComponenteError,
+    TrabajoError,
+    TipoEmpleadoError,
+    ContratoError,
+    ContratoDetalleProductoError,
+    ContratoDetalleTipoProductoError,
+    CarroError,
+    ClasificacionClienteError
 ];
 
 // Creamos el mapa inverso de códigos
