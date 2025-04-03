@@ -60,7 +60,7 @@ export class BusquedaSectorComponent implements OnInit {
       next: (response: ApiEntityResponse<Zona[]>) => {
         if (response && response.data) {
           this.filterOptions = response.data.map((zona: Zona) => ({
-            label: zona.descripcionZona || 'Zona',
+            label: zona.descripcionZona || 'Zone',
             value: zona.id.toString()
           }));
           // Agregar opción "No seleccionado" al inicio
