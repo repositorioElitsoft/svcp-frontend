@@ -478,8 +478,8 @@
             "role": {
                 "tituloEditar": "Editar Cargo",
                 "tituloAgregar": "Criar Cargo",
-                "label": "Cargo",
-                "descripcion": "Insira a Cargo"
+                "label.nombreRol": "Cargo",
+                "nombreRol": "Insira a Cargo"
             }
         }
     },
