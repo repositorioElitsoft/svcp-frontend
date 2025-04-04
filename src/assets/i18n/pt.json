@@ -179,7 +179,7 @@
         "sector": {
             "id": "Id",
             "titulo": "Setor",
-            "descripcionSector": "Descrição do Setor"
+            "descripcionSector": "Setor"
         },
         "segmentacionCliente": {
             "id": "Id",
@@ -404,7 +404,7 @@
                 "tituloEditar": "Editar Setor",
                 "tituloAgregar": "Criar Setor",
                 "label": {
-                    "descripcionSector": "Descrição do Setor",
+                    "descripcionSector": "Setor",
                     "zona": "Zona"
                 },
                 "descripcion": "Digite a descrição do setor"
