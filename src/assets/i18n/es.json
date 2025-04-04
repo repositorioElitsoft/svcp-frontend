@@ -73,7 +73,7 @@
         "logout": "Cerrar Sesión"
     },
     "table": {
-        "filtrosSeleccionados": "Filtros Seleccionados ({{count}})",
+        "filtrosSeleccionados": "Filtros activos ({{count}})",
         "actions": "Acciones",
         "seleccionados": "{{count}} elementos seleccionados",
         "of": "de",

@@ -72,7 +72,7 @@
         "logout": "Sair"
     },
     "table": {
-        "filtrosSeleccionados": "Filtros selecionados {{count}}",
+        "filtrosSeleccionados": "Filtros ativos ({{count}})",
         "actions": "Ações",
         "seleccionados": "{{count}} elementos selecionados",
         "of": "de",
