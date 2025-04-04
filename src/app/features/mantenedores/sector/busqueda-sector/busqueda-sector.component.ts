@@ -43,6 +43,7 @@ export class BusquedaSectorComponent implements OnInit {
   @Output() filterSearch = new EventEmitter<{ filter: string; value: string }>();
   @Output() applyfilter = new EventEmitter<any>();
   @Output() filterDelete = new EventEmitter<string>();
+  zonaSelectAbierto: boolean = false;
 
   selectedFilter: any = {};
 
@@ -60,9 +61,8 @@ export class BusquedaSectorComponent implements OnInit {
       next: (response: ApiEntityResponse<Zona[]>) => {
         if (response && response.data) {
           this.filterOptions = response.data;
-          // Agregar opción "Todos" al inicio utilizando la traducción
-          this.filterOptions.unshift({ id: null, descripcionZona: this.translate.instant('mantenedores.seleccion') });
-          // Seleccionar la opción "Todos" por defecto
+          const descripcion = this.translate.instant('mantenedores.zona.titulo');
+          this.filterOptions.unshift({ id: null, descripcionZona: descripcion });
           this.selectedFilter = this.filterOptions[0];
         }
       },
@@ -71,6 +71,7 @@ export class BusquedaSectorComponent implements OnInit {
       }
     });
   }
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['tableData']) {
@@ -142,6 +143,15 @@ export class BusquedaSectorComponent implements OnInit {
   clearZona() {
     this.selectedFilter = this.filterOptions[0];
     this.executeSearch();
+  }
+
+
+  onZonaSelectOpen() {
+    if (!this.zonaSelectAbierto && this.filterOptions.length > 0) {
+      const nuevaDescripcion = this.translate.instant('mantenedores.seleccion');
+      this.filterOptions[0].descripcionZona = nuevaDescripcion;
+      this.zonaSelectAbierto = true;
+    }
   }
 
 
