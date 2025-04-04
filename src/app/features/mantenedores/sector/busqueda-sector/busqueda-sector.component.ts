@@ -63,7 +63,7 @@ export class BusquedaSectorComponent implements OnInit {
 
           this.filterOptions = response.data
           // Agregar opción "No seleccionado" al inicio
-          //this.filterOptions.unshift({ label: 'No seleccionado', value: '' });
+          this.filterOptions.unshift({ label: 'No seleccionado', value: '' });
         }
       },
       error: (error) => {
