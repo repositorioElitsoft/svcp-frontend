@@ -78,7 +78,7 @@
         "seleccionados": "{{count}} seleccionados",
         "of": "de",
         "dataDisponible": "No hay datos disponibles",
-        "digiteBusqueda": "Ingrese un"
+        "digiteBusqueda": "Ingrese"
     },
     "opciones-mantenedor": {
         "botonAgregar": {
@@ -93,6 +93,7 @@
         "siguiente": "Siguiente",
         "buscar": "Buscar",
         "id": "Id",
+        "seleccion": "Seleccione una opción",
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Agrupación Comercial",

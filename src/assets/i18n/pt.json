@@ -91,6 +91,7 @@
         "volver": "Voltar",
         "id": "Id",
         "buscar": "Buscar",
+        "seleccion": "Selecione uma opção",
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Agrupamento Comercial",

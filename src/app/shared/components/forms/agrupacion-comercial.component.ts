@@ -50,6 +50,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AgrupacionComercialFormComponent implements OnInit {
   form!: FormGroup;
+  isLoading = false; // Variable para controlar el estado de carga
 
   readonly dialogRef = inject(MatDialogRef<AgrupacionComercialFormComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
@@ -102,6 +103,9 @@ export class AgrupacionComercialFormComponent implements OnInit {
     console.log("Formulario enviado:", this.form.value);
 
     if (this.form.valid) {
+      // Activar el estado de carga
+      this.isLoading = true;
+
       const formData: AgrupacionComercial = {
         /*form-fields-submit*/
         id: this.form.value.id,
@@ -114,10 +118,14 @@ export class AgrupacionComercialFormComponent implements OnInit {
       if (this.esActualizar()) {
         this.agrupacionComercialService.actualizar(formData.id, formData).subscribe({
           next: (response) => {
+            // Desactivar el estado de carga
+            this.isLoading = false;
             this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
+            // Desactivar el estado de carga en caso de error
+            this.isLoading = false;
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
             this.toastr.error(errorMessage);
           }
@@ -127,10 +135,14 @@ export class AgrupacionComercialFormComponent implements OnInit {
       else {
         this.agrupacionComercialService.crear(formData).subscribe({
           next: (response) => {
+            // Desactivar el estado de carga
+            this.isLoading = false;
             this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
+            // Desactivar el estado de carga en caso de error
+            this.isLoading = false;
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }

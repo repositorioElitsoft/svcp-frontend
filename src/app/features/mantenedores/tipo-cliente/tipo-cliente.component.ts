@@ -18,10 +18,20 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { ApiEntityResponse } from "../../../core/models/api-entity-response.model";
+import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
 @Component({
   selector: "app-tipo-cliente",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule],
+  imports: [
+    CommonModule,
+    SharedTableComponent,
+    MatIconModule,
+    HeadTableComponent,
+    MatPaginatorModule,
+    OpcionesMantenedorComponent,
+    TranslateModule,
+    BusquedaGenericaComponent
+  ],
   templateUrl: "./tipo-cliente.component.html",
   styleUrl: "./tipo-cliente.component.css",
 })
@@ -35,6 +45,7 @@ export class TipoClienteComponent implements OnInit {
   totalPages = 0
   pageSize = 10;
   totalElements = 0;
+  isLoading = false; // Variable para controlar el estado de carga
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
@@ -172,17 +183,35 @@ export class TipoClienteComponent implements OnInit {
 
 
   buscar(filters: any) {
+    console.log('Aplicando filtros desde búsqueda genérica:', filters);
     this.pageNumber = 0;
-    this.obtenerDatos("id", "asc", filters);
+
+    // Si los filtros vienen del componente de búsqueda genérica, tendrán una estructura específica
+    let optionalFilter = {};
+
+    if (filters.filter) {
+      // Formato de búsqueda genérica: { filter: {...}, labels: [...] }
+      optionalFilter = filters.filter;
+    } else {
+      // Formato antiguo o directo
+      optionalFilter = filters;
+    }
+
+    this.obtenerDatos("id", "asc", optionalFilter);
   }
   onFilterDeleted(filterData: { field: string, value: string }) {
+    console.log('Eliminando filtro:', filterData);
+
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );
+
     const newFilter = this.activeOptionalFilters.reduce((acc: any, filter: { field: string, value: string }) => {
       acc[filter.field] = filter.value;
       return acc;
     }, {});
+
+    console.log('Nuevos filtros después de eliminar:', newFilter);
     this.obtenerDatos("id", "asc", newFilter);
   }
 
@@ -197,6 +226,11 @@ export class TipoClienteComponent implements OnInit {
 
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    console.log('Obteniendo datos con filtros:', optionalFilter);
+
+    // Activar el estado de carga
+    this.isLoading = true;
+
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
@@ -205,22 +239,37 @@ export class TipoClienteComponent implements OnInit {
       ...optionalFilter
     }
 
-    this.tipoClienteService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<TipoCliente[]>) => {
-      console.log("Datos recibidos:", data);
+    this.tipoClienteService.buscarFiltrado(mandatoryFilter).subscribe(
+      (data: PagedResponse<TipoCliente[]>) => {
+        console.log("Datos recibidos:", data);
 
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
+        this.pageNumber = data.pageNumber
+        this.totalPages = data.totalPages
+        this.pageSize = data.pageSize;
+        this.totalElements = data.totalElements;
 
-      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]);
+        // Actualizar los filtros activos basados en el optionalFilter
+        this.activeOptionalFilters = Object.entries(optionalFilter)
+          .map(([field, value]) => ({ field, value }))
+          .filter((ao: any) => ao.value !== null && ao.value !== undefined && ao.value !== '');
+
+        console.log('Filtros activos actualizados:', this.activeOptionalFilters);
+
+        this.dataSource = data.content.flat();
+        if (data.content.length > 0) {
+          this.displayedColumns = Object.keys(data.content[0]).filter(col => col !== 'id');
+        }
+        // Desactivar el estado de carga
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error => {
+        console.error('Error al obtener datos:', error);
+        // Desactivar el estado de carga en caso de error
+        this.isLoading = false;
+        this.cdr.detectChanges();
       }
-      this.cdr.detectChanges();
-    });
+    );
   }
 
 

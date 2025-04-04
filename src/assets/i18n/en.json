@@ -93,6 +93,7 @@
         "siguiente": "Next",
         "buscar": "Search",
         "id": "Id",
+        "seleccion": "Select an option",
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Commercial Grouping",

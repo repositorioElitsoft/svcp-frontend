@@ -10,11 +10,22 @@ import { BehaviorSubject, filter } from "rxjs";
 import { TranslateModule } from "@ngx-translate/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { BusquedaComponent } from "../busqueda/busqueda.component";
+import { SkeletonTableComponent } from "../skeleton-table/skeleton-table.component";
 
 @Component({
   selector: "app-shared-table",
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatCheckboxModule, MatButtonModule, MatIconModule, TranslateModule, MatPaginatorModule, BusquedaComponent],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatIconModule,
+    TranslateModule,
+    MatPaginatorModule,
+    BusquedaComponent,
+    SkeletonTableComponent
+  ],
   templateUrl: "./shared-table.component.html",
   styleUrls: ["./shared-table.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush, // Optimización

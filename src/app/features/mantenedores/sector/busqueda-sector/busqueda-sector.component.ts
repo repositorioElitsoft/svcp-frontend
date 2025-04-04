@@ -59,11 +59,11 @@ export class BusquedaSectorComponent implements OnInit {
     this.zonaService.buscarTodos().subscribe({
       next: (response: ApiEntityResponse<Zona[]>) => {
         if (response && response.data) {
-
-
-          this.filterOptions = response.data
-          // Agregar opción "No seleccionado" al inicio
-          this.filterOptions.unshift({ label: 'No seleccionado', value: '' });
+          this.filterOptions = response.data;
+          // Agregar opción "Todos" al inicio utilizando la traducción
+          this.filterOptions.unshift({ id: null, descripcionZona: this.translate.instant('mantenedores.seleccion') });
+          // Seleccionar la opción "Todos" por defecto
+          this.selectedFilter = this.filterOptions[0];
         }
       },
       error: (error) => {
@@ -97,10 +97,9 @@ export class BusquedaSectorComponent implements OnInit {
       labels.push({ field: 'descripcionSector', value: this.value });
     }
 
-    // Si hay una zona seleccionada
-    if (this.selectedFilter) {
+    // Si hay una zona seleccionada y no es la opción "Todos"
+    if (this.selectedFilter && this.selectedFilter.id !== null) {
       filter.zona = this.selectedFilter?.id;
-
       labels.push({ field: 'zona', value: this.selectedFilter.descripcionZona, id: this.selectedFilter.id });
     }
 
@@ -141,7 +140,7 @@ export class BusquedaSectorComponent implements OnInit {
   }
 
   clearZona() {
-    this.selectedFilter = '';
+    this.selectedFilter = this.filterOptions[0];
     this.executeSearch();
   }
 

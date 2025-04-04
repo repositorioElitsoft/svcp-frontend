@@ -36,6 +36,7 @@ export class ZonaComponent implements OnInit {
   totalPages = 0
   pageSize = 10;
   totalElements = 0;
+  isLoading = false; // Variable para controlar el estado de carga
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any[] = [];
   constructor(private cdr: ChangeDetectorRef,
