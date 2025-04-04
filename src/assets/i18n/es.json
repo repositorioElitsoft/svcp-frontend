@@ -93,7 +93,7 @@
         "siguiente": "Siguiente",
         "buscar": "Buscar",
         "id": "Id",
-        "seleccion": "Seleccione una opción",
+        "seleccion": "Ninguna",
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Agrupación Comercial",
@@ -190,12 +190,12 @@
         },
         "role": {
             "id": "Id",
-            "titulo": "Rol",
+            "titulo": "Roles",
             "nombreRol": "Rol"
         },
         "sector": {
             "id": "Id",
-            "titulo": "Sector",
+            "titulo": "Sectores",
             "descripcionSector": "Descripción del Sector",
             "zona": "Zona"
         },
