@@ -406,7 +406,7 @@
                 "tituloEditar": "Edit Sector",
                 "tituloAgregar": "Create Sector",
                 "label": {
-                    "descripcionSector": "Sector Description",
+                    "descripcionSector": "Sector",
                     "zona": "Zone"
                 },
                 "descripcion": "Enter the description of the sector"
