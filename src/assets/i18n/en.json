@@ -75,7 +75,7 @@
     "table": {
         "filtrosSeleccionados": "Selected filters ({{count}})",
         "actions": "Actions",
-        "seleccionados": "{{count}} selected",
+        "seleccionados": "{{count}} selected elements",
         "of": "of",
         "dataDisponible": "No data available",
         "digiteBusqueda": "Enter a"
