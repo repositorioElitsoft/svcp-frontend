@@ -22,6 +22,7 @@ import { LocacionClienteComponent } from './features/views/locacion-cliente/loca
 import { ContratoComponent } from './features/contrato/contrato.component';
 import { RutaComponent } from './features/mantenedores/ruta/ruta.component';
 import { RoleComponent } from './features/mantenedores/role/role.component';
+import { TipoComponenteComponent } from './features/mantenedores/tipo-componente/tipo-componente.component';
 
 export const routes: Routes = [
     {
@@ -136,6 +137,10 @@ export const routes: Routes = [
                     {
                         path: "tipos-direcciones",
                         component: TiposDireccionesComponent
+                    },
+                    {
+                        path: "tipo-componentes",
+                        component: TipoComponenteComponent
                     },
 
                     /*ruta_nueva*/
