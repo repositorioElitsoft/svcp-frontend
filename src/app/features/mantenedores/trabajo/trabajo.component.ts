@@ -217,10 +217,28 @@ export class TrabajoComponent implements OnInit {
       this.totalElements = data.totalElements;
 
       this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]);
+      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value);
+
+      // Agrupar por trabajoId
+      const groupedData = data.content.reduce((acc: any, curr: any) => {
+        if (!acc[curr.trabajoId]) {
+          acc[curr.trabajoId] = {
+            ...curr,
+            tareas: []
+          };
+        }
+        acc[curr.trabajoId].tareas.push({
+          tareaId: curr.tareaId,
+          descripcion: curr.descripcion
+        });
+        return acc;
+      }, {});
+
+      this.dataSource = Object.values(groupedData);
+
+      if (this.dataSource.length > 0) {
+        // Ajustar las columnas mostradas
+        this.displayedColumns = ['trabajoId', 'tareas'];
       }
       this.cdr.detectChanges();
     });

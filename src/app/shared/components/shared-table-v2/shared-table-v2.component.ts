@@ -10,6 +10,7 @@ import { BehaviorSubject } from "rxjs";
 import { TranslateModule } from "@ngx-translate/core";
 import { BusquedaComponent } from "../busqueda/busqueda.component";
 import { SkeletonTableComponent } from "../skeleton-table/skeleton-table.component";
+import { ChipsComponent } from "../chips/chips.component";
 
 @Component({
   selector: "app-shared-table-v2",
@@ -23,7 +24,8 @@ import { SkeletonTableComponent } from "../skeleton-table/skeleton-table.compone
     TranslateModule,
     MatPaginatorModule,
     BusquedaComponent,
-    SkeletonTableComponent
+    SkeletonTableComponent,
+    ChipsComponent
   ],
   templateUrl: "./shared-table-v2.component.html",
   styleUrls: ["./shared-table-v2.component.css"],

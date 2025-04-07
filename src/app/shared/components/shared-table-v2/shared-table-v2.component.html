@@ -90,7 +90,13 @@
                             </span>
                         </div>
                     </th>
-                    <td mat-cell class="text-lg" *matCellDef="let element"> {{ getField(element[column]) }} </td>
+                    <td mat-cell class="text-lg" *matCellDef="let element">
+                        @if(column === 'tareas') {
+                        <app-chips [items]="element[column]"></app-chips>
+                        } @else {
+                        {{ getField(element[column]) }}
+                        }
+                    </td>
                 </ng-container>
 
                 <!-- Actions Column -->
