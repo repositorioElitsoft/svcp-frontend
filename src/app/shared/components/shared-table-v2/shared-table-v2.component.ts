@@ -57,6 +57,8 @@ export class SharedTableV2Component implements OnInit {
   @Output() pageChanged = new EventEmitter<number>();
   @Output() filterDelete = new EventEmitter<{ field: string, value: string }>();
   @Output() dataEmitted = new EventEmitter<any[]>();
+  @Output() chipDelete = new EventEmitter<{ parent: any, item: any }>();
+  @Output() chipsClear = new EventEmitter<any>();
 
   @ViewChildren('filterInput') filterInputs!: QueryList<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -318,5 +320,13 @@ export class SharedTableV2Component implements OnInit {
 
   onFilterDelete(field: string, filter: any) {
     this.filterDelete.emit({ field, value: filter?.id || filter?.value });
+  }
+
+  onChipDelete(parent: any, item: any) {
+    this.chipDelete.emit({ parent, item });
+  }
+
+  onChipsClear(parent: any) {
+    this.chipsClear.emit(parent);
   }
 }

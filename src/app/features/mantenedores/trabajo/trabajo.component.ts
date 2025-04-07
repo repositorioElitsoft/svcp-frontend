@@ -420,6 +420,66 @@ export class TrabajoComponent implements OnInit {
     });
   }
 
+  onDeleteTarea(trabajo: any, tarea: any) {
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      data: {
+        titulo: this.translate.instant('alertas.eliminacionIndividualTitulo'),
+        mensaje: this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 }),
+        textoBotonCancelar: this.translate.instant('alertas.cancelar'),
+        textoBotonConfirmar: this.translate.instant('alertas.eliminar')
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(confirmado => {
+      if (confirmado) {
+        this.trabajoTareaService.borrar(trabajo.trabajoId).subscribe({
+          next: () => {
+            // Actualizar la lista de tareas localmente
+            const trabajoIndex = this.dataSource.findIndex(t => t.trabajoId === trabajo.trabajoId);
+            if (trabajoIndex !== -1) {
+              // Actualizar el trabajo eliminando la tarea específica
+              this.dataSource = this.dataSource.filter(t => t.trabajoId !== trabajo.trabajoId);
+            }
+
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error("Error al eliminar tarea:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          }
+        });
+      }
+    });
+  }
+
+  onClearTareas(trabajo: any) {
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      data: {
+        titulo: this.translate.instant('alertas.eliminacionMultipleTitulo'),
+        mensaje: this.translate.instant('alertas.eliminacionMultipleMensaje', { count: trabajo.tareas.length }),
+        textoBotonCancelar: this.translate.instant('alertas.cancelar'),
+        textoBotonConfirmar: this.translate.instant('alertas.eliminar')
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmado => {
+      if (confirmado) {
+        const tareaIds = trabajo.tareas.map((t: any) => t.tareaId);
+        this.trabajoTareaService.borrar(trabajo.trabajoId).subscribe({
+          next: () => {
+            // Eliminar el trabajo de la lista
+            this.dataSource = this.dataSource.filter(t => t.trabajoId !== trabajo.trabajoId);
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error("Error al eliminar tareas:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          }
+        });
+      }
+    });
+  }
 
 }

@@ -92,7 +92,9 @@
                     </th>
                     <td mat-cell class="text-lg" *matCellDef="let element">
                         @if(column === 'tareas') {
-                        <app-chips [items]="element[column]"></app-chips>
+                        <app-chips [items]="element[column]" (deleteItem)="onChipDelete(element, $event)"
+                            (clearAll)="onChipsClear(element)">
+                        </app-chips>
                         } @else {
                         {{ getField(element[column]) }}
                         }

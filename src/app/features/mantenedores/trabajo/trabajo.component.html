@@ -50,7 +50,9 @@
                     (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
                     (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTrabajo'"
-                    (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table-v2>
+                    (filterDelete)="onFilterDeleted($event)" [filters]='[]'
+                    (chipDelete)="onDeleteTarea($event.parent, $event.item)" (chipsClear)="onClearTareas($event)">
+                </app-shared-table-v2>
             </div>
         </div>
 
