@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SharedTableComponent } from "../../../shared/components/shared-table/shared-table.component";
+import { SharedTableV2Component } from "../../../shared/components/shared-table-v2/shared-table-v2.component";
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { OpcionesMantenedorComponent } from "../../../shared/components/opciones-mantenedor/opciones-mantenedor.component";
@@ -22,7 +22,7 @@ import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-g
 @Component({
   selector: "app-trabajo",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaGenericaComponent],
+  imports: [CommonModule, SharedTableV2Component, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaGenericaComponent],
   templateUrl: "./trabajo.component.html",
   styleUrl: "./trabajo.component.css",
 })
@@ -37,7 +37,7 @@ export class TrabajoComponent implements OnInit {
   pageSize = 10;
   totalElements = 0;
   isLoading = false; // Variable para controlar el estado de carga
-  @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
+  @ViewChild(SharedTableV2Component) sharedTableComponent!: SharedTableV2Component;
   activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,

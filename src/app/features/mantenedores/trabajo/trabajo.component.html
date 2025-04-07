@@ -35,9 +35,8 @@
             </app-busqueda-generica>
 
             <!-- Table Section -->
-
             <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
-                <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
+                <app-shared-table-v2 (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
                     [translationGroup]="'mantenedores.trabajo'" [displayedColumns]="displayedColumns"
                     [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
                     [totalPages]="totalPages" [pageSize]="pageSize"
@@ -45,7 +44,7 @@
                     (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
                     (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTrabajo'"
-                    (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
+                    (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table-v2>
             </div>
         </div>
 
