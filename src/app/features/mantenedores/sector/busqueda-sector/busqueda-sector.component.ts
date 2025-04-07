@@ -61,13 +61,9 @@ export class BusquedaSectorComponent implements OnInit {
       next: (response: ApiEntityResponse<Zona[]>) => {
         if (response && response.data) {
           this.filterOptions = response.data;
-
-          // Agregamos la opción "Seleccione" como primera opción
-          const seleccionTexto = this.translate.instant('mantenedores.seleccion');
-          this.filterOptions.unshift({ id: null, descripcionZona: seleccionTexto });
-
+          // Agregamos la opción "Estado" como primera opción
+          this.filterOptions.unshift({ id: null, descripcionZona: 'Ninguna' });
           // Establecemos esta opción como la seleccionada por defecto
-          this.selectedFilter = this.filterOptions[0];
         }
       },
       error: (error) => {
@@ -102,9 +98,9 @@ export class BusquedaSectorComponent implements OnInit {
       labels.push({ field: 'descripcionSector', value: this.value });
     }
 
-    // Si hay una zona seleccionada y no es la opción "Todos"
-    if (this.selectedFilter && this.selectedFilter.id !== null) {
-      filter.zona = this.selectedFilter?.id;
+    // Solo agregamos el filtro de zona si hay una selección real (diferente de null o undefined)
+    if (this.selectedFilter && this.selectedFilter.id) {
+      filter.zona = this.selectedFilter.id;
       labels.push({ field: 'zona', value: this.selectedFilter.descripcionZona, id: this.selectedFilter.id });
     }
 
