@@ -28,7 +28,7 @@
 
         <!-- Filtros activos -->
         @if(filtersLabels && filtersLabels.length > 0) {
-        <div class="flex justify-end items-center p-2 text-lg">
+        <div class="flex justify-start items-center p-2 text-lg">
             <span class="text-gray-600">{{ 'table.filtrosSeleccionados' | translate: { count: filtersLabels.length } }}:
             </span>
             @for (filter of filtersLabels; track $index) {
