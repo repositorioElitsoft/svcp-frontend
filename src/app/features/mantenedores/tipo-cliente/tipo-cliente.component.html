@@ -29,9 +29,8 @@
             </div>
 
             <!-- Componente de búsqueda genérica -->
-            <app-busqueda-generica [fieldName]="'descripcionTipoCliente'"
-                [translationPrefix]="'mantenedores.tipoCliente'" [translationFieldKey]="'titulo'"
-                (applyfilter)="buscar($event)">
+            <app-busqueda-generica [fieldName]="'nombre'" [translationPrefix]="'mantenedores.tipoCliente'"
+                [translationFieldKey]="'titulo'" (applyfilter)="buscar($event)">
             </app-busqueda-generica>
 
             <!-- Table Section -->
