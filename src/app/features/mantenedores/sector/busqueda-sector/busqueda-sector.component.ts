@@ -61,9 +61,8 @@ export class BusquedaSectorComponent implements OnInit {
       next: (response: ApiEntityResponse<Zona[]>) => {
         if (response && response.data) {
           this.filterOptions = response.data;
-          // Agregamos la opción "Estado" como primera opción
-          this.filterOptions.unshift({ id: null, descripcionZona: 'Ninguna' });
-          // Establecemos esta opción como la seleccionada por defecto
+          // Agregamos la opción "Zona" como primera opción
+          this.filterOptions.unshift({ id: null, descripcionZona: 'mantenedores.seleccion' });
         }
       },
       error: (error) => {

@@ -18,7 +18,7 @@
                     (opened)="onZonaSelectOpen()" [placeholder]="'mantenedores.sector.zona' | translate"
                     class="block w-full h-[44px] px-4 py-2 text-lg text-[#757575] bg-white border-2 border-[#C2C2C2] rounded-lg appearance-none focus:outline-none focus:border-[#3f51b5]">
                     <mat-option *ngFor="let option of filterOptions" [value]="option">
-                        {{ option.descripcionZona }}
+                        {{ option.descripcionZona | translate }}
                     </mat-option>
                 </mat-select>
             </div>
