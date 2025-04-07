@@ -9,8 +9,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { TrabajoFormComponent } from "../../../shared/components/forms/trabajo.component";
 import { ExportarDocService } from "../../../core/services/exportar-doc.service";
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
-import { TrabajoService } from "../../../core/services/trabajo.service";
-import { Trabajo } from "../../../core/models/trabajo.model";
+import { TrabajoTareaService } from "../../../core/services/trabajo-tarea.service";
+import { TrabajoTarea } from "../../../core/models/trabajo-tarea.model";
 import { catchError, tap, throwError } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
@@ -28,8 +28,8 @@ import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-g
 })
 export class TrabajoComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: Trabajo[] = []; // Ahora usa la interfaz trabajo
-  titulo: string = 'Trabajo'; // Puedes cambiarlo dinámicamente
+  dataSource: TrabajoTarea[] = []; // Ahora usa la interfaz TrabajoTarea
+  titulo: string = 'Trabajo Tarea'; // Cambiado a Trabajo Tarea
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
@@ -42,7 +42,7 @@ export class TrabajoComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
-    private trabajoService: TrabajoService) { }
+    private trabajoTareaService: TrabajoTareaService) { }
 
   ngOnInit() {
     this.obtenerDatos();
@@ -62,7 +62,7 @@ export class TrabajoComponent implements OnInit {
       width: '400px',
       data: {
         esActualizar: true,
-        object: this.dataSource.find(item => item.id === Number(id))
+        object: this.dataSource.find(item => item.trabajoId === Number(id))
       }
     });
 
@@ -133,7 +133,7 @@ export class TrabajoComponent implements OnInit {
 
       console.log("Solicitando datos a la API con filtros:", filtros);
 
-      this.trabajoService.buscarFiltrado(filtros).subscribe(
+      this.trabajoTareaService.buscarFiltrado(filtros).subscribe(
         (response: any) => {
           const apiData = response?.content ?? response?.data ?? [];
           console.log("CAMINO 2.1: Datos recibidos de API - Cantidad:", apiData.length);
@@ -199,7 +199,6 @@ export class TrabajoComponent implements OnInit {
 
 
 
-
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
@@ -209,7 +208,7 @@ export class TrabajoComponent implements OnInit {
       ...optionalFilter
     }
 
-    this.trabajoService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<Trabajo[]>) => {
+    this.trabajoTareaService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<TrabajoTarea[]>) => {
       console.log("Datos recibidos:", data);
 
       this.pageNumber = data.pageNumber
@@ -230,10 +229,8 @@ export class TrabajoComponent implements OnInit {
 
 
 
-
-
   /*********************************** CRUD   - DELETE ***********************************/
-  eliminar(selectedItems: Trabajo[]) {
+  eliminar(selectedItems: TrabajoTarea[]) {
     const count = selectedItems.length;
 
     // Obtener las traducciones
@@ -255,13 +252,13 @@ export class TrabajoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
-        const ids = selectedItems.map(item => item.id);
+        const ids = selectedItems.map(item => item.trabajoId);
         console.log("Datos a enviar para eliminar:", { ids: ids });
 
-        this.trabajoService.borrarTodos(ids).subscribe({
+        this.trabajoTareaService.borrarTodos(ids).subscribe({
           next: () => {
             console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
+            this.dataSource = this.dataSource.filter(item => !ids.includes(item.trabajoId));
             this.hasSelection = false;
 
             // Actualizar las propiedades de paginación
@@ -322,12 +319,12 @@ export class TrabajoComponent implements OnInit {
       if (confirmado) {
         console.log("Eliminando elemento con ID:", id);
 
-        this.trabajoService.borrar(Number(id)).subscribe({
+        this.trabajoTareaService.borrar(Number(id)).subscribe({
           next: () => {
             console.log("Elemento eliminado exitosamente:", id);
 
             // Filtrar el item eliminado del dataSource
-            this.dataSource = this.dataSource.filter(item => item.id !== Number(id));
+            this.dataSource = this.dataSource.filter(item => item.trabajoId !== Number(id));
 
             // Actualizar propiedades de paginación
             this.totalElements -= 1;
@@ -386,7 +383,7 @@ export class TrabajoComponent implements OnInit {
 
   /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
   onEditSelected(id: string) {
-    const selectedObject = this.dataSource.find(item => item.id === Number(id));
+    const selectedObject = this.dataSource.find(item => item.trabajoId === Number(id));
     if (!selectedObject) {
       return;
     }
