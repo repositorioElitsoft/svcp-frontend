@@ -132,12 +132,18 @@
             <div class="m-4"></div>
             <!-- Paginador -->
             <div
-                class="w-full bg-gray-100 h-11 flex justify-between items-center text-neutral-600 px-2 rounded-lg dark:bg-neutral-500 text-lg sticky left-0 z-10">
-                <div>
+                class="w-full bg-gray-100 sm:h-11 flex flex-col sm:flex-row justify-between items-center text-neutral-600 px-2 rounded-lg dark:bg-neutral-500 text-lg sticky left-0 z-10">
+                <!-- Contador para móvil -->
+                <div class="w-full text-center py-2 sm:hidden">
+                    {{ dataSource.length }} - {{ endItem }} de {{ totalElements }}
+                </div>
+
+                <!-- Contador para desktop -->
+                <div class="hidden sm:block">
                     {{ dataSource.length }} - {{ endItem }} {{ 'table.of' | translate }} {{ totalElements }}
                 </div>
 
-                <div class="flex items-center gap-1">
+                <div class="flex items-center gap-1 py-2 sm:py-0 w-full sm:w-auto justify-center sm:justify-end">
                     <!-- Ir a primera página -->
                     <button [disabled]="pageNumber === 0"
                         class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
@@ -159,13 +165,12 @@
                             </ng-container>
                             <ng-template #pageButton>
                                 <button [class.font-bold]="page === pageNumber"
-                                    class=" text-gray-600 hover:text-gray-800 px:0 " (click)="onPageChanged(page)">
+                                    class="text-gray-600 hover:text-gray-800 px-2" (click)="onPageChanged(page)">
                                     {{ page + 1 }}
                                 </button>
                             </ng-template>
                         </ng-container>
                     </ng-container>
-
 
                     <!-- Página siguiente -->
                     <button [disabled]="pageNumber === totalPages - 1"
@@ -181,7 +186,6 @@
                         keyboard_double_arrow_right
                     </button>
                 </div>
-
             </div>
         </div>
     </div>

@@ -30,7 +30,7 @@ import { SkeletonTableComponent } from "../skeleton-table/skeleton-table.compone
   styleUrls: ["./shared-table.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush, // Optimización
 })
-export class SharedTableComponent {
+export class SharedTableComponent implements OnInit {
   @Input() displayedColumns: string[] = [];
   @Input() dataSource: any[] = [];
   @Input() totalElements: number = 0;
@@ -68,8 +68,15 @@ export class SharedTableComponent {
   currentSortType = '';
   currentSortIndex = -1;
   show = true
+  isDesktop = window.innerWidth >= 640; // 640px es el breakpoint sm de Tailwind
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef) {
+    // Detectar cambios en el tamaño de la ventana
+    window.addEventListener('resize', () => {
+      this.isDesktop = window.innerWidth >= 640;
+      this.cdr.detectChanges();
+    });
+  }
 
   isKeyMissing(filter: any, key: string): boolean {
     return !Object.prototype.hasOwnProperty.call(filter, key);
