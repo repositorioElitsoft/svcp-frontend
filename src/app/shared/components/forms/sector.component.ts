@@ -75,7 +75,7 @@ export class SectorFormComponent implements OnInit {
       /*inputsflag*/
       id: [null,],
       descripcionSector: [null, Validators.required],
-      zona: [{}, Validators.required],
+      zona: [null, Validators.required],
     });
   }
 
@@ -132,7 +132,7 @@ export class SectorFormComponent implements OnInit {
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
+            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
             this.toastr.error(errorMessage);
           }
         })
@@ -145,7 +145,7 @@ export class SectorFormComponent implements OnInit {
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
+            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
             this.toastr.error(errorMessage);
           }
         })

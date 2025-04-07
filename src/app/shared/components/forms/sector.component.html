@@ -27,6 +27,9 @@
                     {{ option.descripcionZona }}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="form.get('zona')?.hasError('required')" class="text-red-500 text-base">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
         </mat-form-field>
 
 
