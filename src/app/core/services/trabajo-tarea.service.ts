@@ -17,32 +17,67 @@ export class TrabajoTareaService {
         'Content-Type': 'application/json'
     });
 
-    buscar(trabajoTareaId: number): Observable<ApiEntityResponse<TrabajoTarea>> {
-        return this.http.get<ApiEntityResponse<TrabajoTarea>>(`${this.url}trabajos-tareas/${trabajoTareaId}`);
+    /**
+     * Encuentra un trabajo-tarea por su clave compuesta (trabajoId y tareaId)
+     */
+    obtener(trabajoId: number, tareaId: number): Observable<ApiEntityResponse<TrabajoTarea>> {
+        return this.http.get<ApiEntityResponse<TrabajoTarea>>(`${this.url}trabajos-tareas/${trabajoId}/tarea/${tareaId}`);
     }
 
-    buscarTodos(trabajoId: number): Observable<ApiEntityResponse<TrabajoTarea[]>> {
-        return this.http.get<ApiEntityResponse<TrabajoTarea[]>>(`${this.url}trabajos-tareas/trabajos/${trabajoId}`);
+    /**
+     * Obtiene todos los trabajos-tareas
+     */
+    obtenerTodos(): Observable<ApiEntityResponse<TrabajoTarea[]>> {
+        return this.http.get<ApiEntityResponse<TrabajoTarea[]>>(`${this.url}trabajos-tareas`);
     }
 
-    borrar(trabajoTareaId: number): Observable<ApiEntityResponse<any>> {
-        return this.http.delete<ApiEntityResponse<any>>(`${this.url}trabajos-tareas/${trabajoTareaId}`);
+    /**
+     * Agrega un nuevo trabajo-tarea
+     */
+    crear(trabajoTarea: TrabajoTarea): Observable<ApiEntityResponse<string>> {
+        return this.http.post<ApiEntityResponse<string>>(`${this.url}trabajos-tareas`, trabajoTarea, { headers: this.headers });
     }
 
-    borrarTodos(ids: number[]): Observable<ApiEntityResponse<any>> {
-        return this.http.delete<ApiEntityResponse<any>>(`${this.url}trabajos-tareas/lote`, { headers: this.headers, body: ids });
+    /**
+     * Agrega un lote de trabajos-tareas
+     */
+    crearLote(trabajoTareas: TrabajoTarea[]): Observable<ApiEntityResponse<string>> {
+        return this.http.post<ApiEntityResponse<string>>(`${this.url}trabajos-tareas/lote`, trabajoTareas, { headers: this.headers });
     }
 
-    actualizar(trabajoTareaId: number, trabajoTarea: TrabajoTarea): Observable<TrabajoTarea> {
-        return this.http.put<TrabajoTarea>(`${this.url}trabajos-tareas/${trabajoTareaId}`, trabajoTarea);
+    /**
+     * Actualiza un trabajo-tarea existente
+     */
+    actualizar(trabajoId: number, tareaId: number, trabajoTarea: TrabajoTarea): Observable<ApiEntityResponse<string>> {
+        return this.http.put<ApiEntityResponse<string>>(`${this.url}trabajos-tareas/${trabajoId}/tarea/${tareaId}`, trabajoTarea, { headers: this.headers });
     }
 
-    crear(trabajoTarea: TrabajoTarea): Observable<TrabajoTarea> {
-        return this.http.post<TrabajoTarea>(`${this.url}trabajos-tareas`, trabajoTarea);
+    /**
+     * Actualiza un lote de trabajos-tareas
+     */
+    actualizarLote(trabajoTareas: TrabajoTarea[]): Observable<ApiEntityResponse<string>> {
+        return this.http.put<ApiEntityResponse<string>>(`${this.url}trabajos-tareas/lote`, trabajoTareas, { headers: this.headers });
     }
 
+    /**
+     * Elimina un trabajo-tarea
+     */
+    borrar(trabajoId: number, tareaId: number): Observable<ApiEntityResponse<string>> {
+        return this.http.delete<ApiEntityResponse<string>>(`${this.url}trabajos-tareas/${trabajoId}/tarea/${tareaId}`, { headers: this.headers });
+    }
+
+    /**
+     * Elimina un lote de trabajos-tareas
+     */
+    borrarTodo(ids: number[]): Observable<ApiEntityResponse<string>> {
+        return this.http.delete<ApiEntityResponse<string>>(`${this.url}trabajos-tareas/lote`, { headers: this.headers, body: ids });
+    }
+
+    /**
+     * Busca trabajos-tareas con filtros
+     */
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
-        let params = new HttpParams(filtros);
+        let params = new HttpParams();
         // Recorrer los filtros y agregar los que tengan valor
         for (let key in filtros) {
             if (filtros.hasOwnProperty(key)) {

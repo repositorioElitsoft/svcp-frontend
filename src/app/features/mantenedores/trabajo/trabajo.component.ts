@@ -273,7 +273,7 @@ export class TrabajoComponent implements OnInit {
         const ids = selectedItems.map(item => item.trabajoId);
         console.log("Datos a enviar para eliminar:", { ids: ids });
 
-        this.trabajoTareaService.borrarTodos(ids).subscribe({
+        this.trabajoTareaService.borrarTodo(ids).subscribe({
           next: () => {
             console.log("Elementos eliminados exitosamente:", ids);
             this.dataSource = this.dataSource.filter(item => !ids.includes(item.trabajoId));
@@ -306,7 +306,7 @@ export class TrabajoComponent implements OnInit {
               totalPages: this.totalPages
             });
           },
-          error: err => {
+          error: (err: any) => {
             console.error("Error al eliminar elementos:", err);
             this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
@@ -337,7 +337,7 @@ export class TrabajoComponent implements OnInit {
       if (confirmado) {
         console.log("Eliminando elemento con ID:", id);
 
-        this.trabajoTareaService.borrar(Number(id)).subscribe({
+        this.trabajoTareaService.borrar(Number(id), 0).subscribe({
           next: () => {
             console.log("Elemento eliminado exitosamente:", id);
 
@@ -432,7 +432,7 @@ export class TrabajoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
-        this.trabajoTareaService.borrar(trabajo.trabajoId).subscribe({
+        this.trabajoTareaService.borrar(trabajo.trabajoId, tarea.tareaId).subscribe({
           next: () => {
             // Actualizar la lista de tareas localmente
             const trabajoIndex = this.dataSource.findIndex(t => t.trabajoId === trabajo.trabajoId);
@@ -466,7 +466,7 @@ export class TrabajoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
         const tareaIds = trabajo.tareas.map((t: any) => t.tareaId);
-        this.trabajoTareaService.borrar(trabajo.trabajoId).subscribe({
+        this.trabajoTareaService.borrar(trabajo.trabajoId, 0).subscribe({
           next: () => {
             // Eliminar el trabajo de la lista
             this.dataSource = this.dataSource.filter(t => t.trabajoId !== trabajo.trabajoId);
