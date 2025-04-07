@@ -443,6 +443,7 @@ export class TrabajoComponent implements OnInit {
 
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
             this.cdr.detectChanges();
+            this.obtenerDatos();
           },
           error: (err) => {
             console.error("Error al eliminar tarea:", err);
