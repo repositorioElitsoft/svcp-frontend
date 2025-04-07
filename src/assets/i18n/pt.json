@@ -179,7 +179,8 @@
         "sector": {
             "id": "Id",
             "titulo": "Setor",
-            "descripcionSector": "Setor"
+            "descripcionSector": "Setor",
+            "zona": "Zona"
         },
         "segmentacionCliente": {
             "id": "Id",
