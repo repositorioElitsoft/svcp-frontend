@@ -41,7 +41,6 @@ import { MatButtonModule } from '@angular/material/button';
       gap: 4px;
       width: 100%;
       padding: 8px 14px;
-      background: #EDEDED;
       border-radius: 8px;
     }
 
