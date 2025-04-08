@@ -10,7 +10,7 @@
         <mat-form-field appearance="outline" class="w-full dark:text-white">
             <mat-label class="text-lg">{{ 'mantenedores.formularios.tipoComponente.label.nombre' | translate
                 }}</mat-label>
-            <input matInput formControlName="nombre"
+            <input matInput formControlName="nombre" maxlength="50"
                 [attr.placeholder]="'mantenedores.formularios.tipoComponente.placeholder.nombre' | translate"
                 class="text-lg w-full dark:text-white">
             <mat-error *ngIf="form.get('nombre')?.hasError('required')" class="text-red-500 text-base">
@@ -22,7 +22,7 @@
         <mat-form-field appearance="outline" class="w-full dark:text-white">
             <mat-label class="text-lg">{{ 'mantenedores.formularios.tipoComponente.label.descripcion' | translate
                 }}</mat-label>
-            <input matInput formControlName="descripcion"
+            <input matInput formControlName="descripcion" maxlength="100"
                 [attr.placeholder]="'mantenedores.formularios.tipoComponente.placeholder.descripcion' | translate"
                 class="text-lg w-full dark:text-white">
             <mat-error *ngIf="form.get('descripcion')?.hasError('required')" class="text-red-500 text-base">
