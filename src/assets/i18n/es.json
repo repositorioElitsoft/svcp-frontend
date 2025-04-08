@@ -34,6 +34,7 @@
         "taskAssignment": "Asignación de Tareas",
         "products": "Productos",
         "productTypes": "Tipos de Producto",
+        "componentTypes": "Tipos de Componentes",
         "zones": "Zonas",
         "sectors": "Sectores",
         "routes": "Rutas",
@@ -248,6 +249,12 @@
             "id": "Id",
             "titulo": "Rutas",
             "descripcion": "Descripción de Rutas"
+        },
+        "tipoComponente": {
+            "id": "Id",
+            "titulo": "Tipo de Componente",
+            "nombre": "Tipo de Componente",
+            "descripcion": "Descripción"
         },
         "formularios": {
             "campoRequerido": "Este campo es obligatorio",

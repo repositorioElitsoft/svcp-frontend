@@ -139,7 +139,7 @@ export const routes: Routes = [
                         component: TiposDireccionesComponent
                     },
                     {
-                        path: "tipo-componentes",
+                        path: "tipos-componentes",
                         component: TipoComponenteComponent
                     },
 

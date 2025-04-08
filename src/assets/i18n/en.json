@@ -34,6 +34,7 @@
         "taskAssignment": "Task Assignment",
         "products": "Products",
         "productTypes": "Product Types",
+        "componentTypes": "Component Types",
         "tipoComponentes": "Type Components",
         "zones": "Zones",
         "sectors": "Sectors",
@@ -239,6 +240,12 @@
             "id": "Id",
             "titulo": "Routes",
             "descripcion": "Routes"
+        },
+        "tipoComponente": {
+            "id": "Id",
+            "titulo": "Component Type",
+            "nombre": "Component Type",
+            "descripcion": "Description"
         },
         "formularios": {
             "campoRequerido": "This field is required",

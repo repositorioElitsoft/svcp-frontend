@@ -55,6 +55,11 @@
                         "permission": "access.productTypes",
                         "title": "sideBar.productTypes",
                         "link": "portal/mantenedores/tipos-productos"
+                    },
+                    {
+                        "permission": "access.componentTypes",
+                        "title": "sideBar.componentTypes",
+                        "link": "portal/mantenedores/tipos-componentes"
                     }
                 ]
             },
