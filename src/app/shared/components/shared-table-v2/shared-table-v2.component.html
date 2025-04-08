@@ -107,15 +107,17 @@
                         {{ 'table.actions' | translate }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="flex items-center gap-2">
+                        <button mat-icon-button color="accent" (click)="onAsignacion(element)">
+                            <mat-icon>push_pin</mat-icon>
+                        </button>
+
                         <button mat-icon-button color="accent" (click)="onEdit(element.id)">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button mat-icon-button color="accent" (click)="onSingleDelete(element.id)">
                             <mat-icon>delete</mat-icon>
                         </button>
-                        <button mat-icon-button color="accent" (click)="onAsignacion(element)">
-                            <mat-icon>push_pin</mat-icon>
-                        </button>
+
                         <!-- Aquí se incluye el template adicional si existe -->
                         <ng-container *ngIf="additionalActionsTemplate">
                             <button mat-icon-button color="accent">
