@@ -31,7 +31,7 @@
             <!-- Componente de búsqueda genérica -->
             <app-busqueda-generica [fieldName]="'descripcionTipoEmpleado'"
                 [translationPrefix]="'mantenedores.tipoEmpleado'" [translationFieldKey]="'titulo'"
-                (applyfilter)="buscar($event)">
+                (applyfilter)="buscar($event)" [buttonText]="'mantenedores.buscar'">
             </app-busqueda-generica>
 
             <!-- Table Section -->

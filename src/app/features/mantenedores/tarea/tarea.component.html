@@ -30,7 +30,8 @@
 
             <!--Search Genérico-->
             <app-busqueda-generica [fieldName]="'descripcionTarea'" [translationPrefix]="'mantenedores.tarea'"
-                [translationFieldKey]="'descripcionTarea'" (applyfilter)="buscar($event)">
+                [translationFieldKey]="'descripcionTarea'" (applyfilter)="buscar($event)"
+                [buttonText]="'mantenedores.buscar'">
             </app-busqueda-generica>
 
             <!-- Table Section -->
