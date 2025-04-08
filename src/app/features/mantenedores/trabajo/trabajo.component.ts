@@ -483,4 +483,44 @@ export class TrabajoComponent implements OnInit {
     });
   }
 
+  onAsignacion(element: any) {
+    // Similar a como manejas el agregar, pero para asignación
+    this.dialog.open(TrabajoFormComponent, {
+      width: '800px',
+      data: {
+        mode: 'asignacion',
+        item: element
+      }
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos();
+      }
+    });
+  }
+
+  onChipDelete(event: { parent: any, item: any }) {
+    // Implementa la lógica para eliminar un chip
+    console.log('Chip deleted:', event);
+  }
+
+  onChipsClear(event: any) {
+    // Implementa la lógica para limpiar todos los chips
+    console.log('Chips cleared:', event);
+  }
+
+  onFilter(event: any) {
+    // Implementa la lógica de filtrado
+    console.log('Filter:', event);
+  }
+
+  onDelete(id: any) {
+    // Implementa la lógica de eliminación
+    console.log('Delete:', id);
+  }
+
+  onEdit(id: any) {
+    // Implementa la lógica de edición
+    console.log('Edit:', id);
+  }
+
 }
