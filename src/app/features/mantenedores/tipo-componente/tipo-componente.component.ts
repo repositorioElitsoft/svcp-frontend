@@ -151,7 +151,7 @@ export class TipoComponenteComponent implements OnInit {
             return;
           }
 
-          handleExport(apiData, 'mantenedores.tipoEmpleado');
+          handleExport(apiData, 'mantenedores.tipoComponente');
           // Mostramos el mensaje específico para la exportación de datos de la API
           this.toastr.success(this.translate.instant('alertas.toastr.exportar.todo.success'));
 
@@ -335,7 +335,7 @@ export class TipoComponenteComponent implements OnInit {
     console.log("Eliminar seleccionado:", id);
 
     // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoEmpleado.titulo');
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoComponente.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
