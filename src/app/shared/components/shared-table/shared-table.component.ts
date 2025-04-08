@@ -273,13 +273,22 @@ export class SharedTableComponent implements OnInit {
   }
 
   private updateSelection() {
+    // Limpiar la selección actual
     this.selection.clear();
+
+    // Filtrar selectedItems para mantener solo los elementos que aún existen en dataSource
+    this.selectedItems = this.selectedItems.filter(selectedItem =>
+      this.dataSource.some(row => row.id === selectedItem.id)
+    );
+
     // Sincronizar la selección con los elementos de selectedItems
     this.dataSource.forEach(row => {
       if (this.selectedItems.some(item => item.id === row.id)) {
         this.selection.select(row);
       }
     });
+
+    this.notifySelectionChange();
     this.cdr.detectChanges();
   }
 
