@@ -12,14 +12,15 @@ import { MatButtonModule } from '@angular/material/button';
     <div class="chips-container">
       <div class="chips-wrapper">
         <div class="chips-grid">
-          <div *ngFor="let item of visibleItems" class="chip">
-            <div class="chip-content">
-              <span class="task-id">#{{item.tareaId}}</span>
-              <span class="task-desc">{{item.descripcion}}</span>
+          <div class="chips-row" *ngFor="let row of getVisibleRows()">
+            <div *ngFor="let item of row" class="chip">
+              <div class="chip-content">
+                <span class="task-id">{{item.tareaId}}</span>
+              </div>
+              <button class="delete-button" (click)="onDelete(item)">
+                <mat-icon>close</mat-icon>
+              </button>
             </div>
-            <button class="delete-button" (click)="onDelete(item)">
-              <mat-icon>close</mat-icon>
-            </button>
           </div>
         </div>
         <button *ngIf="showMoreButton" class="more-button" (click)="onMoreClick()">
@@ -32,50 +33,55 @@ import { MatButtonModule } from '@angular/material/button';
     .chips-container {
       display: flex;
       flex-direction: column;
-      width: 100%;
+      max-width: 300px;
     }
 
     .chips-wrapper {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: wrap;
       gap: 4px;
-      width: 100%;
-      padding: 8px 14px;
-      border-radius: 8px;
+      align-items: flex-start;
     }
 
     .chips-grid {
       display: flex;
+      flex-direction: row;
       flex-wrap: wrap;
-      gap: 8px;
-      width: 100%;
+      gap: 4px;
+      max-width: 250px;
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 4px;
     }
 
     .chip {
       background: #ccc2ac;
       border-radius: 4px;
-      padding: 4px 8px;
+      padding: 2px 8px;
       font-size: 13px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      min-height: 28px;
+      gap: 4px;
+      height: 24px;
+      width: 110px;
     }
 
     .chip-content {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
+      overflow: hidden;
     }
 
     .task-id {
-      font-weight: 500;
       color: #616161;
-    }
-
-    .task-desc {
-      color: #616161;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .delete-button {
@@ -87,8 +93,9 @@ import { MatButtonModule } from '@angular/material/button';
       align-items: center;
       justify-content: center;
       color: #9E9E9E;
-      min-width: 18px;
-      min-height: 18px;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
     }
 
     .delete-button:hover {
@@ -99,23 +106,22 @@ import { MatButtonModule } from '@angular/material/button';
       color: rgb(0, 120, 212);
       background: none;
       border: none;
-      padding: 4px 8px;
+      padding: 2px 4px;
       font-size: 13px;
       cursor: pointer;
-      align-self: flex-start;
+      white-space: nowrap;
+      margin-left: 4px;
     }
 
     .more-button:hover {
       text-decoration: underline;
-      background: rgba(0, 120, 212, 0.1);
-      border-radius: 4px;
     }
 
     mat-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-      line-height: 16px;
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+      line-height: 14px;
     }
   `]
 })
@@ -140,6 +146,17 @@ export class ChipsComponent {
 
   get showMoreButton() {
     return this.items?.length > this.maxVisible;
+  }
+
+  getVisibleRows(): any[][] {
+    const visibleItems = this.visibleItems;
+    const rows: any[][] = [];
+
+    for (let i = 0; i < visibleItems.length; i += 2) {
+      rows.push(visibleItems.slice(i, i + 2));
+    }
+
+    return rows;
   }
 
   onDelete(item: any): void {
