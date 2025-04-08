@@ -39,6 +39,8 @@ export class SectorComponent implements OnInit {
   zona = null;
   totalElements = 0;
   isLoading = false; // Variable para controlar el estado de carga
+  currentSortState: { column: string; direction: string } | null = null;
+  currentFilters: any = {}; // Variable para mantener los filtros actuales
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
   @ViewChild('busquedaSector') busquedaSector!: BusquedaSectorComponent;
@@ -164,22 +166,33 @@ export class SectorComponent implements OnInit {
     this.router.navigate(['/portal/home']);
   }
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+    this.currentSortState = {
+      column: sortData.selectedColumnName,
+      direction: sortData.currentSortType
+    };
+    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType, this.currentFilters);
   }
 
   onPageChanged(newPage: number) {
     console.log("Página cambiada", newPage);
-    this.pageNumber = newPage
-    this.obtenerDatos();
+    this.pageNumber = newPage;
+    // Usar el estado del ordenamiento guardado si existe y los filtros actuales
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+    } else {
+      this.obtenerDatos("id", "asc", this.currentFilters);
+    }
   }
 
 
   buscar(data: { filter: any, labels: any[] }) {
     console.log('Método buscar llamado con:', data);
     this.activeOptionalFilters = data.labels;
+    this.currentFilters = data.filter; // Guardar los filtros actuales
     console.log("Data filter:", data.filter);
 
-
+    // Al aplicar filtros, resetear el ordenamiento
+    this.currentSortState = null;
     this.obtenerDatos("id", "asc", data.filter);
   }
 
@@ -202,24 +215,21 @@ export class SectorComponent implements OnInit {
 
     // Reconstruir el objeto de filtro
     const newFilter: any = {};
-
-
     this.activeOptionalFilters.forEach((filter: { field: string, value: string, id: any }) => {
-
       if (filter.id && filter.id !== null) {
         newFilter[filter.field] = filter.id;
       } else {
         newFilter[filter.field] = filter.value;
       }
-
     });
 
-
-
-
+    this.currentFilters = newFilter; // Actualizar los filtros actuales
     console.log("Filtros finales:", newFilter);
 
-
+    // Si no hay filtros activos, resetear el ordenamiento
+    if (Object.keys(newFilter).length === 0) {
+      this.currentSortState = null;
+    }
 
     // Obtener datos con los nuevos filtros
     this.obtenerDatos("id", "asc", newFilter);
@@ -238,6 +248,8 @@ export class SectorComponent implements OnInit {
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     console.log('obtenerDatos llamado con filtros:', optionalFilter);
+    console.log('Estado actual del ordenamiento:', this.currentSortState);
+    console.log('Filtros actuales:', this.currentFilters);
 
     // Activar el estado de carga
     this.isLoading = true;

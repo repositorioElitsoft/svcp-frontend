@@ -67,6 +67,7 @@ export class SharedTableComponent implements OnInit {
   dataSourceSubject = new BehaviorSubject<any[]>([]);
   currentSortType = '';
   currentSortIndex = -1;
+  currentSortState: { column: string; direction: string } | null = null;
   show = true
   isDesktop = window.innerWidth >= 640; // 640px es el breakpoint sm de Tailwind
 
@@ -165,7 +166,6 @@ export class SharedTableComponent implements OnInit {
     this.sortHeaders.forEach((header, i) => {
       const element = header.nativeElement;
       if (i === columnIndex) {
-        console.log("Pasé este if")
         this.currentSortType = element.getAttribute('sortType') || '';
         if (this.currentSortType === 'asc') {
           this.currentSortType = "desc"
@@ -177,8 +177,12 @@ export class SharedTableComponent implements OnInit {
           this.currentSortType = "asc"
           element.setAttribute('sortType', 'asc');
         }
+        // Guardar el estado del ordenamiento
+        this.currentSortState = {
+          column: selectedColumnName,
+          direction: this.currentSortType
+        };
       } else {
-        console.log("no sort type")
         element.setAttribute('sortType', '');
       }
     });
@@ -317,11 +321,14 @@ export class SharedTableComponent implements OnInit {
   }
 
   protected onPageChanged(newPage: number) {
-    console.log("Cambiando a la página:", newPage);
     this.pageChanged.emit(newPage);
-
-    // Mantener la selección global
-    this.updateSelection();
+    // Si hay un estado de ordenamiento, mantenerlo
+    if (this.currentSortState) {
+      this.sort.emit({
+        selectedColumnName: this.currentSortState.column,
+        currentSortType: this.currentSortState.direction
+      });
+    }
   }
 
   get endItem(): number {
