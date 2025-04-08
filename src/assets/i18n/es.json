@@ -238,7 +238,9 @@
         "trabajo": {
             "id": "Id",
             "titulo": "Trabajo",
-            "descripcionTrabajo": "Descripción del Trabajo"
+            "descripcionTrabajo": "Trabajo",
+            "trabajoId": "Trabajo",
+            "tareas": "Tareas Asignadas"
         },
         "zona": {
             "id": "Id",
@@ -487,8 +489,8 @@
             },
             "trabajo": {
                 "tituloEditar": "Editar Trabajo",
-                "tituloAgregar": "Crear Trabajo",
-                "label.descripcionTrabajo": "Descripción del Trabajo",
+                "tituloAgregar": "Agregar Trabajo",
+                "label.descripcionTrabajo": "Trabajo",
                 "descripcion": "Ingrese la descripción del trabajo"
             },
             "zona": {
