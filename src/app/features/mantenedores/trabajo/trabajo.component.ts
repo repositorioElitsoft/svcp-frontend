@@ -18,6 +18,7 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
+import { TrabajoTareaFormComponent } from "../../../shared/components/forms/trabajo-tarea.component";
 
 @Component({
   selector: "app-trabajo",
@@ -485,7 +486,7 @@ export class TrabajoComponent implements OnInit {
 
   onAsignacion(element: any) {
     // Similar a como manejas el agregar, pero para asignación
-    this.dialog.open(TrabajoFormComponent, {
+    this.dialog.open(TrabajoTareaFormComponent, {
       width: '800px',
       data: {
         mode: 'asignacion',

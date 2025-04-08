@@ -1,0 +1,61 @@
+<div class="bg-[#4350AF] text-white p-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined">assignment</span>
+        <span class="text-lg">{{ 'forms.trabajoTarea.titulo' | translate }}</span>
+    </div>
+    <button mat-icon-button (click)="onCancel()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<div class="p-6">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+        <!-- Trabajo -->
+        <div class="flex flex-col gap-1">
+            <span class="text-gray-700">{{ 'forms.trabajoTarea.trabajo' | translate }}:</span>
+            <span class="text-gray-900">{{ trabajoDescripcion }}</span>
+        </div>
+
+        <!-- Selector de tareas -->
+        <div class="flex flex-col gap-1">
+            <span class="text-gray-700">{{ 'forms.trabajoTarea.seleccioneTareas' | translate }}:</span>
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-select (selectionChange)="onTareaSelect($event)" (opened)="onTareaSelect($event)"
+                    placeholder="{{ 'forms.trabajoTarea.tareas' | translate }}">
+                    <mat-option *ngFor="let tarea of tareasDisponibles" [value]="tarea.id">
+                        {{ tarea.descripcion }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Mensaje informativo -->
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+                <mat-icon class="text-sm">info</mat-icon>
+                <p>{{ 'forms.trabajoTarea.info.ordenTareas' | translate }}</p>
+            </div>
+        </div>
+
+        <!-- Tareas seleccionadas (chips) -->
+        <div class="flex flex-col gap-2">
+            <app-chips [items]="tareasAsignadas" (deleteItem)="onTareaDelete($event)" (clearAll)="onTareasClear()"
+                [maxVisible]="4">
+            </app-chips>
+            <mat-error *ngIf="form.get('tareas')?.hasError('required') && form.get('tareas')?.touched">
+                {{ 'forms.trabajoTarea.errors.tareasRequeridas' | translate }}
+            </mat-error>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex justify-end gap-4 mt-4">
+            <button type="button" class="px-6 py-2 border border-[#4350AF] text-[#4350AF] rounded hover:bg-gray-50"
+                (click)="onCancel()">
+                {{ 'common.cancelar' | translate }}
+            </button>
+            <button type="submit" class="px-6 py-2 bg-[#4350AF] text-white rounded hover:bg-[#374291]"
+                [disabled]="form.invalid || isLoading">
+                <span *ngIf="!isLoading">{{ 'common.guardar' | translate }}</span>
+                <mat-icon *ngIf="isLoading">sync</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>
