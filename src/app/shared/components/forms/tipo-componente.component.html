@@ -6,19 +6,29 @@
 <mat-dialog-content class="!p-0 dark:bg-neutral-800">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
 
-        <!--Input -->
-
-        <mat-form-field appearance="outline" class="w-full dark:text-white  ">
+        <!--Input Nombre -->
+        <mat-form-field appearance="outline" class="w-full dark:text-white">
             <mat-label class="text-lg">{{ 'mantenedores.formularios.tipoComponente.label.nombre' | translate
                 }}</mat-label>
             <input matInput formControlName="nombre"
-                [attr.placeholder]="'mantenedores.formularios.nombre.descripcion' | translate"
-                class="text-lg w-full dark:text-white ">
+                [attr.placeholder]="'mantenedores.formularios.tipoComponente.placeholder.nombre' | translate"
+                class="text-lg w-full dark:text-white">
             <mat-error *ngIf="form.get('nombre')?.hasError('required')" class="text-red-500 text-base">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
         </mat-form-field>
 
+        <!--Input Descripción -->
+        <mat-form-field appearance="outline" class="w-full dark:text-white">
+            <mat-label class="text-lg">{{ 'mantenedores.formularios.tipoComponente.label.descripcion' | translate
+                }}</mat-label>
+            <input matInput formControlName="descripcion"
+                [attr.placeholder]="'mantenedores.formularios.tipoComponente.placeholder.descripcion' | translate"
+                class="text-lg w-full dark:text-white">
+            <mat-error *ngIf="form.get('descripcion')?.hasError('required')" class="text-red-500 text-base">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
 
         <div class="grid grid-cols-2 gap-4 w-full">
             <button type="button" (click)="dialogRef.close()"

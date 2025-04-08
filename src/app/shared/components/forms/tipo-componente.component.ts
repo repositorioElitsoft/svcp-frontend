@@ -25,7 +25,7 @@ import { TipoComponenteService } from '../../../core/services/tipo-componente.se
 import { TipoComponente } from '../../../core/models/tipo-componente.model';
 
 @Component({
-  selector: 'app-tipo-cliente-create-form',
+  selector: 'app-tipo-componente-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -42,7 +42,7 @@ import { TipoComponente } from '../../../core/models/tipo-componente.model';
     TranslateModule,
     TituloDialogoComponent,
   ],
-  templateUrl: `./tipo-cliente.component.html`,
+  templateUrl: `./tipo-componente.component.html`,
   styles: [],
 })
 export class TipoComponenteFormComponent implements OnInit {
@@ -67,7 +67,7 @@ export class TipoComponenteFormComponent implements OnInit {
     // Tipando el FormGroup
     this.form = this.fb.group({
       /*inputsflag*/
-      id: [null,],
+      id: [null],
       nombre: [null, Validators.required],
       descripcion: [null, Validators.required]
     });
@@ -76,10 +76,9 @@ export class TipoComponenteFormComponent implements OnInit {
   ngOnInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'descripcionTipoCliente'
+    // Verificar si 'data.object' existe y tiene los campos necesarios
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
-
 
       this.form.patchValue({
         /*object-fields-edit*/
@@ -118,7 +117,7 @@ export class TipoComponenteFormComponent implements OnInit {
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+            const errorMessage = error.error?.message || this.translate.instant('alertas.toastr.error');
             this.toastr.error(errorMessage);
           }
         })
