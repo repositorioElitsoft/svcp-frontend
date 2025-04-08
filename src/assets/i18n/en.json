@@ -497,6 +497,12 @@
                 "tituloAgregar": "Create Role",
                 "label.nombreRol": "Role",
                 "nombreRol": "Enter the  role"
+            },
+            "tipoComponente": {
+                "tituloEditar": "Edit Component Type",
+                "tituloAgregar": "Create Component Type",
+                "label.nombre": "Component Type",
+                "descripcion": "Enter the description of the component type"
             }
         }
     },

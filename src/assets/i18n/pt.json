@@ -488,6 +488,12 @@
                 "tituloAgregar": "Criar Cargo",
                 "label.nombreRol": "Cargo",
                 "nombreRol": "Insira a Cargo"
+            },
+            "tipoComponente": {
+                "tituloEditar": "Editar Tipo de Componente",
+                "tituloAgregar": "Criar Tipo de Componente",
+                "label.nombre": "Tipo de Componente",
+                "descripcion": "Insira a descrição do tipo de componente"
             }
         }
     },
