@@ -286,17 +286,17 @@ export class TipoComponenteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
-        const ids = selectedItems.map(item => item.id);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
+        // Enviar los objetos completos en lugar de solo los IDs
+        console.log("Datos a enviar para eliminar:", selectedItems);
 
-        this.tipoComponenteService.borrarTodos(ids).subscribe({
+        this.tipoComponenteService.borrarTodos(selectedItems).subscribe({
           next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
+            console.log("Elementos eliminados exitosamente:", selectedItems);
+            this.dataSource = this.dataSource.filter(item => !selectedItems.some(si => si.id === item.id));
             this.hasSelection = false;
 
             // Actualizar las propiedades de paginación
-            this.totalElements -= ids.length;
+            this.totalElements -= selectedItems.length;
             this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
             // Ajustar pageNumber si es necesario

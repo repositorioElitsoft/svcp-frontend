@@ -32,8 +32,8 @@ export class TipoComponenteService {
     }
 
 
-    borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}tipos-componentes/lote`, { body: ids });
+    borrarTodos(tipoComponentes: TipoComponente[]): Observable<any> {
+        return this.http.delete<any>(`${this.url}tipos-componentes/lote`, { body: tipoComponentes });
     }
 
     actualizar(tipoComponenteId: number, tipoComponente: TipoComponente): Observable<TipoComponente> {
