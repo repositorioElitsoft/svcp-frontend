@@ -52,7 +52,7 @@ import { MatButtonModule } from '@angular/material/button';
     }
 
     .chip {
-      background: white;
+      background: #ccc2ac;
       border-radius: 4px;
       padding: 4px 8px;
       font-size: 13px;
@@ -60,8 +60,7 @@ import { MatButtonModule } from '@angular/material/button';
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      min-height: 32px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      min-height: 28px;
     }
 
     .chip-content {
@@ -83,15 +82,17 @@ import { MatButtonModule } from '@angular/material/button';
       border: none;
       background: transparent;
       cursor: pointer;
-      padding: 4px;
+      padding: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #616161;
+      color: #9E9E9E;
+      min-width: 18px;
+      min-height: 18px;
     }
 
     .delete-button:hover {
-      color: #d32f2f;
+      color: #616161;
     }
 
     .more-button {
@@ -111,10 +112,10 @@ import { MatButtonModule } from '@angular/material/button';
     }
 
     mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-      line-height: 18px;
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
     }
   `]
 })
