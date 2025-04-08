@@ -507,7 +507,7 @@
                 "tituloEditar": "Editar Tipo de Componente",
                 "tituloAgregar": "Crear Tipo de Componente",
                 "label.nombre": "Tipo de Componente",
-                "descripcion": "Ingrese la descripción del tipo de componente"
+                "label.descripcion": "Descripción"
             }
         }
     },

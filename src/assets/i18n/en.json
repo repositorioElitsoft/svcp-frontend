@@ -502,7 +502,7 @@
                 "tituloEditar": "Edit Component Type",
                 "tituloAgregar": "Create Component Type",
                 "label.nombre": "Component Type",
-                "descripcion": "Enter the description of the component type"
+                "label.descripcion": "Description"
             }
         }
     },
