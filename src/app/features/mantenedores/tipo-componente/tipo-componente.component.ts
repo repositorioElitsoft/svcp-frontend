@@ -60,8 +60,9 @@ export class TipoComponenteComponent implements OnInit {
 
   /********************************** TABLA - SHARED TABLE **********************************/
   onSelectionChange(selectedItems: any[]) {
+    console.log("Selección cambiada:", selectedItems);
     this.hasSelection = selectedItems.length > 0;
-    this.selectedData = selectedItems; // Guardamos la data seleccionada
+    this.selectedData = selectedItems;
   }
 
 
@@ -311,14 +312,21 @@ export class TipoComponenteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
-        // Enviar los objetos completos en lugar de solo los IDs
         console.log("Datos a enviar para eliminar:", selectedItems);
 
         this.tipoComponenteService.borrarTodos(selectedItems).subscribe({
           next: () => {
             console.log("Elementos eliminados exitosamente:", selectedItems);
-            this.dataSource = this.dataSource.filter(item => !selectedItems.some(si => si.id === item.id));
+
+            // Limpiar selecciones primero
+            this.selectedData = [];
             this.hasSelection = false;
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.clearSelection();
+            }
+
+            // Actualizar datos
+            this.dataSource = this.dataSource.filter(item => !selectedItems.some(si => si.id === item.id));
 
             // Actualizar las propiedades de paginación
             this.totalElements -= selectedItems.length;
@@ -326,26 +334,21 @@ export class TipoComponenteComponent implements OnInit {
 
             // Ajustar pageNumber si es necesario
             if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
+              this.pageNumber = this.totalPages - 1;
             }
 
-            // Recargar los datos
-            this.obtenerDatos();
+            // Recargar los datos manteniendo el estado de ordenamiento y filtros
+            if (this.currentSortState) {
+              this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+            } else {
+              this.obtenerDatos("id", "asc", this.currentFilters);
+            }
 
             // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
-            // Limpiar selecciones en el componente hijo
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Depurar el estado del paginador
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages
-            });
+            // Forzar la detección de cambios
+            this.cdr.detectChanges();
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
@@ -382,6 +385,13 @@ export class TipoComponenteComponent implements OnInit {
           next: () => {
             console.log("Elemento eliminado exitosamente:", id);
 
+            // Limpiar selecciones primero
+            this.selectedData = [];
+            this.hasSelection = false;
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.clearSelection();
+            }
+
             // Filtrar el item eliminado del dataSource
             this.dataSource = this.dataSource.filter(item => item.id !== Number(id));
 
@@ -394,23 +404,18 @@ export class TipoComponenteComponent implements OnInit {
               this.pageNumber = this.totalPages - 1;
             }
 
-            // Recargar datos
-            this.obtenerDatos();
+            // Recargar datos manteniendo el estado de ordenamiento y filtros
+            if (this.currentSortState) {
+              this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+            } else {
+              this.obtenerDatos("id", "asc", this.currentFilters);
+            }
 
             // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
-            // Limpiar selección si existe un componente compartido
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Debug: Estado del paginador después de eliminar
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages
-            });
+            // Forzar la detección de cambios
+            this.cdr.detectChanges();
           },
           error: (err: any) => {
             console.error("Error al eliminar elemento:", err);
