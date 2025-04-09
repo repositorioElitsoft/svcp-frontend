@@ -27,18 +27,20 @@ import { BusquedaGenericaComponent } from '../../../shared/components/busqueda-g
   styleUrl: "./tarea.component.css",
 })
 export class TareaComponent implements OnInit {
-  displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: Tarea[] = []; // Ahora usa la interfaz tarea
-  titulo: string = 'Tarea'; // Puedes cambiarlo dinámicamente
+  displayedColumns: string[] = [];
+  dataSource: Tarea[] = [];
+  titulo: string = 'Tarea';
   hasSelection = false;
-  selectedData: any[] = []; // Almacena la data seleccionada
-  pageNumber = 0
-  totalPages = 0
+  selectedData: any[] = [];
+  pageNumber = 0;
+  totalPages = 0;
   pageSize = 10;
   totalElements = 0;
-  isLoading = false; // Variable para controlar el estado de carga
+  isLoading = false;
+  currentSortState: { column: string; direction: string } | null = null;
+  currentFilters: any = {};
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
-  activeOptionalFilters: any[] = [];
+  activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -163,40 +165,60 @@ export class TareaComponent implements OnInit {
     this.router.navigate(['/portal/home']);
   }
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+    this.currentSortState = {
+      column: sortData.selectedColumnName,
+      direction: sortData.currentSortType
+    };
+    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType, this.currentFilters);
   }
 
   onPageChanged(newPage: number) {
     console.log("Página cambiada", newPage);
-    this.pageNumber = newPage
-    this.obtenerDatos();
+    this.pageNumber = newPage;
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+    } else {
+      this.obtenerDatos("id", "asc", this.currentFilters);
+    }
   }
 
-
-  buscar(data: { filter: any, labels: any[] }) {
-    console.log('Método buscar llamado con:', data);
+  buscar(filters: any) {
+    console.log('Aplicando filtros desde búsqueda genérica:', filters);
     this.pageNumber = 0;
-    this.activeOptionalFilters = data.labels;
-    this.obtenerDatos("id", "asc", data.filter);
+
+    let optionalFilter = {};
+
+    if (filters.filter) {
+      optionalFilter = filters.filter;
+      this.activeOptionalFilters = filters.labels || [];
+    } else {
+      optionalFilter = filters;
+    }
+
+    this.currentSortState = null;
+    this.currentFilters = optionalFilter;
+    this.obtenerDatos("id", "asc", optionalFilter);
   }
 
   onFilterDeleted(filterData: { field: string, value: string }) {
     console.log('Eliminando filtro:', filterData);
 
-    // Actualizar los filtros activos
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );
 
-    // Reconstruir el objeto de filtro
-    const newFilter: any = {};
-    this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
-      if (filter.field === 'descripcionTarea') {
-        newFilter.descripcionTarea = filter.value;
-      }
-    });
+    const newFilter = this.activeOptionalFilters.reduce((acc: any, filter: { field: string, value: string }) => {
+      acc[filter.field] = filter.value;
+      return acc;
+    }, {});
 
-    // Obtener datos con los nuevos filtros
+    this.currentFilters = newFilter;
+    console.log('Nuevos filtros después de eliminar:', newFilter);
+
+    if (Object.keys(newFilter).length === 0) {
+      this.currentSortState = null;
+    }
+
     this.obtenerDatos("id", "asc", newFilter);
   }
 
@@ -212,8 +234,9 @@ export class TareaComponent implements OnInit {
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     console.log('Obteniendo datos con filtros:', optionalFilter);
+    console.log('Estado actual del ordenamiento:', this.currentSortState);
+    console.log('Filtros actuales:', this.currentFilters);
 
-    // Activar el estado de carga
     this.isLoading = true;
 
     const mandatoryFilter = {
@@ -228,25 +251,23 @@ export class TareaComponent implements OnInit {
       (data: PagedResponse<Tarea[]>) => {
         console.log("Datos recibidos:", data);
 
-        this.pageNumber = data.pageNumber
-        this.totalPages = data.totalPages
+        this.pageNumber = data.pageNumber;
+        this.totalPages = data.totalPages;
         this.pageSize = data.pageSize;
         this.totalElements = data.totalElements;
 
         this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-        this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
+        this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value);
         this.dataSource = data.content.flat();
         if (data.content.length > 0) {
           this.displayedColumns = Object.keys(data.content[0]);
         }
 
-        // Desactivar el estado de carga
         this.isLoading = false;
         this.cdr.detectChanges();
       },
       error => {
         console.error('Error al obtener datos:', error);
-        // Desactivar el estado de carga en caso de error
         this.isLoading = false;
         this.cdr.detectChanges();
       }
@@ -262,7 +283,6 @@ export class TareaComponent implements OnInit {
   eliminar(selectedItems: Tarea[]) {
     const count = selectedItems.length;
 
-    // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
@@ -282,7 +302,7 @@ export class TareaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
         const ids = selectedItems.map(item => item.id);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
+        console.log("Datos a enviar para eliminar:", ids);
 
         this.tareaService.borrarTodos(ids).subscribe({
           next: () => {
@@ -290,30 +310,31 @@ export class TareaComponent implements OnInit {
             this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
             this.hasSelection = false;
 
-            // Actualizar las propiedades de paginación
             this.totalElements -= ids.length;
             this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
-            // Ajustar pageNumber si es necesario
             if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
+              this.pageNumber = this.totalPages - 1;
             }
 
-            // Recargar los datos
-            this.obtenerDatos();
+            if (this.currentSortState) {
+              this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+            } else {
+              this.obtenerDatos("id", "asc", this.currentFilters);
+            }
 
-            // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-            // Limpiar selecciones en el componente hijo
+
             if (this.sharedTableComponent) {
               this.sharedTableComponent.selection.clear();
             }
 
-            // Depurar el estado del paginador
             console.log("Estado del paginador después de eliminar:", {
               pageNumber: this.pageNumber,
               totalElements: this.totalElements,
-              totalPages: this.totalPages
+              totalPages: this.totalPages,
+              currentFilters: this.currentFilters,
+              currentSortState: this.currentSortState
             });
           },
           error: err => {
@@ -326,9 +347,8 @@ export class TareaComponent implements OnInit {
   }
 
   onDeleteSingleSelected(id: string) {
-    console.log("Eliminar seleccionado:", id);
+    console.log("Eliminando elemento con ID:", id);
 
-    // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tarea.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
@@ -345,39 +365,37 @@ export class TareaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
-        console.log("Eliminando elemento con ID:", id);
-
         this.tareaService.borrar(Number(id)).subscribe({
           next: () => {
             console.log("Elemento eliminado exitosamente:", id);
 
-            // Filtrar el item eliminado del dataSource
             this.dataSource = this.dataSource.filter(item => item.id !== Number(id));
 
-            // Actualizar propiedades de paginación
             this.totalElements -= 1;
             this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
-            // Ajustar pageNumber si es necesario
             if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
               this.pageNumber = this.totalPages - 1;
             }
 
-            // Recargar datos
-            this.obtenerDatos();
+            if (this.currentSortState) {
+              this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+            } else {
+              this.obtenerDatos("id", "asc", this.currentFilters);
+            }
 
-            // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-            // Limpiar selección si existe un componente compartido
+
             if (this.sharedTableComponent) {
               this.sharedTableComponent.selection.clear();
             }
 
-            // Debug: Estado del paginador después de eliminar
             console.log("Estado del paginador después de eliminar:", {
               pageNumber: this.pageNumber,
               totalElements: this.totalElements,
-              totalPages: this.totalPages
+              totalPages: this.totalPages,
+              currentFilters: this.currentFilters,
+              currentSortState: this.currentSortState
             });
           },
           error: (err: any) => {
