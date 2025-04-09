@@ -38,14 +38,13 @@ export class BusquedaSectorComponent implements OnInit {
   @Input() showDiv: boolean = true;
   @Input() translationGroup = "";
 
+  selectedFilter: any = {};
+  zonaSelectAbierto: boolean = false;
 
   @Output() simpleSearch = new EventEmitter<{ [x: string]: string }>();
   @Output() filterSearch = new EventEmitter<{ filter: string; value: string }>();
   @Output() applyfilter = new EventEmitter<any>();
   @Output() filterDelete = new EventEmitter<string>();
-  zonaSelectAbierto: boolean = false;
-
-  selectedFilter: any = {};
 
   constructor(
     private translate: TranslateService,
@@ -70,7 +69,6 @@ export class BusquedaSectorComponent implements OnInit {
       }
     });
   }
-
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['tableData']) {
@@ -134,9 +132,8 @@ export class BusquedaSectorComponent implements OnInit {
     return this.translationGroup ? `${this.translationGroup}.${column}` : column;
   }
 
-  clearValue() {
+  clearInput() {
     this.value = '';
-    this.executeSearch();
   }
 
   clearZona() {
@@ -144,10 +141,7 @@ export class BusquedaSectorComponent implements OnInit {
     this.executeSearch();
   }
 
-
   onZonaSelectOpen() {
     this.zonaSelectAbierto = true;
   }
-
-
 }
