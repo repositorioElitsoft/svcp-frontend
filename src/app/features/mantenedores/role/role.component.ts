@@ -15,20 +15,29 @@ import { HeadTableComponent } from "../../../shared/head-table/head-table.compon
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
-import { BusquedaSectorComponent } from "../sector/busqueda-sector/busqueda-sector.component";
 import { Role } from "../../../core/models/role.model";
 import { RoleService } from "../../../core/services/role.service";
-import { BusquedaRoleComponent } from "./busqueda-role/busqueda-role.component";
+import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
+
 @Component({
   selector: "app-role",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaRoleComponent],
+  imports: [
+    CommonModule,
+    SharedTableComponent,
+    MatIconModule,
+    HeadTableComponent,
+    MatPaginatorModule,
+    OpcionesMantenedorComponent,
+    TranslateModule,
+    BusquedaGenericaComponent
+  ],
   templateUrl: "./role.component.html",
   styleUrl: "./role.component.css",
 })
 export class RoleComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: Role[] = []; // Ahora usa la interfaz sector
+  dataSource: Role[] = []; // Ahora usa la interfaz role
   titulo: string = 'Role'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
@@ -40,9 +49,11 @@ export class RoleComponent implements OnInit {
   zona = null;
   totalElements = 0;
   isLoading = false; // Variable para controlar el estado de carga
+  currentSortState: { column: string; direction: string } | null = null; // Variable para mantener el estado del ordenamiento
+  currentFilters: any = {}; // Variable para mantener los filtros actuales
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
-  @ViewChild('busquedaRol') busquedaRol!: BusquedaRoleComponent;
+  @ViewChild('busquedaRol') busquedaRol!: BusquedaGenericaComponent;
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -165,43 +176,69 @@ export class RoleComponent implements OnInit {
     this.router.navigate(['/portal/home']);
   }
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+    this.currentSortState = {
+      column: sortData.selectedColumnName,
+      direction: sortData.currentSortType
+    };
+    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType, this.currentFilters);
   }
 
   onPageChanged(newPage: number) {
     console.log("Página cambiada", newPage);
-    this.pageNumber = newPage
-    this.obtenerDatos();
+    this.pageNumber = newPage;
+    // Usar el estado del ordenamiento guardado si existe y los filtros actuales
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+    } else {
+      this.obtenerDatos("id", "asc", this.currentFilters);
+    }
   }
 
+  buscar(filters: any) {
+    console.log('Aplicando filtros desde búsqueda genérica:', filters);
+    this.pageNumber = 0;
 
-  buscar(data: { filter: any, labels: any[] }) {
-    console.log('Método buscar llamado con:', data);
-    this.activeOptionalFilters = data.labels;
-    this.obtenerDatos("id", "asc", data.filter);
+    // Si los filtros vienen del componente de búsqueda genérica, tendrán una estructura específica
+    let optionalFilter = {};
+
+    if (filters.filter) {
+      // Formato de búsqueda genérica: { filter: {...}, labels: [...] }
+      optionalFilter = filters.filter;
+      this.activeOptionalFilters = filters.labels || [];
+    } else {
+      // Formato antiguo o directo
+      optionalFilter = filters;
+    }
+
+    // Al aplicar filtros, resetear el ordenamiento
+    this.currentSortState = null;
+    this.currentFilters = optionalFilter;
+    this.obtenerDatos("id", "asc", optionalFilter);
   }
 
-  onFilterDelete(filterData: { field: string, value: string }) {
+  onFilterDeleted(filterData: { field: string, value: string }) {
     console.log('Eliminando filtro:', filterData);
 
-    // Actualizar los filtros activos
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );
 
-    // Reconstruir el objeto de filtro
-    const newFilter: any = {};
-    this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
-      if (filter.field === 'nombreRol') {
-        newFilter.nombreRol = filter.value;
-      }
-    });
+    const newFilter = this.activeOptionalFilters.reduce((acc: any, filter: { field: string, value: string }) => {
+      acc[filter.field] = filter.value;
+      return acc;
+    }, {});
+
+    this.currentFilters = newFilter; // Actualizar los filtros actuales
+    console.log('Nuevos filtros después de eliminar:', newFilter);
+
+    // Si no hay filtros activos, resetear el ordenamiento
+    if (Object.keys(newFilter).length === 0) {
+      this.currentSortState = null;
+    }
 
     // Obtener datos con los nuevos filtros
     this.obtenerDatos("id", "asc", newFilter);
   }
-
-
 
   /********************************** TABLA - SHARED TABLE **********************************/
 
@@ -213,7 +250,9 @@ export class RoleComponent implements OnInit {
 
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
-    console.log('obtenerDatos llamado con filtros:', optionalFilter);
+    console.log('Obteniendo datos con filtros:', optionalFilter);
+    console.log('Estado actual del ordenamiento:', this.currentSortState);
+    console.log('Filtros actuales:', this.currentFilters);
 
     // Activar el estado de carga
     this.isLoading = true;
@@ -301,8 +340,12 @@ export class RoleComponent implements OnInit {
               this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
             }
 
-            // Recargar los datos
-            this.obtenerDatos();
+            // Recargar los datos manteniendo el estado de ordenamiento y filtros
+            if (this.currentSortState) {
+              this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+            } else {
+              this.obtenerDatos("id", "asc", this.currentFilters);
+            }
 
             // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
@@ -316,7 +359,9 @@ export class RoleComponent implements OnInit {
             console.log("Estado del paginador después de eliminar:", {
               pageNumber: this.pageNumber,
               totalElements: this.totalElements,
-              totalPages: this.totalPages
+              totalPages: this.totalPages,
+              currentFilters: this.currentFilters,
+              currentSortState: this.currentSortState
             });
           },
           error: err => {
@@ -366,8 +411,12 @@ export class RoleComponent implements OnInit {
               this.pageNumber = this.totalPages - 1;
             }
 
-            // Recargar datos
-            this.obtenerDatos();
+            // Recargar datos manteniendo el estado de ordenamiento y filtros
+            if (this.currentSortState) {
+              this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+            } else {
+              this.obtenerDatos("id", "asc", this.currentFilters);
+            }
 
             // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
@@ -381,7 +430,9 @@ export class RoleComponent implements OnInit {
             console.log("Estado del paginador después de eliminar:", {
               pageNumber: this.pageNumber,
               totalElements: this.totalElements,
-              totalPages: this.totalPages
+              totalPages: this.totalPages,
+              currentFilters: this.currentFilters,
+              currentSortState: this.currentSortState
             });
           },
           error: (err: any) => {
