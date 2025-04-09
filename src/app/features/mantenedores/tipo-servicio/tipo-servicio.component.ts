@@ -53,8 +53,9 @@ export class TipoServicioComponent implements OnInit {
 
   /********************************** TABLA - SHARED TABLE **********************************/
   onSelectionChange(selectedItems: any[]) {
+    console.log("Selección cambiada:", selectedItems);
     this.hasSelection = selectedItems.length > 0;
-    this.selectedData = selectedItems; // Guardamos la data seleccionada
+    this.selectedData = selectedItems;
   }
 
 
@@ -283,6 +284,7 @@ export class TipoServicioComponent implements OnInit {
   eliminar(selectedItems: TipoServicio[]) {
     const count = selectedItems.length;
 
+    // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
@@ -306,36 +308,39 @@ export class TipoServicioComponent implements OnInit {
 
         this.tipoServicioService.borrarTodos(ids).subscribe({
           next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
-            this.hasSelection = false;
+            console.log("Elementos eliminados exitosamente:", selectedItems);
 
-            this.totalElements -= ids.length;
+            // Limpiar selecciones primero
+            this.selectedData = [];
+            this.hasSelection = false;
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.clearSelection();
+            }
+
+            // Actualizar datos
+            this.dataSource = this.dataSource.filter(item => !selectedItems.some(si => si.id === item.id));
+
+            // Actualizar las propiedades de paginación
+            this.totalElements -= selectedItems.length;
             this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
+            // Ajustar pageNumber si es necesario
             if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
               this.pageNumber = this.totalPages - 1;
             }
 
+            // Recargar los datos manteniendo el estado de ordenamiento y filtros
             if (this.currentSortState) {
               this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
             } else {
               this.obtenerDatos("id", "asc", this.currentFilters);
             }
 
+            // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages,
-              currentFilters: this.currentFilters,
-              currentSortState: this.currentSortState
-            });
+            // Forzar la detección de cambios
+            this.cdr.detectChanges();
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
@@ -347,8 +352,9 @@ export class TipoServicioComponent implements OnInit {
   }
 
   onDeleteSingleSelected(id: string) {
-    console.log("Eliminando elemento con ID:", id);
+    console.log("Eliminar seleccionado:", id);
 
+    // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoServicio.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
@@ -365,38 +371,43 @@ export class TipoServicioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
+        console.log("Eliminando elemento con ID:", id);
+
         this.tipoServicioService.borrar(Number(id)).subscribe({
           next: () => {
             console.log("Elemento eliminado exitosamente:", id);
 
+            // Limpiar selecciones primero
+            this.selectedData = [];
+            this.hasSelection = false;
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.clearSelection();
+            }
+
+            // Filtrar el item eliminado del dataSource
             this.dataSource = this.dataSource.filter(item => item.id !== Number(id));
 
+            // Actualizar propiedades de paginación
             this.totalElements -= 1;
             this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
+            // Ajustar pageNumber si es necesario
             if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
               this.pageNumber = this.totalPages - 1;
             }
 
+            // Recargar datos manteniendo el estado de ordenamiento y filtros
             if (this.currentSortState) {
               this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
             } else {
               this.obtenerDatos("id", "asc", this.currentFilters);
             }
 
+            // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages,
-              currentFilters: this.currentFilters,
-              currentSortState: this.currentSortState
-            });
+            // Forzar la detección de cambios
+            this.cdr.detectChanges();
           },
           error: (err: any) => {
             console.error("Error al eliminar elemento:", err);
