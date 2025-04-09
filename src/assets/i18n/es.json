@@ -232,8 +232,8 @@
         },
         "tipoServicio": {
             "id": "Id",
-            "titulo": "Tipo de Servicio",
-            "descripcionTipoServicio": "Descripción del Tipo de Servicio"
+            "titulo": "Tipo de Servicios",
+            "descripcionTipoServicio": "Tipo de Servicio"
         },
         "trabajo": {
             "id": "Id",
@@ -484,8 +484,8 @@
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Servicio",
                 "tituloAgregar": "Crear Tipo de Servicio",
-                "label.descripcionTipoServicio": "Descripción del Tipo de Servicio",
-                "descripcionTipoServicio": "Ingrese la descripción del tipo de servicio"
+                "label.descripcionTipoServicio": "Tipo de Servicio",
+                "descripcionTipoServicio": "Ingrese el tipo de servicio"
             },
             "trabajo": {
                 "tituloEditar": "Editar Trabajo",
