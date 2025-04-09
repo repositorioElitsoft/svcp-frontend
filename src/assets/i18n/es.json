@@ -218,7 +218,7 @@
         "tipoCliente": {
             "id": "Id",
             "titulo": "Tipo de Cliente",
-            "nombre": "Descripción del Tipo de Cliente"
+            "nombre": "Tipo de Componente"
         },
         "tipoEmpleado": {
             "id": "Id",
@@ -460,8 +460,8 @@
             "tipoCliente": {
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Crear Tipo de Cliente",
-                "label.nombre": "Descripción del Tipo de Cliente",
-                "descripcion": "Ingrese la descripción del tipo de cliente"
+                "label.nombre": "Tipo de Cliente",
+                "descripcion": "Ingrese el tipo de cliente"
             },
             "tipoDocumentoIdentificacion": {
                 "tituloEditar": "Editar Documento Identifiación",
