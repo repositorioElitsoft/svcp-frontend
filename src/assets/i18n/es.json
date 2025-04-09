@@ -250,7 +250,7 @@
         "ruta": {
             "id": "Id",
             "titulo": "Rutas",
-            "descripcion": "Descripción de Rutas"
+            "descripcion": "Ruta"
         },
         "tipoComponente": {
             "id": "Id",
@@ -502,8 +502,8 @@
             "ruta": {
                 "tituloEditar": "Editar Ruta",
                 "tituloAgregar": "Crear Ruta",
-                "label.descripcion": "Descripción de la Ruta",
-                "descripcion": "Ingrese la descripción de la ruta"
+                "label.descripcion": "Ruta",
+                "descripcion": "Ingrese la  ruta"
             },
             "tipoComponente": {
                 "tituloEditar": "Editar Tipo de Componente",
