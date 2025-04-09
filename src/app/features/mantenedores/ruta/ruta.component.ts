@@ -311,26 +311,33 @@ export class RutaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado) {
-        // Convertir selectedItems en el formato esperado por el servicio
-        const rutas = selectedItems.map(item => ({
+        const rutasAEliminar = selectedItems.map(item => ({
           id: item.id,
           descripcion: item.descripcion || null
         }));
-        console.log("Datos a enviar para eliminar:", rutas);
+        console.log("Datos a enviar para eliminar:", rutasAEliminar);
 
-        this.rutaService.borrarTodos(rutas).subscribe({
+        this.rutaService.borrarTodos(rutasAEliminar).subscribe({
           next: () => {
-            console.log("Elementos eliminados exitosamente:", rutas);
-            this.dataSource = this.dataSource.filter(item => !rutas.some(ruta => ruta.id === item.id));
+            console.log("Elementos eliminados exitosamente:", selectedItems);
+
+            // Limpiar selecciones primero
+            this.selectedData = [];
             this.hasSelection = false;
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.clearSelection();
+            }
+
+            // Actualizar datos
+            this.dataSource = this.dataSource.filter(item => !selectedItems.some(si => si.id === item.id));
 
             // Actualizar las propiedades de paginación
-            this.totalElements -= rutas.length;
+            this.totalElements -= selectedItems.length;
             this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
             // Ajustar pageNumber si es necesario
             if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
+              this.pageNumber = this.totalPages - 1;
             }
 
             // Recargar los datos manteniendo el estado de ordenamiento y filtros
@@ -343,19 +350,8 @@ export class RutaComponent implements OnInit {
             // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
-            // Limpiar selecciones en el componente hijo
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Depurar el estado del paginador
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages,
-              currentFilters: this.currentFilters,
-              currentSortState: this.currentSortState
-            });
+            // Forzar la detección de cambios
+            this.cdr.detectChanges();
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);

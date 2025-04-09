@@ -295,6 +295,7 @@ export class SegmentacionClienteComponent implements OnInit {
   eliminar(selectedItems: SegmentacionCliente[]) {
     const count = selectedItems.length;
 
+    // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
@@ -318,36 +319,39 @@ export class SegmentacionClienteComponent implements OnInit {
 
         this.segmentacionClienteService.borrarTodos(ids).subscribe({
           next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
-            this.hasSelection = false;
+            console.log("Elementos eliminados exitosamente:", selectedItems);
 
-            this.totalElements -= ids.length;
+            // Limpiar selecciones primero
+            this.selectedData = [];
+            this.hasSelection = false;
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.clearSelection();
+            }
+
+            // Actualizar datos
+            this.dataSource = this.dataSource.filter(item => !selectedItems.some(si => si.id === item.id));
+
+            // Actualizar las propiedades de paginación
+            this.totalElements -= selectedItems.length;
             this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
 
+            // Ajustar pageNumber si es necesario
             if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
               this.pageNumber = this.totalPages - 1;
             }
 
+            // Recargar los datos manteniendo el estado de ordenamiento y filtros
             if (this.currentSortState) {
               this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
             } else {
               this.obtenerDatos("id", "asc", this.currentFilters);
             }
 
+            // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages,
-              currentFilters: this.currentFilters,
-              currentSortState: this.currentSortState
-            });
+            // Forzar la detección de cambios
+            this.cdr.detectChanges();
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
