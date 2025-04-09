@@ -45,6 +45,8 @@ export class BusquedaGenericaComponent implements OnInit {
     @Output() applyfilter = new EventEmitter<any>();
     @Output() filterDelete = new EventEmitter<string>();
 
+    hasSearched: boolean = false;
+
     constructor(
         private translate: TranslateService
     ) { }
@@ -70,6 +72,7 @@ export class BusquedaGenericaComponent implements OnInit {
         console.log('fieldName:', this.fieldName);
         console.log('value:', this.value);
 
+        this.hasSearched = this.value.length > 0;
         const filter: any = {};
         const labels: any[] = [];
 
@@ -119,6 +122,9 @@ export class BusquedaGenericaComponent implements OnInit {
 
     clearValue() {
         this.value = '';
-        this.executeSearch();
+        this.hasSearched = false;
+        const filter: any = {};
+        const labels: any[] = [];
+        this.applyfilter.emit({ filter, labels });
     }
 } 
