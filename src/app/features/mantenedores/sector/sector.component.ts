@@ -337,8 +337,12 @@ export class SectorComponent implements OnInit {
               this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
             }
 
-            // Recargar los datos
-            this.obtenerDatos();
+            // Recargar los datos manteniendo el estado de ordenamiento y filtros
+            if (this.currentSortState) {
+              this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+            } else {
+              this.obtenerDatos("id", "asc", this.currentFilters);
+            }
 
             // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
@@ -352,7 +356,9 @@ export class SectorComponent implements OnInit {
             console.log("Estado del paginador después de eliminar:", {
               pageNumber: this.pageNumber,
               totalElements: this.totalElements,
-              totalPages: this.totalPages
+              totalPages: this.totalPages,
+              currentFilters: this.currentFilters,
+              currentSortState: this.currentSortState
             });
           },
           error: err => {
@@ -402,8 +408,12 @@ export class SectorComponent implements OnInit {
               this.pageNumber = this.totalPages - 1;
             }
 
-            // Recargar datos
-            this.obtenerDatos();
+            // Recargar datos manteniendo el estado de ordenamiento y filtros
+            if (this.currentSortState) {
+              this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+            } else {
+              this.obtenerDatos("id", "asc", this.currentFilters);
+            }
 
             // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
@@ -417,7 +427,9 @@ export class SectorComponent implements OnInit {
             console.log("Estado del paginador después de eliminar:", {
               pageNumber: this.pageNumber,
               totalElements: this.totalElements,
-              totalPages: this.totalPages
+              totalPages: this.totalPages,
+              currentFilters: this.currentFilters,
+              currentSortState: this.currentSortState
             });
           },
           error: (err: any) => {

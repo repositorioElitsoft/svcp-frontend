@@ -127,8 +127,8 @@
         },
         "clasificacionCliente": {
             "id": "Id",
-            "titulo": "Clasificación de Cliente",
-            "clasificacionClienteDesc": "Descripción de la Clasificación de Cliente"
+            "titulo": "Clasificación de Clientes",
+            "clasificacionClienteDesc": "Clasificación de Cliente"
         },
         "cliente": {
             "id": "Id",
