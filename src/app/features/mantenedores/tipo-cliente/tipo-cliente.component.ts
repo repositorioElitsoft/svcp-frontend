@@ -46,6 +46,8 @@ export class TipoClienteComponent implements OnInit {
   pageSize = 10;
   totalElements = 0;
   isLoading = false; // Variable para controlar el estado de carga
+  currentSortState: { column: string; direction: string } | null = null; // Variable para mantener el estado del ordenamiento
+  currentFilters: any = {}; // Variable para mantener los filtros actuales
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
@@ -172,13 +174,22 @@ export class TipoClienteComponent implements OnInit {
     this.router.navigate(['/portal/home']);
   }
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+    this.currentSortState = {
+      column: sortData.selectedColumnName,
+      direction: sortData.currentSortType
+    };
+    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType, this.currentFilters);
   }
 
   onPageChanged(newPage: number) {
     console.log("Página cambiada", newPage);
-    this.pageNumber = newPage
-    this.obtenerDatos();
+    this.pageNumber = newPage;
+    // Usar el estado del ordenamiento guardado si existe y los filtros actuales
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+    } else {
+      this.obtenerDatos("id", "asc", this.currentFilters);
+    }
   }
 
 
@@ -192,11 +203,15 @@ export class TipoClienteComponent implements OnInit {
     if (filters.filter) {
       // Formato de búsqueda genérica: { filter: {...}, labels: [...] }
       optionalFilter = filters.filter;
+      this.activeOptionalFilters = filters.labels || [];
     } else {
       // Formato antiguo o directo
       optionalFilter = filters;
     }
 
+    // Al aplicar filtros, resetear el ordenamiento
+    this.currentSortState = null;
+    this.currentFilters = optionalFilter;
     this.obtenerDatos("id", "asc", optionalFilter);
   }
   onFilterDeleted(filterData: { field: string, value: string }) {
@@ -211,7 +226,15 @@ export class TipoClienteComponent implements OnInit {
       return acc;
     }, {});
 
+    this.currentFilters = newFilter; // Actualizar los filtros actuales
     console.log('Nuevos filtros después de eliminar:', newFilter);
+
+    // Si no hay filtros activos, resetear el ordenamiento
+    if (Object.keys(newFilter).length === 0) {
+      this.currentSortState = null;
+    }
+
+    // Obtener datos con los nuevos filtros
     this.obtenerDatos("id", "asc", newFilter);
   }
 
@@ -227,6 +250,8 @@ export class TipoClienteComponent implements OnInit {
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     console.log('Obteniendo datos con filtros:', optionalFilter);
+    console.log('Estado actual del ordenamiento:', this.currentSortState);
+    console.log('Filtros actuales:', this.currentFilters);
 
     // Activar el estado de carga
     this.isLoading = true;
