@@ -222,8 +222,8 @@
         },
         "tipoEmpleado": {
             "id": "Id",
-            "titulo": "Tipo de Empleado",
-            "descripcionTipoEmpleado": "Descripción del Tipo de Empleado"
+            "titulo": "Tipo Empleados",
+            "descripcionTipoEmpleado": "Tipo Empleado"
         },
         "tipoProducto": {
             "id": "Id",
