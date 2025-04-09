@@ -53,8 +53,9 @@ export class AgrupacionComercialComponent implements OnInit {
 
   /********************************** TABLA - SHARED TABLE **********************************/
   onSelectionChange(selectedItems: any[]) {
+    console.log("Selección cambiada:", selectedItems);
     this.hasSelection = selectedItems.length > 0;
-    this.selectedData = selectedItems; // Guardamos la data seleccionada
+    this.selectedData = selectedItems;
   }
 
 
@@ -114,7 +115,7 @@ export class AgrupacionComercialComponent implements OnInit {
       });
     };
 
-    // Verificar si this.selectedData existe y tiene contenido
+    // Verificar si hay elementos seleccionados
     console.log("VERIFICANDO SELECTED DATA:", this.selectedData);
 
     if (this.selectedData && Array.isArray(this.selectedData) && this.selectedData.length > 0) {
@@ -329,8 +330,16 @@ export class AgrupacionComercialComponent implements OnInit {
         this.agrupacionComercialService.borrarTodos(ids).subscribe({
           next: () => {
             console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
+
+            // Limpiar selecciones primero
+            this.selectedData = [];
             this.hasSelection = false;
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.clearSelection();
+            }
+
+            // Actualizar datos
+            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
 
             // Actualizar las propiedades de paginación
             this.totalElements -= ids.length;
@@ -338,7 +347,7 @@ export class AgrupacionComercialComponent implements OnInit {
 
             // Ajustar pageNumber si es necesario
             if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
+              this.pageNumber = this.totalPages - 1;
             }
 
             // Recargar los datos manteniendo el estado de ordenamiento y filtros
@@ -351,19 +360,8 @@ export class AgrupacionComercialComponent implements OnInit {
             // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
-            // Limpiar selecciones en el componente hijo
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Depurar el estado del paginador
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages,
-              currentFilters: this.currentFilters,
-              currentSortState: this.currentSortState
-            });
+            // Forzar la detección de cambios
+            this.cdr.detectChanges();
           },
           error: err => {
             console.error("Error al eliminar elementos:", err);
@@ -400,6 +398,13 @@ export class AgrupacionComercialComponent implements OnInit {
           next: () => {
             console.log("Elemento eliminado exitosamente:", id);
 
+            // Limpiar selecciones primero
+            this.selectedData = [];
+            this.hasSelection = false;
+            if (this.sharedTableComponent) {
+              this.sharedTableComponent.clearSelection();
+            }
+
             // Filtrar el item eliminado del dataSource
             this.dataSource = this.dataSource.filter(item => item.id !== Number(id));
 
@@ -422,19 +427,8 @@ export class AgrupacionComercialComponent implements OnInit {
             // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
 
-            // Limpiar selección si existe un componente compartido
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Debug: Estado del paginador después de eliminar
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages,
-              currentFilters: this.currentFilters,
-              currentSortState: this.currentSortState
-            });
+            // Forzar la detección de cambios
+            this.cdr.detectChanges();
           },
           error: (err: any) => {
             console.error("Error al eliminar elemento:", err);

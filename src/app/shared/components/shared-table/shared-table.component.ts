@@ -157,9 +157,9 @@ export class SharedTableComponent implements OnInit {
 
   // Lógica para verificar si todas las filas están seleccionadas
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.length;
-    return numSelected === numRows;
+    // Verificar si todos los elementos de la página actual están seleccionados
+    return this.dataSource.length > 0 &&
+      this.dataSource.every(row => this.selection.isSelected(row));
   }
 
   protected onSort(selectedColumnName: string, columnIndex: number) {
@@ -219,7 +219,10 @@ export class SharedTableComponent implements OnInit {
     const dataSlice = this.dataSource.slice(0, this.pageSize); // Obtener solo la parte paginada
     this.dataSourceSubject.next(dataSlice);
     this.dataEmitted.emit(dataSlice); // Emitir la data actualizada
+
+    // Actualizar la selección cuando cambia el dataSource
     this.updateSelection();
+    this.cdr.detectChanges();
   }
 
   getVisiblePages(): number[] {
@@ -277,18 +280,15 @@ export class SharedTableComponent implements OnInit {
   }
 
   private updateSelection() {
-    // Limpiar la selección actual
-    this.selection.clear();
-
-    // Filtrar selectedItems para mantener solo los elementos que aún existen en dataSource
-    this.selectedItems = this.selectedItems.filter(selectedItem =>
-      this.dataSource.some(row => row.id === selectedItem.id)
-    );
+    // No limpiar la selección actual, solo actualizar los checkboxes
+    // para los elementos que están en la página actual
 
     // Sincronizar la selección con los elementos de selectedItems
     this.dataSource.forEach(row => {
       if (this.selectedItems.some(item => item.id === row.id)) {
         this.selection.select(row);
+      } else {
+        this.selection.deselect(row);
       }
     });
 
@@ -305,13 +305,17 @@ export class SharedTableComponent implements OnInit {
     } else {
       // Marcar la fila
       this.selection.select(row);
-      this.selectedItems.push(row);
+      // Verificar si el elemento ya está en selectedItems para evitar duplicados
+      if (!this.selectedItems.some(item => item.id === row.id)) {
+        this.selectedItems.push(row);
+      }
     }
     this.notifySelectionChange();
   }
 
   // Verifica si un checkbox debe estar marcado
   isChecked(row: any): boolean {
+    // Verificar si el elemento está en selectedItems
     return this.selectedItems.some(item => item.id === row.id);
   }
 
@@ -329,6 +333,7 @@ export class SharedTableComponent implements OnInit {
         currentSortType: this.currentSortState.direction
       });
     }
+    // No es necesario actualizar la selección aquí, ya que se hará en ngOnChanges
   }
 
   get endItem(): number {
@@ -337,9 +342,13 @@ export class SharedTableComponent implements OnInit {
 
   // Método para limpiar toda la selección
   clearSelection() {
+    // Limpiar la selección actual
     this.selection.clear();
+    // Limpiar todas las selecciones almacenadas
     this.selectedItems = [];
+    // Forzar la actualización de la vista
     this.notifySelectionChange();
+    this.cdr.detectChanges();
   }
 
   toggleAllRows() {
@@ -352,12 +361,13 @@ export class SharedTableComponent implements OnInit {
       );
     } else {
       // Seleccionar todos los elementos de la página actual
-      this.selection.select(...this.dataSource);
+      this.dataSource.forEach(row => this.selection.select(row));
       // Agregar elementos nuevos a selectedItems (evitando duplicados)
-      const newItems = this.dataSource.filter(
-        row => !this.selectedItems.some(item => item.id === row.id)
-      );
-      this.selectedItems = [...this.selectedItems, ...newItems];
+      this.dataSource.forEach(row => {
+        if (!this.selectedItems.some(item => item.id === row.id)) {
+          this.selectedItems.push(row);
+        }
+      });
     }
     this.notifySelectionChange();
   }
