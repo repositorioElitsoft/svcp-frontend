@@ -202,18 +202,18 @@
         },
         "segmentacionCliente": {
             "id": "Id",
-            "titulo": "Segmentación de Cliente",
-            "descripcion": "Descripción de la Segmentación de Cliente"
+            "titulo": "Segmentaciones de Clientes",
+            "descripcion": "Segmentación de Cliente"
         },
         "servicio": {
             "id": "Id",
-            "titulo": "Servicio",
-            "descripcion": "Descripción del Servicio"
+            "titulo": "Servicios",
+            "descripcion": "Servicio"
         },
         "tarea": {
             "id": "Id",
-            "titulo": "Tarea",
-            "descripcionTarea": "Descripción de la Tarea"
+            "titulo": "Tareas",
+            "descripcionTarea": "Tarea"
         },
         "tipoCliente": {
             "id": "Id",
@@ -442,8 +442,8 @@
             "segmentacionCliente": {
                 "tituloEditar": "Editar Segmentación del Cliente",
                 "tituloAgregar": "Crear Segmentación del Cliente",
-                "label.descripcion": "Descripción de la Segmentación del Cliente",
-                "descripcion": "Ingrese la descripción de la segmentación del cliente"
+                "label.descripcion": "Segmentación del Cliente",
+                "descripcion": "Ingrese la segmentación del cliente"
             },
             "servicio": {
                 "tituloEditar": "Editar Servicio",
