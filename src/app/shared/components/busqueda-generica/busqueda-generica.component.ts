@@ -127,4 +127,8 @@ export class BusquedaGenericaComponent implements OnInit {
         const labels: any[] = [];
         this.applyfilter.emit({ filter, labels });
     }
+
+    clearInput() {
+        this.value = '';
+    }
 } 
