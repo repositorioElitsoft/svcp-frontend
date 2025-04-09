@@ -244,8 +244,8 @@
         },
         "zona": {
             "id": "Id",
-            "titulo": "Zona",
-            "descripcionZona": "Descripción de la Zona"
+            "titulo": "Zonas",
+            "descripcionZona": "Zona"
         },
         "ruta": {
             "id": "Id",
@@ -496,8 +496,8 @@
             "zona": {
                 "tituloEditar": "Editar Zona",
                 "tituloAgregar": "Crear Zona",
-                "label.descripcionZona": "Descripción de la Zona",
-                "descripcion": "Ingrese la descripción de la zona"
+                "label.descripcionZona": "Zona",
+                "descripcion": "Ingrese la zona"
             },
             "ruta": {
                 "tituloEditar": "Editar Ruta",
