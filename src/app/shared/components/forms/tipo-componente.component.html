@@ -22,9 +22,10 @@
         <mat-form-field appearance="outline" class="w-full dark:text-white">
             <mat-label class="text-lg">{{ 'mantenedores.formularios.tipoComponente.label.descripcion' | translate
                 }}</mat-label>
-            <input matInput formControlName="descripcion" maxlength="100"
+            <textarea matInput formControlName="descripcion" maxlength="100" rows="4"
                 [attr.placeholder]="'mantenedores.formularios.tipoComponente.placeholder.descripcion' | translate"
-                class="text-lg w-full dark:text-white">
+                class="text-lg w-full dark:text-white resize-none"></textarea>
+            <mat-hint align="end">{{form.get('descripcion')?.value?.length || 0}}/100</mat-hint>
             <mat-error *ngIf="form.get('descripcion')?.hasError('required')" class="text-red-500 text-base">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
