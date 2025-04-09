@@ -29,7 +29,7 @@ import { BusquedaGenericaComponent } from '../../../shared/components/busqueda-g
 export class AgrupacionComercialComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: AgrupacionComercial[] = []; // Ahora usa la interfaz agrupacionComercial
-  titulo: string = 'Agrupacion comercial'; // Puedes cambiarlo dinámicamente
+  titulo: string = 'Agrupación comercial'; // Puedes cambiarlo dinámicamente
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
@@ -37,6 +37,8 @@ export class AgrupacionComercialComponent implements OnInit {
   pageSize = 10;
   totalElements = 0;
   isLoading = false; // Variable para controlar el estado de carga
+  currentSortState: { column: string; direction: string } | null = null; // Variable para mantener el estado del ordenamiento
+  currentFilters: any = {}; // Variable para mantener los filtros actuales
   @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
   activeOptionalFilters: any[] = [];
   constructor(private cdr: ChangeDetectorRef,
@@ -172,37 +174,66 @@ export class AgrupacionComercialComponent implements OnInit {
     this.router.navigate(['/portal/home']);
   }
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+    this.currentSortState = {
+      column: sortData.selectedColumnName,
+      direction: sortData.currentSortType
+    };
+    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType, this.currentFilters);
   }
 
   onPageChanged(newPage: number) {
     console.log("Página cambiada", newPage);
-    this.pageNumber = newPage
-    this.obtenerDatos();
+    this.pageNumber = newPage;
+    // Usar el estado del ordenamiento guardado si existe y los filtros actuales
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+    } else {
+      this.obtenerDatos("id", "asc", this.currentFilters);
+    }
   }
 
 
-  buscar(data: { filter: any, labels: any[] }) {
-    console.log('Método buscar llamado con:', data);
-    this.activeOptionalFilters = data.labels;
-    this.obtenerDatos("id", "asc", data.filter);
+  buscar(filters: any) {
+    console.log('Aplicando filtros desde búsqueda genérica:', filters);
+    this.pageNumber = 0;
+
+    // Si los filtros vienen del componente de búsqueda genérica, tendrán una estructura específica
+    let optionalFilter = {};
+
+    if (filters.filter) {
+      // Formato de búsqueda genérica: { filter: {...}, labels: [...] }
+      optionalFilter = filters.filter;
+      this.activeOptionalFilters = filters.labels || [];
+    } else {
+      // Formato antiguo o directo
+      optionalFilter = filters;
+    }
+
+    // Al aplicar filtros, resetear el ordenamiento
+    this.currentSortState = null;
+    this.currentFilters = optionalFilter;
+    this.obtenerDatos("id", "asc", optionalFilter);
   }
 
   onFilterDeleted(filterData: { field: string, value: string }) {
     console.log('Eliminando filtro:', filterData);
 
-    // Actualizar los filtros activos
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );
 
-    // Reconstruir el objeto de filtro
-    const newFilter: any = {};
-    this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
-      if (filter.field === 'nombreGrupoComercial') {
-        newFilter.nombreGrupoComercial = filter.value;
-      }
-    });
+    const newFilter = this.activeOptionalFilters.reduce((acc: any, filter: { field: string, value: string }) => {
+      acc[filter.field] = filter.value;
+      return acc;
+    }, {});
+
+    this.currentFilters = newFilter; // Actualizar los filtros actuales
+    console.log('Nuevos filtros después de eliminar:', newFilter);
+
+    // Si no hay filtros activos, resetear el ordenamiento
+    if (Object.keys(newFilter).length === 0) {
+      this.currentSortState = null;
+    }
 
     // Obtener datos con los nuevos filtros
     this.obtenerDatos("id", "asc", newFilter);
@@ -220,6 +251,10 @@ export class AgrupacionComercialComponent implements OnInit {
 
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    console.log('Obteniendo datos con filtros:', optionalFilter);
+    console.log('Estado actual del ordenamiento:', this.currentSortState);
+    console.log('Filtros actuales:', this.currentFilters);
+
     // Activar el estado de carga
     this.isLoading = true;
 

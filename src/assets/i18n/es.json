@@ -97,8 +97,8 @@
         "seleccion": "Ninguna",
         "agrupacionComercial": {
             "id": "Id",
-            "titulo": "Agrupación Comercial",
-            "nombreGrupoComercial": "Descripción de la Agrupación Comercial"
+            "titulo": "Agrupaciones Comerciales",
+            "nombreGrupoComercial": "Agrupación Comercial"
         },
         "asignacionPermiso": {
             "id": "Id",
@@ -269,8 +269,8 @@
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupación Comercial",
                 "tituloAgregar": "Crear Agrupación Comercial",
-                "label.nombreGrupoComercial": "Descripción de la Agrupación Comercial",
-                "descripcion": "Ingrese la descripción de la agrupación comercial"
+                "label.nombreGrupoComercial": "Agrupación Comercial",
+                "descripcion": "Ingrese la agrupación comercial"
             },
             "asignacionPermiso": {
                 "tituloEditar": "Editar Asignación de Permiso",
