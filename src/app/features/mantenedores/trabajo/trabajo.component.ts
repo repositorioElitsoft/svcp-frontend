@@ -246,12 +246,18 @@ export class TrabajoComponent implements OnInit {
 
     if (ids.length === 0) return;
 
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        titulo: this.translate.instant('alertas.eliminar.titulo'),
-        mensaje: this.translate.instant('alertas.eliminar.mensaje'),
-        aceptar: true,
-        cancelar: true
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
       }
     });
 
@@ -276,12 +282,18 @@ export class TrabajoComponent implements OnInit {
     const trabajoId = trabajo?.id;
     if (typeof trabajoId !== 'number') return;
 
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        titulo: this.translate.instant('alertas.eliminar.titulo'),
-        mensaje: this.translate.instant('alertas.eliminar.mensaje'),
-        aceptar: true,
-        cancelar: true
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
       }
     });
 
@@ -344,15 +356,20 @@ export class TrabajoComponent implements OnInit {
     const trabajoId = trabajo?.id;
     if (typeof trabajoId !== 'number') return;
 
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        titulo: this.translate.instant('alertas.eliminar.titulo'),
-        mensaje: this.translate.instant('alertas.eliminar.mensaje'),
-        aceptar: true,
-        cancelar: true
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
       }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.trabajoService.borrar(trabajoId).subscribe({
@@ -373,12 +390,18 @@ export class TrabajoComponent implements OnInit {
     const trabajoId = trabajo?.id;
     if (typeof trabajoId !== 'number') return;
 
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        titulo: this.translate.instant('alertas.eliminar.titulo'),
-        mensaje: this.translate.instant('alertas.eliminar.mensaje'),
-        aceptar: true,
-        cancelar: true
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
       }
     });
 
