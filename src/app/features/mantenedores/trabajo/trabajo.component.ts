@@ -19,6 +19,7 @@ import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
 import { TrabajoTareaFormComponent } from "../../../shared/components/forms/trabajo-tarea.component";
+import { TrabajoService } from "../../../core/services/trabajo.service";
 
 @Component({
   selector: "app-trabajo",
@@ -43,7 +44,7 @@ export class TrabajoComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
-    private trabajoTareaService: TrabajoTareaService) { }
+    private trabajoTareaService: TrabajoTareaService, private trabajoService: TrabajoService) { }
 
   ngOnInit() {
     this.obtenerDatos();
@@ -209,7 +210,7 @@ export class TrabajoComponent implements OnInit {
       ...optionalFilter
     }
 
-    this.trabajoTareaService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<TrabajoTarea[]>) => {
+    this.trabajoService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<TrabajoTarea[]>) => {
       console.log("Datos recibidos:", data);
 
       this.pageNumber = data.pageNumber
