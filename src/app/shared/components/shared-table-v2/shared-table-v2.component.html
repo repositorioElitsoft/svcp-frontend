@@ -92,14 +92,15 @@
                         </div>
                     </th>
                     <td mat-cell class="text-lg" *matCellDef="let element">
-                        @if(column === 'trabajoTareas') {
+                        @if(isChipsColumn(column)) {
                         <div class="flex items-center justify-between">
-                            <app-chips [items]="element[column]" (deleteItem)="onChipDelete(element, $event)"
-                                (clearAll)="onChipsClear(element)">
+                            <app-chips [items]="element[column]" [displayField]="getChipsConfig(column).displayField"
+                                [nestedPath]="getChipsConfig(column).nestedPath"
+                                (deleteItem)="onChipDelete(element, $event)" (clearAll)="onChipsClear(element)">
                             </app-chips>
                         </div>
                         } @else {
-                        {{ getField(element[column]) }}
+                        {{ getField(element[column], column) }}
                         }
                     </td>
                 </ng-container>

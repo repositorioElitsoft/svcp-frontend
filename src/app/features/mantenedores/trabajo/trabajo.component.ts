@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild, TemplateRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SharedTableV2Component } from "../../../shared/components/shared-table-v2/shared-table-v2.component";
 import { MatIconModule } from "@angular/material/icon";
@@ -30,8 +30,23 @@ import { Trabajo } from "../../../core/models/trabajo.model";
   styleUrl: "./trabajo.component.css",
 })
 export class TrabajoComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'descripcionTrabajo', 'trabajoTareas']; // Columnas que queremos mostrar
-  dataSource: Trabajo[] = []; // Cambiado a Trabajo[]
+  displayedColumns: string[] = ['id', 'descripcionTrabajo', 'trabajoTareas'];
+  columnConfig: {
+    field: string;
+    type: 'text' | 'chips' | 'custom';
+    nestedPath?: string;
+    displayField?: string;
+    customTemplate?: TemplateRef<any>;
+  }[] = [
+      { field: 'id', type: 'text' },
+      { field: 'descripcionTrabajo', type: 'text' },
+      {
+        field: 'trabajoTareas',
+        type: 'chips',
+        nestedPath: 'tarea.descripcionTarea'
+      }
+    ];
+  dataSource: Trabajo[] = [];
   titulo: string = 'Trabajo';
   hasSelection = false;
   selectedData: any[] = [];

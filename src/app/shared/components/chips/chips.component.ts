@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
           <div class="chips-row" *ngFor="let row of getVisibleRows()">
             <div *ngFor="let item of row" class="chip">
               <div class="chip-content">
-                <span class="task-id">{{item.tarea?.descripcionTarea || 'Sin descripción'}}</span>
+                <span class="task-id">{{getDisplayValue(item) || 'Sin descripción'}}</span>
               </div>
               <button class="delete-button" (click)="onDelete(item)">
                 <mat-icon>close</mat-icon>
@@ -136,6 +136,9 @@ export class ChipsComponent {
   private currentMaxVisible: number = 4;
   private screenWidth: number = window.innerWidth;
 
+  @Input() displayField: string = ''; // Campo a mostrar
+  @Input() nestedPath: string = ''; // Ruta anidada para acceder al campo (ejemplo: 'tarea.descripcionTarea')
+
   @Input()
   set items(value: any[]) {
     this._items = value || [];
@@ -146,6 +149,16 @@ export class ChipsComponent {
 
   @Output() deleteItem = new EventEmitter<any>();
   @Output() clearAll = new EventEmitter<void>();
+
+  getDisplayValue(item: any): string {
+    if (!item) return '';
+
+    if (this.nestedPath) {
+      return this.nestedPath.split('.').reduce((obj, key) => obj?.[key], item) || '';
+    }
+
+    return item[this.displayField] || '';
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize() {

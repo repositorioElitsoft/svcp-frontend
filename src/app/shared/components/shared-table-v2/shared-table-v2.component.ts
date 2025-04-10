@@ -46,6 +46,15 @@ export class SharedTableV2Component implements OnInit {
   @Input() filterSearch: string = "";
   @Input() additionalActionsTemplate!: TemplateRef<any>;
 
+  // Nueva configuración para columnas
+  @Input() columnConfig: {
+    field: string;
+    type: 'text' | 'chips' | 'custom';
+    nestedPath?: string;
+    displayField?: string;
+    customTemplate?: TemplateRef<any>;
+  }[] = [];
+
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() deleteSingleSelected = new EventEmitter<string>();
   @Output() viewSelected = new EventEmitter<string>();
@@ -94,27 +103,38 @@ export class SharedTableV2Component implements OnInit {
     this.filterDelete.emit({ field, value: '' });
   }
 
-  getField(value: any) {
-    if (typeof value !== 'object' || value === null) {
-      return value;
+  getField(value: any, column: string): any {
+    if (!value) return '';
+
+    const config = this.columnConfig.find(c => c.field === column);
+    if (!config) return value;
+
+    if (config.nestedPath) {
+      return config.nestedPath.split('.').reduce((obj, key) => obj?.[key], value) || '';
     }
 
-    // Si es un array (como trabajoTareas), devolver vacío ya que se maneja con chips
-    if (Array.isArray(value)) {
-      return '';
+    if (config.displayField) {
+      return value[config.displayField] || '';
     }
 
-    // Para objetos, buscar campos descriptivos en orden de prioridad
-    const descriptiveFields = ['descripcionTrabajo', 'descripcion', 'desc', 'nombre'];
-    for (const field of descriptiveFields) {
-      if (Object.prototype.hasOwnProperty.call(value, field)) {
-        return value[field];
-      }
-    }
+    return value;
+  }
 
-    // Si no se encuentra ningún campo descriptivo, devolver el primer valor
-    const firstKey = Object.keys(value)[0];
-    return value[firstKey] || '';
+  getColumnType(column: string): string {
+    const config = this.columnConfig.find(c => c.field === column);
+    return config?.type || 'text';
+  }
+
+  isChipsColumn(column: string): boolean {
+    return this.getColumnType(column) === 'chips';
+  }
+
+  getChipsConfig(column: string): { displayField: string, nestedPath: string } {
+    const config = this.columnConfig.find(c => c.field === column);
+    return {
+      displayField: config?.displayField || '',
+      nestedPath: config?.nestedPath || ''
+    };
   }
 
   protected getTranslationGroup(column: string) {
