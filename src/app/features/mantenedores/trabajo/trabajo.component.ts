@@ -209,7 +209,23 @@ export class TrabajoComponent implements OnInit {
 
 
 
-  /********************************** TABLA - SHARED TABLE **********************************/
+  /* **********************************CRUD   - CREATE ***********************************/
+
+  agregarServicio() {
+    const dialogRef = this.dialog.open(TrabajoFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: false,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Datos recibidos del formulario:", result);
+        this.obtenerDatos("id", "desc");
+      }
+    });
+  }
 
 
   /*********************************** CRUD   - GET ***********************************/
@@ -253,19 +269,31 @@ export class TrabajoComponent implements OnInit {
 
   /*********************************** CRUD   - DELETE ***********************************/
   eliminar(selectedItems: Trabajo[]) {
-    if (!selectedItems?.length) return;
+    console.log('Método eliminar - Iniciando eliminación de múltiples items:', selectedItems);
+
+    if (!selectedItems?.length) {
+      console.log('Método eliminar - No hay items seleccionados para eliminar');
+      return;
+    }
 
     const ids = selectedItems
       .map(item => item.id)
       .filter((id): id is number => id !== undefined);
 
-    if (ids.length === 0) return;
+    console.log('Método eliminar - IDs filtrados para eliminar:', ids);
+
+    if (ids.length === 0) {
+      console.log('Método eliminar - No hay IDs válidos para eliminar');
+      return;
+    }
 
     // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    console.log('Método eliminar - Abriendo diálogo de confirmación');
 
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
@@ -277,31 +305,47 @@ export class TrabajoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log('Método eliminar - Resultado del diálogo:', result);
+
       if (result) {
+        console.log('Método eliminar - Iniciando llamada al servicio para eliminar IDs:', ids);
+
         this.trabajoService.borrarLote(ids).subscribe({
           next: () => {
+            console.log('Método eliminar - Eliminación exitosa');
             this.obtenerDatos();
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
           },
-          error: (error) => {
-            const errorMessage = convertErrorMessageToI18(error);
-            this.toastr.error(this.translate.instant(errorMessage));
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
+      } else {
+        console.log('Método eliminar - Usuario canceló la eliminación');
       }
     });
   }
 
   onDeleteSingleSelected(id: string) {
+    console.log('Método onDeleteSingleSelected - Iniciando eliminación de item con ID:', id);
+
     const trabajo = this.dataSource.find(item => item.id === Number(id));
+    console.log('Método onDeleteSingleSelected - Trabajo encontrado:', trabajo);
+
     const trabajoId = trabajo?.id;
-    if (typeof trabajoId !== 'number') return;
+    if (typeof trabajoId !== 'number') {
+      console.log('Método onDeleteSingleSelected - ID no válido');
+      return;
+    }
 
     // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    console.log('Método onDeleteSingleSelected - Abriendo diálogo de confirmación');
 
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
@@ -313,69 +357,50 @@ export class TrabajoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log('Método onDeleteSingleSelected - Resultado del diálogo:', result);
+
       if (result) {
+        console.log('Método onDeleteSingleSelected - Iniciando llamada al servicio para eliminar ID:', trabajoId);
+
         this.trabajoService.borrar(trabajoId).subscribe({
           next: () => {
+            console.log('Método onDeleteSingleSelected - Eliminación exitosa');
             this.obtenerDatos();
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
           },
-          error: (error) => {
-            const errorMessage = convertErrorMessageToI18(error);
-            this.toastr.error(this.translate.instant(errorMessage));
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
+      } else {
+        console.log('Método onDeleteSingleSelected - Usuario canceló la eliminación');
       }
     });
   }
 
-  /* **********************************CRUD   - CREATE ***********************************/
+  onDeleteTarea(trabajo: Trabajo, tarea: TrabajoTarea) {
+    console.log('Método onDeleteTarea - Iniciando eliminación de tarea:', { trabajo, tarea });
 
-  agregarServicio() {
-    const dialogRef = this.dialog.open(TrabajoFormComponent, {
-      width: '400px',
-      data: {
-        esActualizar: false,
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log("Datos recibidos del formulario:", result);
-        this.obtenerDatos("id", "desc");
-      }
-    });
-  }
-
-
-  /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
-  onEditSelected(id: string) {
-    const trabajo = this.dataSource.find(item => item.id === Number(id));
-    if (!trabajo) return;
-
-    const dialogRef = this.dialog.open(TrabajoFormComponent, {
-      width: '400px',
-      data: {
-        esActualizar: true,
-        object: trabajo
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.obtenerDatos();
-      }
-    });
-  }
-
-  onDeleteTarea(trabajo: Trabajo, tarea: any) {
     const trabajoId = trabajo?.id;
-    if (typeof trabajoId !== 'number') return;
+    if (typeof trabajoId !== 'number') {
+      console.log('Método onDeleteTarea - ID de trabajo no válido');
+      return;
+    }
+
+    const tareaId = tarea?.tarea?.id;
+    if (typeof tareaId !== 'number') {
+      console.log('Método onDeleteTarea - ID de tarea no válido');
+      return;
+    }
 
     // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    console.log('Método onDeleteTarea - Abriendo diálogo de confirmación');
 
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
@@ -385,31 +410,46 @@ export class TrabajoComponent implements OnInit {
         textoBotonConfirmar: textoBotonConfirmar
       }
     });
+
     dialogRef.afterClosed().subscribe(result => {
+      console.log('Método onDeleteTarea - Resultado del diálogo:', result);
+
       if (result) {
-        this.trabajoService.borrar(trabajoId).subscribe({
+        console.log('Método onDeleteTarea - Iniciando llamada al servicio para eliminar tarea:', tareaId);
+
+        this.trabajoTareaService.borrar(trabajoId, tareaId).subscribe({
           next: () => {
+            console.log('Método onDeleteTarea - Eliminación exitosa');
             this.obtenerDatos();
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
           },
-          error: (error) => {
-            const errorMessage = convertErrorMessageToI18(error);
-            this.toastr.error(this.translate.instant(errorMessage));
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
+      } else {
+        console.log('Método onDeleteTarea - Usuario canceló la eliminación');
       }
     });
   }
 
   onClearTareas(trabajo: Trabajo) {
+    console.log('Método onClearTareas - Iniciando limpieza de tareas para trabajo:', trabajo);
+
     const trabajoId = trabajo?.id;
-    if (typeof trabajoId !== 'number') return;
+    if (typeof trabajoId !== 'number') {
+      console.log('Método onClearTareas - ID de trabajo no válido');
+      return;
+    }
 
     // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    console.log('Método onClearTareas - Abriendo diálogo de confirmación');
 
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
@@ -421,17 +461,24 @@ export class TrabajoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log('Método onClearTareas - Resultado del diálogo:', result);
+
       if (result) {
+        console.log('Método onClearTareas - Iniciando llamada al servicio para eliminar trabajo con ID:', trabajoId);
+
         this.trabajoService.borrar(trabajoId).subscribe({
           next: () => {
+            console.log('Método onClearTareas - Eliminación exitosa');
             this.obtenerDatos();
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
           },
-          error: (error) => {
-            const errorMessage = convertErrorMessageToI18(error);
-            this.toastr.error(this.translate.instant(errorMessage));
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
+      } else {
+        console.log('Método onClearTareas - Usuario canceló la eliminación');
       }
     });
   }
@@ -476,6 +523,30 @@ export class TrabajoComponent implements OnInit {
   onEdit(id: any) {
     // Implementa la lógica de edición
     console.log('Edit:', id);
+  }
+
+
+
+
+  /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
+  onEditSelected(id: string) {
+    const selectedObject = this.dataSource.find(item => item.id === Number(id));
+    if (!selectedObject) {
+      return;
+    }
+    const dialogRef = this.dialog.open(TrabajoFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: true,
+        object: selectedObject
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos("id", "desc");
+      }
+    });
   }
 
 }

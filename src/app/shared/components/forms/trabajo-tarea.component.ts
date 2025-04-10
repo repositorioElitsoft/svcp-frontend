@@ -16,6 +16,7 @@ import { TareaService } from '../../../core/services/tarea.service';
 
 // Componentes
 import { ChipsComponent } from '../chips/chips.component';
+import { TituloDialogoComponent } from '../titulo-dialogo/titulo-dialogo.component';
 
 @Component({
     selector: 'app-trabajo-tarea-form',
@@ -30,7 +31,8 @@ import { ChipsComponent } from '../chips/chips.component';
         MatButtonModule,
         MatIconModule,
         TranslateModule,
-        ChipsComponent
+        ChipsComponent,
+        TituloDialogoComponent
     ],
     templateUrl: './trabajo-tarea.component.html'
 })
@@ -42,6 +44,10 @@ export class TrabajoTareaFormComponent implements OnInit {
     trabajoId: number;
     trabajoDescripcion: string;
 
+    esActualizar(): boolean {
+        return false; // Este formulario solo se usa para crear, no para actualizar
+    }
+
     // Listas
     tareasDisponibles: any[] = [];
     tareasAsignadas: any[] = [];
@@ -51,7 +57,7 @@ export class TrabajoTareaFormComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private dialogRef: MatDialogRef<TrabajoTareaFormComponent>,
+        public dialogRef: MatDialogRef<TrabajoTareaFormComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private trabajoTareaService: TrabajoTareaService,
         private tareaService: TareaService,

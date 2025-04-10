@@ -1,27 +1,25 @@
-<div class="bg-[#4350AF] text-white p-4 flex items-center justify-between">
-    <div class="flex items-center gap-2">
-        <span class="material-symbols-outlined">assignment</span>
-        <span class="text-lg">{{ 'forms.trabajoTarea.titulo' | translate }}</span>
-    </div>
-    <button mat-icon-button (click)="onCancel()">
-        <mat-icon>close</mat-icon>
-    </button>
-</div>
+<app-titulo-dialogo
+    [title]="(esActualizar() ? 'mantenedores.formularios.trabajoTarea.tituloEditar' : 'mantenedores.formularios.trabajoTarea.tituloAgregar') | translate"
+    icon="task" [ref]="dialogRef">
+</app-titulo-dialogo>
+
+
 
 <div class="p-6">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
         <!-- Trabajo -->
         <div class="flex flex-col gap-1">
-            <span class="text-gray-700">{{ 'forms.trabajoTarea.trabajo' | translate }}:</span>
+            <span class="text-gray-700">{{ 'mantenedores.formularios.trabajoTarea.trabajo' | translate }}:</span>
             <span class="text-gray-900">{{ trabajoDescripcion }}</span>
         </div>
 
         <!-- Selector de tareas -->
         <div class="flex flex-col gap-1">
-            <span class="text-gray-700">{{ 'forms.trabajoTarea.seleccioneTareas' | translate }}:</span>
+            <span class="text-gray-700">{{ 'mantenedores.formularios.trabajoTarea.seleccioneTareas' | translate
+                }}:</span>
             <mat-form-field appearance="outline" class="w-full">
                 <mat-select (selectionChange)="onTareaSelect($event)" (opened)="onTareaSelect($event)"
-                    placeholder="{{ 'forms.trabajoTarea.tareas' | translate }}">
+                    placeholder="{{ 'mantenedores.formularios.trabajoTarea.tareas' | translate }}">
                     <mat-option *ngFor="let tarea of tareasDisponibles" [value]="tarea.id">
                         {{ tarea.descripcion }}
                     </mat-option>
@@ -31,7 +29,7 @@
             <!-- Mensaje informativo -->
             <div class="flex items-center gap-2 text-sm text-gray-500">
                 <mat-icon class="text-sm">info</mat-icon>
-                <p>{{ 'forms.trabajoTarea.info.ordenTareas' | translate }}</p>
+                <p>{{ 'mantenedores.formularios.trabajoTarea.info.ordenTareas' | translate }}</p>
             </div>
         </div>
 
@@ -40,7 +38,7 @@
             <app-chips [items]="tareasAsignadas" (deleteItem)="onTareaDelete($event)" (clearAll)="onTareasClear()">
             </app-chips>
             <mat-error *ngIf="form.get('tareas')?.hasError('required') && form.get('tareas')?.touched">
-                {{ 'forms.trabajoTarea.errors.tareasRequeridas' | translate }}
+                {{ 'mantenedores.formularios.trabajoTarea.errors.tareasRequeridas' | translate }}
             </mat-error>
         </div>
 
