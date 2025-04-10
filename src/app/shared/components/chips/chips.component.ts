@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
           <div class="chips-row" *ngFor="let row of getVisibleRows()">
             <div *ngFor="let item of row" class="chip">
               <div class="chip-content">
-                <span class="task-id">{{item.descripcion || item.id}}</span>
+                <span class="task-id">{{item.tarea?.descripcionTarea || 'Sin descripción'}}</span>
               </div>
               <button class="delete-button" (click)="onDelete(item)">
                 <mat-icon>close</mat-icon>
@@ -73,7 +73,8 @@ import { MatButtonModule } from '@angular/material/button';
       justify-content: space-between;
       gap: 4px;
       height: 24px;
-      width: 110px;
+      min-width: 110px;
+      max-width: 200px;
     }
 
     .chip-content {
@@ -81,6 +82,7 @@ import { MatButtonModule } from '@angular/material/button';
       align-items: center;
       gap: 4px;
       overflow: hidden;
+      flex: 1;
     }
 
     .task-id {
@@ -88,6 +90,8 @@ import { MatButtonModule } from '@angular/material/button';
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      display: block;
+      width: 100%;
     }
 
     .delete-button {
