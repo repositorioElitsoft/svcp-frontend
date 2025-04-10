@@ -37,8 +37,7 @@
 
         <!-- Tareas seleccionadas (chips) -->
         <div class="flex flex-col gap-2">
-            <app-chips [items]="tareasAsignadas" (deleteItem)="onTareaDelete($event)" (clearAll)="onTareasClear()"
-                [maxVisible]="4">
+            <app-chips [items]="tareasAsignadas" (deleteItem)="onTareaDelete($event)" (clearAll)="onTareasClear()">
             </app-chips>
             <mat-error *ngIf="form.get('tareas')?.hasError('required') && form.get('tareas')?.touched">
                 {{ 'forms.trabajoTarea.errors.tareasRequeridas' | translate }}

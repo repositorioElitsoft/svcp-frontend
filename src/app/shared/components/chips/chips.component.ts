@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,9 +23,9 @@ import { MatButtonModule } from '@angular/material/button';
             </div>
           </div>
         </div>
-        <button *ngIf="showMoreButton" class="more-button" (click)="onMoreClick()">
-          (+ {{items.length - maxVisible}} más)
-        </button>
+        <div *ngIf="showMoreIndicator" class="more-indicator">
+          (+ más)
+        </div>
       </div>
     </div>
   `,
@@ -38,10 +38,16 @@ import { MatButtonModule } from '@angular/material/button';
 
     .chips-wrapper {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 4px;
       align-items: flex-start;
+    }
+
+    @media (min-width: 640px) {
+      .chips-wrapper {
+        flex-direction: row;
+        align-items: center;
+      }
     }
 
     .chips-grid {
@@ -102,19 +108,15 @@ import { MatButtonModule } from '@angular/material/button';
       color: #616161;
     }
 
-    .more-button {
-      color: rgb(0, 120, 212);
-      background: none;
-      border: none;
-      padding: 2px 4px;
-      font-size: 13px;
+    .more-indicator {
+      color: rgb(37 99 235);
       cursor: pointer;
       white-space: nowrap;
-      margin-left: 4px;
+      font-size: 13px;
     }
 
-    .more-button:hover {
-      text-decoration: underline;
+    .more-indicator:hover {
+      color: rgb(30 64 175);
     }
 
     mat-icon {
@@ -127,6 +129,8 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class ChipsComponent {
   private _items: any[] = [];
+  private currentMaxVisible: number = 4;
+  private screenWidth: number = window.innerWidth;
 
   @Input()
   set items(value: any[]) {
@@ -136,24 +140,44 @@ export class ChipsComponent {
     return this._items;
   }
 
-  @Input() maxVisible: number = 4;
   @Output() deleteItem = new EventEmitter<any>();
   @Output() clearAll = new EventEmitter<void>();
 
-  get visibleItems() {
-    return this.items?.slice(0, this.maxVisible) || [];
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.screenWidth = window.innerWidth;
+    this.updateMaxVisible();
   }
 
-  get showMoreButton() {
-    return this.items?.length > this.maxVisible;
+  ngOnInit() {
+    this.updateMaxVisible();
+  }
+
+  private updateMaxVisible() {
+    if (this.screenWidth >= 1024) {
+      this.currentMaxVisible = 4; // Desktop
+    } else if (this.screenWidth >= 640) {
+      this.currentMaxVisible = 3; // Tablet
+    } else {
+      this.currentMaxVisible = 1; // Mobile
+    }
+  }
+
+  get visibleItems() {
+    return this.items?.slice(0, this.currentMaxVisible) || [];
+  }
+
+  get showMoreIndicator(): boolean {
+    return (this.items?.length || 0) > this.currentMaxVisible;
   }
 
   getVisibleRows(): any[][] {
     const visibleItems = this.visibleItems;
     const rows: any[][] = [];
+    const itemsPerRow = this.screenWidth < 640 ? 1 : 2;
 
-    for (let i = 0; i < visibleItems.length; i += 2) {
-      rows.push(visibleItems.slice(i, i + 2));
+    for (let i = 0; i < visibleItems.length; i += itemsPerRow) {
+      rows.push(visibleItems.slice(i, i + itemsPerRow));
     }
 
     return rows;
@@ -161,9 +185,5 @@ export class ChipsComponent {
 
   onDelete(item: any): void {
     this.deleteItem.emit(item);
-  }
-
-  onMoreClick(): void {
-    this.maxVisible = this.items.length;
   }
 } 

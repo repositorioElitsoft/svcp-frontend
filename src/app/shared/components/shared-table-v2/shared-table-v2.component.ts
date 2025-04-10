@@ -60,6 +60,7 @@ export class SharedTableV2Component implements OnInit {
   @Output() chipDelete = new EventEmitter<{ parent: any, item: any }>();
   @Output() chipsClear = new EventEmitter<any>();
   @Output() asignacion = new EventEmitter<any>();
+  @Output() showMore = new EventEmitter<any>();
 
   @ViewChildren('filterInput') filterInputs!: QueryList<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -333,5 +334,9 @@ export class SharedTableV2Component implements OnInit {
 
   onAsignacion(element: any): void {
     this.asignacion.emit(element);
+  }
+
+  onShowMore(element: any): void {
+    this.showMore.emit(element);
   }
 }

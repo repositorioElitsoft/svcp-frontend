@@ -3,24 +3,39 @@
 }
 
 .mat-mdc-table {
-    @apply bg-white shadow-md rounded-b-lg overflow-hidden;
+    width: 100%;
+    background: white;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
+/* Contenedor de la tabla */
+.mat-mdc-table-container {
+    overflow-x: auto;
+    position: relative;
+    @apply rounded-t-[8px];
+    border: 1px solid #e5e7eb;
+    background: white;
+}
 
 .mat-mdc-header-row {
     @apply bg-gray-100;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.mat-mdc-row {
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .mat-mdc-header-cell {
-    @apply py-3 px-4 text-left font-semibold text-gray-700 dark:bg-neutral-800 dark:text-white;
+    @apply py-3 px-4 text-left font-semibold text-gray-700;
+    background: inherit;
 }
 
 .mat-mdc-cell {
-    @apply py-3 px-4 text-gray-800 dark:bg-neutral-800 dark:text-white;
-}
-
-.mat-mdc-row:nth-child(even) {
-    @apply bg-gray-50;
+    @apply py-3 px-4 text-gray-800;
+    background: inherit;
 }
 
 .mat-mdc-row:hover {
@@ -33,4 +48,40 @@
 
 .mat-mdc-icon-button {
     @apply text-gray-600 hover:text-gray-800;
+}
+
+/* Estilos para la columna sticky de acciones */
+.sticky-header {
+    position: sticky !important;
+    right: 0 !important;
+    @apply bg-gray-100 !important;
+    box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
+}
+
+.sticky-cell {
+    position: sticky !important;
+    right: 0 !important;
+    background: inherit !important;
+    box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* Asegurar que el fondo de las celdas sticky coincida con el hover */
+.mat-mdc-row:hover .sticky-cell {
+    background-color: rgb(243 244 246) !important;
+}
+
+.mat-mdc-row:nth-child(even) .sticky-cell {
+    background-color: white !important;
+}
+
+/* Asegurar que el scroll no afecte la apariencia en móvil */
+@media (max-width: 640px) {
+    .mat-mdc-table-container {
+        @apply rounded-none;
+        margin: 0 -1rem;
+    }
+
+    .mat-mdc-table {
+        border: none;
+    }
 }
