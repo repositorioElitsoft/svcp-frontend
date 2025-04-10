@@ -23,9 +23,19 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
+/* Estilo base para todas las filas */
 .mat-mdc-row {
-    background: white;
     border-bottom: 1px solid #e0e0e0;
+}
+
+/* Filas pares */
+.mat-mdc-row:nth-child(even) {
+    background-color: #FFFFFF;
+}
+
+/* Filas impares */
+.mat-mdc-row:nth-child(odd) {
+    background-color: #F5F5F5;
 }
 
 .mat-mdc-header-cell {
@@ -38,8 +48,9 @@
     background: inherit;
 }
 
+/* Efecto hover */
 .mat-mdc-row:hover {
-    @apply bg-gray-100;
+    background-color: rgba(0, 0, 0, 0.04) !important;
 }
 
 .mat-mdc-checkbox {
@@ -67,11 +78,16 @@
 
 /* Asegurar que el fondo de las celdas sticky coincida con el hover */
 .mat-mdc-row:hover .sticky-cell {
-    background-color: rgb(243 244 246) !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
 }
 
+/* Asegurar que las celdas sticky mantengan el color alternado */
 .mat-mdc-row:nth-child(even) .sticky-cell {
-    background-color: white !important;
+    background-color: #FFFFFF !important;
+}
+
+.mat-mdc-row:nth-child(odd) .sticky-cell {
+    background-color: #F5F5F5 !important;
 }
 
 /* Asegurar que el scroll no afecte la apariencia en móvil */
