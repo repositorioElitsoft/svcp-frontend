@@ -17,6 +17,9 @@ import { TareaService } from '../../../core/services/tarea.service';
 // Componentes
 import { ChipsComponent } from '../chips/chips.component';
 import { TituloDialogoComponent } from '../titulo-dialogo/titulo-dialogo.component';
+import { Zona } from '../../../core/models/zona.model';
+import { Tarea } from '../../../core/models/tarea.model';
+import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
 
 @Component({
     selector: 'app-trabajo-tarea-form',
@@ -41,15 +44,15 @@ export class TrabajoTareaFormComponent implements OnInit {
     form: FormGroup;
 
     // Datos del trabajo
-    trabajoId: number;
-    trabajoDescripcion: string;
+    trabajoId: number = 0;
+    trabajoDescripcion: string = '';
 
     esActualizar(): boolean {
         return false; // Este formulario solo se usa para crear, no para actualizar
     }
 
     // Listas
-    tareasDisponibles: any[] = [];
+    Tareas: any[] = [];
     tareasAsignadas: any[] = [];
 
     // Control de estado
@@ -63,47 +66,55 @@ export class TrabajoTareaFormComponent implements OnInit {
         private tareaService: TareaService,
         private toastr: ToastrService
     ) {
-        this.trabajoId = data.trabajoId;
-        this.trabajoDescripcion = data.trabajoDescripcion;
+        if (data && data.id) {
+            this.trabajoId = data.id;
+            this.trabajoDescripcion = data.descripcionTrabajo;
+        } else {
+            console.error('No se recibió un objeto válido en data');
+        }
 
-        // Inicialización del formulario
         this.form = this.fb.group({
             tareas: [[], Validators.required]
         });
     }
 
     ngOnInit() {
-        this.cargarDatos();
+        if (this.trabajoId) {
+            this.cargarDatos();
+        }
     }
 
-    /**
-     * Carga los datos necesarios para el formulario:
-     * - Tareas asignadas al trabajo (usando trabajo-tarea.service)
-     * - Tareas disponibles (usando tarea.service)
-     */
-    private async cargarDatos() {
-        this.isLoading = true;
+    cargarDatos() {
+        console.log("Datos recibidos en el formulario:", this.data);
 
-        try {
-            // Cargar tareas disponibles
-            const tareasResponse = await this.tareaService.buscarTodos().toPromise();
-            this.tareasDisponibles = tareasResponse?.data || [];
+        // Verificar si 'data.object' existe y tiene el campo 'descripcionSector'
+        if (this.esActualizar() && this.data?.object) {
+            console.log("Objeto recibido:", this.data.object);
 
-            // Cargar tareas asignadas al trabajo
-            const trabajoTareasResponse = await this.trabajoTareaService.buscarFiltrado({ trabajoId: this.trabajoId }).toPromise();
-            if (trabajoTareasResponse?.data) {
-                this.tareasAsignadas = trabajoTareasResponse.data.map((tt: any) => ({
-                    tareaId: tt.tareaId,
-                    descripcion: this.tareasDisponibles.find(t => t.id === tt.tareaId)?.descripcion || ''
-                }));
-                this.form.patchValue({ tareas: this.tareasAsignadas });
-            }
-        } catch (error) {
-            console.error('Error al cargar datos:', error);
-            this.toastr.error('Error al cargar los datos necesarios');
-        } finally {
-            this.isLoading = false;
+            this.form.patchValue({
+                /*object-fields-edit*/
+                id: this.data.object.id,
+                descripcionSector: this.data.object.descripcionTrabajo,
+                trabajoTareas: this.data.object.trabajoTareas
+            });
+
+            console.log("Datos en el formulario después de patchValue:", this.form.value);
+        } else {
+            console.error("No se recibió un objeto válido en 'data'");
         }
+        /*services-init-call*/
+
+        this.tareaService.buscarTodos().subscribe({
+            next: (response: ApiEntityResponse<Tarea[]>) => {
+                this.Tareas = response.data;
+                if (this.data?.object?.tarea?.id) {
+                    const foundTarea = this.Tareas.find((tarea: Tarea) => tarea.id === this.data.object.tarea.id);
+                    if (foundTarea) {
+                        this.form.patchValue({ tareas: [foundTarea] });
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -126,27 +137,23 @@ export class TrabajoTareaFormComponent implements OnInit {
      * Maneja la selección de nuevas tareas
      */
     onTareaSelect(event: any) {
-        this.trabajoTareaService.obtenerTodos().subscribe({
-            next: (response: any) => {
-                this.tareasDisponibles = response.data;
-                const tareaId = event.value;
-                const tareaSeleccionada = this.tareasDisponibles.find(t => t.id === tareaId);
+        if (!event || !event.value) return;
 
-                if (tareaSeleccionada && !this.tareasAsignadas.some(t => t.tareaId === tareaId)) {
-                    const nuevaTarea = {
-                        tareaId: tareaId,
-                        descripcion: tareaSeleccionada.descripcion
-                    };
+        const tareaId = event.value;
+        const tareaSeleccionada = this.Tareas.find(t => t.id === tareaId);
 
-                    this.tareasAsignadas = [...this.tareasAsignadas, nuevaTarea];
-                    this.form.patchValue({ tareas: this.tareasAsignadas });
-                }
-            },
-            error: (error) => {
-                console.error('Error al cargar tareas:', error);
-                this.toastr.error('Error al cargar las tareas disponibles');
+        if (tareaSeleccionada) {
+            const nuevaTarea = {
+                tareaId: tareaSeleccionada.id,
+                descripcion: tareaSeleccionada.descripcion
+            };
+
+            // Verificar si la tarea ya está asignada
+            if (!this.tareasAsignadas.some(t => t.tareaId === tareaId)) {
+                this.tareasAsignadas.push(nuevaTarea);
+                this.form.patchValue({ tareas: this.tareasAsignadas });
             }
-        });
+        }
     }
 
     /**
