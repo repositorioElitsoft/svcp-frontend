@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
           <div class="chips-row" *ngFor="let row of getVisibleRows()">
             <div *ngFor="let item of row" class="chip">
               <div class="chip-content">
-                <span class="task-id">{{item.tareaId}}</span>
+                <span class="task-id">{{item.descripcion || item.id}}</span>
               </div>
               <button class="delete-button" (click)="onDelete(item)">
                 <mat-icon>close</mat-icon>

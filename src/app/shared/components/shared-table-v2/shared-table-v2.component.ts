@@ -98,21 +98,23 @@ export class SharedTableV2Component implements OnInit {
     if (typeof value !== 'object' || value === null) {
       return value;
     }
-    for (const key in value) {
-      if (Object.prototype.hasOwnProperty.call(value, key)) {
-        if (key.toLowerCase().includes("desc")) {
-          return value[key];
-        }
+
+    // Si es un array (como trabajoTareas), devolver vacío ya que se maneja con chips
+    if (Array.isArray(value)) {
+      return '';
+    }
+
+    // Para objetos, buscar campos descriptivos en orden de prioridad
+    const descriptiveFields = ['descripcionTrabajo', 'descripcion', 'desc', 'nombre'];
+    for (const field of descriptiveFields) {
+      if (Object.prototype.hasOwnProperty.call(value, field)) {
+        return value[field];
       }
     }
-    for (const key in value) {
-      if (Object.prototype.hasOwnProperty.call(value, key)) {
-        if (key.toLowerCase().includes("nombre")) {
-          return value[key];
-        }
-      }
-    }
-    return "";
+
+    // Si no se encuentra ningún campo descriptivo, devolver el primer valor
+    const firstKey = Object.keys(value)[0];
+    return value[firstKey] || '';
   }
 
   protected getTranslationGroup(column: string) {

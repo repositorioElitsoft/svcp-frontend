@@ -20,6 +20,7 @@ import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
 import { TrabajoTareaFormComponent } from "../../../shared/components/forms/trabajo-tarea.component";
 import { TrabajoService } from "../../../core/services/trabajo.service";
+import { Trabajo } from "../../../core/models/trabajo.model";
 
 @Component({
   selector: "app-trabajo",
@@ -29,16 +30,16 @@ import { TrabajoService } from "../../../core/services/trabajo.service";
   styleUrl: "./trabajo.component.css",
 })
 export class TrabajoComponent implements OnInit {
-  displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: TrabajoTarea[] = []; // Ahora usa la interfaz TrabajoTarea
-  titulo: string = 'Trabajo Tarea'; // Cambiado a Trabajo Tarea
+  displayedColumns: string[] = ['id', 'descripcionTrabajo', 'trabajoTareas']; // Columnas que queremos mostrar
+  dataSource: Trabajo[] = []; // Cambiado a Trabajo[]
+  titulo: string = 'Trabajo';
   hasSelection = false;
-  selectedData: any[] = []; // Almacena la data seleccionada
-  pageNumber = 0
-  totalPages = 0
+  selectedData: any[] = [];
+  pageNumber = 0;
+  totalPages = 0;
   pageSize = 10;
   totalElements = 0;
-  isLoading = false; // Variable para controlar el estado de carga
+  isLoading = false;
   @ViewChild(SharedTableV2Component) sharedTableComponent!: SharedTableV2Component;
   activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
@@ -64,7 +65,7 @@ export class TrabajoComponent implements OnInit {
       width: '400px',
       data: {
         esActualizar: true,
-        object: this.dataSource.find(item => item.trabajoId === Number(id))
+        object: this.dataSource.find(item => item.id === Number(id))
       }
     });
 
@@ -202,115 +203,68 @@ export class TrabajoComponent implements OnInit {
 
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
-    const mandatoryFilter = {
+    this.isLoading = true;
+    const filtros = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
       sortField: sortField,
       sortDirection: sortDirection,
       ...optionalFilter
-    }
+    };
 
-    this.trabajoService.buscarFiltrado(mandatoryFilter).subscribe((data: any) => {
-      console.log("Datos recibidos:", data);
-
-      this.pageNumber = data.pageNumber;
-      this.totalPages = data.totalPages;
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
-
-      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value);
-
-      // Agrupar por trabajoId
-      const groupedData = data.content.reduce((acc: any, curr: any) => {
-        if (!acc[curr.trabajoId]) {
-          acc[curr.trabajoId] = {
-            ...curr,
-            tareas: []
-          };
-        }
-        acc[curr.trabajoId].tareas.push({
-          tareaId: curr.tareaId,
-          descripcion: curr.descripcion
-        });
-        return acc;
-      }, {});
-
-      this.dataSource = Object.values(groupedData);
-
-      if (this.dataSource.length > 0) {
-        // Ajustar las columnas mostradas
-        this.displayedColumns = ['trabajoId', 'tareas'];
-      }
-      this.cdr.detectChanges();
-    });
+    this.trabajoService.buscarFiltrado(filtros)
+      .pipe(
+        tap((response: any) => {
+          // Asegurarse de que trabajoTareas esté presente
+          this.dataSource = (response?.content || []).map((trabajo: Trabajo) => ({
+            ...trabajo,
+            trabajoTareas: trabajo.trabajoTareas || []
+          }));
+          this.totalElements = response?.totalElements || 0;
+          this.totalPages = response?.totalPages || 0;
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }),
+        catchError(error => {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+          return throwError(() => error);
+        })
+      ).subscribe();
   }
 
 
 
 
   /*********************************** CRUD   - DELETE ***********************************/
-  eliminar(selectedItems: TrabajoTarea[]) {
-    const count = selectedItems.length;
+  eliminar(selectedItems: Trabajo[]) {
+    if (!selectedItems?.length) return;
 
-    // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
-    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
-    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
-    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+    const ids = selectedItems
+      .map(item => item.id)
+      .filter((id): id is number => id !== undefined);
+
+    if (ids.length === 0) return;
 
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
-      width: '600px',
-      height: '400px',
       data: {
-        titulo: titulo,
-        mensaje: mensaje,
-        textoBotonCancelar: textoBotonCancelar,
-        textoBotonConfirmar: textoBotonConfirmar
+        titulo: this.translate.instant('alertas.eliminar.titulo'),
+        mensaje: this.translate.instant('alertas.eliminar.mensaje'),
+        aceptar: true,
+        cancelar: true
       }
     });
 
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        const ids = selectedItems.map(item => item.trabajoId);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
-
-        this.trabajoTareaService.borrarTodo(ids).subscribe({
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.trabajoService.borrarLote(ids).subscribe({
           next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.trabajoId));
-            this.hasSelection = false;
-
-            // Actualizar las propiedades de paginación
-            this.totalElements -= ids.length;
-            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
-
-            // Ajustar pageNumber si es necesario
-            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
-            }
-
-            // Recargar los datos
             this.obtenerDatos();
-
-            // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-
-            // Limpiar selecciones en el componente hijo
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Depurar el estado del paginador
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages
-            });
           },
-          error: (err: any) => {
-            console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          error: (error) => {
+            const errorMessage = convertErrorMessageToI18(error);
+            this.toastr.error(this.translate.instant(errorMessage));
           }
         });
       }
@@ -318,64 +272,29 @@ export class TrabajoComponent implements OnInit {
   }
 
   onDeleteSingleSelected(id: string) {
-    console.log("Eliminar seleccionado:", id);
-
-    // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
-    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
-    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
-    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+    const trabajo = this.dataSource.find(item => item.id === Number(id));
+    const trabajoId = trabajo?.id;
+    if (typeof trabajoId !== 'number') return;
 
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        titulo: titulo,
-        mensaje: mensaje,
-        textoBotonCancelar: textoBotonCancelar,
-        textoBotonConfirmar: textoBotonConfirmar
+        titulo: this.translate.instant('alertas.eliminar.titulo'),
+        mensaje: this.translate.instant('alertas.eliminar.mensaje'),
+        aceptar: true,
+        cancelar: true
       }
     });
 
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        console.log("Eliminando elemento con ID:", id);
-
-        this.trabajoTareaService.borrar(Number(id), 0).subscribe({
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.trabajoService.borrar(trabajoId).subscribe({
           next: () => {
-            console.log("Elemento eliminado exitosamente:", id);
-
-            // Filtrar el item eliminado del dataSource
-            this.dataSource = this.dataSource.filter(item => item.trabajoId !== Number(id));
-
-            // Actualizar propiedades de paginación
-            this.totalElements -= 1;
-            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
-
-            // Ajustar pageNumber si es necesario
-            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1;
-            }
-
-            // Recargar datos
             this.obtenerDatos();
-
-            // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-
-            // Limpiar selección si existe un componente compartido
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Debug: Estado del paginador después de eliminar
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages
-            });
           },
-          error: (err: any) => {
-            console.error("Error al eliminar elemento:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          error: (error) => {
+            const errorMessage = convertErrorMessageToI18(error);
+            this.toastr.error(this.translate.instant(errorMessage));
           }
         });
       }
@@ -403,97 +322,93 @@ export class TrabajoComponent implements OnInit {
 
   /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
   onEditSelected(id: string) {
-    const selectedObject = this.dataSource.find(item => item.trabajoId === Number(id));
-    if (!selectedObject) {
-      return;
-    }
+    const trabajo = this.dataSource.find(item => item.id === Number(id));
+    if (!trabajo) return;
+
     const dialogRef = this.dialog.open(TrabajoFormComponent, {
       width: '400px',
       data: {
         esActualizar: true,
-        object: selectedObject
+        object: trabajo
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos("id", "desc");
+        this.obtenerDatos();
       }
     });
   }
 
-  onDeleteTarea(trabajo: any, tarea: any) {
+  onDeleteTarea(trabajo: Trabajo, tarea: any) {
+    const trabajoId = trabajo?.id;
+    if (typeof trabajoId !== 'number') return;
+
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        titulo: this.translate.instant('alertas.eliminacionIndividualTitulo'),
-        mensaje: this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 }),
-        textoBotonCancelar: this.translate.instant('alertas.cancelar'),
-        textoBotonConfirmar: this.translate.instant('alertas.eliminar')
+        titulo: this.translate.instant('alertas.eliminar.titulo'),
+        mensaje: this.translate.instant('alertas.eliminar.mensaje'),
+        aceptar: true,
+        cancelar: true
       }
     });
 
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        this.trabajoTareaService.borrar(trabajo.trabajoId, tarea.tareaId).subscribe({
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.trabajoService.borrar(trabajoId).subscribe({
           next: () => {
-            // Actualizar la lista de tareas localmente
-            const trabajoIndex = this.dataSource.findIndex(t => t.trabajoId === trabajo.trabajoId);
-            if (trabajoIndex !== -1) {
-              // Actualizar el trabajo eliminando la tarea específica
-              this.dataSource = this.dataSource.filter(t => t.trabajoId !== trabajo.trabajoId);
-            }
-
-            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-            this.cdr.detectChanges();
             this.obtenerDatos();
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
           },
-          error: (err) => {
-            console.error("Error al eliminar tarea:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          error: (error) => {
+            const errorMessage = convertErrorMessageToI18(error);
+            this.toastr.error(this.translate.instant(errorMessage));
           }
         });
       }
     });
   }
 
-  onClearTareas(trabajo: any) {
+  onClearTareas(trabajo: Trabajo) {
+    const trabajoId = trabajo?.id;
+    if (typeof trabajoId !== 'number') return;
+
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        titulo: this.translate.instant('alertas.eliminacionMultipleTitulo'),
-        mensaje: this.translate.instant('alertas.eliminacionMultipleMensaje', { count: trabajo.tareas.length }),
-        textoBotonCancelar: this.translate.instant('alertas.cancelar'),
-        textoBotonConfirmar: this.translate.instant('alertas.eliminar')
+        titulo: this.translate.instant('alertas.eliminar.titulo'),
+        mensaje: this.translate.instant('alertas.eliminar.mensaje'),
+        aceptar: true,
+        cancelar: true
       }
     });
 
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        const tareaIds = trabajo.tareas.map((t: any) => t.tareaId);
-        this.trabajoTareaService.borrar(trabajo.trabajoId, 0).subscribe({
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.trabajoService.borrar(trabajoId).subscribe({
           next: () => {
-            // Eliminar el trabajo de la lista
-            this.dataSource = this.dataSource.filter(t => t.trabajoId !== trabajo.trabajoId);
+            this.obtenerDatos();
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-            this.cdr.detectChanges();
           },
-          error: (err) => {
-            console.error("Error al eliminar tareas:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          error: (error) => {
+            const errorMessage = convertErrorMessageToI18(error);
+            this.toastr.error(this.translate.instant(errorMessage));
           }
         });
       }
     });
   }
 
-  onAsignacion(element: any) {
-    // Similar a como manejas el agregar, pero para asignación
-    this.dialog.open(TrabajoTareaFormComponent, {
-      width: '800px',
+  onAsignacion(element: any): void {
+    const dialogRef = this.dialog.open(TrabajoTareaFormComponent, {
+      width: '400px',
       data: {
-        mode: 'asignacion',
-        item: element
+        id: element.id,
+        descripcionTrabajo: element.descripcionTrabajo,
+        trabajoTareas: element.trabajoTareas || []
       }
-    }).afterClosed().subscribe(result => {
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.obtenerDatos();
       }
