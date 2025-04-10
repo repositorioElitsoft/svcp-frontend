@@ -17,43 +17,55 @@ export class TrabajoService {
         'Content-Type': 'application/json'
     });
 
-
+    // GET /trabajos/{id}
     buscar(trabajoId: number): Observable<ApiEntityResponse<Trabajo>> {
         return this.http.get<ApiEntityResponse<Trabajo>>(`${this.url}trabajos/${trabajoId}`);
     }
 
+    // GET /trabajos
     buscarTodos(): Observable<ApiEntityResponse<Trabajo[]>> {
         return this.http.get<ApiEntityResponse<Trabajo[]>>(`${this.url}trabajos`);
     }
 
-
+    // DELETE /trabajos/{id}
     borrar(trabajoId: number): Observable<ApiEntityResponse<any>> {
         return this.http.delete<ApiEntityResponse<any>>(`${this.url}trabajos/${trabajoId}`);
     }
 
-    borrarTodos(ids: number[]): Observable<any> {
-        return this.http.delete<any>(`${this.url}trabajos/lote`, { body: ids });
+    // DELETE /trabajos/lote
+    borrarLote(ids: number[]): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}trabajos/lote`, { body: ids });
     }
 
-    actualizar(trabajoId: number, trabajo: Trabajo): Observable<Trabajo> {
-        return this.http.put<Trabajo>(`${this.url}trabajos/${trabajoId}`, trabajo);
+    // PUT /trabajos/{id}
+    actualizar(trabajoId: number, trabajo: Trabajo): Observable<ApiEntityResponse<any>> {
+        return this.http.put<ApiEntityResponse<any>>(`${this.url}trabajos/${trabajoId}`, trabajo);
     }
 
-    crear(trabajo: Trabajo): Observable<Trabajo> {
-        return this.http.post<Trabajo>(`${this.url}trabajos`, trabajo);
+    // PUT /trabajos/lote
+    actualizarLote(trabajos: Trabajo[]): Observable<ApiEntityResponse<any>> {
+        return this.http.put<ApiEntityResponse<any>>(`${this.url}trabajos/lote`, trabajos);
     }
 
-    buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
-        console.log("filtros", filtros)
-        let params = new HttpParams(filtros);
+    // POST /trabajos
+    crear(trabajo: Trabajo): Observable<ApiEntityResponse<Trabajo>> {
+        return this.http.post<ApiEntityResponse<Trabajo>>(`${this.url}trabajos`, trabajo);
+    }
+
+    // POST /trabajos/lote
+    crearLote(trabajos: Trabajo[]): Observable<ApiEntityResponse<any>> {
+        return this.http.post<ApiEntityResponse<any>>(`${this.url}trabajos/lote`, trabajos);
+    }
+
+    // GET /core/filter/trabajos
+    buscarFiltrado(filtros: { [key: string]: any }): Observable<ApiEntityResponse<Trabajo[]>> {
+        let params = new HttpParams();
         // Recorrer los filtros y agregar los que tengan valor
         for (let key in filtros) {
             if (filtros.hasOwnProperty(key)) {
                 params = params.append(key, filtros[key]);
             }
         }
-        console.log("params", params)
-        // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}core/filter/trabajos`, { params, headers: this.headers });
+        return this.http.get<ApiEntityResponse<Trabajo[]>>(`${this.url}core/filter/trabajos`, { params, headers: this.headers });
     }
 }

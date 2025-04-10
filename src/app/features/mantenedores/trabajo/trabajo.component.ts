@@ -210,11 +210,11 @@ export class TrabajoComponent implements OnInit {
       ...optionalFilter
     }
 
-    this.trabajoService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<TrabajoTarea[]>) => {
+    this.trabajoService.buscarFiltrado(mandatoryFilter).subscribe((data: any) => {
       console.log("Datos recibidos:", data);
 
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
+      this.pageNumber = data.pageNumber;
+      this.totalPages = data.totalPages;
       this.pageSize = data.pageSize;
       this.totalElements = data.totalElements;
 
