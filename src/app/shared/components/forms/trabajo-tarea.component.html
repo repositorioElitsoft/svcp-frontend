@@ -42,16 +42,17 @@
             </mat-error>
         </div>
 
-        <!-- Botones de acción -->
-        <div class="flex justify-end gap-4 mt-4">
-            <button type="button" class="px-6 py-2 border border-[#4350AF] text-[#4350AF] rounded hover:bg-gray-50"
-                (click)="onCancel()">
-                {{ 'common.cancelar' | translate }}
+
+        <div class="grid grid-cols-2 gap-4 w-full">
+            <button type="button" (click)="dialogRef.close()"
+                class="text-lg elitsoft-warn w-full flex items-center justify-center py-2 text-center">
+                {{ 'mantenedores.formularios.botonCancelar' | translate }}
             </button>
-            <button type="submit" class="px-6 py-2 bg-[#4350AF] text-white rounded hover:bg-[#374291]"
-                [disabled]="form.invalid || isLoading">
-                <span *ngIf="!isLoading">{{ 'common.guardar' | translate }}</span>
-                <mat-icon *ngIf="isLoading">sync</mat-icon>
+            <button type="submit" [disabled]="form.invalid"
+                class="text-lg elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
+                {{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
+                'mantenedores.formularios.guardar') |
+                translate }}
             </button>
         </div>
     </form>
