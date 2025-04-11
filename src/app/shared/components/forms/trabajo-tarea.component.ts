@@ -223,7 +223,7 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
 
             if (tareaYaAsignada || tareaExistente) {
                 console.log('onTareaSelect - Tarea ya asignada o existente, ignorando');
-                this.toastr.warning(this.translate.instant('alertas.toastr.tareaExistente'));
+                this.toastr.warning(this.translate.instant('alertas.toastr.errors.trabajoTarea.DUPLICADO'));
                 return;
             }
 
