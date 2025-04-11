@@ -221,7 +221,9 @@
         "trabajo": {
             "id": "Id",
             "titulo": "Trabalho",
-            "descripcionTrabajo": "Descrição do Trabalho"
+            "descripcionTrabajo": "Trabalho",
+            "trabajoTareas": "Tarefas Atribuídas",
+            "tareas": "Tarefas Atribuídas"
         },
         "zona": {
             "id": "Id",

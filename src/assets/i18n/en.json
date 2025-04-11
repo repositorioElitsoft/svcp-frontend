@@ -230,7 +230,8 @@
             "id": "Id",
             "titulo": "Work",
             "descripcionTrabajo": "Work",
-            "trabajoTareas": "Assigned Tasks"
+            "trabajoTareas": "Assigned Tasks",
+            "tareas": "Assigned Tasks"
         },
         "zona": {
             "id": "Id",

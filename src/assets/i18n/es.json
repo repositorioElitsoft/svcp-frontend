@@ -239,7 +239,8 @@
             "id": "Id",
             "titulo": "Trabajo",
             "descripcionTrabajo": "Trabajo",
-            "trabajoTareas": "Tareas Asignadas"
+            "trabajoTareas": "Tareas Asignadas",
+            "tareas": "Tareas Asignadas"
         },
         "zona": {
             "id": "Id",
