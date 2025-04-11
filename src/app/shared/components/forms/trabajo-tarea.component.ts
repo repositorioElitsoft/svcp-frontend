@@ -61,6 +61,7 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
     // Listas
     Tareas: Tarea[] = [];
     tareasAsignadas: TareaAsignada[] = [];
+    tareasDisponibles: Tarea[] = [];
 
     // Control de estado
     isLoading = false;
@@ -94,6 +95,11 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
 
         if (this.trabajoId) {
             this.cargarTareas();
+        }
+
+        // Inicializar tareasDisponibles con todas las tareas si ya están cargadas
+        if (this.Tareas.length > 0) {
+            this.actualizarTareasDisponibles();
         }
     }
 
@@ -170,12 +176,27 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: (response: ApiEntityResponse<Tarea[]>) => {
                     this.Tareas = response.data;
+                    this.actualizarTareasDisponibles();
                     console.log('cargarTareas - Tareas cargadas:', this.Tareas);
                 },
                 error: (error) => {
                     console.error('cargarTareas - Error al cargar tareas:', error);
                 }
             });
+    }
+
+    /**
+     * Actualiza la lista de tareas disponibles para selección
+     */
+    private actualizarTareasDisponibles(): void {
+        console.log('actualizarTareasDisponibles - Iniciando actualización');
+
+        // Filtrar las tareas que ya están asignadas
+        this.tareasDisponibles = this.Tareas.filter(tarea =>
+            !this.tareasAsignadas.some(ta => ta.tareaId === tarea.id)
+        );
+
+        console.log('actualizarTareasDisponibles - Tareas disponibles:', this.tareasDisponibles);
     }
 
     /**
@@ -186,6 +207,9 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
         this.tareasAsignadas = this.tareasAsignadas.filter(t => t.tareaId !== tarea.tareaId);
         console.log('onTareaDelete - Lista actualizada:', this.tareasAsignadas);
         this.form.patchValue({ tareas: this.tareasAsignadas });
+
+        // Actualizar las tareas disponibles después de eliminar
+        this.actualizarTareasDisponibles();
     }
 
     /**
@@ -195,6 +219,9 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
         console.log('onTareasClear - Limpiando todas las tareas');
         this.tareasAsignadas = [];
         this.form.patchValue({ tareas: [] });
+
+        // Actualizar las tareas disponibles después de limpiar
+        this.actualizarTareasDisponibles();
     }
 
     /**
@@ -216,13 +243,8 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
             // Verificar si la tarea ya está en las tareas asignadas localmente
             const tareaYaAsignada = this.tareasAsignadas.some(t => t.tareaId === tareaSeleccionada.id);
 
-            // Verificar si la tarea ya existe en el trabajo (en la base de datos)
-            const tareaExistente = this.data.trabajoTareas?.some(
-                (tt: any) => tt.tarea.id === tareaSeleccionada.id
-            );
-
-            if (tareaYaAsignada || tareaExistente) {
-                console.log('onTareaSelect - Tarea ya asignada o existente, ignorando');
+            if (tareaYaAsignada) {
+                console.log('onTareaSelect - Tarea ya asignada, ignorando');
                 this.toastr.warning(this.translate.instant('alertas.toastr.errors.trabajoTarea.DUPLICADO'));
                 return;
             }
@@ -242,6 +264,9 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
 
             this.form.patchValue({ tareas: this.tareasAsignadas });
             console.log('onTareaSelect - Formulario actualizado:', this.form.value);
+
+            // Actualizar las tareas disponibles después de agregar
+            this.actualizarTareasDisponibles();
         }
     }
 
