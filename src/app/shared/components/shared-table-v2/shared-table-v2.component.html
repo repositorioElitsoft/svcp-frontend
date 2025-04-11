@@ -99,7 +99,8 @@
                         <div class="flex items-center justify-between">
                             <app-chips [items]="element[column]" [displayField]="getChipsConfig(column).displayField"
                                 [nestedPath]="getChipsConfig(column).nestedPath"
-                                (deleteItem)="onChipDelete(element, $event)" (clearAll)="onChipsClear(element)">
+                                (deleteItem)="onChipDelete(element, $event)" (clearAll)="onChipsClear(element)"
+                                (showMore)="onAsignacion(element)">
                             </app-chips>
                         </div>
                         } @else {
