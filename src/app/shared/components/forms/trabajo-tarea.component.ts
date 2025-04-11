@@ -209,9 +209,17 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
         console.log('onTareaSelect - Tarea seleccionada:', tareaSeleccionada);
 
         if (tareaSeleccionada) {
+            // Verificar si la tarea ya está en las tareas asignadas localmente
             const tareaYaAsignada = this.tareasAsignadas.some(t => t.tareaId === tareaSeleccionada.id);
-            if (tareaYaAsignada) {
-                console.log('onTareaSelect - Tarea ya asignada, ignorando');
+
+            // Verificar si la tarea ya existe en el trabajo (en la base de datos)
+            const tareaExistente = this.data.trabajoTareas?.some(
+                (tt: any) => tt.tarea.id === tareaSeleccionada.id
+            );
+
+            if (tareaYaAsignada || tareaExistente) {
+                console.log('onTareaSelect - Tarea ya asignada o existente, ignorando');
+                this.toastr.warning(this.translate.instant('alertas.toastr.tareaExistente'));
                 return;
             }
 
@@ -248,26 +256,106 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const tareaSeleccionada = this.form.get('tareas')?.value;
-        if (!tareaSeleccionada) {
-            console.warn('onSubmit - No hay tareas seleccionadas');
-            this.toastr.warning(this.translate.instant('alertas.toastr.seleccionarTarea'));
-            return;
-        }
-
         this.isLoading = true;
         console.log('onSubmit - Preparando datos para enviar');
 
         try {
+            // Si estamos en modo actualización
+            if (this.esActualizar() && Array.isArray(this.data.trabajoTareas)) {
+                // Si no hay tareas asignadas, eliminamos todas las existentes
+                if (this.tareasAsignadas.length === 0) {
+                    console.log('onSubmit - No hay tareas asignadas, eliminando todas las existentes');
+                    const tareasParaEliminar = this.data.trabajoTareas.map((tt: { tarea: { id: number } }) => ({
+                        trabajo: {
+                            id: this.trabajoId
+                        },
+                        tarea: {
+                            id: tt.tarea.id
+                        }
+                    }));
+                    console.log('onSubmit - Tareas formateadas para eliminar:', tareasParaEliminar);
+
+                    try {
+                        await this.trabajoTareaService.borrarTodo(tareasParaEliminar).toPromise();
+                        console.log('onSubmit - Todas las tareas eliminadas exitosamente');
+                        this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                        this.dialogRef.close(true);
+                        return;
+                    } catch (error) {
+                        console.error('onSubmit - Error al eliminar tareas:', error);
+                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+                        return;
+                    }
+                }
+
+                // Si hay tareas asignadas, eliminamos solo las que ya no están
+                const tareasEliminadas = this.data.trabajoTareas.filter(
+                    (tt: any) => !this.tareasAsignadas.some(ta => ta.tareaId === tt.tarea.id)
+                );
+
+                console.log('onSubmit - Tareas a eliminar:', tareasEliminadas);
+
+                if (tareasEliminadas.length > 0) {
+                    // Crear array de objetos con el formato correcto para eliminar en lote
+                    const tareasParaEliminar = tareasEliminadas.map((tt: { tarea: { id: number } }) => ({
+                        trabajo: {
+                            id: this.trabajoId
+                        },
+                        tarea: {
+                            id: tt.tarea.id
+                        }
+                    }));
+                    console.log('onSubmit - Tareas formateadas para eliminar:', tareasParaEliminar);
+
+                    try {
+                        await this.trabajoTareaService.borrarTodo(tareasParaEliminar).toPromise();
+                        console.log('onSubmit - Tareas eliminadas exitosamente');
+                    } catch (error) {
+                        console.error('onSubmit - Error al eliminar tareas:', error);
+                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+                        return;
+                    }
+                }
+
+                // Verificar si hay nuevas tareas para agregar
+                const tareasNuevas = this.tareasAsignadas.filter(
+                    ta => !this.data.trabajoTareas.some((tt: any) => tt.tarea.id === ta.tareaId)
+                );
+
+                console.log('onSubmit - Tareas nuevas a agregar:', tareasNuevas);
+
+                if (tareasNuevas.length === 0) {
+                    // Si no hay nuevas tareas para agregar, cerramos el diálogo
+                    this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                    this.dialogRef.close(true);
+                    return;
+                }
+
+                // Si hay nuevas tareas, continuamos con el proceso de agregar
+                console.log('onSubmit - Continuando con la adición de nuevas tareas');
+            }
+
+            // Si no hay tareas asignadas después de eliminar, cerramos el diálogo
+            if (this.tareasAsignadas.length === 0) {
+                console.log('onSubmit - No hay tareas para asignar');
+                this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                this.dialogRef.close(true);
+                return;
+            }
+
+            // Obtener la última tarea agregada
+            const ultimaTarea = this.tareasAsignadas[this.tareasAsignadas.length - 1];
+            console.log('onSubmit - Última tarea seleccionada:', ultimaTarea);
+
             const tareaFormateada = {
                 trabajoId: this.trabajoId,
-                tareaId: tareaSeleccionada.id,
+                tareaId: ultimaTarea.tareaId,
                 ordenEjecucionTarea: this.ultimoValor + 1,
                 trabajo: {
                     id: this.trabajoId
                 },
                 tarea: {
-                    id: tareaSeleccionada.id
+                    id: ultimaTarea.tareaId
                 }
             };
 
