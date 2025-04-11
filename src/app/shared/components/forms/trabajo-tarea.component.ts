@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
+import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
 
 // Servicios
 import { TrabajoTareaService } from '../../../core/services/trabajo-tarea.service';
@@ -17,18 +18,17 @@ import { TareaService } from '../../../core/services/tarea.service';
 import { convertErrorMessageToI18 } from '../../../core/utils/errors.utils';
 
 // Componentes
-import { ChipsComponent } from '../chips/chips.component';
 import { TituloDialogoComponent } from '../titulo-dialogo/titulo-dialogo.component';
 import { Tarea } from '../../../core/models/tarea.model';
 import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
 import { TrabajoTarea } from '../../../core/models/trabajo-tarea.model';
-
 
 interface TareaAsignada {
     id: number;
     tareaId: number;
     descripcion: string;
     descripcionTarea: string;
+    ordenEjecucionTarea: number;
 }
 
 @Component({
@@ -44,9 +44,8 @@ interface TareaAsignada {
         MatButtonModule,
         MatIconModule,
         TranslateModule,
-        ChipsComponent,
         TituloDialogoComponent,
-        TranslateModule
+        DragDropModule
     ],
     templateUrl: './trabajo-tarea.component.html'
 })
@@ -66,6 +65,7 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
     // Control de estado
     isLoading = false;
     ultimoValor: number = 0;
+    mostrarTodas: boolean = false;
 
     // Control de suscripciones
     private destroy$ = new Subject<void>();
@@ -125,12 +125,16 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
             if (Array.isArray(this.data.trabajoTareas) && this.data.trabajoTareas.length > 0) {
                 console.log('inicializarDatosTrabajo - TrabajoTareas recibidas:', this.data.trabajoTareas);
 
-                this.tareasAsignadas = this.data.trabajoTareas.map((item: { tarea: { id: number, descripcionTarea: string } }) => ({
+                this.tareasAsignadas = this.data.trabajoTareas.map((item: { tarea: { id: number, descripcionTarea: string }, ordenEjecucionTarea: number }) => ({
                     id: item.tarea.id,
                     tareaId: item.tarea.id,
                     descripcion: item.tarea.descripcionTarea,
-                    descripcionTarea: item.tarea.descripcionTarea
+                    descripcionTarea: item.tarea.descripcionTarea,
+                    ordenEjecucionTarea: item.ordenEjecucionTarea
                 }));
+
+                // Ordenar las tareas por ordenEjecucionTarea
+                this.tareasAsignadas.sort((a, b) => a.ordenEjecucionTarea - b.ordenEjecucionTarea);
 
                 this.ultimoValor = Math.max(...this.data.trabajoTareas.map((item: any) => item.ordenEjecucionTarea || 0));
                 console.log('inicializarDatosTrabajo - Tareas asignadas mapeadas:', this.tareasAsignadas);
@@ -227,16 +231,41 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 id: tareaSeleccionada.id,
                 tareaId: tareaSeleccionada.id,
                 descripcion: tareaSeleccionada.descripcionTarea,
-                descripcionTarea: tareaSeleccionada.descripcionTarea
+                descripcionTarea: tareaSeleccionada.descripcionTarea,
+                ordenEjecucionTarea: this.ultimoValor + 1
             };
 
             this.tareasAsignadas = [...this.tareasAsignadas, nuevaTareaAsignada];
+            this.ultimoValor++;
             console.log('onTareaSelect - Nueva tarea asignada:', nuevaTareaAsignada);
             console.log('onTareaSelect - Lista actualizada de tareas:', this.tareasAsignadas);
 
             this.form.patchValue({ tareas: this.tareasAsignadas });
             console.log('onTareaSelect - Formulario actualizado:', this.form.value);
         }
+    }
+
+    /**
+     * Maneja el evento de drag and drop para reordenar las tareas
+     */
+    onDrop(event: CdkDragDrop<TareaAsignada[]>): void {
+        console.log('onDrop - Evento recibido:', event);
+
+        if (event.previousIndex === event.currentIndex) {
+            console.log('onDrop - No hay cambio en el orden');
+            return;
+        }
+
+        // Mover el elemento en el array
+        moveItemInArray(this.tareasAsignadas, event.previousIndex, event.currentIndex);
+
+        // Actualizar el ordenEjecucionTarea para cada tarea
+        this.tareasAsignadas.forEach((tarea, index) => {
+            tarea.ordenEjecucionTarea = index + 1;
+        });
+
+        console.log('onDrop - Tareas reordenadas:', this.tareasAsignadas);
+        this.form.patchValue({ tareas: this.tareasAsignadas });
     }
 
     /**
@@ -317,22 +346,58 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                     }
                 }
 
-                // Verificar si hay nuevas tareas para agregar
+                // Verificar si hay nuevas tareas para agregar o si hay cambios en el orden
                 const tareasNuevas = this.tareasAsignadas.filter(
                     ta => !this.data.trabajoTareas.some((tt: any) => tt.tarea.id === ta.tareaId)
                 );
 
-                console.log('onSubmit - Tareas nuevas a agregar:', tareasNuevas);
+                const tareasReordenadas = this.tareasAsignadas.filter(ta => {
+                    const tareaExistente = this.data.trabajoTareas.find((tt: any) => tt.tarea.id === ta.tareaId);
+                    return tareaExistente && tareaExistente.ordenEjecucionTarea !== ta.ordenEjecucionTarea;
+                });
 
-                if (tareasNuevas.length === 0) {
-                    // Si no hay nuevas tareas para agregar, cerramos el diálogo
+                console.log('onSubmit - Tareas nuevas a agregar:', tareasNuevas);
+                console.log('onSubmit - Tareas reordenadas:', tareasReordenadas);
+
+                if (tareasNuevas.length === 0 && tareasReordenadas.length === 0) {
+                    // Si no hay nuevas tareas para agregar ni cambios en el orden, cerramos el diálogo
                     this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
                     this.dialogRef.close(true);
                     return;
                 }
 
+                // Si hay tareas reordenadas, actualizamos el orden
+                if (tareasReordenadas.length > 0) {
+                    const tareasParaActualizar = tareasReordenadas.map(ta => ({
+                        trabajoId: this.trabajoId,
+                        tareaId: ta.tareaId,
+                        ordenEjecucionTarea: ta.ordenEjecucionTarea,
+                        trabajo: {
+                            id: this.trabajoId
+                        },
+                        tarea: {
+                            id: ta.tareaId
+                        }
+                    }));
+                    try {
+                        await this.trabajoTareaService.actualizarLote(tareasParaActualizar).toPromise();
+                        console.log('onSubmit - Orden de tareas actualizado exitosamente');
+                    } catch (error) {
+                        console.error('onSubmit - Error al actualizar el orden de las tareas:', error);
+                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+                        return;
+                    }
+                }
+
                 // Si hay nuevas tareas, continuamos con el proceso de agregar
-                console.log('onSubmit - Continuando con la adición de nuevas tareas');
+                if (tareasNuevas.length > 0) {
+                    console.log('onSubmit - Continuando con la adición de nuevas tareas');
+                } else {
+                    // Si solo se reordenaron las tareas, cerramos el diálogo
+                    this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                    this.dialogRef.close(true);
+                    return;
+                }
             }
 
             // Si no hay tareas asignadas después de eliminar, cerramos el diálogo
@@ -350,7 +415,7 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
             const tareaFormateada = {
                 trabajoId: this.trabajoId,
                 tareaId: ultimaTarea.tareaId,
-                ordenEjecucionTarea: this.ultimoValor + 1,
+                ordenEjecucionTarea: ultimaTarea.ordenEjecucionTarea,
                 trabajo: {
                     id: this.trabajoId
                 },
