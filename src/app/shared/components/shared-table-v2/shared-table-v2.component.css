@@ -67,6 +67,7 @@
     right: 0 !important;
     @apply bg-gray-100 !important;
     box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
+    z-index: 2;
 }
 
 .sticky-cell {
@@ -74,6 +75,7 @@
     right: 0 !important;
     background: inherit !important;
     box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
 /* Asegurar que el fondo de las celdas sticky coincida con el hover */
@@ -88,6 +90,15 @@
 
 .mat-mdc-row:nth-child(odd) .sticky-cell {
     background-color: #F5F5F5 !important;
+}
+
+/* Asegurar que el hover se aplique correctamente a la columna de acciones */
+.mat-mdc-row:hover {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.mat-mdc-row:hover .sticky-cell {
+    background-color: rgba(0, 0, 0, 0.04) !important;
 }
 
 /* Asegurar que el scroll no afecte la apariencia en móvil */
