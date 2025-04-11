@@ -106,15 +106,26 @@ export class TrabajoComponent implements OnInit {
         return;
       }
 
-      let columnKeys = Object.keys(dataArray[0]);
-      if (translationBase === 'mantenedores.trabajo') {
-        columnKeys = columnKeys.filter(key => key !== 'id');
-      }
+      // Formatear los datos antes de la exportación
+      const formattedData = dataArray.map(item => {
+        const formattedItem: any = {
+          id: item.id,
+          descripcionTrabajo: item.descripcionTrabajo,
+          tareas: item.trabajoTareas ? item.trabajoTareas
+            .sort((a: any, b: any) => a.ordenEjecucionTarea - b.ordenEjecucionTarea)
+            .map((tt: any) => tt.tarea.descripcionTarea)
+            .join(', ') : ''
+        };
+        return formattedItem;
+      });
+
+      // Definir las columnas que queremos exportar y su orden
+      const columnKeys = ['descripcionTrabajo', 'tareas'];
 
       const translationKeys = columnKeys.map(key => `${translationBase}.${key}`);
 
       this.translate.get(translationKeys).subscribe(translations => {
-        const translatedData = dataArray.map(item => {
+        const translatedData = formattedData.map(item => {
           const newItem: any = {};
           columnKeys.forEach((key, index) => {
             const translatedKey = translations[translationKeys[index]] || key;
@@ -167,7 +178,6 @@ export class TrabajoComponent implements OnInit {
           handleExport(apiData, 'mantenedores.trabajo');
           // Mostramos el mensaje específico para la exportación de datos de la API
           this.toastr.success(this.translate.instant('alertas.toastr.exportar.todo.success'));
-
         },
         (error) => {
           console.error("CAMINO 2.2: Error en la solicitud a la API:", error);
