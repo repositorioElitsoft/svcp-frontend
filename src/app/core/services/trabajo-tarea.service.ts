@@ -28,14 +28,14 @@ export class TrabajoTareaService {
      * Encuentra un trabajo-tarea por su clave compuesta (trabajoId y tareaId)
      */
     obtener(trabajoId: number, tareaId: number): Observable<ApiEntityResponse<TrabajoTarea>> {
-        return this.http.get<ApiEntityResponse<TrabajoTarea>>(`${this.url}/${trabajoId}/tarea/${tareaId}`);
+        return this.http.get<ApiEntityResponse<TrabajoTarea>>(`${this.url}/${trabajoId}/tarea/${tareaId}`, { headers: this.headers });
     }
 
     /**
      * Obtiene todos los trabajos-tareas
      */
     obtenerTodos(): Observable<ApiEntityResponse<TrabajoTarea[]>> {
-        return this.http.get<ApiEntityResponse<TrabajoTarea[]>>(`${this.url}`);
+        return this.http.get<ApiEntityResponse<TrabajoTarea[]>>(`${this.url}`, { headers: this.headers });
     }
 
     /**
@@ -49,10 +49,6 @@ export class TrabajoTareaService {
      * Agrega un lote de trabajos-tareas
      */
     crearLote(trabajoTareas: TrabajoTareaDTO[]): Observable<ApiEntityResponse<string>> {
-        console.log('=== SERVICIO - CREAR LOTE ===');
-        console.log('URL:', `${this.url}/lote`);
-        console.log('Datos:', trabajoTareas);
-
         return this.http.post<ApiEntityResponse<string>>(`${this.url}/lote`, trabajoTareas, {
             headers: this.headers
         });
@@ -88,8 +84,16 @@ export class TrabajoTareaService {
     /**
      * Elimina un lote de trabajos-tareas
      */
-    borrarTodo(ids: number[]): Observable<ApiEntityResponse<string>> {
-        return this.http.delete<ApiEntityResponse<string>>(`${this.url}/lote`, { headers: this.headers, body: ids });
+    borrarTodo(trabajoTareas: any[]): Observable<ApiEntityResponse<string>> {
+        const formattedData = trabajoTareas.map(tt => ({
+            trabajoId: tt.trabajo?.id || tt.trabajoId,
+            tareaId: tt.tarea?.id || tt.tareaId
+        }));
+
+        return this.http.delete<ApiEntityResponse<string>>(`${this.url}/lote`, {
+            headers: this.headers,
+            body: formattedData
+        });
     }
 
     /**
@@ -104,6 +108,6 @@ export class TrabajoTareaService {
             }
         }
         // Hacer la solicitud GET con los parámetros dinámicos
-        return this.http.get(`${this.url}/core/filter/trabajos-tareas`, { params, headers: this.headers });
+        return this.http.get(`${this.url}`, { params, headers: this.headers });
     }
 } 
