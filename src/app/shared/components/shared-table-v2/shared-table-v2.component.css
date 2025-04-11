@@ -7,6 +7,7 @@
     background: white;
     border: 1px solid #e5e7eb;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    @apply dark:bg-neutral-900 dark:border-neutral-600;
 }
 
 /* Contenedor de la tabla */
@@ -16,41 +17,49 @@
     @apply rounded-t-[8px];
     border: 1px solid #e5e7eb;
     background: white;
+    @apply dark:bg-neutral-900 dark:border-neutral-600;
 }
 
 .mat-mdc-header-row {
     @apply bg-gray-100;
     border-bottom: 1px solid #e0e0e0;
+    @apply dark:bg-neutral-800 dark:border-neutral-600;
 }
 
 /* Estilo base para todas las filas */
 .mat-mdc-row {
     border-bottom: 1px solid #e0e0e0;
+    @apply dark:border-neutral-700;
 }
 
 /* Filas pares */
 .mat-mdc-row:nth-child(even) {
     background-color: #FFFFFF;
+    @apply dark:bg-neutral-900;
 }
 
 /* Filas impares */
 .mat-mdc-row:nth-child(odd) {
     background-color: #F5F5F5;
+    @apply dark:bg-neutral-800;
 }
 
 .mat-mdc-header-cell {
-    @apply py-3 px-4 text-left font-semibold text-gray-700;
+    @apply py-3 px-4 text-left font-semibold;
+    @apply text-gray-700 dark:text-gray-300;
     background: inherit;
 }
 
 .mat-mdc-cell {
-    @apply py-3 px-4 text-gray-800;
+    @apply py-3 px-4;
+    @apply text-gray-800 dark:text-gray-300;
     background: inherit;
 }
 
 /* Efecto hover */
 .mat-mdc-row:hover {
     background-color: rgba(0, 0, 0, 0.04) !important;
+    @apply dark:bg-neutral-700;
 }
 
 .mat-mdc-checkbox {
@@ -59,13 +68,15 @@
 
 .mat-mdc-icon-button {
     @apply text-gray-600 hover:text-gray-800;
+    @apply dark:text-gray-400 dark:hover:text-gray-200;
 }
 
 /* Estilos para la columna sticky de acciones */
 .sticky-header {
     position: sticky !important;
     right: 0 !important;
-    @apply bg-gray-100 !important;
+    @apply bg-gray-100;
+    @apply dark:bg-neutral-800;
     box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
     z-index: 2;
 }
@@ -76,29 +87,35 @@
     background: inherit !important;
     box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
     z-index: 1;
+    @apply dark:bg-neutral-900;
 }
 
 /* Asegurar que el fondo de las celdas sticky coincida con el hover */
 .mat-mdc-row:hover .sticky-cell {
     background-color: rgba(0, 0, 0, 0.04) !important;
+    @apply dark:bg-neutral-700 !important;
 }
 
 /* Asegurar que las celdas sticky mantengan el color alternado */
 .mat-mdc-row:nth-child(even) .sticky-cell {
     background-color: #FFFFFF !important;
+    @apply dark:bg-neutral-900 !important;
 }
 
 .mat-mdc-row:nth-child(odd) .sticky-cell {
     background-color: #F5F5F5 !important;
+    @apply dark:bg-neutral-800 !important;
 }
 
 /* Asegurar que el hover se aplique correctamente a la columna de acciones */
 .mat-mdc-row:hover {
     background-color: rgba(0, 0, 0, 0.04) !important;
+    @apply dark:bg-neutral-700 !important;
 }
 
 .mat-mdc-row:hover .sticky-cell {
     background-color: rgba(0, 0, 0, 0.04) !important;
+    @apply dark:bg-neutral-700 !important;
 }
 
 /* Asegurar que el scroll no afecte la apariencia en móvil */
