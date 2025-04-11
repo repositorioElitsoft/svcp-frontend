@@ -53,6 +53,7 @@ export class SharedTableV2Component implements OnInit {
     nestedPath?: string;
     displayField?: string;
     customTemplate?: TemplateRef<any>;
+    sortable?: boolean;
   }[] = [];
 
   @Output() deleteSelected = new EventEmitter<string[]>();
@@ -183,7 +184,17 @@ export class SharedTableV2Component implements OnInit {
     return numSelected === numRows;
   }
 
+  isColumnSortable(column: string): boolean {
+    const config = this.columnConfig.find(c => c.field === column);
+    return config?.sortable !== false;
+  }
+
   protected onSort(selectedColumnName: string, columnIndex: number) {
+    const config = this.columnConfig.find(c => c.field === selectedColumnName);
+    if (config?.sortable === false) {
+      return;
+    }
+
     this.sortHeaders.forEach((header, i) => {
       const element = header.nativeElement;
       if (i === columnIndex) {
@@ -202,6 +213,7 @@ export class SharedTableV2Component implements OnInit {
         element.setAttribute('sortType', '');
       }
     });
+
     this.currentSortIndex = columnIndex;
     this.cdr.detectChanges();
 

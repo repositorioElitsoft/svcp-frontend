@@ -37,13 +37,15 @@ export class TrabajoComponent implements OnInit {
     nestedPath?: string;
     displayField?: string;
     customTemplate?: TemplateRef<any>;
+    sortable?: boolean;
   }[] = [
       { field: 'id', type: 'text' },
       { field: 'descripcionTrabajo', type: 'text' },
       {
         field: 'trabajoTareas',
         type: 'chips',
-        nestedPath: 'tarea.descripcionTarea'
+        nestedPath: 'tarea.descripcionTarea',
+        sortable: false
       }
     ];
   dataSource: Trabajo[] = [];
