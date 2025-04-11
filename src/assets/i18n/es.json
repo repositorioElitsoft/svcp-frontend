@@ -687,6 +687,14 @@
                     "DUPLICADO": "Ya existe un tipo de documento de identificación con los mismos datos.",
                     "ID_REQUERIDO": "El ID del tipo de documento de identificación es requerido.",
                     "ID_INVALIDO": "El ID del tipo de documento de identificación no es válido."
+                },
+                "trabajoTarea": {
+                    "NO_ENCONTRADO": "la asignacion de tareas no fue encontrada.",
+                    "INTEGRIDAD_VIOLADA": "El registro está actualmente asignado y no puede ser eliminado.",
+                    "REQUERIDO": "El tipo asignacion de tarea no  fue_encontrada.",
+                    "DUPLICADO": "Ya está asignada la tarea, intente con una diferente.",
+                    "ID_REQUERIDO": "El ID del tipo de documento de identificación es requerido.",
+                    "ID_INVALIDO": "El ID del tipo de documento de identificación no es válido."
                 }
             }
         }

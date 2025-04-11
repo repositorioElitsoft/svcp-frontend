@@ -18,6 +18,7 @@ import { TipoProductoError } from '../enums/tipo-producto.error.enum';
 import { TrabajoError } from '../enums/trabajo.error.enum';
 import { ClasificacionClienteError } from '../enums/clasificacion-cliente.error.enum';
 import { CarroError } from '../enums/carro.error.enum';
+import { TrabajoTareaError } from '../enums/trabajo-tarea.error.enum';
 
 // Mapa de prefijo a sección para construir los paths de i18n
 const prefixToSection: { [key: string]: string } = {
@@ -37,7 +38,8 @@ const prefixToSection: { [key: string]: string } = {
     TPEM: 'tipoEmpleado',
     SCTR: 'sector',
     RLES: 'role',
-    TPCM: 'tipoComponente'
+    TPCM: 'tipoComponente',
+    TRTR: 'trabajoTarea'
 };
 
 // Creamos un mapa inverso para buscar por código de error
@@ -64,7 +66,8 @@ const errorEnums = [
     ContratoDetalleProductoError,
     ContratoDetalleTipoProductoError,
     CarroError,
-    ClasificacionClienteError
+    ClasificacionClienteError,
+    TrabajoTareaError
 ];
 
 // Creamos el mapa inverso de códigos
