@@ -24,7 +24,6 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { Trabajo } from '../../../core/models/trabajo.model';
-import { catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -113,20 +112,19 @@ export class TrabajoFormComponent implements OnInit {
       // Cierra el formulario con los datos correctos
       if (this.esActualizar()) {
         this.trabajoService.actualizar(formData.id!, formData).subscribe({
-          next: (response) => {
+          next: () => {
             this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('alertas.toastr.error');
+            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
             this.toastr.error(errorMessage);
           }
         })
-
       }
       else {
         this.trabajoService.crear(formData).subscribe({
-          next: (response) => {
+          next: () => {
             this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
