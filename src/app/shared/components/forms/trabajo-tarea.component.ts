@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 
 // Servicios
 import { TrabajoTareaService } from '../../../core/services/trabajo-tarea.service';
@@ -17,9 +18,14 @@ import { TareaService } from '../../../core/services/tarea.service';
 // Componentes
 import { ChipsComponent } from '../chips/chips.component';
 import { TituloDialogoComponent } from '../titulo-dialogo/titulo-dialogo.component';
-import { Zona } from '../../../core/models/zona.model';
 import { Tarea } from '../../../core/models/tarea.model';
 import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
+
+
+interface TareaAsignada {
+    tareaId: number;
+    descripcion: string;
+}
 
 @Component({
     selector: 'app-trabajo-tarea-form',
@@ -39,88 +45,108 @@ import { ApiEntityResponse } from '../../../core/models/api-entity-response.mode
     ],
     templateUrl: './trabajo-tarea.component.html'
 })
-export class TrabajoTareaFormComponent implements OnInit {
+export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
     // Formulario
-    form: FormGroup;
+    form!: FormGroup;
 
     // Datos del trabajo
     trabajoId: number = 0;
     trabajoDescripcion: string = '';
-
-    esActualizar(): boolean {
-        return false; // Este formulario solo se usa para crear, no para actualizar
-    }
+    data: any;
 
     // Listas
-    Tareas: any[] = [];
-    tareasAsignadas: any[] = [];
+    Tareas: Tarea[] = [];
+    tareasAsignadas: TareaAsignada[] = [];
 
     // Control de estado
     isLoading = false;
 
+    // Control de suscripciones
+    private destroy$ = new Subject<void>();
+
     constructor(
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<TrabajoTareaFormComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
+        @Inject(MAT_DIALOG_DATA) data: any,
         private trabajoTareaService: TrabajoTareaService,
         private tareaService: TareaService,
         private toastr: ToastrService
     ) {
-        if (data && data.id) {
-            this.trabajoId = data.id;
-            this.trabajoDescripcion = data.descripcionTrabajo;
-        } else {
-            console.error('No se recibió un objeto válido en data');
-        }
+        this.data = data;
+        this.inicializarFormulario();
+        this.inicializarDatosTrabajo();
+    }
 
+    ngOnInit(): void {
+        if (this.trabajoId) {
+            this.cargarTareas();
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    /**
+     * Inicializa el formulario con sus validaciones
+     */
+    private inicializarFormulario(): void {
         this.form = this.fb.group({
             tareas: [[], Validators.required]
         });
     }
 
-    ngOnInit() {
-        if (this.trabajoId) {
-            this.cargarDatos();
+    /**
+     * Inicializa los datos del trabajo desde la información recibida
+     */
+    private inicializarDatosTrabajo(): void {
+        if (this.data?.id) {
+            this.trabajoId = this.data.id;
+            this.trabajoDescripcion = this.data.descripcionTrabajo || '';
+
+            // Si hay tareas asignadas, cargarlas
+            if (Array.isArray(this.data.trabajoTareas) && this.data.trabajoTareas.length > 0) {
+                this.tareasAsignadas = this.data.trabajoTareas.map((item: any) => ({
+                    tareaId: item.tarea.id,
+                    descripcion: item.tarea.descripcionTarea
+                }));
+
+                this.form.patchValue({
+                    tareas: this.tareasAsignadas
+                });
+            }
+        } else {
+            console.error('No se recibió un objeto válido en data');
         }
     }
 
-    cargarDatos() {
-        console.log("Datos recibidos en el formulario:", this.data);
+    /**
+     * Determina si el formulario está en modo actualización
+     */
+    esActualizar(): boolean {
+        // Verificar si trabajoTareas existe y es un array con elementos
+        const trabajoTareas = this.data?.trabajoTareas;
+        return Array.isArray(trabajoTareas) && trabajoTareas.length > 0;
+    }
 
-        // Verificar si 'data.object' existe y tiene el campo 'descripcionSector'
-        if (this.esActualizar() && this.data?.object) {
-            console.log("Objeto recibido:", this.data.object);
-
-            this.form.patchValue({
-                /*object-fields-edit*/
-                id: this.data.object.id,
-                descripcionSector: this.data.object.descripcionTrabajo,
-                trabajoTareas: this.data.object.trabajoTareas
-            });
-
-            console.log("Datos en el formulario después de patchValue:", this.form.value);
-        } else {
-            console.error("No se recibió un objeto válido en 'data'");
-        }
-        /*services-init-call*/
-
-        this.tareaService.buscarTodos().subscribe({
-            next: (response: ApiEntityResponse<Tarea[]>) => {
-                this.Tareas = response.data;
-                if (this.data?.object?.tarea?.id) {
-                    const foundTarea = this.Tareas.find((tarea: Tarea) => tarea.id === this.data.object.tarea.id);
-                    if (foundTarea) {
-                        this.form.patchValue({ tareas: [foundTarea] });
-                    }
+    /**
+     * Carga los datos necesarios para el formulario
+     */
+    private cargarTareas(): void {
+        this.tareaService.buscarTodos()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (response: ApiEntityResponse<Tarea[]>) => {
+                    this.Tareas = response.data;
                 }
-            }
-        });
+            });
     }
 
     /**
      * Maneja la eliminación de una tarea del conjunto seleccionado
      */
-    onTareaDelete(tarea: any) {
+    onTareaDelete(tarea: TareaAsignada): void {
         this.tareasAsignadas = this.tareasAsignadas.filter(t => t.tareaId !== tarea.tareaId);
         this.form.patchValue({ tareas: this.tareasAsignadas });
     }
@@ -128,7 +154,7 @@ export class TrabajoTareaFormComponent implements OnInit {
     /**
      * Maneja la eliminación de todas las tareas seleccionadas
      */
-    onTareasClear() {
+    onTareasClear(): void {
         this.tareasAsignadas = [];
         this.form.patchValue({ tareas: [] });
     }
@@ -136,31 +162,25 @@ export class TrabajoTareaFormComponent implements OnInit {
     /**
      * Maneja la selección de nuevas tareas
      */
-    onTareaSelect(event: any) {
+    onTareaSelect(event: any): void {
         if (!event || !event.value) return;
 
         const tareaId = event.value;
         const tareaSeleccionada = this.Tareas.find(t => t.id === tareaId);
 
         if (tareaSeleccionada) {
-            const nuevaTarea = {
-                tareaId: tareaSeleccionada.id,
-                descripcion: tareaSeleccionada.descripcion
-            };
-
-            // Verificar si la tarea ya está asignada
-            if (!this.tareasAsignadas.some(t => t.tareaId === tareaId)) {
-                this.tareasAsignadas.push(nuevaTarea);
-                this.form.patchValue({ tareas: this.tareasAsignadas });
-            }
+            // No agregamos la tarea al array tareasAsignadas
+            // Solo actualizamos el formulario con la tarea seleccionada
+            this.form.patchValue({ tareas: [tareaSeleccionada] });
         }
     }
 
     /**
      * Guarda los cambios del formulario
      */
-    async onSubmit() {
+    async onSubmit(): Promise<void> {
         if (this.form.invalid) {
+            this.toastr.warning('Por favor, complete todos los campos requeridos');
             return;
         }
 
@@ -168,7 +188,7 @@ export class TrabajoTareaFormComponent implements OnInit {
         const formValue = this.form.value;
 
         try {
-            const trabajoTareas = formValue.tareas.map((tarea: any) => ({
+            const trabajoTareas = formValue.tareas.map((tarea: TareaAsignada) => ({
                 trabajoId: this.trabajoId,
                 tareaId: tarea.tareaId
             }));
@@ -187,7 +207,7 @@ export class TrabajoTareaFormComponent implements OnInit {
     /**
      * Cierra el diálogo sin guardar cambios
      */
-    onCancel() {
+    onCancel(): void {
         this.dialogRef.close();
     }
 } 

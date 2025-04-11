@@ -21,7 +21,7 @@
                 <mat-select (selectionChange)="onTareaSelect($event)" (opened)="onTareaSelect($event)"
                     placeholder="{{ 'mantenedores.formularios.trabajoTarea.tareas' | translate }}">
                     <mat-option *ngFor="let tarea of Tareas" [value]="tarea.id">
-                        {{ tarea.descripcion }}
+                        {{ tarea.descripcionTarea }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
