@@ -181,7 +181,29 @@ export class TrabajoComponent implements OnInit {
     this.router.navigate(['/portal/home']);
   }
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+    // Mapear los nombres de las columnas a los campos del modelo
+    const fieldMapping: { [key: string]: string } = {
+      'id': 'id',
+      'descripcionTrabajo': 'descripcionTrabajo',
+      'fechaCreacion': 'fechaCreacion',
+      'fechaModificacion': 'fechaModificacion',
+      'estado': 'estado',
+      'usuarioCreacion': 'usuarioCreacion',
+      'usuarioModificacion': 'usuarioModificacion'
+    };
+
+    // Obtener el campo de ordenamiento mapeado o usar el nombre de la columna original si no existe mapeo
+    const sortField = fieldMapping[sortData.selectedColumnName] || sortData.selectedColumnName;
+
+    // Validar la dirección de ordenamiento
+    const sortDirection = ['asc', 'desc'].includes(sortData.currentSortType)
+      ? sortData.currentSortType
+      : 'asc';
+
+    console.log('Ordenando por:', sortField, 'en dirección:', sortDirection);
+
+    // Llamar a obtenerDatos con los parámetros validados
+    this.obtenerDatos(sortField, sortDirection);
   }
 
   onPageChanged(newPage: number) {
