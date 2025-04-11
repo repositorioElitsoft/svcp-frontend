@@ -204,12 +204,25 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
      */
     onTareaDelete(tarea: TareaAsignada): void {
         console.log('onTareaDelete - Tarea a eliminar:', tarea);
+
+        // Filtrar la tarea eliminada
         this.tareasAsignadas = this.tareasAsignadas.filter(t => t.tareaId !== tarea.tareaId);
+
+        // Actualizar el ordenEjecucionTarea para cada tarea restante
+        this.tareasAsignadas.forEach((t, index) => {
+            t.ordenEjecucionTarea = index + 1;
+        });
+
         console.log('onTareaDelete - Lista actualizada:', this.tareasAsignadas);
+
+        // Actualizar el formulario con los nuevos valores
         this.form.patchValue({ tareas: this.tareasAsignadas });
 
         // Actualizar las tareas disponibles después de eliminar
         this.actualizarTareasDisponibles();
+
+        // Forzar la detección de cambios
+        this.tareasAsignadas = [...this.tareasAsignadas];
     }
 
     /**
@@ -217,11 +230,18 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
      */
     onTareasClear(): void {
         console.log('onTareasClear - Limpiando todas las tareas');
+
+        // Limpiar todas las tareas
         this.tareasAsignadas = [];
+
+        // Actualizar el formulario con los nuevos valores
         this.form.patchValue({ tareas: [] });
 
         // Actualizar las tareas disponibles después de limpiar
         this.actualizarTareasDisponibles();
+
+        // Forzar la detección de cambios
+        this.tareasAsignadas = [...this.tareasAsignadas];
     }
 
     /**
@@ -257,16 +277,22 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 ordenEjecucionTarea: this.ultimoValor + 1
             };
 
+            // Agregar la nueva tarea al array
             this.tareasAsignadas = [...this.tareasAsignadas, nuevaTareaAsignada];
             this.ultimoValor++;
+
             console.log('onTareaSelect - Nueva tarea asignada:', nuevaTareaAsignada);
             console.log('onTareaSelect - Lista actualizada de tareas:', this.tareasAsignadas);
 
+            // Actualizar el formulario con los nuevos valores
             this.form.patchValue({ tareas: this.tareasAsignadas });
             console.log('onTareaSelect - Formulario actualizado:', this.form.value);
 
             // Actualizar las tareas disponibles después de agregar
             this.actualizarTareasDisponibles();
+
+            // Forzar la detección de cambios
+            this.tareasAsignadas = [...this.tareasAsignadas];
         }
     }
 
@@ -290,7 +316,12 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
         });
 
         console.log('onDrop - Tareas reordenadas:', this.tareasAsignadas);
+
+        // Actualizar el formulario con los nuevos valores
         this.form.patchValue({ tareas: this.tareasAsignadas });
+
+        // Forzar la detección de cambios
+        this.tareasAsignadas = [...this.tareasAsignadas];
     }
 
     /**
@@ -320,12 +351,8 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 if (this.tareasAsignadas.length === 0) {
                     console.log('onSubmit - No hay tareas asignadas, eliminando todas las existentes');
                     const tareasParaEliminar = this.data.trabajoTareas.map((tt: { tarea: { id: number } }) => ({
-                        trabajo: {
-                            id: this.trabajoId
-                        },
-                        tarea: {
-                            id: tt.tarea.id
-                        }
+                        trabajoId: this.trabajoId,
+                        tareaId: tt.tarea.id
                     }));
                     console.log('onSubmit - Tareas formateadas para eliminar:', tareasParaEliminar);
 
@@ -352,12 +379,8 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 if (tareasEliminadas.length > 0) {
                     // Crear array de objetos con el formato correcto para eliminar en lote
                     const tareasParaEliminar = tareasEliminadas.map((tt: { tarea: { id: number } }) => ({
-                        trabajo: {
-                            id: this.trabajoId
-                        },
-                        tarea: {
-                            id: tt.tarea.id
-                        }
+                        trabajoId: this.trabajoId,
+                        tareaId: tt.tarea.id
                     }));
                     console.log('onSubmit - Tareas formateadas para eliminar:', tareasParaEliminar);
 

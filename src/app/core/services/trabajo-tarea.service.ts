@@ -85,10 +85,16 @@ export class TrabajoTareaService {
      * Elimina un lote de trabajos-tareas
      */
     borrarTodo(trabajoTareas: any[]): Observable<ApiEntityResponse<string>> {
+        console.log('=== SERVICIO - BORRAR LOTE ===');
+        console.log('URL:', `${this.url}/lote`);
+        console.log('Datos originales:', trabajoTareas);
+
         const formattedData = trabajoTareas.map(tt => ({
             trabajoId: tt.trabajo?.id || tt.trabajoId,
             tareaId: tt.tarea?.id || tt.tareaId
         }));
+
+        console.log('Datos formateados:', formattedData);
 
         return this.http.delete<ApiEntityResponse<string>>(`${this.url}/lote`, {
             headers: this.headers,
