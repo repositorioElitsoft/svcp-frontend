@@ -79,12 +79,19 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
         private toastr: ToastrService,
         private translate: TranslateService
     ) {
+        console.log('Constructor - Data recibida:', data);
         this.data = data;
         this.inicializarFormulario();
         this.inicializarDatosTrabajo();
     }
 
     ngOnInit(): void {
+        console.log('ngOnInit - Estado inicial:', {
+            trabajoId: this.trabajoId,
+            trabajoDescripcion: this.trabajoDescripcion,
+            tareasAsignadas: this.tareasAsignadas
+        });
+
         if (this.trabajoId) {
             this.cargarTareas();
         }
@@ -102,18 +109,22 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
         this.form = this.fb.group({
             tareas: [[], Validators.required]
         });
+        console.log('inicializarFormulario - Formulario creado:', this.form.value);
     }
 
     /**
      * Inicializa los datos del trabajo desde la información recibida
      */
     private inicializarDatosTrabajo(): void {
+        console.log('inicializarDatosTrabajo - Iniciando con data:', this.data);
+
         if (this.data?.id) {
             this.trabajoId = this.data.id;
             this.trabajoDescripcion = this.data.descripcionTrabajo || '';
 
-            // Si hay tareas asignadas, cargarlas con su descripción
             if (Array.isArray(this.data.trabajoTareas) && this.data.trabajoTareas.length > 0) {
+                console.log('inicializarDatosTrabajo - TrabajoTareas recibidas:', this.data.trabajoTareas);
+
                 this.tareasAsignadas = this.data.trabajoTareas.map((item: { tarea: { id: number, descripcionTarea: string } }) => ({
                     id: item.tarea.id,
                     tareaId: item.tarea.id,
@@ -121,17 +132,17 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                     descripcionTarea: item.tarea.descripcionTarea
                 }));
 
-                // Obtener el último valor de ordenEjecucionTarea
                 this.ultimoValor = Math.max(...this.data.trabajoTareas.map((item: any) => item.ordenEjecucionTarea || 0));
-                console.log('Último valor de ordenEjecucionTarea:', this.ultimoValor);
-                console.log('TrabajoTareas:', this.data.trabajoTareas);
+                console.log('inicializarDatosTrabajo - Tareas asignadas mapeadas:', this.tareasAsignadas);
+                console.log('inicializarDatosTrabajo - Último valor de ordenEjecucionTarea:', this.ultimoValor);
 
                 this.form.patchValue({
                     tareas: this.tareasAsignadas
                 });
+                console.log('inicializarDatosTrabajo - Formulario actualizado:', this.form.value);
             }
         } else {
-            console.error('No se recibió un objeto válido en data');
+            console.warn('inicializarDatosTrabajo - No se recibió un objeto válido en data');
         }
     }
 
@@ -148,11 +159,17 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
      * Carga los datos necesarios para el formulario
      */
     private cargarTareas(): void {
+        console.log('cargarTareas - Iniciando carga de tareas');
+
         this.tareaService.buscarTodos()
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (response: ApiEntityResponse<Tarea[]>) => {
                     this.Tareas = response.data;
+                    console.log('cargarTareas - Tareas cargadas:', this.Tareas);
+                },
+                error: (error) => {
+                    console.error('cargarTareas - Error al cargar tareas:', error);
                 }
             });
     }
@@ -161,7 +178,9 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
      * Maneja la eliminación de una tarea del conjunto seleccionado
      */
     onTareaDelete(tarea: TareaAsignada): void {
+        console.log('onTareaDelete - Tarea a eliminar:', tarea);
         this.tareasAsignadas = this.tareasAsignadas.filter(t => t.tareaId !== tarea.tareaId);
+        console.log('onTareaDelete - Lista actualizada:', this.tareasAsignadas);
         this.form.patchValue({ tareas: this.tareasAsignadas });
     }
 
@@ -169,6 +188,7 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
      * Maneja la eliminación de todas las tareas seleccionadas
      */
     onTareasClear(): void {
+        console.log('onTareasClear - Limpiando todas las tareas');
         this.tareasAsignadas = [];
         this.form.patchValue({ tareas: [] });
     }
@@ -177,11 +197,37 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
      * Maneja la selección de nuevas tareas
      */
     onTareaSelect(event: any): void {
-        if (!event?.value) return;
+        console.log('onTareaSelect - Evento recibido:', event);
+
+        if (!event?.value) {
+            console.log('onTareaSelect - No hay valor en el evento');
+            return;
+        }
+
         const tareaId = event.value;
         const tareaSeleccionada = this.Tareas.find(t => t.id === tareaId);
+        console.log('onTareaSelect - Tarea seleccionada:', tareaSeleccionada);
+
         if (tareaSeleccionada) {
-            this.form.patchValue({ tareas: tareaSeleccionada });
+            const tareaYaAsignada = this.tareasAsignadas.some(t => t.tareaId === tareaSeleccionada.id);
+            if (tareaYaAsignada) {
+                console.log('onTareaSelect - Tarea ya asignada, ignorando');
+                return;
+            }
+
+            const nuevaTareaAsignada: TareaAsignada = {
+                id: tareaSeleccionada.id,
+                tareaId: tareaSeleccionada.id,
+                descripcion: tareaSeleccionada.descripcionTarea,
+                descripcionTarea: tareaSeleccionada.descripcionTarea
+            };
+
+            this.tareasAsignadas = [...this.tareasAsignadas, nuevaTareaAsignada];
+            console.log('onTareaSelect - Nueva tarea asignada:', nuevaTareaAsignada);
+            console.log('onTareaSelect - Lista actualizada de tareas:', this.tareasAsignadas);
+
+            this.form.patchValue({ tareas: this.tareasAsignadas });
+            console.log('onTareaSelect - Formulario actualizado:', this.form.value);
         }
     }
 
@@ -189,23 +235,30 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
      * Guarda los cambios del formulario
      */
     async onSubmit(): Promise<void> {
-        console.log('=== INICIO SUBMIT ===');
+        console.log('onSubmit - Iniciando envío del formulario');
+        console.log('onSubmit - Estado del formulario:', {
+            valid: this.form.valid,
+            value: this.form.value,
+            tareasAsignadas: this.tareasAsignadas
+        });
 
         if (this.form.invalid) {
+            console.warn('onSubmit - Formulario inválido');
             this.toastr.warning(this.translate.instant('alertas.toastr.camposRequeridos'));
             return;
         }
 
         const tareaSeleccionada = this.form.get('tareas')?.value;
         if (!tareaSeleccionada) {
+            console.warn('onSubmit - No hay tareas seleccionadas');
             this.toastr.warning(this.translate.instant('alertas.toastr.seleccionarTarea'));
             return;
         }
 
         this.isLoading = true;
+        console.log('onSubmit - Preparando datos para enviar');
 
         try {
-            // Crear el objeto con el formato que espera el backend
             const tareaFormateada = {
                 trabajoId: this.trabajoId,
                 tareaId: tareaSeleccionada.id,
@@ -218,11 +271,11 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 }
             };
 
-            console.log('Tarea a enviar:', tareaFormateada);
-            console.log('Último valor usado:', this.ultimoValor);
+            console.log('onSubmit - Datos formateados para enviar:', tareaFormateada);
 
             this.trabajoTareaService.crearLote([tareaFormateada]).subscribe({
                 next: (response) => {
+                    console.log('onSubmit - Respuesta exitosa:', response);
                     if (this.esActualizar()) {
                         this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
                     } else {
@@ -231,10 +284,14 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                     this.dialogRef.close(true);
                 },
                 error: (error) => {
+                    console.error('onSubmit - Error en la petición:', error);
                     const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
                     this.toastr.error(errorMessage);
                 }
             });
+        } catch (error) {
+            console.error('onSubmit - Error inesperado:', error);
+            this.toastr.error(this.translate.instant('alertas.toastr.error.inesperado'));
         } finally {
             this.isLoading = false;
         }

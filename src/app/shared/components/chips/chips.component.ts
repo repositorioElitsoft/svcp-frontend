@@ -23,7 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
             </div>
           </div>
         </div>
-        <div *ngIf="showMoreIndicator" class="more-indicator">
+        <div *ngIf="showMoreIndicator" class="more-indicator" (click)="onMoreClick()">
           (+ más)
         </div>
       </div>
@@ -135,20 +135,35 @@ export class ChipsComponent {
   private _items: any[] = [];
   private currentMaxVisible: number = 4;
   private screenWidth: number = window.innerWidth;
+  private showAll: boolean = false;
 
   @Input() displayField: string = ''; // Campo a mostrar
   @Input() nestedPath: string = ''; // Ruta anidada para acceder al campo (ejemplo: 'tarea.descripcionTarea')
+  @Input() expandOnMore: boolean = false; // Controla si se expanden todos los items al hacer clic en "más"
 
   @Input()
   set items(value: any[]) {
     this._items = value || [];
   }
+
   get items(): any[] {
     return this._items;
   }
 
+  get visibleItems(): any[] {
+    if (this.showAll && this.expandOnMore) {
+      return this._items;
+    }
+    return this._items.slice(0, this.currentMaxVisible);
+  }
+
+  get showMoreIndicator(): boolean {
+    return !this.showAll && this._items.length > this.currentMaxVisible;
+  }
+
   @Output() deleteItem = new EventEmitter<any>();
   @Output() clearAll = new EventEmitter<void>();
+  @Output() showMore = new EventEmitter<void>();
 
   getDisplayValue(item: any): string {
     if (!item) return '';
@@ -180,14 +195,6 @@ export class ChipsComponent {
     }
   }
 
-  get visibleItems() {
-    return this.items?.slice(0, this.currentMaxVisible) || [];
-  }
-
-  get showMoreIndicator(): boolean {
-    return (this.items?.length || 0) > this.currentMaxVisible;
-  }
-
   getVisibleRows(): any[][] {
     const visibleItems = this.visibleItems;
     const rows: any[][] = [];
@@ -202,5 +209,13 @@ export class ChipsComponent {
 
   onDelete(item: any): void {
     this.deleteItem.emit(item);
+  }
+
+  onMoreClick(): void {
+    if (this.expandOnMore) {
+      this.showAll = true;
+    } else {
+      this.showMore.emit();
+    }
   }
 } 
