@@ -11,10 +11,17 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const unparsedToken = authService.getToken();
 
+  // Determinar si es una solicitud para subir imagen
+  const esSubidaImagen = req.url.includes('/imagen') && req.method === 'POST';
+
   if (!unparsedToken) {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
+    let headers = new HttpHeaders();
+
+    // Solo agregar Content-Type para solicitudes que no son de subida de imágenes
+    if (!esSubidaImagen) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
+
     const clonedRequest = req.clone({ headers });
     return next(clonedRequest);
   }
@@ -23,10 +30,14 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenParaEnviar = `Bearer ${String(token.jwt)}`;
   console.log("token a enviar", tokenParaEnviar);
 
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
+  let headers = new HttpHeaders({
     'Authorization': tokenParaEnviar
   });
+
+  // Solo agregar Content-Type para solicitudes que no son de subida de imágenes
+  if (!esSubidaImagen) {
+    headers = headers.set('Content-Type', 'application/json');
+  }
 
   const clonedRequest = req.clone({ headers });
   return next(clonedRequest);

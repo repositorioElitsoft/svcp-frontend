@@ -13,7 +13,7 @@ import { ToastrService } from "ngx-toastr"
 import { AgrupacionComercial } from "../../../core/models/agrupacion-comercial.model"
 import { ApiEntityResponse } from "../../../core/models/api-entity-response.model"
 import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model"
-import { Cliente } from "../../../core/models/cliente.model"
+import { Cliente, ClienteCrear } from "../../../core/models/cliente.model"
 import { Estado } from "../../../core/models/estados.model"
 import { SegmentacionCliente } from "../../../core/models/segmentacion-cliente.model"
 import { TipoCliente } from "../../../core/models/tipo-cliente.model"
@@ -31,6 +31,9 @@ import { InformacionComercialComponent } from "../sub-forms/informacion-comercia
 import { DatosContactoComponent } from "../sub-forms/datos-contacto/datos-contacto.component"
 import { UploadImageComponent } from "../upload-image/upload-image/upload-image.component"
 import { TipoDocumentoIdentificacion } from "../../../core/enums/tipo-documento-identifcacion.enum"
+import { ClienteEnum } from "../../../core/enums/cliente.enum"
+import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { concatMap, of } from "rxjs"
 
 @Component({
     selector: "app-cliente-crear-form",
@@ -65,7 +68,7 @@ export class ClienteCrearFormComponent implements OnInit {
     showAdditionalInfo = false
     show = true
     isExpanded = false
-
+    isLoading = false
     title = 'SVCP'
 
     readonly dialogRef = inject(MatDialogRef<ClienteCrearFormComponent>)
@@ -115,6 +118,7 @@ export class ClienteCrearFormComponent implements OnInit {
         console.log("Formulario enviado:", this.informacionPersonal.form)
 
         if (this.informacionPersonal.form.valid) {
+            this.isLoading = true;
             // Extraer el dígito verificador si es RUT chileno
             const tipoDocId = this.informacionPersonal.form.value.tipoDocumentoIdentificacion?.id;
             let numeroDoc = this.informacionPersonal.form.value.numeroDocumentoIdentificacion;
@@ -134,24 +138,40 @@ export class ClienteCrearFormComponent implements OnInit {
             };
 
 
-            const cliente = {
+            const cliente: ClienteCrear = {
                 documentoIdentificacion: documentoIdentificacion,
                 nombre: this.informacionPersonal.form.value.nombre,
                 apellidoPaterno: this.informacionPersonal.form.value.apellidoPaterno,
                 apellidoMaterno: this.informacionPersonal.form.value.apellidoMaterno,
                 estado: this.informacionPersonal.form.value.estado,
-                fechaNacimiento: this.informacionPersonal.form.value.fechaNacimiento
+                fechaNacimiento: this.informacionPersonal.form.value.fechaNacimiento,
+                tipoCliente: { id: ClienteEnum.TIPO_CLIENTE_INDEFINIDO, nombre: "" },
+                clasificacionCliente: { id: ClienteEnum.CLASIFICACION_CLIENTE_INDEFINIDA, clasificacionClienteDesc: "" },
+                agrupacionComercial: { id: ClienteEnum.AGRUPACION_COMERCIAL_INDEFINIDA, nombreGrupoComercial: "" },
+                segmentacionCliente: { id: ClienteEnum.SEGMENTACION_CLIENTE_INDEFINIDA, descripcion: "" },
             }
 
-            this.clienteService.crear(cliente as any).subscribe({
-                next: (cliente: Cliente) => {
-                    console.log("Cliente creado:", cliente)
+            this.clienteService.crear(cliente as any).pipe(
+                concatMap((clienteCreado: ApiEntityResponse<Cliente>) => {
+                    if (this.uploadImage && this.uploadImage.selectedFile) {
+                        return this.clienteService.subirImagen(clienteCreado.data.id, this.uploadImage.selectedFile);
+                    }
+                    return of(clienteCreado);
+                })
+            ).subscribe({
+                next: (result: any) => {
+                    console.log("Operación completada:", result);
+                    this.isLoading = false;
+                    this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+                    this.dialogRef.close(true);
                 },
                 error: (error: any) => {
-                    console.error("Error al crear el cliente:", error)
+                    console.error("Error en la operación:", error);
+                    this.isLoading = false;
+                    const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
+                    this.toastr.error(errorMessage);
                 }
-            })
-
+            });
         } else {
             console.log("Formulario no válido")
         }

@@ -26,3 +26,16 @@ export interface Cliente {
     agrupacionComercial: AgrupacionComercial;
     segmentacionCliente: SegmentacionCliente;
 }
+
+export interface ClienteCrear {
+    documentoIdentificacion: any,
+    nombre: string;
+    apellidoPaterno?: string;
+    apellidoMaterno?: string;
+    fechaNacimiento: string;
+    estado: Estado;
+    tipoCliente: any;
+    clasificacionCliente: any;
+    agrupacionComercial: any;
+    segmentacionCliente: any;
+}

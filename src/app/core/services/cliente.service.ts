@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Cliente } from '../../core/models/cliente.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -36,8 +37,23 @@ export class ClienteService {
         return this.http.put<Cliente>(`${this.url}clientes/${clienteId}`, cliente);
     }
 
-    crear(cliente: Cliente): Observable<Cliente> {
-        return this.http.post<Cliente>(`${this.url}clientes`, cliente);
+    crear(cliente: Cliente): Observable<ApiEntityResponse<Cliente>> {
+        return this.http.post<ApiEntityResponse<Cliente>>(`${this.url}clientes`, cliente);
+    }
+    subirImagen(clienteId: number, imagen: File): Observable<any> {
+        const formData: FormData = new FormData();
+        formData.append('file', imagen);
+
+        // Utilizamos un HttpClient directamente sin la configuración de clase
+        // y establecemos explícitamente el Content-Type como null para que el navegador lo ajuste automáticamente
+        return this.http.post<any>(
+            `${this.url}clientes/${clienteId}/imagen`,
+            formData,
+            {
+                headers: new HttpHeaders().delete('Content-Type'),
+                reportProgress: true
+            }
+        );
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {

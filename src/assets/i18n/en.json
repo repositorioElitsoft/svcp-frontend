@@ -134,7 +134,26 @@
         "cliente": {
             "id": "Id",
             "titulo": "Client",
-            "descripcionCliente": "Client "
+            "descripcionCliente": "Client",
+            "nombre": "Name",
+            "apellidoPaterno": "First Lastname",
+            "apellidoMaterno": "Second Lastname",
+            "imagenPerfil": "Image",
+            "descripcionEmpleado": "Employee",
+            "email": "Email",
+            "fechaNacimiento": "Date of Birth",
+            "campo1": "Field 1",
+            "campo2": "Field 2",
+            "telefonoFijo": "Landline",
+            "telefonoMovil": "Mobile Phone",
+            "tipoCliente": "Client Type",
+            "clasificacionCliente": "Client Classification",
+            "estado": "State",
+            "direcciones": "Addresses",
+            "agrupacionComercial": "Commercial Grouping",
+            "segmentacionCliente": "Client Segmentation",
+            "descripcion": "Enter the description of the client",
+            "documentoIdentificacion": "Identification Document"
         },
         "comuna": {
             "id": "Id",
@@ -374,6 +393,12 @@
                 "label.estadoId": "State",
                 "label.numeroDocumento": "Document Number",
                 "label.tipoDocumento": "Document Type"
+            },
+            "estado": {
+                "tituloEditar": "Edit State",
+                "tituloAgregar": "Create State",
+                "label": "State Description",
+                "label.descripcion": "State Description"
             },
             "gestionContrato": {
                 "tituloEditar": "Edit Contract Management",

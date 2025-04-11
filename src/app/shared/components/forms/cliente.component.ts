@@ -29,6 +29,7 @@ import { SidebarItemLinkComponent } from "../sidebar/sidebar-item-link/sidebar-i
 import { SidebarComponent } from "../sidebar/sidebar.component"
 import { InformacionComercialComponent } from "../sub-forms/informacion-comercial/informacion-comercial.component"
 import { DatosContactoComponent } from "../sub-forms/datos-contacto/datos-contacto.component"
+import { DireccionEmpleadoComponent } from "../../../features/mantenedores/direccion-empleado/direccion-empleado.component"
 
 @Component({
   selector: "app-cliente-create-form",
@@ -52,7 +53,8 @@ import { DatosContactoComponent } from "../sub-forms/datos-contacto/datos-contac
     SidebarItemLinkComponent,
     SidebarComponent,
     InformacionComercialComponent,
-    DatosContactoComponent
+    DatosContactoComponent,
+    DireccionEmpleadoComponent
   ],
   templateUrl: `./cliente.component.html`,
   styles: [],
@@ -75,7 +77,9 @@ export class ClienteFormComponent implements OnInit {
   estado: Estado[] = []
   agrupacionComercial: AgrupacionComercial[] = []
   segmentacionCliente: SegmentacionCliente[] = []
-  pantallaActual = "datos-generales"
+  pantallaActual = "locaciones"
+
+
 
   constructor(
     private fb: FormBuilder,

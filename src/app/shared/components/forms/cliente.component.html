@@ -4,7 +4,7 @@
 </app-titulo-dialogo>
 
 
-<mat-dialog-content class="relative">
+<mat-dialog-content class="relative dark:bg-neutral-800">
 
 	<app-sidebar routesRoute="/assets/routes-clientes-form.json" (linkClick)="handleLinkClick($event)"
 		[isForForms]="true"></app-sidebar>
@@ -14,7 +14,8 @@
 		<app-informacion-personal *ngIf="pantallaActual==='datos-generales'"></app-informacion-personal>
 		<app-informacion-comercial *ngIf="pantallaActual==='informacion-comercial'"></app-informacion-comercial>
 		<app-datos-contacto *ngIf="pantallaActual==='datos-contacto'"></app-datos-contacto>
-
+		<app-direccion-empleado [cliente]="data.object"
+			*ngIf="pantallaActual==='locaciones' && data.object"></app-direccion-empleado>
 
 
 		<mat-dialog-actions align="end">

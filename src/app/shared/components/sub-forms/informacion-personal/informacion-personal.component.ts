@@ -74,9 +74,9 @@ export class InformacionPersonalComponent {
     // Cargar los tipos de documentos
     this.tipoDocumentoIdentificacionesService.buscarTodos().subscribe({
       next: (tipos: ApiEntityResponse<TipoDocumentoIdentificacion[]>) => {
-
-        this.tiposDocumentos = tipos as any;
-        console.log('Tipos de documentos cargados:', this.tiposDocumentos);
+        console.log('Tipos de documentos cargados:', tipos);
+        this.tiposDocumentos = tipos.data as any;
+        //console.log('Tipos de documentos cargados:', this.tiposDocumentos);
       },
       error: (error: any) => {
         console.error("Fallo al buscar entidades ", error);

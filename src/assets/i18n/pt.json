@@ -131,7 +131,26 @@
         "cliente": {
             "id": "Id",
             "titulo": "Cliente",
-            "descripcionCliente": "Descrição do Cliente"
+            "descripcionCliente": "Cliente",
+            "nombre": "Nome",
+            "apellidoPaterno": "Primeiro Sobrenome",
+            "apellidoMaterno": "Segundo Sobrenome",
+            "imagenPerfil": "Imagem",
+            "descripcionEmpleado": "Funcionário",
+            "email": "Email",
+            "fechaNacimiento": "Data de Nascimento",
+            "campo1": "Campo 1",
+            "campo2": "Campo 2",
+            "telefonoFijo": "Telefone Fixo",
+            "telefonoMovil": "Telefone Móvel",
+            "tipoCliente": "Tipo de Cliente",
+            "clasificacionCliente": "Classificação do Cliente",
+            "estado": "Estado",
+            "direcciones": "Endereços",
+            "agrupacionComercial": "Agrupamento Comercial",
+            "segmentacionCliente": "Segmentação do Cliente",
+            "descripcion": "Insira a descrição do cliente",
+            "documentoIdentificacion": "Documento de Identificação"
         },
         "comuna": {
             "id": "Id",
@@ -371,6 +390,12 @@
                 "label.numeroDocumento": "Número do Documento",
                 "label.tipoDocumento": "Tipo de Documento",
                 "label.documentoIdentificacion": "N° do Documento"
+            },
+            "estado": {
+                "tituloEditar": "Editar Estado",
+                "tituloAgregar": "Criar Estado",
+                "label": "Descrição do Estado",
+                "label.descripcion": "Descrição do Estado"
             },
             "gestionContrato": {
                 "tituloEditar": "Editar Gestão de Contrato",
