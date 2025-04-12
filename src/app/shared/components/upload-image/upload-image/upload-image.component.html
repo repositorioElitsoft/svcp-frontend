@@ -1,14 +1,16 @@
 <div class="flex flex-col items-center">
     <!-- Avatar Card -->
-    <div class="w-full max-w-md bg-gray-200 rounded-lg p-6 mb-4">
-        <div class="flex flex-col items-center">
+    <div class="w-full max-w-md h-full bg-gray-200 rounded-lg p-6 mb-4">
+        <div class="flex flex-col items-center h-[15vh]">
             <!-- Avatar Placeholder -->
 
             @if (selectedFile && fileUrl) {
             <img [src]="fileUrl" alt="Selected image" />
             } @else {
-            <div class="w-14 h-14 bg-gray-500 rounded-full mb-2"></div>
-            <div class="w-32 h-8 bg-gray-500 rounded-t-full mt-2"></div>
+            <div class="flex flex-col items-center justify-center h-full">
+                <div class="w-14 h-14 bg-gray-500 rounded-full"></div>
+                <div class="w-32 h-8 bg-gray-500 rounded-t-full mt-2"></div>
+            </div>
             }
         </div>
     </div>

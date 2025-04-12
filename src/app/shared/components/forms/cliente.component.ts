@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common"
-import { Component, OnInit, inject, model } from "@angular/core"
+import { Component, OnInit, ViewChild, inject, model } from "@angular/core"
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from "@angular/forms"
 import { MatButtonModule } from "@angular/material/button"
 import { MatOptionModule } from "@angular/material/core"
@@ -13,7 +13,7 @@ import { ToastrService } from "ngx-toastr"
 import { AgrupacionComercial } from "../../../core/models/agrupacion-comercial.model"
 import { ApiEntityResponse } from "../../../core/models/api-entity-response.model"
 import { ClasificacionCliente } from "../../../core/models/clasificacion-cliente.model"
-import { Cliente } from "../../../core/models/cliente.model"
+import { Cliente, ClienteCrear } from "../../../core/models/cliente.model"
 import { Estado } from "../../../core/models/estados.model"
 import { SegmentacionCliente } from "../../../core/models/segmentacion-cliente.model"
 import { TipoCliente } from "../../../core/models/tipo-cliente.model"
@@ -30,6 +30,11 @@ import { SidebarComponent } from "../sidebar/sidebar.component"
 import { InformacionComercialComponent } from "../sub-forms/informacion-comercial/informacion-comercial.component"
 import { DatosContactoComponent } from "../sub-forms/datos-contacto/datos-contacto.component"
 import { DireccionEmpleadoComponent } from "../../../features/mantenedores/direccion-empleado/direccion-empleado.component"
+import { UploadImageComponent } from "../upload-image/upload-image/upload-image.component"
+import { TipoDocumentoIdentificacion } from "../../../core/enums/tipo-documento-identifcacion.enum"
+import { ClienteEnum } from "../../../core/enums/cliente.enum"
+import { concatMap, of } from "rxjs"
+import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 
 @Component({
   selector: "app-cliente-create-form",
@@ -54,7 +59,8 @@ import { DireccionEmpleadoComponent } from "../../../features/mantenedores/direc
     SidebarComponent,
     InformacionComercialComponent,
     DatosContactoComponent,
-    DireccionEmpleadoComponent
+    DireccionEmpleadoComponent,
+    UploadImageComponent
   ],
   templateUrl: `./cliente.component.html`,
   styles: [],
@@ -77,9 +83,11 @@ export class ClienteFormComponent implements OnInit {
   estado: Estado[] = []
   agrupacionComercial: AgrupacionComercial[] = []
   segmentacionCliente: SegmentacionCliente[] = []
-  pantallaActual = "locaciones"
+  pantallaActual = "datos-generales"
+  isLoading = false
 
-
+  @ViewChild(InformacionPersonalComponent) informacionPersonal!: InformacionPersonalComponent;
+  @ViewChild(UploadImageComponent) uploadImage!: UploadImageComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -111,18 +119,125 @@ export class ClienteFormComponent implements OnInit {
 
   onSubmit() {
     console.log("Formulario enviado:", this.form.value)
+    if (this.pantallaActual === "datos-generales") {
+      this.envioFormularioDatosGenerales()
+      return
+    }
+    if (this.pantallaActual === "informacion-comercial") {
+      this.envioFormularioInformacionComercial()
+      return
+    }
+    if (this.pantallaActual === "datos-contacto") {
+      this.envioFormularioDatosContacto()
+      return
+    }
+    if (this.pantallaActual === "locaciones") {
+      this.envioFormularioLocaciones()
+      return
+    }
+  }
 
-    if (this.form.valid) {
+  envioFormularioDatosGenerales() {
+    console.log("Formulario enviado:", this.informacionPersonal.form)
 
-      // Cierra el formulario con los datos correctos
-      if (this.esActualizar()) {
+    if (this.informacionPersonal.form.valid) {
+      this.isLoading = true;
+      // Extraer el dígito verificador si es RUT chileno
+      const tipoDocId = this.informacionPersonal.form.value.tipoDocumentoIdentificacion?.id;
+      let numeroDoc = this.informacionPersonal.form.value.numeroDocumentoIdentificacion;
+      let digitoVer = null;
 
-      } else {
-
+      if (tipoDocId === TipoDocumentoIdentificacion.RUT) { // Si es RUT chileno
+        const rutProcesado = this.procesarRutChileno(numeroDoc);
+        numeroDoc = rutProcesado.numero;
+        digitoVer = rutProcesado.digitoVerificador;
       }
+
+      const documentoIdentificacion = {
+        id: null,
+        numero: numeroDoc,
+        digitoVerificador: digitoVer,
+        tipoDocumentoIdentificacion: this.informacionPersonal.form.value.tipoDocumentoIdentificacion
+      };
+
+
+      const cliente: ClienteCrear = {
+        documentoIdentificacion: documentoIdentificacion,
+        nombre: this.informacionPersonal.form.value.nombre,
+        apellidoPaterno: this.informacionPersonal.form.value.apellidoPaterno,
+        apellidoMaterno: this.informacionPersonal.form.value.apellidoMaterno,
+        estado: this.informacionPersonal.form.value.estado,
+        fechaNacimiento: this.informacionPersonal.form.value.fechaNacimiento,
+        tipoCliente: { id: ClienteEnum.TIPO_CLIENTE_INDEFINIDO, nombre: "" },
+        clasificacionCliente: { id: ClienteEnum.CLASIFICACION_CLIENTE_INDEFINIDA, clasificacionClienteDesc: "" },
+        agrupacionComercial: { id: ClienteEnum.AGRUPACION_COMERCIAL_INDEFINIDA, nombreGrupoComercial: "" },
+        segmentacionCliente: { id: ClienteEnum.SEGMENTACION_CLIENTE_INDEFINIDA, descripcion: "" },
+      }
+
+      const clienteActualizar = {
+        id: this.data.object.id,
+        ...cliente
+      }
+
+      this.clienteService.actualizar(clienteActualizar as any, this.data.object.id).pipe(
+        concatMap((clienteCreado: ApiEntityResponse<string>) => {
+          /*
+          if (this.uploadImage && this.uploadImage.selectedFile) {
+            return this.clienteService.subirImagen(this.data.object.id, this.uploadImage.selectedFile);
+          }*/
+          return of(clienteCreado);
+        })
+      ).subscribe({
+        next: (result: any) => {
+          console.log("Operación completada:", result);
+          this.isLoading = false;
+          this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+          this.dialogRef.close(true);
+        },
+        error: (error: any) => {
+          console.error("Error en la operación:", error);
+          this.isLoading = false;
+          const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
+          this.toastr.error(errorMessage);
+        }
+      });
     } else {
       console.log("Formulario no válido")
     }
   }
+
+  envioFormularioInformacionComercial() {
+
+  }
+
+  envioFormularioDatosContacto() {
+
+  }
+
+  envioFormularioLocaciones() {
+
+  }
+
+  /**
+    * Procesa un RUT chileno para separar el número del dígito verificador
+    * @param rutCompleto El RUT completo ingresado
+    * @returns Objeto con el número y dígito verificador separados
+    */
+  procesarRutChileno(rutCompleto: string): { numero: string, digitoVerificador: string } {
+    // Eliminar puntos y guiones
+    let rut = rutCompleto.replace(/\./g, '').replace(/-/g, '').trim();
+
+    // El último carácter es el dígito verificador
+    const digitoVerificador = rut.slice(-1);
+    // El resto es el número
+    const numero = rut.slice(0, -1);
+
+    return {
+      numero: numero,
+      digitoVerificador: digitoVerificador
+    };
+  }
+
+
 }
 

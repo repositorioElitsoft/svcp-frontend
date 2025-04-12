@@ -33,8 +33,8 @@ export class ClienteService {
         return this.http.delete<any>(`${this.url}clientes/lote`, { headers: this.headers, body: ids });
     }
 
-    actualizar(clienteId: number, cliente: Cliente): Observable<Cliente> {
-        return this.http.put<Cliente>(`${this.url}clientes/${clienteId}`, cliente);
+    actualizar(clienteId: number, cliente: Cliente): Observable<ApiEntityResponse<string>> {
+        return this.http.put<ApiEntityResponse<string>>(`${this.url}clientes/${clienteId}`, cliente);
     }
 
     crear(cliente: Cliente): Observable<ApiEntityResponse<Cliente>> {

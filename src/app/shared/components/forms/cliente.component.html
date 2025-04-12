@@ -11,7 +11,13 @@
 
 	<div class="pl-28">
 
-		<app-informacion-personal *ngIf="pantallaActual==='datos-generales'"></app-informacion-personal>
+		<div class="grid grid-cols-5 gap-4" *ngIf="pantallaActual==='datos-generales'">
+			<div class="h-full border-2 border-gray-300 rounded-lg p-4 shadow-md col-span-2">
+				<app-upload-image></app-upload-image>
+			</div>
+
+			<app-informacion-personal class="col-span-3"></app-informacion-personal>
+		</div>
 		<app-informacion-comercial *ngIf="pantallaActual==='informacion-comercial'"></app-informacion-comercial>
 		<app-datos-contacto *ngIf="pantallaActual==='datos-contacto'"></app-datos-contacto>
 		<app-direccion-empleado [cliente]="data.object"
