@@ -46,6 +46,16 @@ export class SharedTableV2Component implements OnInit {
   @Input() filterSearch: string = "";
   @Input() additionalActionsTemplate!: TemplateRef<any>;
 
+  // Nueva configuración para columnas
+  @Input() columnConfig: {
+    field: string;
+    type: 'text' | 'chips' | 'custom';
+    nestedPath?: string;
+    displayField?: string;
+    customTemplate?: TemplateRef<any>;
+    sortable?: boolean;
+  }[] = [];
+
   @Output() deleteSelected = new EventEmitter<string[]>();
   @Output() deleteSingleSelected = new EventEmitter<string>();
   @Output() viewSelected = new EventEmitter<string>();
@@ -60,6 +70,7 @@ export class SharedTableV2Component implements OnInit {
   @Output() chipDelete = new EventEmitter<{ parent: any, item: any }>();
   @Output() chipsClear = new EventEmitter<any>();
   @Output() asignacion = new EventEmitter<any>();
+  @Output() showMore = new EventEmitter<any>();
 
   @ViewChildren('filterInput') filterInputs!: QueryList<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -93,25 +104,38 @@ export class SharedTableV2Component implements OnInit {
     this.filterDelete.emit({ field, value: '' });
   }
 
-  getField(value: any) {
-    if (typeof value !== 'object' || value === null) {
-      return value;
+  getField(value: any, column: string): any {
+    if (!value) return '';
+
+    const config = this.columnConfig.find(c => c.field === column);
+    if (!config) return value;
+
+    if (config.nestedPath) {
+      return config.nestedPath.split('.').reduce((obj, key) => obj?.[key], value) || '';
     }
-    for (const key in value) {
-      if (Object.prototype.hasOwnProperty.call(value, key)) {
-        if (key.toLowerCase().includes("desc")) {
-          return value[key];
-        }
-      }
+
+    if (config.displayField) {
+      return value[config.displayField] || '';
     }
-    for (const key in value) {
-      if (Object.prototype.hasOwnProperty.call(value, key)) {
-        if (key.toLowerCase().includes("nombre")) {
-          return value[key];
-        }
-      }
-    }
-    return "";
+
+    return value;
+  }
+
+  getColumnType(column: string): string {
+    const config = this.columnConfig.find(c => c.field === column);
+    return config?.type || 'text';
+  }
+
+  isChipsColumn(column: string): boolean {
+    return this.getColumnType(column) === 'chips';
+  }
+
+  getChipsConfig(column: string): { displayField: string, nestedPath: string } {
+    const config = this.columnConfig.find(c => c.field === column);
+    return {
+      displayField: config?.displayField || '',
+      nestedPath: config?.nestedPath || ''
+    };
   }
 
   protected getTranslationGroup(column: string) {
@@ -160,7 +184,17 @@ export class SharedTableV2Component implements OnInit {
     return numSelected === numRows;
   }
 
+  isColumnSortable(column: string): boolean {
+    const config = this.columnConfig.find(c => c.field === column);
+    return config?.sortable !== false;
+  }
+
   protected onSort(selectedColumnName: string, columnIndex: number) {
+    const config = this.columnConfig.find(c => c.field === selectedColumnName);
+    if (config?.sortable === false) {
+      return;
+    }
+
     this.sortHeaders.forEach((header, i) => {
       const element = header.nativeElement;
       if (i === columnIndex) {
@@ -179,6 +213,7 @@ export class SharedTableV2Component implements OnInit {
         element.setAttribute('sortType', '');
       }
     });
+
     this.currentSortIndex = columnIndex;
     this.cdr.detectChanges();
 
@@ -333,5 +368,9 @@ export class SharedTableV2Component implements OnInit {
 
   onAsignacion(element: any): void {
     this.asignacion.emit(element);
+  }
+
+  onShowMore(element: any): void {
+    this.showMore.emit(element);
   }
 }

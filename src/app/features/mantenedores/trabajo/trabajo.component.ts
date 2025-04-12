@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild, TemplateRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SharedTableV2Component } from "../../../shared/components/shared-table-v2/shared-table-v2.component";
 import { MatIconModule } from "@angular/material/icon";
@@ -11,7 +11,7 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { TrabajoTareaService } from "../../../core/services/trabajo-tarea.service";
 import { TrabajoTarea } from "../../../core/models/trabajo-tarea.model";
-import { catchError, tap, throwError } from "rxjs";
+import { catchError, tap, throwError, forkJoin, map, of } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
@@ -19,6 +19,8 @@ import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
 import { TrabajoTareaFormComponent } from "../../../shared/components/forms/trabajo-tarea.component";
+import { TrabajoService } from "../../../core/services/trabajo.service";
+import { Trabajo } from "../../../core/models/trabajo.model";
 
 @Component({
   selector: "app-trabajo",
@@ -28,22 +30,39 @@ import { TrabajoTareaFormComponent } from "../../../shared/components/forms/trab
   styleUrl: "./trabajo.component.css",
 })
 export class TrabajoComponent implements OnInit {
-  displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: TrabajoTarea[] = []; // Ahora usa la interfaz TrabajoTarea
-  titulo: string = 'Trabajo Tarea'; // Cambiado a Trabajo Tarea
+  displayedColumns: string[] = ['id', 'descripcionTrabajo', 'trabajoTareas'];
+  columnConfig: {
+    field: string;
+    type: 'text' | 'chips' | 'custom';
+    nestedPath?: string;
+    displayField?: string;
+    customTemplate?: TemplateRef<any>;
+    sortable?: boolean;
+  }[] = [
+      { field: 'id', type: 'text' },
+      { field: 'descripcionTrabajo', type: 'text' },
+      {
+        field: 'trabajoTareas',
+        type: 'chips',
+        nestedPath: 'tarea.descripcionTarea',
+        sortable: false
+      }
+    ];
+  dataSource: Trabajo[] = [];
+  titulo: string = 'Trabajo';
   hasSelection = false;
-  selectedData: any[] = []; // Almacena la data seleccionada
-  pageNumber = 0
-  totalPages = 0
+  selectedData: any[] = [];
+  pageNumber = 0;
+  totalPages = 0;
   pageSize = 10;
   totalElements = 0;
-  isLoading = false; // Variable para controlar el estado de carga
+  isLoading = false;
   @ViewChild(SharedTableV2Component) sharedTableComponent!: SharedTableV2Component;
   activeOptionalFilters: any = [];
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
-    private trabajoTareaService: TrabajoTareaService) { }
+    private trabajoTareaService: TrabajoTareaService, private trabajoService: TrabajoService) { }
 
   ngOnInit() {
     this.obtenerDatos();
@@ -63,7 +82,7 @@ export class TrabajoComponent implements OnInit {
       width: '400px',
       data: {
         esActualizar: true,
-        object: this.dataSource.find(item => item.trabajoId === Number(id))
+        object: this.dataSource.find(item => item.id === Number(id))
       }
     });
 
@@ -87,15 +106,26 @@ export class TrabajoComponent implements OnInit {
         return;
       }
 
-      let columnKeys = Object.keys(dataArray[0]);
-      if (translationBase === 'mantenedores.trabajo') {
-        columnKeys = columnKeys.filter(key => key !== 'id');
-      }
+      // Formatear los datos antes de la exportación
+      const formattedData = dataArray.map(item => {
+        const formattedItem: any = {
+          id: item.id,
+          descripcionTrabajo: item.descripcionTrabajo,
+          tareas: item.trabajoTareas ? item.trabajoTareas
+            .sort((a: any, b: any) => a.ordenEjecucionTarea - b.ordenEjecucionTarea)
+            .map((tt: any) => tt.tarea.descripcionTarea)
+            .join(', ') : ''
+        };
+        return formattedItem;
+      });
+
+      // Definir las columnas que queremos exportar y su orden
+      const columnKeys = ['descripcionTrabajo', 'tareas'];
 
       const translationKeys = columnKeys.map(key => `${translationBase}.${key}`);
 
       this.translate.get(translationKeys).subscribe(translations => {
-        const translatedData = dataArray.map(item => {
+        const translatedData = formattedData.map(item => {
           const newItem: any = {};
           columnKeys.forEach((key, index) => {
             const translatedKey = translations[translationKeys[index]] || key;
@@ -148,7 +178,6 @@ export class TrabajoComponent implements OnInit {
           handleExport(apiData, 'mantenedores.trabajo');
           // Mostramos el mensaje específico para la exportación de datos de la API
           this.toastr.success(this.translate.instant('alertas.toastr.exportar.todo.success'));
-
         },
         (error) => {
           console.error("CAMINO 2.2: Error en la solicitud a la API:", error);
@@ -162,7 +191,29 @@ export class TrabajoComponent implements OnInit {
     this.router.navigate(['/portal/home']);
   }
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+    // Mapear los nombres de las columnas a los campos del modelo
+    const fieldMapping: { [key: string]: string } = {
+      'id': 'id',
+      'descripcionTrabajo': 'descripcionTrabajo',
+      'fechaCreacion': 'fechaCreacion',
+      'fechaModificacion': 'fechaModificacion',
+      'estado': 'estado',
+      'usuarioCreacion': 'usuarioCreacion',
+      'usuarioModificacion': 'usuarioModificacion'
+    };
+
+    // Obtener el campo de ordenamiento mapeado o usar el nombre de la columna original si no existe mapeo
+    const sortField = fieldMapping[sortData.selectedColumnName] || sortData.selectedColumnName;
+
+    // Validar la dirección de ordenamiento
+    const sortDirection = ['asc', 'desc'].includes(sortData.currentSortType)
+      ? sortData.currentSortType
+      : 'asc';
+
+    console.log('Ordenando por:', sortField, 'en dirección:', sortDirection);
+
+    // Llamar a obtenerDatos con los parámetros validados
+    this.obtenerDatos(sortField, sortDirection);
   }
 
   onPageChanged(newPage: number) {
@@ -192,195 +243,6 @@ export class TrabajoComponent implements OnInit {
 
 
 
-  /********************************** TABLA - SHARED TABLE **********************************/
-
-
-  /*********************************** CRUD   - GET ***********************************/
-
-
-
-
-  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
-    const mandatoryFilter = {
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize,
-      sortField: sortField,
-      sortDirection: sortDirection,
-      ...optionalFilter
-    }
-
-    this.trabajoTareaService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<TrabajoTarea[]>) => {
-      console.log("Datos recibidos:", data);
-
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
-
-      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value);
-
-      // Agrupar por trabajoId
-      const groupedData = data.content.reduce((acc: any, curr: any) => {
-        if (!acc[curr.trabajoId]) {
-          acc[curr.trabajoId] = {
-            ...curr,
-            tareas: []
-          };
-        }
-        acc[curr.trabajoId].tareas.push({
-          tareaId: curr.tareaId,
-          descripcion: curr.descripcion
-        });
-        return acc;
-      }, {});
-
-      this.dataSource = Object.values(groupedData);
-
-      if (this.dataSource.length > 0) {
-        // Ajustar las columnas mostradas
-        this.displayedColumns = ['trabajoId', 'tareas'];
-      }
-      this.cdr.detectChanges();
-    });
-  }
-
-
-
-
-  /*********************************** CRUD   - DELETE ***********************************/
-  eliminar(selectedItems: TrabajoTarea[]) {
-    const count = selectedItems.length;
-
-    // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
-    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
-    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
-    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
-
-    const dialogRef = this.dialog.open(DialogAlertaComponent, {
-      width: '600px',
-      height: '400px',
-      data: {
-        titulo: titulo,
-        mensaje: mensaje,
-        textoBotonCancelar: textoBotonCancelar,
-        textoBotonConfirmar: textoBotonConfirmar
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        const ids = selectedItems.map(item => item.trabajoId);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
-
-        this.trabajoTareaService.borrarTodo(ids).subscribe({
-          next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.trabajoId));
-            this.hasSelection = false;
-
-            // Actualizar las propiedades de paginación
-            this.totalElements -= ids.length;
-            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
-
-            // Ajustar pageNumber si es necesario
-            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
-            }
-
-            // Recargar los datos
-            this.obtenerDatos();
-
-            // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-
-            // Limpiar selecciones en el componente hijo
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Depurar el estado del paginador
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages
-            });
-          },
-          error: (err: any) => {
-            console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
-          }
-        });
-      }
-    });
-  }
-
-  onDeleteSingleSelected(id: string) {
-    console.log("Eliminar seleccionado:", id);
-
-    // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
-    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
-    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
-    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
-
-    const dialogRef = this.dialog.open(DialogAlertaComponent, {
-      data: {
-        titulo: titulo,
-        mensaje: mensaje,
-        textoBotonCancelar: textoBotonCancelar,
-        textoBotonConfirmar: textoBotonConfirmar
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        console.log("Eliminando elemento con ID:", id);
-
-        this.trabajoTareaService.borrar(Number(id), 0).subscribe({
-          next: () => {
-            console.log("Elemento eliminado exitosamente:", id);
-
-            // Filtrar el item eliminado del dataSource
-            this.dataSource = this.dataSource.filter(item => item.trabajoId !== Number(id));
-
-            // Actualizar propiedades de paginación
-            this.totalElements -= 1;
-            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
-
-            // Ajustar pageNumber si es necesario
-            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1;
-            }
-
-            // Recargar datos
-            this.obtenerDatos();
-
-            // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-
-            // Limpiar selección si existe un componente compartido
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Debug: Estado del paginador después de eliminar
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages
-            });
-          },
-          error: (err: any) => {
-            console.error("Error al eliminar elemento:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
-          }
-        });
-      }
-    });
-  }
-
   /* **********************************CRUD   - CREATE ***********************************/
 
   agregarServicio() {
@@ -400,99 +262,298 @@ export class TrabajoComponent implements OnInit {
   }
 
 
-  /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
-  onEditSelected(id: string) {
-    const selectedObject = this.dataSource.find(item => item.trabajoId === Number(id));
-    if (!selectedObject) {
+  /*********************************** CRUD   - GET ***********************************/
+
+
+
+
+  obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
+    this.isLoading = true;
+    const filtros = {
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
+      sortField: sortField,
+      sortDirection: sortDirection,
+      ...optionalFilter
+    };
+
+    this.trabajoService.buscarFiltrado(filtros)
+      .pipe(
+        tap((response: any) => {
+          // Asegurarse de que trabajoTareas esté presente
+          this.dataSource = (response?.content || []).map((trabajo: Trabajo) => ({
+            ...trabajo,
+            trabajoTareas: trabajo.trabajoTareas || []
+          }));
+          this.totalElements = response?.totalElements || 0;
+          this.totalPages = response?.totalPages || 0;
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }),
+        catchError(error => {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+          return throwError(() => error);
+        })
+      ).subscribe();
+  }
+
+
+
+
+  /*********************************** CRUD   - DELETE ***********************************/
+  eliminar(selectedItems: Trabajo[]) {
+    console.log('Método eliminar - Iniciando eliminación de múltiples items:', selectedItems);
+
+    if (!selectedItems?.length) {
+      console.log('Método eliminar - No hay items seleccionados para eliminar');
       return;
     }
-    const dialogRef = this.dialog.open(TrabajoFormComponent, {
-      width: '400px',
+
+    const ids = selectedItems
+      .map(item => item.id)
+      .filter((id): id is number => id !== undefined);
+
+    console.log('Método eliminar - IDs filtrados para eliminar:', ids);
+
+    if (ids.length === 0) {
+      console.log('Método eliminar - No hay IDs válidos para eliminar');
+      return;
+    }
+
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    console.log('Método eliminar - Abriendo diálogo de confirmación');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        esActualizar: true,
-        object: selectedObject
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log('Método eliminar - Resultado del diálogo:', result);
+
       if (result) {
-        this.obtenerDatos("id", "desc");
-      }
-    });
-  }
+        console.log('Método eliminar - Iniciando llamada al servicio para eliminar IDs:', ids);
 
-  onDeleteTarea(trabajo: any, tarea: any) {
-    const dialogRef = this.dialog.open(DialogAlertaComponent, {
-      data: {
-        titulo: this.translate.instant('alertas.eliminacionIndividualTitulo'),
-        mensaje: this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 }),
-        textoBotonCancelar: this.translate.instant('alertas.cancelar'),
-        textoBotonConfirmar: this.translate.instant('alertas.eliminar')
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        this.trabajoTareaService.borrar(trabajo.trabajoId, tarea.tareaId).subscribe({
+        this.trabajoService.borrarLote(ids).subscribe({
           next: () => {
-            // Actualizar la lista de tareas localmente
-            const trabajoIndex = this.dataSource.findIndex(t => t.trabajoId === trabajo.trabajoId);
-            if (trabajoIndex !== -1) {
-              // Actualizar el trabajo eliminando la tarea específica
-              this.dataSource = this.dataSource.filter(t => t.trabajoId !== trabajo.trabajoId);
-            }
-
-            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-            this.cdr.detectChanges();
+            console.log('Método eliminar - Eliminación exitosa');
             this.obtenerDatos();
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
           },
-          error: (err) => {
-            console.error("Error al eliminar tarea:", err);
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
             this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
+      } else {
+        console.log('Método eliminar - Usuario canceló la eliminación');
       }
     });
   }
 
-  onClearTareas(trabajo: any) {
+  onDeleteSingleSelected(id: string) {
+    console.log('Método onDeleteSingleSelected - Iniciando eliminación de item con ID:', id);
+
+    const trabajo = this.dataSource.find(item => item.id === Number(id));
+    console.log('Método onDeleteSingleSelected - Trabajo encontrado:', trabajo);
+
+    const trabajoId = trabajo?.id;
+    if (typeof trabajoId !== 'number') {
+      console.log('Método onDeleteSingleSelected - ID no válido');
+      return;
+    }
+
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    console.log('Método onDeleteSingleSelected - Abriendo diálogo de confirmación');
+
     const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        titulo: this.translate.instant('alertas.eliminacionMultipleTitulo'),
-        mensaje: this.translate.instant('alertas.eliminacionMultipleMensaje', { count: trabajo.tareas.length }),
-        textoBotonCancelar: this.translate.instant('alertas.cancelar'),
-        textoBotonConfirmar: this.translate.instant('alertas.eliminar')
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
       }
     });
 
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        const tareaIds = trabajo.tareas.map((t: any) => t.tareaId);
-        this.trabajoTareaService.borrar(trabajo.trabajoId, 0).subscribe({
-          next: () => {
-            // Eliminar el trabajo de la lista
-            this.dataSource = this.dataSource.filter(t => t.trabajoId !== trabajo.trabajoId);
-            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-            this.cdr.detectChanges();
-          },
-          error: (err) => {
-            console.error("Error al eliminar tareas:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
-          }
-        });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Método onDeleteSingleSelected - Resultado del diálogo:', result);
+
+      if (result) {
+        console.log('Método onDeleteSingleSelected - Iniciando proceso de eliminación');
+
+        // Primero obtenemos todas las tareas asociadas al trabajo
+        const trabajoTareas = trabajo?.trabajoTareas || [];
+
+        // Creamos un array de observables para eliminar cada trabajo-tarea
+        const deleteTrabajoTareas$ = trabajoTareas
+          .filter(trabajoTarea => trabajoTarea.tarea?.id !== undefined)
+          .map(trabajoTarea =>
+            this.trabajoTareaService.borrar(trabajoId, trabajoTarea.tarea.id!)
+          );
+
+        // Si no hay tareas asociadas, continuamos con la eliminación del trabajo
+        const deleteOperations$ = deleteTrabajoTareas$.length > 0
+          ? forkJoin([...deleteTrabajoTareas$])
+          : of([]);
+
+        // Ejecutamos la eliminación en cascada
+        deleteOperations$
+          .pipe(
+            // Después de eliminar todas las tareas, eliminamos el trabajo
+            map(() => this.trabajoService.borrar(trabajoId)),
+            catchError((error: unknown) => {
+              console.error("Error al eliminar elementos:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+              return throwError(() => error);
+            })
+          )
+          .subscribe({
+            next: () => {
+              console.log('Método onDeleteSingleSelected - Eliminación exitosa');
+              this.obtenerDatos();
+              this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+            },
+            error: (error: unknown) => {
+              console.error("Error al eliminar elementos:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+            }
+          });
+      } else {
+        console.log('Método onDeleteSingleSelected - Usuario canceló la eliminación');
       }
     });
   }
 
-  onAsignacion(element: any) {
-    // Similar a como manejas el agregar, pero para asignación
-    this.dialog.open(TrabajoTareaFormComponent, {
-      width: '800px',
+  onDeleteTarea(trabajo: Trabajo, tarea: TrabajoTarea) {
+    console.log('Método onDeleteTarea - Iniciando eliminación de tarea:', { trabajo, tarea });
+
+    const trabajoId = trabajo?.id;
+    if (typeof trabajoId !== 'number') {
+      console.log('Método onDeleteTarea - ID de trabajo no válido');
+      return;
+    }
+
+    const tareaId = tarea?.tarea?.id;
+    if (typeof tareaId !== 'number') {
+      console.log('Método onDeleteTarea - ID de tarea no válido');
+      return;
+    }
+
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    console.log('Método onDeleteTarea - Abriendo diálogo de confirmación');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
       data: {
-        mode: 'asignacion',
-        item: element
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
       }
-    }).afterClosed().subscribe(result => {
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Método onDeleteTarea - Resultado del diálogo:', result);
+
+      if (result) {
+        console.log('Método onDeleteTarea - Iniciando llamada al servicio para eliminar tarea:', tareaId);
+
+        this.trabajoTareaService.borrar(trabajoId, tareaId).subscribe({
+          next: () => {
+            console.log('Método onDeleteTarea - Eliminación exitosa');
+            this.obtenerDatos();
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+          },
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          }
+        });
+      } else {
+        console.log('Método onDeleteTarea - Usuario canceló la eliminación');
+      }
+    });
+  }
+
+  onClearTareas(trabajo: Trabajo) {
+    console.log('Método onClearTareas - Iniciando limpieza de tareas para trabajo:', trabajo);
+
+    const trabajoId = trabajo?.id;
+    if (typeof trabajoId !== 'number') {
+      console.log('Método onClearTareas - ID de trabajo no válido');
+      return;
+    }
+
+    // Obtener las traducciones
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    console.log('Método onClearTareas - Abriendo diálogo de confirmación');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      data: {
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Método onClearTareas - Resultado del diálogo:', result);
+
+      if (result) {
+        console.log('Método onClearTareas - Iniciando llamada al servicio para eliminar trabajo con ID:', trabajoId);
+
+        this.trabajoService.borrar(trabajoId).subscribe({
+          next: () => {
+            console.log('Método onClearTareas - Eliminación exitosa');
+            this.obtenerDatos();
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+          },
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          }
+        });
+      } else {
+        console.log('Método onClearTareas - Usuario canceló la eliminación');
+      }
+    });
+  }
+
+  onAsignacion(element: any): void {
+    const dialogRef = this.dialog.open(TrabajoTareaFormComponent, {
+      width: '400px',
+      data: {
+        id: element.id,
+        descripcionTrabajo: element.descripcionTrabajo,
+        trabajoTareas: element.trabajoTareas || []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.obtenerDatos();
       }
@@ -522,6 +583,30 @@ export class TrabajoComponent implements OnInit {
   onEdit(id: any) {
     // Implementa la lógica de edición
     console.log('Edit:', id);
+  }
+
+
+
+
+  /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
+  onEditSelected(id: string) {
+    const selectedObject = this.dataSource.find(item => item.id === Number(id));
+    if (!selectedObject) {
+      return;
+    }
+    const dialogRef = this.dialog.open(TrabajoFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: true,
+        object: selectedObject
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos("id", "desc");
+      }
+    });
   }
 
 }

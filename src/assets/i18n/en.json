@@ -248,7 +248,9 @@
         "trabajo": {
             "id": "Id",
             "titulo": "Work",
-            "descripcionTrabajo": "Work"
+            "descripcionTrabajo": "Work",
+            "trabajoTareas": "Assigned Tasks",
+            "tareas": "Assigned Tasks"
         },
         "zona": {
             "id": "Id",
@@ -528,6 +530,16 @@
                 "tituloAgregar": "Create Component Type",
                 "label.nombre": "Component Type",
                 "label.descripcion": "Description"
+            },
+            "trabajoTarea": {
+                "tituloEditar": "Edit assigned tasks",
+                "tituloAgregar": "Assign Task",
+                "trabajo": "Work",
+                "seleccioneTareas": "Select Tasks to Assign",
+                "tareas": "tasks",
+                "info": {
+                    "ordenTareas": "The tasks are assigned in the order you select them, you can change their sequence by dragging the tags."
+                }
             }
         }
     },
@@ -685,6 +697,14 @@
                     "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
                     "REQUERIDO": "The identification document type is required.",
                     "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "trabajoTarea": {
+                    "NO_ENCONTRADO": "The assignment of tasks was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The assignment of tasks is required.",
+                    "DUPLICADO": "The task is already assigned, try with a different one.",
                     "ID_REQUERIDO": "The identification document type ID is required.",
                     "ID_INVALIDO": "The identification document type ID is not valid."
                 }

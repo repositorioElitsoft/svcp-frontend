@@ -1,4 +1,4 @@
-<div class="overflow-x-auto">
+<div class="relative">
     <div *ngIf="selectedItems.length > 0"
         class="inline-flex items-center text-lg p-2 text-gray-700 h-11 px-3 py-2 dark:bg-neutral-500 bg-gray-100 rounded-lg justify-between items-center w-full sticky left-0 z-10 whitespace-nowrap">
         <span class="truncate">{{ 'table.seleccionados' | translate: { count: selectedItems.length } }}</span>
@@ -9,8 +9,10 @@
 
     <div class="m-4"></div>
 
-    <div class=" rounded-t-lg dark:bg-neutral-500 bg-gray-100 p-1"></div>
-    <div class="dark:bg-neutral-500 bg-gray-100">
+    <div class="rounded-t-lg dark:bg-neutral-700 bg-gray-100 p-1 border border-b-0 border-[#e5e7eb]"></div>
+
+
+    <div class="dark:bg-neutral-500 bg-gray-100 ">
         <div class="flex gap-4 rounded-t-lg overflow-hidden dark:bg-neutral-800">
             @for (filter of filters; track $index) {
             <div class="col-span-1 w-full p-4">
@@ -50,10 +52,10 @@
 
 
     <!-- Contenido real de la tabla cuando no está cargando -->
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col">
         <!-- Tabla -->
-        <div class="overflow-x-auto">
-            <table mat-table [dataSource]="dataSource" class="w-full"
+        <div class="overflow-x-auto mb-2">
+            <table mat-table [dataSource]="dataSource" class="w-full min-w-full table-fixed"
                 *ngIf="dataSource.length > 0; else noDataTemplate">
 
                 <!-- Checkbox Column -->
@@ -76,6 +78,7 @@
                     <th mat-header-cell *matHeaderCellDef class="font-bold text-lg text-gray-700 ">
                         <div class="flex items-center">
                             {{ getTranslationGroup(column) | translate }}
+                            @if(isColumnSortable(column)) {
                             <span (click)="onSort(column, i)" #sortHeader sortType=""
                                 class="material-symbols-outlined hover:cursor-pointer">
                                 @if(currentSortIndex === i && currentSortType === "desc"){
@@ -88,44 +91,49 @@
                                 unfold_more
                                 }
                             </span>
+                            }
                         </div>
                     </th>
                     <td mat-cell class="text-lg" *matCellDef="let element">
-                        @if(column === 'tareas') {
-                        <app-chips [items]="element[column]" (deleteItem)="onChipDelete(element, $event)"
-                            (clearAll)="onChipsClear(element)">
-                        </app-chips>
+                        @if(isChipsColumn(column)) {
+                        <div class="flex items-center justify-between">
+                            <app-chips [items]="element[column]" [displayField]="getChipsConfig(column).displayField"
+                                [nestedPath]="getChipsConfig(column).nestedPath"
+                                (deleteItem)="onChipDelete(element, $event)" (clearAll)="onChipsClear(element)"
+                                (showMore)="onAsignacion(element)">
+                            </app-chips>
+                        </div>
                         } @else {
-                        {{ getField(element[column]) }}
+                        {{ getField(element[column], column) }}
                         }
                     </td>
                 </ng-container>
 
                 <!-- Actions Column -->
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef class="font-bold text-gray-700 text-lg">
+                <ng-container matColumnDef="actions" [sticky]="true" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef class="font-bold text-gray-700 text-lg sticky-header">
                         {{ 'table.actions' | translate }}
                     </th>
-                    <td mat-cell *matCellDef="let element" class="flex items-center gap-2">
-                        <button mat-icon-button color="accent" (click)="onAsignacion(element)">
-                            <mat-icon>push_pin</mat-icon>
-                        </button>
+                    <td mat-cell *matCellDef="let element" class="sticky-cell">
+                        <div class="flex items-center gap-2">
+                            <button mat-icon-button color="accent" (click)="onAsignacion(element)">
+                                <mat-icon>push_pin</mat-icon>
+                            </button>
 
-                        <button mat-icon-button color="accent" (click)="onEdit(element.id)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button color="accent" (click)="onSingleDelete(element.id)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                            <button mat-icon-button color="accent" (click)="onEdit(element.id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" (click)="onSingleDelete(element.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
 
-                        <!-- Aquí se incluye el template adicional si existe -->
-                        <ng-container *ngIf="additionalActionsTemplate">
-                            <button mat-icon-button color="accent">
+                            <!-- Aquí se incluye el template adicional si existe -->
+                            <ng-container *ngIf="additionalActionsTemplate">
                                 <ng-container
                                     *ngTemplateOutlet="additionalActionsTemplate; context: { $implicit: element }">
                                 </ng-container>
-                            </button>
-                        </ng-container>
+                            </ng-container>
+                        </div>
                     </td>
                 </ng-container>
 
@@ -139,64 +147,63 @@
                     {{ 'table.dataDisponible' | translate }}
                 </div>
             </ng-template>
+        </div>
 
-            <div class="m-4"></div>
-            <!-- Paginador -->
-            <div
-                class="w-full bg-gray-100 sm:h-11 flex flex-col sm:flex-row justify-between items-center text-neutral-600 px-2 rounded-lg dark:bg-neutral-500 text-lg sticky left-0 z-10">
-                <!-- Contador para móvil -->
-                <div class="w-full text-center py-2 sm:hidden">
-                    {{ dataSource.length }} - {{ endItem }} de {{ totalElements }}
-                </div>
+        <!-- Paginador -->
+        <div
+            class="w-full bg-gray-100 sm:h-11 flex flex-col sm:flex-row justify-between items-center text-neutral-600 px-2 rounded-lg dark:bg-neutral-500 text-lg sticky left-0 z-10 mt-1">
+            <!-- Contador para móvil -->
+            <div class="w-full text-center py-2 sm:hidden">
+                {{ dataSource.length }} - {{ endItem }} de {{ totalElements }}
+            </div>
 
-                <!-- Contador para desktop -->
-                <div class="hidden sm:block">
-                    {{ dataSource.length }} - {{ endItem }} {{ 'table.of' | translate }} {{ totalElements }}
-                </div>
+            <!-- Contador para desktop -->
+            <div class="hidden sm:block">
+                {{ dataSource.length }} - {{ endItem }} {{ 'table.of' | translate }} {{ totalElements }}
+            </div>
 
-                <div class="flex items-center gap-1 py-2 sm:py-0 w-full sm:w-auto justify-center sm:justify-end">
-                    <!-- Ir a primera página -->
-                    <button [disabled]="pageNumber === 0"
-                        class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
-                        (click)="onPageChanged(0)">
-                        keyboard_double_arrow_left
-                    </button>
+            <div class="flex items-center gap-1 py-2 sm:py-0 w-full sm:w-auto justify-center sm:justify-end">
+                <!-- Ir a primera página -->
+                <button [disabled]="pageNumber === 0"
+                    class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
+                    (click)="onPageChanged(0)">
+                    keyboard_double_arrow_left
+                </button>
 
-                    <!-- Página anterior -->
-                    <button [disabled]="pageNumber === 0"
-                        class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
-                        (click)="onPageChanged(pageNumber - 1)">
-                        arrow_left
-                    </button>
+                <!-- Página anterior -->
+                <button [disabled]="pageNumber === 0"
+                    class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
+                    (click)="onPageChanged(pageNumber - 1)">
+                    arrow_left
+                </button>
 
-                    <ng-container *ngIf="totalPages >= 1">
-                        <ng-container *ngFor="let page of getVisiblePages()">
-                            <ng-container *ngIf="page === -1; else pageButton">
-                                <span class="px-0">...</span>
-                            </ng-container>
-                            <ng-template #pageButton>
-                                <button [class.font-bold]="page === pageNumber"
-                                    class="text-gray-600 hover:text-gray-800 px-2" (click)="onPageChanged(page)">
-                                    {{ page + 1 }}
-                                </button>
-                            </ng-template>
+                <ng-container *ngIf="totalPages >= 1">
+                    <ng-container *ngFor="let page of getVisiblePages()">
+                        <ng-container *ngIf="page === -1; else pageButton">
+                            <span class="px-0">...</span>
                         </ng-container>
+                        <ng-template #pageButton>
+                            <button [class.font-bold]="page === pageNumber"
+                                class="text-gray-600 hover:text-gray-800 px-2" (click)="onPageChanged(page)">
+                                {{ page + 1 }}
+                            </button>
+                        </ng-template>
                     </ng-container>
+                </ng-container>
 
-                    <!-- Página siguiente -->
-                    <button [disabled]="pageNumber === totalPages - 1"
-                        class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
-                        (click)="onPageChanged(pageNumber + 1)">
-                        arrow_right
-                    </button>
+                <!-- Página siguiente -->
+                <button [disabled]="pageNumber === totalPages - 1"
+                    class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
+                    (click)="onPageChanged(pageNumber + 1)">
+                    arrow_right
+                </button>
 
-                    <!-- Ir a última página -->
-                    <button [disabled]="pageNumber === totalPages - 1"
-                        class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
-                        (click)="onPageChanged(totalPages - 1)">
-                        keyboard_double_arrow_right
-                    </button>
-                </div>
+                <!-- Ir a última página -->
+                <button [disabled]="pageNumber === totalPages - 1"
+                    class="material-symbols-outlined text-gray-400 hover:text-gray-700 disabled:text-gray-300"
+                    (click)="onPageChanged(totalPages - 1)">
+                    keyboard_double_arrow_right
+                </button>
             </div>
         </div>
     </div>

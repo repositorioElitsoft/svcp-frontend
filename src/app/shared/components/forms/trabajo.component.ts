@@ -24,7 +24,6 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { Trabajo } from '../../../core/models/trabajo.model';
-import { catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -100,38 +99,37 @@ export class TrabajoFormComponent implements OnInit {
 
   onSubmit() {
     console.log("Formulario enviado:", this.form.value);
-
     if (this.form.valid) {
       const formData: Trabajo = {
         /*form-fields-submit*/
         id: this.form.value.id,
         descripcionTrabajo: this.form.value.descripcionTrabajo,
+        trabajoTareas: [] // Added missing required property
       };
 
       console.log("Datos mapeados para enviar:", formData);
 
       // Cierra el formulario con los datos correctos
       if (this.esActualizar()) {
-        this.trabajoService.actualizar(formData.id, formData).subscribe({
-          next: (response) => {
+        this.trabajoService.actualizar(formData.id!, formData).subscribe({
+          next: () => {
             this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant('alertas.toastr.error');
+            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
             this.toastr.error(errorMessage);
           }
         })
-
       }
       else {
         this.trabajoService.crear(formData).subscribe({
-          next: (response) => {
+          next: () => {
             this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
             this.dialogRef.close(true);
           },
           error: (error) => {
-            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
+            const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
             this.toastr.error(errorMessage);
           }
         })
