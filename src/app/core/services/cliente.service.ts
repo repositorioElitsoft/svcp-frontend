@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, map } from "rxjs";
 import { Cliente } from '../../core/models/cliente.model';
 import { ApiEntityResponse } from "../models/api-entity-response.model";
 
@@ -53,6 +53,34 @@ export class ClienteService {
                 headers: new HttpHeaders().delete('Content-Type'),
                 reportProgress: true
             }
+        );
+    }
+
+    descargarImagen(clienteId: number): Observable<File> {
+        return this.http.get(`${this.url}clientes/${clienteId}/imagen`, {
+            responseType: 'blob',
+            observe: 'response'
+        }).pipe(
+            map(response => {
+                // Obtener el nombre del archivo del header Content-Disposition si existe
+                const contentDisposition = response.headers.get('content-disposition') || '';
+                let filename = 'imagen_cliente.jpg'; // Nombre por defecto
+
+                // Extraer el nombre del archivo si está disponible en el header
+                const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
+                if (matches != null && matches[1]) {
+                    filename = matches[1].replace(/['"]/g, '');
+                }
+
+                // Determinar el tipo de contenido
+                const contentType = response.headers.get('content-type') || 'image/jpeg';
+
+                // Verificar que el body no sea null
+                const blob = response.body || new Blob([], { type: contentType });
+
+                // Crear un objeto File a partir del Blob
+                return new File([blob], filename, { type: contentType });
+            })
         );
     }
 

@@ -104,12 +104,20 @@ export class ClienteFormComponent implements OnInit {
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object)
 
-      console.log("Datos en el formulario después de patchValue:", this.form.value)
+
     } else {
       console.error("No se recibió un objeto válido en 'data'")
     }
     /*services-init-call*/
 
+  }
+  ngAfterViewInit() {
+    this.informacionPersonal.patch(this.data.object)
+
+    this.clienteService.descargarImagen(this.data.object.id).subscribe((imagen: File) => {
+      console.log("Imagen descargada:")
+      this.uploadImage.patch(imagen)
+    })
   }
 
   handleLinkClick(link: string) {
@@ -118,7 +126,7 @@ export class ClienteFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Formulario enviado:", this.form.value)
+
     if (this.pantallaActual === "datos-generales") {
       this.envioFormularioDatosGenerales()
       return
@@ -138,7 +146,7 @@ export class ClienteFormComponent implements OnInit {
   }
 
   envioFormularioDatosGenerales() {
-    console.log("Formulario enviado:", this.informacionPersonal.form)
+    console.log("Formulario enviado:", this.informacionPersonal.form.value)
 
     if (this.informacionPersonal.form.valid) {
       this.isLoading = true;
@@ -154,7 +162,7 @@ export class ClienteFormComponent implements OnInit {
       }
 
       const documentoIdentificacion = {
-        id: null,
+        id: this.data.object.documentoIdentificacion.id,
         numero: numeroDoc,
         digitoVerificador: digitoVer,
         tipoDocumentoIdentificacion: this.informacionPersonal.form.value.tipoDocumentoIdentificacion
@@ -175,16 +183,19 @@ export class ClienteFormComponent implements OnInit {
       }
 
       const clienteActualizar = {
-        id: this.data.object.id,
-        ...cliente
+        ...this.data.object,  // Primero copiamos todos los campos del objeto original
+        ...cliente,           // Luego sobreescribimos con los valores nuevos del cliente
+        id: this.data.object.id  // Aseguramos que el ID sea el original
       }
 
-      this.clienteService.actualizar(clienteActualizar as any, this.data.object.id).pipe(
+      console.log("clienteActualizar", clienteActualizar)
+
+      this.clienteService.actualizar(this.data.object.id, clienteActualizar as any).pipe(
         concatMap((clienteCreado: ApiEntityResponse<string>) => {
-          /*
+
           if (this.uploadImage && this.uploadImage.selectedFile) {
             return this.clienteService.subirImagen(this.data.object.id, this.uploadImage.selectedFile);
-          }*/
+          }
           return of(clienteCreado);
         })
       ).subscribe({
