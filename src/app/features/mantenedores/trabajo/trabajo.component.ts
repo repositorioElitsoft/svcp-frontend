@@ -272,7 +272,7 @@ export class TrabajoComponent implements OnInit {
 
     // Primera llamada para obtener todos los trabajos y contar el total real
     this.trabajoService.buscarFiltrado({
-      pageSize: 1000,
+      pageSize: 20,
       pageNumber: 0,
       sortField: 'id',
       sortDirection: 'asc'

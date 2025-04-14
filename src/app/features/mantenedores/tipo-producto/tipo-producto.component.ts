@@ -214,7 +214,7 @@ export class TipoProductoComponent implements OnInit {
     this.isLoading = true;
 
     this.tipoProductoService.buscarFiltrado({
-      pageSize: 1000,
+      pageSize: 10,
       pageNumber: 0,
       sortField: 'id',
       sortDirection: 'asc'
