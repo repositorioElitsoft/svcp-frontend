@@ -538,7 +538,8 @@
                 "sinTareasDisponibles": "Nenhuma tarefa disponível para atribuir",
                 "info": {
                     "ordenTareas": "As tarefas são atribuídas na ordem em que você as seleciona, você pode alterar sua sequência arrastando as tags."
-                }
+                },
+                "verMas": "Ver mais"
             }
         }
     },
