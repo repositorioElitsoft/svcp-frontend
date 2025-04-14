@@ -124,10 +124,17 @@ import { TranslateModule } from '@ngx-translate/core';
       cursor: pointer;
       white-space: nowrap;
       font-size: 13px;
+      display: flex;
+      align-items: center;
+      padding: 4px 8px;
+      margin-left: 8px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
     }
 
     .more-indicator:hover {
       color: rgb(30 64 175);
+      background-color: rgba(37, 99, 235, 0.1);
     }
 
     mat-icon {
@@ -143,6 +150,7 @@ export class ChipsComponent {
   private currentMaxVisible: number = 4;
   private screenWidth: number = window.innerWidth;
   private showAll: boolean = false;
+  public mostrarTodas: boolean = false;
 
   @Input() displayField: string = ''; // Campo a mostrar
   @Input() nestedPath: string = ''; // Ruta anidada para acceder al campo (ejemplo: 'tarea.descripcionTarea')
