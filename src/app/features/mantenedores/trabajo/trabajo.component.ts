@@ -270,13 +270,19 @@ export class TrabajoComponent implements OnInit {
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     this.isLoading = true;
 
-    // Primera llamada para obtener todos los trabajos y contar el total real
-    this.trabajoService.buscarFiltrado({
+    // Configurar los parámetros de la llamada a la API incluyendo los filtros
+    const params = {
       pageSize: 20,
       pageNumber: 0,
       sortField: 'id',
-      sortDirection: 'asc'
-    }).subscribe((fullResponse: any) => {
+      sortDirection: 'asc',
+      ...optionalFilter // Incluir los filtros adicionales
+    };
+
+    console.log('Parámetros de búsqueda:', params);
+
+    // Primera llamada para obtener todos los trabajos y contar el total real
+    this.trabajoService.buscarFiltrado(params).subscribe((fullResponse: any) => {
       console.log('Respuesta completa inicial:', fullResponse);
 
       // Obtenemos todos los trabajos únicos
