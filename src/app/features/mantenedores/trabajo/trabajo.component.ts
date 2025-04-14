@@ -269,41 +269,66 @@ export class TrabajoComponent implements OnInit {
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     this.isLoading = true;
-    const filtros = {
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize,
-      sortField: sortField,
-      sortDirection: sortDirection,
-      ...optionalFilter
-    };
 
-    this.trabajoService.buscarFiltrado(filtros)
-      .pipe(
-        tap((response: any) => {
-          // Asegurarse de que trabajoTareas esté presente
-          this.dataSource = (response?.content || []).map((trabajo: Trabajo) => ({
-            ...trabajo,
-            trabajoTareas: trabajo.trabajoTareas || []
-          }));
-          this.totalElements = response?.totalElements || 0;
-          this.totalPages = response?.totalPages || 0;
+    // Primera llamada para obtener todos los trabajos y contar el total real
+    this.trabajoService.buscarFiltrado({
+      pageSize: 1000,
+      pageNumber: 0,
+      sortField: 'id',
+      sortDirection: 'asc'
+    }).subscribe((fullResponse: any) => {
+      console.log('Respuesta completa inicial:', fullResponse);
 
-          // Si la página actual está vacía y no es la primera página, retrocedemos una página
-          if (this.dataSource.length === 0 && this.pageNumber > 0) {
-            this.pageNumber--;
-            this.obtenerDatos(sortField, sortDirection, optionalFilter);
-            return;
+      // Obtenemos todos los trabajos únicos
+      const todosLosTrabajos = new Map();
+      if (Array.isArray(fullResponse?.content)) {
+        fullResponse.content.forEach((item: any) => {
+          if (!todosLosTrabajos.has(item.id)) {
+            todosLosTrabajos.set(item.id, {
+              id: item.id,
+              descripcionTrabajo: item.descripcionTrabajo,
+              trabajoTareas: Array.isArray(item.trabajoTareas) ? [...item.trabajoTareas] : []
+            });
           }
+        });
+      }
 
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        }),
-        catchError(error => {
-          this.isLoading = false;
-          this.cdr.detectChanges();
-          return throwError(() => error);
-        })
-      ).subscribe();
+      // Calculamos el total real de elementos y páginas
+      this.totalElements = todosLosTrabajos.size;
+      this.totalPages = Math.ceil(this.totalElements / this.pageSize);
+
+      console.log('Total real de trabajos:', this.totalElements);
+      console.log('Total de páginas:', this.totalPages);
+
+      // Convertimos el Map a array y aplicamos ordenamiento
+      let trabajosArray = Array.from(todosLosTrabajos.values());
+
+      // Ordenamos el array según el campo y dirección especificados
+      trabajosArray.sort((a: any, b: any) => {
+        const valorA = a[sortField];
+        const valorB = b[sortField];
+
+        if (sortDirection === 'asc') {
+          return valorA > valorB ? 1 : -1;
+        } else {
+          return valorA < valorB ? 1 : -1;
+        }
+      });
+
+      // Aplicamos paginación en memoria
+      const inicio = this.pageNumber * this.pageSize;
+      const fin = inicio + this.pageSize;
+      this.dataSource = trabajosArray.slice(inicio, fin);
+
+      console.log('DataSource final después de paginación:', this.dataSource);
+
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }, error => {
+      console.error('Error al obtener datos:', error);
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    });
   }
 
 
