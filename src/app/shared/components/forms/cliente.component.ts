@@ -113,18 +113,33 @@ export class ClienteFormComponent implements OnInit {
     /*services-init-call*/
 
   }
-  ngAfterViewInit() {
-    this.informacionPersonal.patch(this.data.object)
 
-    this.clienteService.descargarImagen(this.data.object.id).subscribe((imagen: File) => {
-      console.log("Imagen descargada:")
-      this.uploadImage.patch(imagen)
-    })
+  updateForms() {
+    if (this.pantallaActual === "datos-generales") {
+      this.informacionPersonal.patch(this.data.object)
+      this.clienteService.descargarImagen(this.data.object.id).subscribe((imagen: File) => {
+        console.log("Imagen descargada:")
+        this.uploadImage.patch(imagen)
+      })
+    }
+    if (this.pantallaActual === "informacion-comercial") {
+      this.informacionComercial.patch(this.data.object)
+    }
+    if (this.pantallaActual === "datos-contacto") {
+      this.datosContacto.patch(this.data.object)
+    }
+
+
+  }
+
+  ngAfterViewInit() {
+    this.updateForms()
   }
 
   handleLinkClick(link: string) {
     console.log("Enlace clickeado:", link)
     this.pantallaActual = link
+    this.updateForms()
   }
 
   onSubmit() {
