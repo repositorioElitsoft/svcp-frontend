@@ -35,6 +35,7 @@ import { TipoDocumentoIdentificacion } from "../../../core/enums/tipo-documento-
 import { ClienteEnum } from "../../../core/enums/cliente.enum"
 import { concatMap, of } from "rxjs"
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { ContactosClienteCrearComponent } from "../sub-forms/contactos-cliente-crear/contactos-cliente-crear.component"
 
 @Component({
   selector: "app-cliente-create-form",
@@ -52,6 +53,7 @@ import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
     MatDialogClose,
     MatError,
     MatIconModule,
+    ContactosClienteCrearComponent,
     TranslateModule,
     TituloDialogoComponent,
     InformacionPersonalComponent,

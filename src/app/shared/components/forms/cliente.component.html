@@ -22,7 +22,7 @@
 		<app-datos-contacto *ngIf="pantallaActual==='datos-contacto'"></app-datos-contacto>
 		<app-direccion-empleado [cliente]="data.object"
 			*ngIf="pantallaActual==='locaciones' && data.object"></app-direccion-empleado>
-
+		<app-contactos-cliente-crear *ngIf="pantallaActual==='contactos-cliente'"></app-contactos-cliente-crear>
 
 		<mat-dialog-actions align="end">
 
