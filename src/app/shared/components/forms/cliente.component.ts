@@ -88,6 +88,8 @@ export class ClienteFormComponent implements OnInit {
 
   @ViewChild(InformacionPersonalComponent) informacionPersonal!: InformacionPersonalComponent;
   @ViewChild(UploadImageComponent) uploadImage!: UploadImageComponent;
+  @ViewChild(InformacionComercialComponent) informacionComercial!: InformacionComercialComponent;
+  @ViewChild(DatosContactoComponent) datosContacto!: DatosContactoComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -218,11 +220,103 @@ export class ClienteFormComponent implements OnInit {
   }
 
   envioFormularioInformacionComercial() {
+    console.log("Formulario Información Comercial enviado");
 
+    // Verificar si existe el ViewChild de InformacionComercialComponent
+    if (!this.informacionComercial) {
+      console.error("Componente de información comercial no inicializado");
+      return;
+    }
+
+    if (this.informacionComercial.form.valid) {
+      this.isLoading = true;
+
+      // Preparar datos del cliente para actualizar
+      const clienteActualizar = {
+        ...this.data.object,
+        tipoCliente: this.informacionComercial.form.value.tipoCliente,
+        agrupacionComercial: this.informacionComercial.form.value.agrupacionComercial,
+        segmentacionCliente: this.informacionComercial.form.value.segmentacionCliente,
+        campoAdicional1: this.informacionComercial.form.value.campoAdicional1,
+        campoAdicional2: this.informacionComercial.form.value.campoAdicional2,
+        id: this.data.object.id
+      };
+
+      console.log("clienteActualizar", clienteActualizar);
+
+      this.clienteService.actualizar(this.data.object.id, clienteActualizar as any).pipe(
+        concatMap((clienteActualizado: ApiEntityResponse<string>) => {
+          if (this.uploadImage && this.uploadImage.selectedFile) {
+            return this.clienteService.subirImagen(this.data.object.id, this.uploadImage.selectedFile);
+          }
+          return of(clienteActualizado);
+        })
+      ).subscribe({
+        next: (result: any) => {
+          console.log("Operación completada:", result);
+          this.isLoading = false;
+          this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+          this.dialogRef.close(true);
+        },
+        error: (error: any) => {
+          console.error("Error en la operación:", error);
+          this.isLoading = false;
+          const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
+          this.toastr.error(errorMessage);
+        }
+      });
+    } else {
+      console.log("Formulario no válido");
+    }
   }
 
   envioFormularioDatosContacto() {
+    console.log("Formulario Datos de Contacto enviado");
 
+    // Verificar si existe el ViewChild de DatosContactoComponent
+    if (!this.datosContacto) {
+      console.error("Componente de datos de contacto no inicializado");
+      return;
+    }
+
+    if (this.datosContacto.form.valid) {
+      this.isLoading = true;
+
+      // Preparar datos del cliente para actualizar
+      const clienteActualizar = {
+        ...this.data.object,
+        email: this.datosContacto.form.value.email,
+        telefonoFijo: this.datosContacto.form.value.telefonoFijo,
+        telefonoMovil: this.datosContacto.form.value.telefonoMovil,
+        id: this.data.object.id
+      };
+
+      console.log("clienteActualizar", clienteActualizar);
+
+      this.clienteService.actualizar(this.data.object.id, clienteActualizar as any).pipe(
+        concatMap((clienteActualizado: ApiEntityResponse<string>) => {
+          if (this.uploadImage && this.uploadImage.selectedFile) {
+            return this.clienteService.subirImagen(this.data.object.id, this.uploadImage.selectedFile);
+          }
+          return of(clienteActualizado);
+        })
+      ).subscribe({
+        next: (result: any) => {
+          console.log("Operación completada:", result);
+          this.isLoading = false;
+          this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+          this.dialogRef.close(true);
+        },
+        error: (error: any) => {
+          console.error("Error en la operación:", error);
+          this.isLoading = false;
+          const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
+          this.toastr.error(errorMessage);
+        }
+      });
+    } else {
+      console.log("Formulario no válido");
+    }
   }
 
   envioFormularioLocaciones() {
