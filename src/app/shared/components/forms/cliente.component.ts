@@ -115,21 +115,21 @@ export class ClienteFormComponent implements OnInit {
   }
 
   updateForms() {
-    if (this.pantallaActual === "datos-generales") {
+    if (this.pantallaActual === "datos-generales" && this.informacionPersonal) {
       this.informacionPersonal.patch(this.data.object)
-      this.clienteService.descargarImagen(this.data.object.id).subscribe((imagen: File) => {
-        console.log("Imagen descargada:")
-        this.uploadImage.patch(imagen)
-      })
+      if (this.uploadImage) {
+        this.clienteService.descargarImagen(this.data.object.id).subscribe((imagen: File) => {
+          console.log("Imagen descargada:")
+          this.uploadImage.patch(imagen)
+        })
+      }
     }
-    if (this.pantallaActual === "informacion-comercial") {
+    if (this.pantallaActual === "informacion-comercial" && this.informacionComercial) {
       this.informacionComercial.patch(this.data.object)
     }
-    if (this.pantallaActual === "datos-contacto") {
+    if (this.pantallaActual === "datos-contacto" && this.datosContacto) {
       this.datosContacto.patch(this.data.object)
     }
-
-
   }
 
   ngAfterViewInit() {
@@ -139,10 +139,15 @@ export class ClienteFormComponent implements OnInit {
   handleLinkClick(link: string) {
     console.log("Enlace clickeado:", link)
     this.pantallaActual = link
-    this.updateForms()
+
+    // Usar setTimeout para asegurar que Angular tenga tiempo de renderizar los componentes
+    setTimeout(() => {
+      this.updateForms()
+    }, 0);
   }
 
   onSubmit() {
+    console.log("Formulario enviado para pantalla:", this.pantallaActual);
 
     if (this.pantallaActual === "datos-generales") {
       this.envioFormularioDatosGenerales()
@@ -163,6 +168,11 @@ export class ClienteFormComponent implements OnInit {
   }
 
   envioFormularioDatosGenerales() {
+    if (!this.informacionPersonal) {
+      console.error("Componente de información personal no inicializado");
+      return;
+    }
+
     console.log("Formulario enviado:", this.informacionPersonal.form.value)
 
     if (this.informacionPersonal.form.valid) {
@@ -220,7 +230,7 @@ export class ClienteFormComponent implements OnInit {
           console.log("Operación completada:", result);
           this.isLoading = false;
           this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
-          this.dialogRef.close(true);
+          //this.dialogRef.close(true);
         },
         error: (error: any) => {
           console.error("Error en la operación:", error);
@@ -252,8 +262,8 @@ export class ClienteFormComponent implements OnInit {
         tipoCliente: this.informacionComercial.form.value.tipoCliente,
         agrupacionComercial: this.informacionComercial.form.value.agrupacionComercial,
         segmentacionCliente: this.informacionComercial.form.value.segmentacionCliente,
-        campoAdicional1: this.informacionComercial.form.value.campoAdicional1,
-        campoAdicional2: this.informacionComercial.form.value.campoAdicional2,
+        campo1: this.informacionComercial.form.value.campo1,
+        campo2: this.informacionComercial.form.value.campo2,
         id: this.data.object.id
       };
 
@@ -271,7 +281,7 @@ export class ClienteFormComponent implements OnInit {
           console.log("Operación completada:", result);
           this.isLoading = false;
           this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
-          this.dialogRef.close(true);
+          //this.dialogRef.close(true);
         },
         error: (error: any) => {
           console.error("Error en la operación:", error);
@@ -320,7 +330,7 @@ export class ClienteFormComponent implements OnInit {
           console.log("Operación completada:", result);
           this.isLoading = false;
           this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
-          this.dialogRef.close(true);
+          //this.dialogRef.close(true);
         },
         error: (error: any) => {
           console.error("Error en la operación:", error);

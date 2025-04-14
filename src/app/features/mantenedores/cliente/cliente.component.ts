@@ -339,9 +339,9 @@ export class ClienteComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.obtenerDatos("id", "desc");
-      }
+
+      this.obtenerDatos("id", "desc");
+
     });
   }
 

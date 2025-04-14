@@ -50,8 +50,8 @@ export class InformacionComercialComponent {
             tipoCliente: [null],
             agrupacionComercial: [null],
             segmentacionCliente: [null],
-            campoAdicional1: [null],
-            campoAdicional2: [null]
+            campo1: [null],
+            campo2: [null]
         });
 
         this.loadTiposClientes();
@@ -105,10 +105,7 @@ export class InformacionComercialComponent {
     }
 
     patch(value: any) {
-        this.form.patchValue({
-            campoAdicional1: value.campoAdicional1,
-            campoAdicional2: value.campoAdicional2
-        });
+        this.form.patchValue(value);
 
         this.valueToPatch = value;
     }
