@@ -17,7 +17,8 @@
         <mat-form-field appearance="outline" class="w-full dark:text-white">
             <mat-label>{{ (data?.esActualizar ? 'mantenedores.formularios.trabajo.label.ingreseNombre' :
                 'mantenedores.formularios.trabajo.label.descripcionTrabajo') | translate }}</mat-label>
-            <input matInput formControlName="descripcionTrabajo" class="text-lg w-full dark:text-white">
+            <input matInput formControlName="descripcionTrabajo" class="text-lg w-full dark:text-white" maxlength="50">
+            <mat-hint align="end">{{form.get('descripcionTrabajo')?.value?.length || 0}}/50</mat-hint>
             <mat-error *ngIf="form.get('descripcionTrabajo')?.hasError('required')" class="text-red-500 text-base">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
