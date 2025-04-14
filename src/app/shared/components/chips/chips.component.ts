@@ -14,11 +14,11 @@ import { TranslateModule } from '@ngx-translate/core';
       <div class="chips-wrapper">
         <div class="chips-grid">
           <div class="chips-row" *ngFor="let row of getVisibleRows()">
-            <div *ngFor="let item of row" class="chip">
+            <div *ngFor="let item of row" class="chip" (click)="onItemClick(item)">
               <div class="chip-content">
                 <span class="task-id">{{getDisplayValue(item) || 'Sin descripción'}}</span>
               </div>
-              <button class="delete-button" (click)="onDelete(item)">
+              <button class="delete-button" (click)="onDelete(item); $event.stopPropagation()">
                 <mat-icon>close</mat-icon>
               </button>
             </div>
@@ -76,6 +76,12 @@ import { TranslateModule } from '@ngx-translate/core';
       height: 24px;
       min-width: 110px;
       max-width: 200px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .chip:hover {
+      background: #bdb5a1;
     }
 
     .chip-content {
@@ -165,6 +171,7 @@ export class ChipsComponent {
   @Output() deleteItem = new EventEmitter<any>();
   @Output() clearAll = new EventEmitter<void>();
   @Output() showMore = new EventEmitter<void>();
+  @Output() itemClick = new EventEmitter<any>();
 
   getDisplayValue(item: any): string {
     if (!item) return '';
@@ -174,6 +181,10 @@ export class ChipsComponent {
     }
 
     return item[this.displayField] || '';
+  }
+
+  onItemClick(item: any): void {
+    this.itemClick.emit(item);
   }
 
   @HostListener('window:resize', ['$event'])

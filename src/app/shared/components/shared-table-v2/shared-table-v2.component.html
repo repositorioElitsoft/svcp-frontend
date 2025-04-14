@@ -100,7 +100,7 @@
                             <app-chips [items]="element[column]" [displayField]="getChipsConfig(column).displayField"
                                 [nestedPath]="getChipsConfig(column).nestedPath"
                                 (deleteItem)="onChipDelete(element, $event)" (clearAll)="onChipsClear(element)"
-                                (showMore)="onAsignacion(element)">
+                                (showMore)="onAsignacion(element)" (itemClick)="onAsignacion(element)">
                             </app-chips>
                         </div>
                         } @else {
