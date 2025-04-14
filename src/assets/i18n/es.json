@@ -548,6 +548,7 @@
                 "trabajo": "Trabajo",
                 "seleccioneTareas": "Seleccione Tareas a Asignar",
                 "tareas": "tareas",
+                "sinTareasDisponibles": "No hay tareas disponibles para asignar",
                 "info": {
                     "ordenTareas": "Las tareas se asignan en el orden en que las seleccionas, Puedes cambiar su secuencia arrastrando los tags."
                 }

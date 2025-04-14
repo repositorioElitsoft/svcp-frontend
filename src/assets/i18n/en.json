@@ -543,6 +543,7 @@
                 "trabajo": "Job",
                 "seleccioneTareas": "Select Tasks to Assign",
                 "tareas": "tasks",
+                "sinTareasDisponibles": "No tasks available to assign",
                 "info": {
                     "ordenTareas": "The tasks are assigned in the order you select them, you can change their sequence by dragging the tags."
                 }

@@ -21,6 +21,9 @@
                     <mat-option *ngFor="let tarea of tareasDisponibles" [value]="tarea.id">
                         {{ tarea.descripcionTarea }}
                     </mat-option>
+                    <mat-option *ngIf="tareasDisponibles.length === 0" disabled>
+                        {{ 'mantenedores.formularios.trabajoTarea.sinTareasDisponibles' | translate }}
+                    </mat-option>
                 </mat-select>
             </mat-form-field>
 

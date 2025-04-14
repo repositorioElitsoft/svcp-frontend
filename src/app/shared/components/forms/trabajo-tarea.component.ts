@@ -269,49 +269,20 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            // Verificar si hay una tarea sin guardar (la última)
-            const ultimaTareaSinGuardar = this.tareasAsignadas.length > 0 &&
-                !this.data?.trabajoTareas?.some((tt: any) =>
-                    tt.tarea.id === this.tareasAsignadas[this.tareasAsignadas.length - 1].tareaId
-                );
+            // Agregar la nueva tarea
+            console.log('onTareaSelect - Agregando nueva tarea');
 
-            if (ultimaTareaSinGuardar) {
-                // Si hay una tarea sin guardar, la reemplazamos
-                console.log('onTareaSelect - Reemplazando última tarea sin guardar');
+            const nuevaTareaAsignada: TareaAsignada = {
+                id: tareaSeleccionada.id,
+                tareaId: tareaSeleccionada.id,
+                descripcion: tareaSeleccionada.descripcionTarea,
+                descripcionTarea: tareaSeleccionada.descripcionTarea,
+                ordenEjecucionTarea: this.ultimoValor + 1
+            };
 
-                // Eliminar la última tarea
-                this.tareasAsignadas = this.tareasAsignadas.slice(0, -1);
-
-                // Crear la nueva tarea con el mismo orden que la anterior
-                const ordenAnterior = this.tareasAsignadas.length > 0 ?
-                    this.tareasAsignadas[this.tareasAsignadas.length - 1].ordenEjecucionTarea + 1 : 1;
-
-                const nuevaTareaAsignada: TareaAsignada = {
-                    id: tareaSeleccionada.id,
-                    tareaId: tareaSeleccionada.id,
-                    descripcion: tareaSeleccionada.descripcionTarea,
-                    descripcionTarea: tareaSeleccionada.descripcionTarea,
-                    ordenEjecucionTarea: ordenAnterior
-                };
-
-                // Agregar la nueva tarea
-                this.tareasAsignadas = [...this.tareasAsignadas, nuevaTareaAsignada];
-            } else {
-                // Si no hay tarea sin guardar, agregamos una nueva
-                console.log('onTareaSelect - Agregando nueva tarea');
-
-                const nuevaTareaAsignada: TareaAsignada = {
-                    id: tareaSeleccionada.id,
-                    tareaId: tareaSeleccionada.id,
-                    descripcion: tareaSeleccionada.descripcionTarea,
-                    descripcionTarea: tareaSeleccionada.descripcionTarea,
-                    ordenEjecucionTarea: this.ultimoValor + 1
-                };
-
-                // Agregar la nueva tarea al array
-                this.tareasAsignadas = [...this.tareasAsignadas, nuevaTareaAsignada];
-                this.ultimoValor++;
-            }
+            // Agregar la nueva tarea al array
+            this.tareasAsignadas = [...this.tareasAsignadas, nuevaTareaAsignada];
+            this.ultimoValor++;
 
             console.log('onTareaSelect - Lista actualizada de tareas:', this.tareasAsignadas);
 
@@ -497,25 +468,22 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            // Obtener la última tarea agregada
-            const ultimaTarea = this.tareasAsignadas[this.tareasAsignadas.length - 1];
-            console.log('onSubmit - Última tarea seleccionada:', ultimaTarea);
-
-            const tareaFormateada = {
+            // Formatear todas las tareas asignadas para enviar
+            const tareasFormateadas = this.tareasAsignadas.map(tarea => ({
                 trabajoId: this.trabajoId,
-                tareaId: ultimaTarea.tareaId,
-                ordenEjecucionTarea: ultimaTarea.ordenEjecucionTarea,
+                tareaId: tarea.tareaId,
+                ordenEjecucionTarea: tarea.ordenEjecucionTarea,
                 trabajo: {
                     id: this.trabajoId
                 },
                 tarea: {
-                    id: ultimaTarea.tareaId
+                    id: tarea.tareaId
                 }
-            };
+            }));
 
-            console.log('onSubmit - Datos formateados para enviar:', tareaFormateada);
+            console.log('onSubmit - Datos formateados para enviar:', tareasFormateadas);
 
-            this.trabajoTareaService.crearLote([tareaFormateada]).subscribe({
+            this.trabajoTareaService.crearLote(tareasFormateadas).subscribe({
                 next: (response) => {
                     console.log('onSubmit - Respuesta exitosa:', response);
                     if (this.esActualizar()) {
