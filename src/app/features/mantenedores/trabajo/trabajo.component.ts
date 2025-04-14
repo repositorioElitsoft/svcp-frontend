@@ -387,7 +387,7 @@ export class TrabajoComponent implements OnInit {
 
     // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
-    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: ids.length });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
 
