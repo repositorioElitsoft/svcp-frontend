@@ -483,7 +483,22 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
 
             console.log('onSubmit - Datos formateados para enviar:', tareasFormateadas);
 
-            this.trabajoTareaService.crearLote(tareasFormateadas).subscribe({
+            // Filtrar solo las tareas nuevas que no existen en data.trabajoTareas
+            const tareasNuevasParaEnviar = tareasFormateadas.filter(tareaFormateada =>
+                !this.data.trabajoTareas.some((tt: any) => tt.tarea.id === tareaFormateada.tareaId)
+            );
+
+            console.log('onSubmit - Tareas nuevas a enviar:', tareasNuevasParaEnviar);
+
+            // Si no hay tareas nuevas para enviar, solo cerramos el diálogo
+            if (tareasNuevasParaEnviar.length === 0) {
+                console.log('onSubmit - No hay tareas nuevas para enviar');
+                this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                this.dialogRef.close(true);
+                return;
+            }
+
+            this.trabajoTareaService.crearLote(tareasNuevasParaEnviar).subscribe({
                 next: (response) => {
                     console.log('onSubmit - Respuesta exitosa:', response);
                     if (this.esActualizar()) {
