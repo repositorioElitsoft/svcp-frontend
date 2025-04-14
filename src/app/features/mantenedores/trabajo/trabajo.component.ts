@@ -59,6 +59,8 @@ export class TrabajoComponent implements OnInit {
   isLoading = false;
   @ViewChild(SharedTableV2Component) sharedTableComponent!: SharedTableV2Component;
   activeOptionalFilters: any = [];
+  currentSortState: { column: string, direction: string } | null = null;
+  currentFilters: any = {};
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
@@ -210,16 +212,27 @@ export class TrabajoComponent implements OnInit {
       ? sortData.currentSortType
       : 'asc';
 
+    // Guardar el estado actual del ordenamiento
+    this.currentSortState = {
+      column: sortField,
+      direction: sortDirection
+    };
+
     console.log('Ordenando por:', sortField, 'en dirección:', sortDirection);
 
-    // Llamar a obtenerDatos con los parámetros validados
-    this.obtenerDatos(sortField, sortDirection);
+    // Llamar a obtenerDatos con los parámetros validados y los filtros actuales
+    this.obtenerDatos(sortField, sortDirection, this.currentFilters);
   }
 
   onPageChanged(newPage: number) {
     console.log("Página cambiada", newPage);
-    this.pageNumber = newPage
-    this.obtenerDatos();
+    this.pageNumber = newPage;
+    // Usar el estado del ordenamiento guardado si existe y los filtros actuales
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+    } else {
+      this.obtenerDatos("id", "asc", this.currentFilters);
+    }
   }
 
 
@@ -227,7 +240,13 @@ export class TrabajoComponent implements OnInit {
     console.log('Search input:', data);
     this.pageNumber = 0;
     this.activeOptionalFilters = data.labels || [];
-    this.obtenerDatos("id", "asc", data.filter);
+    this.currentFilters = data.filter;
+    // Mantener el ordenamiento actual si existe
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, data.filter);
+    } else {
+      this.obtenerDatos("id", "asc", data.filter);
+    }
   }
   onFilterDeleted(filterData: { field: string, value: string }) {
     console.log('Deleting filter:', filterData);
@@ -238,7 +257,13 @@ export class TrabajoComponent implements OnInit {
       acc[filter.field] = filter.value;
       return acc;
     }, {});
-    this.obtenerDatos("id", "asc", newFilter);
+    this.currentFilters = newFilter;
+    // Mantener el ordenamiento actual si existe
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, newFilter);
+    } else {
+      this.obtenerDatos("id", "asc", newFilter);
+    }
   }
 
 
