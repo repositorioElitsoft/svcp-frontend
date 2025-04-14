@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild, TemplateRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SharedTableComponent } from "../../../shared/components/shared-table/shared-table.component";
+import { SharedTableV2Component } from "../../../shared/components/shared-table-v2/shared-table-v2.component";
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { OpcionesMantenedorComponent } from "../../../shared/components/opciones-mantenedor/opciones-mantenedor.component";
@@ -11,51 +11,74 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { TipoProductoService } from "../../../core/services/tipo-producto.service";
 import { TipoProducto } from "../../../core/models/tipo-producto.model";
-import { catchError, tap, throwError } from "rxjs";
+import { catchError, tap, throwError, forkJoin, map, of, switchMap } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
-import { BusquedaGenericaComponent } from '../../../shared/components/busqueda-generica/busqueda-generica.component';
+import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
+import { TipoProductoTipoComponenteService } from "../../../core/services/tipo-producto-tipo-componente.service";
+import { TipoProductoTipoComponente } from "../../../core/models/tipo-producto-tipo.componente.model";
+import { TipoProductoTipoComponenteFormComponent } from "../../../shared/components/forms/tipo-producto-tipo-componente.component";
 
 @Component({
   selector: "app-tipo-producto",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaGenericaComponent],
+  imports: [CommonModule, SharedTableV2Component, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaGenericaComponent],
   templateUrl: "./tipo-producto.component.html",
   styleUrl: "./tipo-producto.component.css",
 })
 export class TipoProductoComponent implements OnInit {
-  displayedColumns: string[] = []; // Se inicializa vacío
-  dataSource: TipoProducto[] = []; // Ahora usa la interfaz tipoProducto
-  titulo: string = 'Tipo Producto'; // Puedes cambiarlo dinámicamente
+  displayedColumns: string[] = ['id', 'descripcionTipoProducto', 'tipoProductoTipoComponentes'];
+  columnConfig: {
+    field: string;
+    type: 'text' | 'chips' | 'custom';
+    nestedPath?: string;
+    displayField?: string;
+    customTemplate?: TemplateRef<any>;
+    sortable?: boolean;
+  }[] = [
+      { field: 'id', type: 'text' },
+      { field: 'descripcionTipoProducto', type: 'text' },
+      {
+        field: 'tipoProductoTipoComponentes',
+        type: 'chips',
+        nestedPath: 'tipoComponente.descripcionTipoComponente',
+        sortable: false
+      }
+    ];
+  dataSource: TipoProducto[] = [];
+  titulo: string = 'Tipo Producto';
   hasSelection = false;
-  selectedData: any[] = []; // Almacena la data seleccionada
-  pageNumber = 0
-  totalPages = 0
+  selectedData: any[] = [];
+  pageNumber = 0;
+  totalPages = 0;
   pageSize = 10;
   totalElements = 0;
-  isLoading = false; // Variable para controlar el estado de carga
-  @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
-  activeOptionalFilters: any[] = [];
-  constructor(private cdr: ChangeDetectorRef,
-    private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
-    private translate: TranslateService, private toastr: ToastrService,
-    private tipoProductoService: TipoProductoService) { }
+  isLoading = false;
+  @ViewChild(SharedTableV2Component) sharedTableComponent!: SharedTableV2Component;
+  activeOptionalFilters: any = [];
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    public dialog: MatDialog,
+    private exportService: ExportarDocService,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    private tipoProductoService: TipoProductoService,
+    private tipoProductoTipoComponenteService: TipoProductoTipoComponenteService
+  ) { }
 
   ngOnInit() {
     this.obtenerDatos();
   }
 
-
-  /********************************** TABLA - SHARED TABLE **********************************/
   onSelectionChange(selectedItems: any[]) {
     this.hasSelection = selectedItems.length > 0;
-    this.selectedData = selectedItems; // Guardamos la data seleccionada
+    this.selectedData = selectedItems;
   }
-
-
 
   onViewSelected(id: string): void {
     const dialogRef = this.dialog.open(TipoProductoFormComponent, {
@@ -73,219 +96,184 @@ export class TipoProductoComponent implements OnInit {
     });
   }
 
-  onDeleteSelected(ids: string[]) {
-    console.log("Eliminar seleccionados:", ids);
-  }
-
   exportarExcel(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
-    const filtros = {
-      pageNumber: 0,
-      pageSize: 2000,
-      sortField: sortField,
-      sortDirection: sortDirection,
-      ...optionalFilter
+    const handleExport = (dataArray: any[], translationBase: string) => {
+      if (!Array.isArray(dataArray) || dataArray.length === 0) {
+        console.error("Error: No hay datos para exportar en handleExport.");
+        return;
+      }
+
+      const formattedData = dataArray.map(item => {
+        const formattedItem: any = {
+          id: item.id,
+          descripcionTipoProducto: item.descripcionTipoProducto,
+          componentes: item.tipoProductoTipoComponentes ? item.tipoProductoTipoComponentes
+            .sort((a: any, b: any) => a.ordenEjecucionTipoComponente - b.ordenEjecucionTipoComponente)
+            .map((tt: any) => tt.tipoComponente.descripcionTipoComponente)
+            .join(', ') : ''
+        };
+        return formattedItem;
+      });
+
+      const columnKeys = ['descripcionTipoProducto', 'componentes'];
+      const translationKeys = columnKeys.map(key => `${translationBase}.${key}`);
+
+      this.translate.get(translationKeys).subscribe(translations => {
+        const translatedData = formattedData.map(item => {
+          const newItem: any = {};
+          columnKeys.forEach((key, index) => {
+            const translatedKey = translations[translationKeys[index]] || key;
+            newItem[translatedKey] = item[key];
+          });
+          return newItem;
+        });
+
+        this.translate.get(`${translationBase}.titulo`).subscribe(title => {
+          this.exportService.exportToExcel(translatedData, title);
+        });
+      });
     };
 
-    console.log("Recibida solicitud de exportación con filtros:", filtros);
+    if (this.selectedData && Array.isArray(this.selectedData) && this.selectedData.length > 0) {
+      handleExport(this.selectedData, 'mantenedores.tipoProducto');
+      this.toastr.success(this.translate.instant('alertas.toastr.exportar.seleccionado.success'));
+    } else {
+      const filtros = {
+        pageNumber: 0,
+        pageSize: 2000,
+        sortField: sortField,
+        sortDirection: sortDirection,
+        ...optionalFilter
+      };
 
-    this.tipoProductoService.buscarFiltrado(filtros).subscribe(
-      (response: any) => {
-        console.log("Respuesta completa de la API:", response);
+      this.tipoProductoService.buscarFiltrado(filtros).subscribe(
+        (response: any) => {
+          const apiData = response?.content ?? response?.data ?? [];
+          if (apiData.length === 0) {
+            this.toastr.error("No hay datos disponibles para exportar.");
+            return;
+          }
 
-        const dataArray = response?.content ?? response?.data ?? [];
-
-        if (!Array.isArray(dataArray) || dataArray.length === 0) {
-          console.error("Error: No hay datos para exportar.", response);
-          return;
+          handleExport(apiData, 'mantenedores.tipoProducto');
+          this.toastr.success(this.translate.instant('alertas.toastr.exportar.todo.success'));
+        },
+        (error) => {
+          console.error("Error en la solicitud a la API:", error);
+          this.toastr.error("Ha ocurrido un error al obtener los datos para exportar.");
         }
-
-        // Obtener dinámicamente las claves de los datos
-        const columnKeys = Object.keys(dataArray[0]); // Extrae todas las claves del primer objeto
-
-        // Generar claves de traducción basadas en el grupo de traducciones
-        const translationKeys = columnKeys.map(key => `mantenedores.tipoProducto.${key}`);
-
-        // Obtener las traducciones dinámicamente
-        this.translate.get(translationKeys).subscribe(translations => {
-          // Crear un nuevo array con nombres traducidos en lugar de claves originales
-          const translatedData = dataArray.map(item => {
-            const newItem: any = {};
-            columnKeys.forEach((key, index) => {
-              const translatedKey = translations[translationKeys[index]] || key; // Si no hay traducción, usa la clave original
-              newItem[translatedKey] = item[key];
-            });
-            return newItem;
-          });
-
-          console.log("Data formateada con traducciones para exportación:", translatedData);
-
-          // Obtener el título traducido para el nombre del archivo
-          this.translate.get('mantenedores.tipoProducto.titulo').subscribe(title => {
-            // Usar el título traducido para el nombre del archivo
-            this.exportService.exportToExcel(translatedData, title);
-          });
-        });
-      },
-      (error) => {
-        console.error("Error al recuperar datos para exportación:", error);
-      }
-    );
+      );
+    }
   }
 
   volver() {
     this.router.navigate(['/portal/home']);
   }
+
   sortDatos(sortData: { selectedColumnName: string, currentSortType: string }) {
-    this.obtenerDatos(sortData.selectedColumnName, sortData.currentSortType);
+    const fieldMapping: { [key: string]: string } = {
+      'id': 'id',
+      'descripcionTipoProducto': 'descripcionTipoProducto',
+      'fechaCreacion': 'fechaCreacion',
+      'fechaModificacion': 'fechaModificacion',
+      'estado': 'estado',
+      'usuarioCreacion': 'usuarioCreacion',
+      'usuarioModificacion': 'usuarioModificacion'
+    };
+
+    const sortField = fieldMapping[sortData.selectedColumnName] || sortData.selectedColumnName;
+    const sortDirection = ['asc', 'desc'].includes(sortData.currentSortType)
+      ? sortData.currentSortType
+      : 'asc';
+
+    this.obtenerDatos(sortField, sortDirection);
   }
 
   onPageChanged(newPage: number) {
-    console.log("Página cambiada", newPage);
-    this.pageNumber = newPage
+    this.pageNumber = newPage;
     this.obtenerDatos();
   }
 
-
   buscar(data: { filter: any, labels: any[] }) {
-    console.log('Método buscar llamado con:', data);
-    this.activeOptionalFilters = data.labels;
+    this.pageNumber = 0;
+    this.activeOptionalFilters = data.labels || [];
     this.obtenerDatos("id", "asc", data.filter);
   }
 
   onFilterDeleted(filterData: { field: string, value: string }) {
-    console.log('Eliminando filtro:', filterData);
-
-    // Actualizar los filtros activos
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );
-
-    // Reconstruir el objeto de filtro
-    const newFilter: any = {};
-    this.activeOptionalFilters.forEach((filter: { field: string, value: string }) => {
-      if (filter.field === 'descripcion') {
-        newFilter.descripcion = filter.value;
-      }
-    });
-
-    // Obtener datos con los nuevos filtros
+    const newFilter = this.activeOptionalFilters.reduce((acc: any, filter: { field: string, value: string }) => {
+      acc[filter.field] = filter.value;
+      return acc;
+    }, {});
     this.obtenerDatos("id", "asc", newFilter);
   }
 
-
-
-  /********************************** TABLA - SHARED TABLE **********************************/
-
-
-  /*********************************** CRUD   - GET ***********************************/
-
-
-
-
-
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
-    const mandatoryFilter = {
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize,
-      sortField: sortField,
-      sortDirection: sortDirection,
-      ...optionalFilter
-    }
+    this.isLoading = true;
 
-    this.tipoProductoService.buscarFiltrado(mandatoryFilter).subscribe((data: PagedResponse<TipoProducto[]>) => {
-      console.log("Datos recibidos:", data);
-
-      this.pageNumber = data.pageNumber
-      this.totalPages = data.totalPages
-      this.pageSize = data.pageSize;
-      this.totalElements = data.totalElements;
-
-      this.activeOptionalFilters = Object.entries(optionalFilter).map(([field, value]) => ({ field, value }));
-      this.activeOptionalFilters = this.activeOptionalFilters.filter((ao: any) => ao.value)
-      this.dataSource = data.content.flat();
-      if (data.content.length > 0) {
-        this.displayedColumns = Object.keys(data.content[0]);
+    this.tipoProductoService.buscarFiltrado({
+      pageSize: 1000,
+      pageNumber: 0,
+      sortField: 'id',
+      sortDirection: 'asc'
+    }).subscribe((fullResponse: any) => {
+      const todosTiposProductos = new Map();
+      if (Array.isArray(fullResponse?.content)) {
+        fullResponse.content.forEach((item: any) => {
+          if (!todosTiposProductos.has(item.id)) {
+            todosTiposProductos.set(item.id, {
+              id: item.id,
+              descripcionTipoProducto: item.descripcionTipoProducto,
+              tipoProductoTipoComponentes: Array.isArray(item.tipoProductoTipoComponentes) ? [...item.tipoProductoTipoComponentes] : []
+            });
+          }
+        });
       }
+
+      this.totalElements = todosTiposProductos.size;
+      this.totalPages = Math.ceil(this.totalElements / this.pageSize);
+
+      let tiposProductosArray = Array.from(todosTiposProductos.values());
+
+      tiposProductosArray.sort((a: any, b: any) => {
+        const valorA = a[sortField];
+        const valorB = b[sortField];
+
+        if (sortDirection === 'asc') {
+          return valorA > valorB ? 1 : -1;
+        } else {
+          return valorA < valorB ? 1 : -1;
+        }
+      });
+
+      const inicio = this.pageNumber * this.pageSize;
+      const fin = inicio + this.pageSize;
+      this.dataSource = tiposProductosArray.slice(inicio, fin);
+
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }, error => {
+      console.error('Error al obtener datos:', error);
+      this.isLoading = false;
       this.cdr.detectChanges();
     });
   }
 
-
-
-
-
-
-  /*********************************** CRUD   - DELETE ***********************************/
   eliminar(selectedItems: TipoProducto[]) {
-    const count = selectedItems.length;
+    if (!selectedItems?.length) {
+      return;
+    }
 
-    // Obtener las traducciones
-    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo');
-    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count });
-    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
-    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+    const ids = selectedItems
+      .map(item => item.id)
+      .filter((id): id is number => id !== undefined);
 
-    const dialogRef = this.dialog.open(DialogAlertaComponent, {
-      width: '600px',
-      height: '400px',
-      data: {
-        titulo: titulo,
-        mensaje: mensaje,
-        textoBotonCancelar: textoBotonCancelar,
-        textoBotonConfirmar: textoBotonConfirmar
-      }
-    });
+    if (ids.length === 0) {
+      return;
+    }
 
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        const ids = selectedItems.map(item => item.id);
-        console.log("Datos a enviar para eliminar:", { ids: ids });
-
-        this.tipoProductoService.borrarTodos(ids).subscribe({
-          next: () => {
-            console.log("Elementos eliminados exitosamente:", ids);
-            this.dataSource = this.dataSource.filter(item => !ids.includes(item.id));
-            this.hasSelection = false;
-
-            // Actualizar las propiedades de paginación
-            this.totalElements -= ids.length;
-            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
-
-            // Ajustar pageNumber si es necesario
-            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1; // Ir a la última página disponible
-            }
-
-            // Recargar los datos
-            this.obtenerDatos();
-
-            // Mostrar mensaje de éxito
-            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-            // Limpiar selecciones en el componente hijo
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Depurar el estado del paginador
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages
-            });
-          },
-          error: err => {
-            console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
-          }
-        });
-      }
-    });
-  }
-
-  onDeleteSingleSelected(id: string) {
-    console.log("Eliminar seleccionado:", id);
-
-    // Obtener las traducciones
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoProducto.titulo');
     const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
@@ -300,46 +288,22 @@ export class TipoProductoComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(confirmado => {
-      if (confirmado) {
-        console.log("Eliminando elemento con ID:", id);
-
-        this.tipoProductoService.borrar(Number(id)).subscribe({
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.tipoProductoService.borrarTodos(ids).subscribe({
           next: () => {
-            console.log("Elemento eliminado exitosamente:", id);
+            this.sharedTableComponent.clearSelection();
 
-            // Filtrar el item eliminado del dataSource
-            this.dataSource = this.dataSource.filter(item => item.id !== Number(id));
-
-            // Actualizar propiedades de paginación
-            this.totalElements -= 1;
-            this.totalPages = this.totalElements > 0 ? Math.ceil(this.totalElements / this.pageSize) : 0;
-
-            // Ajustar pageNumber si es necesario
-            if (this.pageNumber >= this.totalPages && this.totalPages > 0) {
-              this.pageNumber = this.totalPages - 1;
+            const remainingItemsInPage = this.dataSource.length - ids.length;
+            if (remainingItemsInPage <= 0 && this.pageNumber > 0) {
+              this.pageNumber--;
             }
 
-            // Recargar datos
             this.obtenerDatos();
-
-            // Mostrar mensaje de éxito
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-
-            // Limpiar selección si existe un componente compartido
-            if (this.sharedTableComponent) {
-              this.sharedTableComponent.selection.clear();
-            }
-
-            // Debug: Estado del paginador después de eliminar
-            console.log("Estado del paginador después de eliminar:", {
-              pageNumber: this.pageNumber,
-              totalElements: this.totalElements,
-              totalPages: this.totalPages
-            });
           },
-          error: (err: any) => {
-            console.error("Error al eliminar elemento:", err);
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
             this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
           }
         });
@@ -347,7 +311,152 @@ export class TipoProductoComponent implements OnInit {
     });
   }
 
-  /* **********************************CRUD   - CREATE ***********************************/
+  onDeleteSingleSelected(id: string) {
+    const tipoProducto = this.dataSource.find(item => item.id === Number(id));
+    const tipoProductoId = tipoProducto?.id;
+    if (typeof tipoProductoId !== 'number') {
+      return;
+    }
+
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoProducto.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      data: {
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const tipoProductoTipoComponentes = tipoProducto?.tipoProductoTipoComponentes || [];
+
+        if (tipoProductoTipoComponentes.length === 0) {
+          this.tipoProductoService.borrar(tipoProductoId).subscribe({
+            next: () => {
+              this.sharedTableComponent.clearSelection();
+              this.obtenerDatos();
+              this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+            },
+            error: (error: unknown) => {
+              console.error("Error al eliminar tipo producto:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+            }
+          });
+          return;
+        }
+
+        const deleteRelaciones$ = tipoProductoTipoComponentes
+          .filter(relacion => relacion.tipoComponente?.id !== undefined)
+          .map(relacion =>
+            this.tipoProductoTipoComponenteService.borrar(tipoProductoId, relacion.tipoComponente.id!)
+          );
+
+        forkJoin(deleteRelaciones$)
+          .pipe(
+            switchMap(() => this.tipoProductoService.borrar(tipoProductoId)),
+            catchError((error: unknown) => {
+              console.error("Error al eliminar elementos:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+              return throwError(() => error);
+            })
+          )
+          .subscribe({
+            next: () => {
+              this.sharedTableComponent.clearSelection();
+              this.obtenerDatos();
+              this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+            },
+            error: (error: unknown) => {
+              console.error("Error al eliminar elementos:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+            }
+          });
+      }
+    });
+  }
+
+  onDeleteTipoComponente(tipoProducto: TipoProducto, tipoComponente: TipoProductoTipoComponente) {
+    const tipoProductoId = tipoProducto?.id;
+    if (typeof tipoProductoId !== 'number') {
+      return;
+    }
+
+    const tipoComponenteId = tipoComponente?.tipoComponente?.id;
+    if (typeof tipoComponenteId !== 'number') {
+      return;
+    }
+
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoProducto.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      data: {
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.tipoProductoTipoComponenteService.borrar(tipoProductoId, tipoComponenteId).subscribe({
+          next: () => {
+            this.obtenerDatos();
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+          },
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          }
+        });
+      }
+    });
+  }
+
+  onClearTipoComponentes(tipoProducto: TipoProducto) {
+    const tipoProductoId = tipoProducto?.id;
+    if (typeof tipoProductoId !== 'number') {
+      return;
+    }
+
+    const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoProducto.titulo');
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+    const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+    const dialogRef = this.dialog.open(DialogAlertaComponent, {
+      data: {
+        titulo: titulo,
+        mensaje: mensaje,
+        textoBotonCancelar: textoBotonCancelar,
+        textoBotonConfirmar: textoBotonConfirmar
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.tipoProductoService.borrar(tipoProductoId).subscribe({
+          next: () => {
+            this.obtenerDatos();
+            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+          },
+          error: err => {
+            console.error("Error al eliminar elementos:", err);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          }
+        });
+      }
+    });
+  }
 
   agregarServicio() {
     const dialogRef = this.dialog.open(TipoProductoFormComponent, {
@@ -365,8 +474,6 @@ export class TipoProductoComponent implements OnInit {
     });
   }
 
-
-  /* * * * * * * * * * * *  CRUD   - UPDATE * * * * * * * * * * * * * * * * *  */
   onEditSelected(id: string) {
     const selectedObject = this.dataSource.find(item => item.id === Number(id));
     if (!selectedObject) {
@@ -387,6 +494,39 @@ export class TipoProductoComponent implements OnInit {
     });
   }
 
+  onAsignacion(element: any): void {
+    const dialogRef = this.dialog.open(TipoProductoTipoComponenteFormComponent, {
+      width: '400px',
+      data: {
+        id: element.id,
+        descripcionTipoProducto: element.descripcionTipoProducto,
+        tipoProductoTipoComponentes: element.tipoProductoTipoComponentes || []
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos();
+      }
+    });
+  }
 
+  onDeleteSelected(ids: string[]) {
+    const selectedItems = this.dataSource.filter(item => ids.includes(item.id.toString()));
+    this.eliminar(selectedItems);
+  }
+
+  onFilter(event: any) {
+    this.buscar(event);
+  }
+
+  onDelete(event: any) {
+    const id = event?.target?.value || event;
+    this.onDeleteSingleSelected(id);
+  }
+
+  onEdit(event: any) {
+    const id = event?.target?.value || event;
+    this.onEditSelected(id);
+  }
 }
