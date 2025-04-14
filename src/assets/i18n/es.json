@@ -98,7 +98,8 @@
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Agrupaciones Comerciales",
-            "nombreGrupoComercial": "Agrupación Comercial"
+            "nombreGrupoComercial": "Agrupación Comercial",
+            "descripcion": "Ingrese la agrupación comercial"
         },
         "asignacionPermiso": {
             "id": "Id",
@@ -289,6 +290,7 @@
                 "tituloEditar": "Editar Agrupación Comercial",
                 "tituloAgregar": "Crear Agrupación Comercial",
                 "label.nombreGrupoComercial": "Agrupación Comercial",
+                "label.descripcion": "Descripción de la Agrupación Comercial",
                 "descripcion": "Ingrese la agrupación comercial"
             },
             "asignacionPermiso": {
@@ -348,6 +350,8 @@
                 "label.email?": "Email",
                 "label.campo1?": " Campo 1",
                 "label.campo2?": "Campo 2",
+                "label.campo1": "Campo 1",
+                "label.campo2": "Campo 2",
                 "label.telefonoFijo?": " Teléfono Fijo",
                 "label.telefonoMovil?": "Teléfono Móvil",
                 "label.tipoCliente": "Tipo de Cliente",
@@ -486,6 +490,7 @@
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Crear Tipo de Cliente",
                 "label.nombre": "Tipo de Cliente",
+                "label.descripcion": "Descripción del Tipo de Cliente",
                 "descripcion": "Ingrese el tipo de cliente"
             },
             "tipoDocumentoIdentificacion": {

@@ -99,7 +99,8 @@
         "agrupacionComercial": {
             "id": "Id",
             "titulo": "Commercial Grouping",
-            "nombreGrupoComercial": "Commercial Grouping "
+            "nombreGrupoComercial": "Commercial Grouping",
+            "descripcion": "Commercial Grouping Description"
         },
         "asignacionPermiso": {
             "id": "Id",
@@ -280,6 +281,7 @@
                 "tituloEditar": "Edit Commercial Grouping",
                 "tituloAgregar": "Create Commercial Grouping",
                 "label.nombreGrupoComercial": "Commercial Grouping",
+                "label.descripcion": "Commercial Grouping Description",
                 "descripcion": "Enter the commercial grouping"
             },
             "asignacionPermiso": {
@@ -338,6 +340,8 @@
                 "cliente.label.email?": "Email",
                 "label.campo1?": "Field 1",
                 "label.campo2?": "Field 2",
+                "label.campo1": "Field 1",
+                "label.campo2": "Field 2",
                 "label.telefonoFijo?": "Landline",
                 "label.telefonoMovil?": "Mobile Phone",
                 "label.tipoCliente": "Client Type",
@@ -469,6 +473,7 @@
                 "tituloEditar": "Edit Client Type",
                 "tituloAgregar": "Create Client Type",
                 "label.nombre": "Client Type Description",
+                "label.descripcion": "Client Type Description",
                 "descripcion": "Enter the description of the client type"
             },
             "tipoDocumentoIdentificacion": {

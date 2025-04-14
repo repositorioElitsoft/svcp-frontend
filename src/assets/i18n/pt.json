@@ -220,7 +220,8 @@
         "tipoCliente": {
             "id": "Id",
             "titulo": "Tipo de Cliente",
-            "nombre": "Descrição do Tipo de Cliente"
+            "nombre": "Descrição do Tipo de Cliente",
+            "descripcion": "Descrição do Tipo de Cliente"
         },
         "tipoEmpleado": {
             "id": "Id",
@@ -276,7 +277,8 @@
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupamento Comercial",
                 "tituloAgregar": "Criar Agrupamento Comercial",
-                "label": "Descrição do Agrupamento Comercial",
+                "label.nombreGrupoComercial": "Descrição do Agrupamento Comercial",
+                "label.descripcion": "Descrição do Agrupamento Comercial",
                 "descripcion": "Insira a descrição do agrupamento comercial"
             },
             "asignacionPermiso": {
@@ -335,6 +337,8 @@
                 "cliente.label.email?": "Email",
                 "label.campo1?": "Campo 1",
                 "label.campo2?": "Campo 2",
+                "label.campo1": "Campo 1",
+                "label.campo2": "Campo 2",
                 "label.telefonoFijo?": "Telefone Fixo",
                 "label.telefonoMovil?": "Telefone Móvel",
                 "label.tipoCliente": "Tipo de Cliente",
@@ -466,6 +470,7 @@
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Criar Tipo de Cliente",
                 "label.nombre": "Descrição do Tipo de Cliente",
+                "label.descripcion": "Descrição do Tipo de Cliente",
                 "descripcion": "Insira a descrição do tipo de cliente"
             },
             "tipoDocumentoIdentificacion": {
