@@ -195,11 +195,7 @@ export class TrabajoComponent implements OnInit {
     const fieldMapping: { [key: string]: string } = {
       'id': 'id',
       'descripcionTrabajo': 'descripcionTrabajo',
-      'fechaCreacion': 'fechaCreacion',
-      'fechaModificacion': 'fechaModificacion',
-      'estado': 'estado',
-      'usuarioCreacion': 'usuarioCreacion',
-      'usuarioModificacion': 'usuarioModificacion'
+
     };
 
     // Obtener el campo de ordenamiento mapeado o usar el nombre de la columna original si no existe mapeo
