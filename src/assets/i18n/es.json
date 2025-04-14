@@ -521,7 +521,8 @@
                 "tituloEditar": "Editar Trabajo",
                 "tituloAgregar": "Agregar Trabajo",
                 "label.descripcionTrabajo": "Trabajo",
-                "descripcion": "Ingrese la descripción del trabajo"
+                "descripcion": "Ingrese la descripción del trabajo",
+                "label.ingreseNombre": "Ingrese nuevo nombre"
             },
             "zona": {
                 "tituloEditar": "Editar Zona",

@@ -504,7 +504,8 @@
                 "tituloEditar": "Edit Work",
                 "tituloAgregar": "Create Work",
                 "label.descripcionTrabajo": "Work Description",
-                "descripcion": "Enter the description of the work"
+                "descripcion": "Enter the description of the work",
+                "label.ingreseNombre": "Enter a new work name"
             },
             "tarea": {
                 "tituloEditar": "Edit Task",
