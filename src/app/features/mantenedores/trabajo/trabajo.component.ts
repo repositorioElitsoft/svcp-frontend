@@ -164,7 +164,7 @@ export class TrabajoComponent implements OnInit {
 
       console.log("Solicitando datos a la API con filtros:", filtros);
 
-      this.trabajoTareaService.buscarFiltrado(filtros).subscribe(
+      this.trabajoService.buscarFiltrado(filtros).subscribe(
         (response: any) => {
           const apiData = response?.content ?? response?.data ?? [];
           console.log("CAMINO 2.1: Datos recibidos de API - Cantidad:", apiData.length);
