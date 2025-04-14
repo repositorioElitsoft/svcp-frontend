@@ -287,6 +287,14 @@ export class TrabajoComponent implements OnInit {
           }));
           this.totalElements = response?.totalElements || 0;
           this.totalPages = response?.totalPages || 0;
+
+          // Si la página actual está vacía y no es la primera página, retrocedemos una página
+          if (this.dataSource.length === 0 && this.pageNumber > 0) {
+            this.pageNumber--;
+            this.obtenerDatos(sortField, sortDirection, optionalFilter);
+            return;
+          }
+
           this.isLoading = false;
           this.cdr.detectChanges();
         }),
@@ -347,7 +355,14 @@ export class TrabajoComponent implements OnInit {
         this.trabajoService.borrarLote(ids).subscribe({
           next: () => {
             console.log('Método eliminar - Eliminación exitosa');
-            this.sharedTableComponent.clearSelection(); // Limpiamos la selección después de eliminar
+            this.sharedTableComponent.clearSelection();
+
+            // Calculamos si después de la eliminación la página actual podría quedar vacía
+            const remainingItemsInPage = this.dataSource.length - ids.length;
+            if (remainingItemsInPage <= 0 && this.pageNumber > 0) {
+              this.pageNumber--; // Retrocedemos una página si la actual quedará vacía
+            }
+
             this.obtenerDatos();
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
           },
