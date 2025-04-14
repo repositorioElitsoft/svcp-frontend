@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,8 +22,14 @@ import { CommonModule } from '@angular/common';  // Import CommonModule
 export class DatosContactoComponent {
 
   form!: FormGroup;
+  valueToPatch: any;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  ngOnInit() {
     this.form = this.fb.group({
       email: [null, Validators.required],
       telefonoFijo: [null, Validators.required],
@@ -32,6 +38,12 @@ export class DatosContactoComponent {
   }
 
   patch(value: any) {
-    this.form.patchValue(value);
+    this.form.patchValue({
+      email: value.email,
+      telefonoFijo: value.telefonoFijo,
+      telefonoMovil: value.telefonoMovil
+    });
+
+    this.valueToPatch = value;
   }
 }

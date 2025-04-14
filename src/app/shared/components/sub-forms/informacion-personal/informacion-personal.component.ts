@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { UploadImageComponent } from '../../upload-image/upload-image/upload-image.component';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -45,10 +45,12 @@ export class InformacionPersonalComponent {
 
   tiposDocumentos: TipoDocumentoIdentificacion[] = [];
   estados: Estado[] = [];
+  valueToPatch: any;
   constructor(
     private fb: FormBuilder,
     private estadoService: EstadoService,
-    private tipoDocumentoIdentificacionesService: TipoDocumentoIdentificacionService) { }
+    private tipoDocumentoIdentificacionesService: TipoDocumentoIdentificacionService,
+    private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -66,6 +68,8 @@ export class InformacionPersonalComponent {
       next: (estados: ApiEntityResponse<Estado[]>) => {
         console.log('Estados cargados:', estados);
         this.estados = estados.data;
+        const findEstado = this.estados.find(e => e.id === this.valueToPatch.estado.id);
+        this.form.get("estado")?.setValue(findEstado);
       },
       error: (error: any) => {
         console.error("Fallo al buscar entidades ", error);
@@ -74,9 +78,13 @@ export class InformacionPersonalComponent {
     // Cargar los tipos de documentos
     this.tipoDocumentoIdentificacionesService.buscarTodos().subscribe({
       next: (tipos: ApiEntityResponse<TipoDocumentoIdentificacion[]>) => {
+        console.log('Tipos de documentos cargados:', tipos);
+        this.tiposDocumentos = tipos.data as any;
+        //console.log('Tipos de documentos cargados:', this.tiposDocumentos);
+        const findTipoDocumento = this.tiposDocumentos.find(e => e.id === this.valueToPatch.documentoIdentificacion.tipoDocumentoIdentificacion.id);
 
-        this.tiposDocumentos = tipos as any;
-        console.log('Tipos de documentos cargados:', this.tiposDocumentos);
+        this.form.get('numeroDocumentoIdentificacion')?.patchValue(this.getNumeroIdentificacion())
+        this.form.get("tipoDocumentoIdentificacion")?.setValue(findTipoDocumento);
       },
       error: (error: any) => {
         console.error("Fallo al buscar entidades ", error);
@@ -84,7 +92,27 @@ export class InformacionPersonalComponent {
     });
   }
 
+  getNumeroIdentificacion() {
+    if (!this.valueToPatch || !this.valueToPatch.documentoIdentificacion) {
+      return "";
+    }
+
+    // Verificar si el tipo de documento es RUT (ID = 1)
+    if (this.valueToPatch.documentoIdentificacion.tipoDocumentoIdentificacion.id === 1) {
+      const numero = this.valueToPatch.documentoIdentificacion.numero;
+      const digitoVerificador = this.valueToPatch.documentoIdentificacion.digitoVerificador;
+
+      // Formato RUT: numero-digitoVerificador
+      return `${numero}-${digitoVerificador}`;
+    }
+
+    // Para otros tipos de documento, devolver solo el número
+    return this.valueToPatch.documentoIdentificacion.numero;
+  }
+
   patch(value: any) {
-    this.form.patchValue(value)
+    this.form.patchValue(value);
+
+    this.valueToPatch = value;
   }
 }

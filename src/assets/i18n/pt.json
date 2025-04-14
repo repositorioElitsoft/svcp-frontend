@@ -131,7 +131,26 @@
         "cliente": {
             "id": "Id",
             "titulo": "Cliente",
-            "descripcionCliente": "Descrição do Cliente"
+            "descripcionCliente": "Cliente",
+            "nombre": "Nome",
+            "apellidoPaterno": "Primeiro Sobrenome",
+            "apellidoMaterno": "Segundo Sobrenome",
+            "imagenPerfil": "Imagem",
+            "descripcionEmpleado": "Funcionário",
+            "email": "Email",
+            "fechaNacimiento": "Data de Nascimento",
+            "campo1": "Campo 1",
+            "campo2": "Campo 2",
+            "telefonoFijo": "Telefone Fixo",
+            "telefonoMovil": "Telefone Móvel",
+            "tipoCliente": "Tipo de Cliente",
+            "clasificacionCliente": "Classificação do Cliente",
+            "estado": "Estado",
+            "direcciones": "Endereços",
+            "agrupacionComercial": "Agrupamento Comercial",
+            "segmentacionCliente": "Segmentação do Cliente",
+            "descripcion": "Insira a descrição do cliente",
+            "documentoIdentificacion": "Documento de Identificação"
         },
         "comuna": {
             "id": "Id",
@@ -201,7 +220,8 @@
         "tipoCliente": {
             "id": "Id",
             "titulo": "Tipo de Cliente",
-            "nombre": "Descrição do Tipo de Cliente"
+            "nombre": "Descrição do Tipo de Cliente",
+            "descripcion": "Descrição do Tipo de Cliente"
         },
         "tipoEmpleado": {
             "id": "Id",
@@ -257,7 +277,8 @@
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupamento Comercial",
                 "tituloAgregar": "Criar Agrupamento Comercial",
-                "label": "Descrição do Agrupamento Comercial",
+                "label.nombreGrupoComercial": "Descrição do Agrupamento Comercial",
+                "label.descripcion": "Descrição do Agrupamento Comercial",
                 "descripcion": "Insira a descrição do agrupamento comercial"
             },
             "asignacionPermiso": {
@@ -316,6 +337,8 @@
                 "cliente.label.email?": "Email",
                 "label.campo1?": "Campo 1",
                 "label.campo2?": "Campo 2",
+                "label.campo1": "Campo 1",
+                "label.campo2": "Campo 2",
                 "label.telefonoFijo?": "Telefone Fixo",
                 "label.telefonoMovil?": "Telefone Móvel",
                 "label.tipoCliente": "Tipo de Cliente",
@@ -373,6 +396,12 @@
                 "label.numeroDocumento": "Número do Documento",
                 "label.tipoDocumento": "Tipo de Documento",
                 "label.documentoIdentificacion": "N° do Documento"
+            },
+            "estado": {
+                "tituloEditar": "Editar Estado",
+                "tituloAgregar": "Criar Estado",
+                "label": "Descrição do Estado",
+                "label.descripcion": "Descrição do Estado"
             },
             "gestionContrato": {
                 "tituloEditar": "Editar Gestão de Contrato",
@@ -441,6 +470,7 @@
                 "tituloEditar": "Editar Tipo de Cliente",
                 "tituloAgregar": "Criar Tipo de Cliente",
                 "label.nombre": "Descrição do Tipo de Cliente",
+                "label.descripcion": "Descrição do Tipo de Cliente",
                 "descripcion": "Insira a descrição do tipo de cliente"
             },
             "tipoDocumentoIdentificacion": {

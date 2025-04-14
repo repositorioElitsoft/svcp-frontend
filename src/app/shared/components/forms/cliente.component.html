@@ -4,17 +4,24 @@
 </app-titulo-dialogo>
 
 
-<mat-dialog-content class="relative">
+<mat-dialog-content class="relative dark:bg-neutral-800">
 
 	<app-sidebar routesRoute="/assets/routes-clientes-form.json" (linkClick)="handleLinkClick($event)"
 		[isForForms]="true"></app-sidebar>
 
 	<div class="pl-28">
 
-		<app-informacion-personal *ngIf="pantallaActual==='datos-generales'"></app-informacion-personal>
+		<div class="grid grid-cols-5 gap-4" *ngIf="pantallaActual==='datos-generales'">
+			<div class="h-full border-2 border-gray-300 rounded-lg p-4 shadow-md col-span-2">
+				<app-upload-image></app-upload-image>
+			</div>
+
+			<app-informacion-personal class="col-span-3"></app-informacion-personal>
+		</div>
 		<app-informacion-comercial *ngIf="pantallaActual==='informacion-comercial'"></app-informacion-comercial>
 		<app-datos-contacto *ngIf="pantallaActual==='datos-contacto'"></app-datos-contacto>
-
+		<app-direccion-empleado [cliente]="data.object"
+			*ngIf="pantallaActual==='locaciones' && data.object"></app-direccion-empleado>
 
 
 		<mat-dialog-actions align="end">
@@ -24,7 +31,7 @@
 					class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">
 					{{ 'mantenedores.formularios.botonCancelar' | translate }}
 				</button>
-				<button
+				<button (click)="onSubmit()"
 					class="elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
 					{{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
 					'mantenedores.formularios.guardar') |

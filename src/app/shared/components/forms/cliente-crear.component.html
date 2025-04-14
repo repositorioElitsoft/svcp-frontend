@@ -15,10 +15,11 @@
                 class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">
                 {{ 'mantenedores.formularios.botonCancelar' | translate }}
             </button>
-            <button (click)="onSubmit()"
+            <button (click)="onSubmit()" [disabled]="this.isLoading"
                 class="elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
                 {{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
                 'mantenedores.formularios.guardar') |
+
                 translate }}
             </button>
         </div>

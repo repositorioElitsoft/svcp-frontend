@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SharedTableComponent } from "../../../shared/components/shared-table/shared-table.component";
 import { MatIconModule } from "@angular/material/icon";
@@ -17,6 +17,7 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { LocacionesFormComponent } from "../../../shared/components/sub-forms/locaciones-form/locaciones-form.component";
+import { DireccionEmpleadoService } from "../../../core/services/direccion-empleado.service";
 @Component({
   selector: "app-direccion",
   standalone: true,
@@ -28,6 +29,7 @@ export class DireccionComponent implements OnInit {
   displayedColumns: string[] = []; // Se inicializa vacío
   dataSource: Direccion[] = []; // Ahora usa la interfaz direccion
   titulo: string = 'Direccion'; // Puedes cambiarlo dinámicamente
+  @Input() cliente: any
   hasSelection = false;
   selectedData: any[] = []; // Almacena la data seleccionada
   pageNumber = 0
@@ -40,7 +42,9 @@ export class DireccionComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef,
     private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
     private translate: TranslateService, private toastr: ToastrService,
-    private direccionService: DireccionService) { }
+    private direccionService: DireccionService,
+    private direccionEmpleadoService: DireccionEmpleadoService
+  ) { }
 
   ngOnInit() {
     this.obtenerDatos();
@@ -129,13 +133,20 @@ export class DireccionComponent implements OnInit {
     // Activar el estado de carga
     this.isLoading = true;
 
+
+
+
+
     const mandatoryFilter = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
       sortField: sortField,
       sortDirection: sortDirection,
+      empleadoId: this.cliente.id,
       ...optionalFilter
     }
+
+
 
     this.direccionService.buscarFiltrado(mandatoryFilter).subscribe(
       (data: PagedResponse<Direccion[]>) => {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -35,12 +35,14 @@ export class InformacionComercialComponent {
     tiposClientes: TipoCliente[] = [];
     agrupacionesComerciales: AgrupacionComercial[] = [];
     segmentacionesClientes: SegmentacionCliente[] = [];
+    valueToPatch: any;
 
     constructor(
         private fb: FormBuilder,
         private tipoClienteService: TipoClienteService,
         private agrupacionComercialService: AgrupacionComercialService,
-        private segmentacionClienteService: SegmentacionClienteService
+        private segmentacionClienteService: SegmentacionClienteService,
+        private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
@@ -48,8 +50,8 @@ export class InformacionComercialComponent {
             tipoCliente: [null],
             agrupacionComercial: [null],
             segmentacionCliente: [null],
-            campoAdicional1: [null],
-            campoAdicional2: [null]
+            campo1: [null],
+            campo2: [null]
         });
 
         this.loadTiposClientes();
@@ -61,6 +63,10 @@ export class InformacionComercialComponent {
         this.tipoClienteService.buscarTodos().subscribe({
             next: (response: ApiEntityResponse<TipoCliente[]>) => {
                 this.tiposClientes = response.data;
+                if (this.valueToPatch && this.valueToPatch.tipoCliente) {
+                    const findTipoCliente = this.tiposClientes.find(e => e.id === this.valueToPatch.tipoCliente.id);
+                    this.form.get("tipoCliente")?.setValue(findTipoCliente);
+                }
             },
             error: (error) => {
                 console.error('Error loading tipos clientes:', error);
@@ -72,6 +78,10 @@ export class InformacionComercialComponent {
         this.agrupacionComercialService.buscarTodos().subscribe({
             next: (response: ApiEntityResponse<AgrupacionComercial[]>) => {
                 this.agrupacionesComerciales = response.data;
+                if (this.valueToPatch && this.valueToPatch.agrupacionComercial) {
+                    const findAgrupacion = this.agrupacionesComerciales.find(e => e.id === this.valueToPatch.agrupacionComercial.id);
+                    this.form.get("agrupacionComercial")?.setValue(findAgrupacion);
+                }
             },
             error: (error) => {
                 console.error('Error loading agrupaciones comerciales:', error);
@@ -83,6 +93,10 @@ export class InformacionComercialComponent {
         this.segmentacionClienteService.buscarTodos().subscribe({
             next: (segmentaciones: ApiEntityResponse<SegmentacionCliente[]>) => {
                 this.segmentacionesClientes = segmentaciones.data;
+                if (this.valueToPatch && this.valueToPatch.segmentacionCliente) {
+                    const findSegmentacion = this.segmentacionesClientes.find(e => e.id === this.valueToPatch.segmentacionCliente.id);
+                    this.form.get("segmentacionCliente")?.setValue(findSegmentacion);
+                }
             },
             error: (error) => {
                 console.error('Error loading segmentaciones clientes:', error);
@@ -92,5 +106,7 @@ export class InformacionComercialComponent {
 
     patch(value: any) {
         this.form.patchValue(value);
+
+        this.valueToPatch = value;
     }
 } 
