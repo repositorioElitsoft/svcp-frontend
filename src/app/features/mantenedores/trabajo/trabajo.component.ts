@@ -11,7 +11,7 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { TrabajoTareaService } from "../../../core/services/trabajo-tarea.service";
 import { TrabajoTarea } from "../../../core/models/trabajo-tarea.model";
-import { catchError, tap, throwError, forkJoin, map, of } from "rxjs";
+import { catchError, tap, throwError, forkJoin, map, of, switchMap } from "rxjs";
 import { PagedResponse } from "../../../core/models/paged-content.models";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
@@ -399,23 +399,36 @@ export class TrabajoComponent implements OnInit {
         // Primero obtenemos todas las tareas asociadas al trabajo
         const trabajoTareas = trabajo?.trabajoTareas || [];
 
-        // Creamos un array de observables para eliminar cada trabajo-tarea
+        // Si no hay tareas, eliminamos directamente el trabajo
+        if (trabajoTareas.length === 0) {
+          console.log('Método onDeleteSingleSelected - No hay tareas, eliminando trabajo directamente');
+          this.trabajoService.borrar(trabajoId).subscribe({
+            next: () => {
+              console.log('Método onDeleteSingleSelected - Eliminación exitosa');
+              this.obtenerDatos();
+              this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+            },
+            error: (error: unknown) => {
+              console.error("Error al eliminar trabajo:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+            }
+          });
+          return;
+        }
+
+        // Si hay tareas, primero eliminamos todas las tareas
+        console.log('Método onDeleteSingleSelected - Eliminando tareas asociadas');
         const deleteTrabajoTareas$ = trabajoTareas
           .filter(trabajoTarea => trabajoTarea.tarea?.id !== undefined)
           .map(trabajoTarea =>
             this.trabajoTareaService.borrar(trabajoId, trabajoTarea.tarea.id!)
           );
 
-        // Si no hay tareas asociadas, continuamos con la eliminación del trabajo
-        const deleteOperations$ = deleteTrabajoTareas$.length > 0
-          ? forkJoin([...deleteTrabajoTareas$])
-          : of([]);
-
-        // Ejecutamos la eliminación en cascada
-        deleteOperations$
+        // Ejecutamos la eliminación de tareas y luego el trabajo en secuencia
+        forkJoin(deleteTrabajoTareas$)
           .pipe(
             // Después de eliminar todas las tareas, eliminamos el trabajo
-            map(() => this.trabajoService.borrar(trabajoId)),
+            switchMap(() => this.trabajoService.borrar(trabajoId)),
             catchError((error: unknown) => {
               console.error("Error al eliminar elementos:", error);
               this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
