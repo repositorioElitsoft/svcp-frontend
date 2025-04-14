@@ -347,6 +347,7 @@ export class TrabajoComponent implements OnInit {
         this.trabajoService.borrarLote(ids).subscribe({
           next: () => {
             console.log('Método eliminar - Eliminación exitosa');
+            this.sharedTableComponent.clearSelection(); // Limpiamos la selección después de eliminar
             this.obtenerDatos();
             this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
           },
@@ -405,6 +406,7 @@ export class TrabajoComponent implements OnInit {
           this.trabajoService.borrar(trabajoId).subscribe({
             next: () => {
               console.log('Método onDeleteSingleSelected - Eliminación exitosa');
+              this.sharedTableComponent.clearSelection(); // Limpiamos la selección después de eliminar
               this.obtenerDatos();
               this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
             },
@@ -438,6 +440,7 @@ export class TrabajoComponent implements OnInit {
           .subscribe({
             next: () => {
               console.log('Método onDeleteSingleSelected - Eliminación exitosa');
+              this.sharedTableComponent.clearSelection(); // Limpiamos la selección después de eliminar
               this.obtenerDatos();
               this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
             },
