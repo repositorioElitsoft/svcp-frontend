@@ -502,7 +502,8 @@
                 "tituloAgregar": "Criar Trabalho",
                 "label.descripcionTrabajo": "Descrição do Trabalho",
                 "descripcion": "Insira a descrição do trabalho",
-                "label.ingreseNombre": "Insira um novo nome"
+                "label.ingreseNombre": "Insira um novo nome",
+                "label.mas": "(+ mais)"
             },
             "zona": {
                 "tituloEditar": "Editar Zona",

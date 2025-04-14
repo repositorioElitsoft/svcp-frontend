@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chips',
   standalone: true,
-  imports: [CommonModule, MatChipsModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatChipsModule, MatIconModule, MatButtonModule, TranslateModule],
   template: `
     <div class="chips-container">
       <div class="chips-wrapper">
@@ -24,7 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
           </div>
         </div>
         <div *ngIf="showMoreIndicator" class="more-indicator" (click)="onMoreClick()">
-          (+ más)
+          <span>{{ 'mantenedores.formularios.trabajo.label.mas' | translate }}</span>
         </div>
       </div>
     </div>

@@ -505,7 +505,8 @@
                 "tituloAgregar": "Create Job",
                 "label.descripcionTrabajo": "Job Description",
                 "descripcion": "Enter the description of the Job",
-                "label.ingreseNombre": "Enter a new Job name"
+                "label.ingreseNombre": "Enter a new Job name",
+                "label.mas": "(+ more)"
             },
             "tarea": {
                 "tituloEditar": "Edit Task",
