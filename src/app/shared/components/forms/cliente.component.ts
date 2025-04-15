@@ -36,6 +36,7 @@ import { ClienteEnum } from "../../../core/enums/cliente.enum"
 import { concatMap, of } from "rxjs"
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { ContactosClienteCrearComponent } from "../sub-forms/contactos-cliente-crear/contactos-cliente-crear.component"
+import { ContactoClienteComponent } from "../../../features/mantenedores/contacto-cliente/contacto-cliente.component"
 
 @Component({
   selector: "app-cliente-create-form",
@@ -57,6 +58,7 @@ import { ContactosClienteCrearComponent } from "../sub-forms/contactos-cliente-c
     TranslateModule,
     TituloDialogoComponent,
     InformacionPersonalComponent,
+    ContactoClienteComponent,
     SidebarItemLinkComponent,
     SidebarComponent,
     InformacionComercialComponent,
@@ -85,7 +87,7 @@ export class ClienteFormComponent implements OnInit {
   estado: Estado[] = []
   agrupacionComercial: AgrupacionComercial[] = []
   segmentacionCliente: SegmentacionCliente[] = []
-  pantallaActual = "datos-generales"
+  pantallaActual = "contactos-cliente"
   isLoading = false
 
   @ViewChild(InformacionPersonalComponent) informacionPersonal!: InformacionPersonalComponent;
@@ -244,6 +246,11 @@ export class ClienteFormComponent implements OnInit {
     } else {
       console.log("Formulario no válido")
     }
+  }
+
+  agregarContactoPressed() {
+    console.log("Agregar contacto presionado");
+    this.pantallaActual = "contactos-cliente-crear"
   }
 
   envioFormularioInformacionComercial() {
