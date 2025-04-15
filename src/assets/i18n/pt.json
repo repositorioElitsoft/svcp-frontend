@@ -502,7 +502,8 @@
                 "tituloAgregar": "Criar Trabalho",
                 "label.descripcionTrabajo": "Descrição do Trabalho",
                 "descripcion": "Insira a descrição do trabalho",
-                "label.ingreseNombre": "Insira um novo nome"
+                "label.ingreseNombre": "Insira um novo nome",
+                "label.mas": "(+ mais)"
             },
             "zona": {
                 "tituloEditar": "Editar Zona",
@@ -527,6 +528,18 @@
                 "tituloAgregar": "Criar Tipo de Componente",
                 "label.nombre": "Tipo de Componente",
                 "label.descripcion": "Descrição"
+            },
+            "trabajoTarea": {
+                "tituloEditar": "Editar tarefas atribuídas",
+                "tituloAgregar": "Atribuir Tarefa",
+                "trabajo": "Trabalho",
+                "seleccioneTareas": "Selecione as Tarefas para Atribuir",
+                "tareas": "tarefas",
+                "sinTareasDisponibles": "Nenhuma tarefa disponível para atribuir",
+                "info": {
+                    "ordenTareas": "As tarefas são atribuídas na ordem em que você as seleciona, você pode alterar sua sequência arrastando as tags."
+                },
+                "verMas": "Ver mais"
             }
         }
     },

@@ -3,28 +3,29 @@ import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chips',
   standalone: true,
-  imports: [CommonModule, MatChipsModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatChipsModule, MatIconModule, MatButtonModule, TranslateModule],
   template: `
     <div class="chips-container">
       <div class="chips-wrapper">
         <div class="chips-grid">
           <div class="chips-row" *ngFor="let row of getVisibleRows()">
-            <div *ngFor="let item of row" class="chip">
+            <div *ngFor="let item of row" class="chip" (click)="onItemClick(item)">
               <div class="chip-content">
                 <span class="task-id">{{getDisplayValue(item) || 'Sin descripción'}}</span>
               </div>
-              <button class="delete-button" (click)="onDelete(item)">
+              <button class="delete-button" (click)="onDelete(item); $event.stopPropagation()">
                 <mat-icon>close</mat-icon>
               </button>
             </div>
           </div>
         </div>
         <div *ngIf="showMoreIndicator" class="more-indicator" (click)="onMoreClick()">
-          (+ más)
+          <span>{{ 'mantenedores.formularios.trabajo.label.mas' | translate }}</span>
         </div>
       </div>
     </div>
@@ -75,6 +76,12 @@ import { MatButtonModule } from '@angular/material/button';
       height: 24px;
       min-width: 110px;
       max-width: 200px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .chip:hover {
+      background: #bdb5a1;
     }
 
     .chip-content {
@@ -117,10 +124,17 @@ import { MatButtonModule } from '@angular/material/button';
       cursor: pointer;
       white-space: nowrap;
       font-size: 13px;
+      display: flex;
+      align-items: center;
+      padding: 4px 8px;
+      margin-left: 8px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
     }
 
     .more-indicator:hover {
       color: rgb(30 64 175);
+      background-color: rgba(37, 99, 235, 0.1);
     }
 
     mat-icon {
@@ -136,6 +150,7 @@ export class ChipsComponent {
   private currentMaxVisible: number = 4;
   private screenWidth: number = window.innerWidth;
   private showAll: boolean = false;
+  public mostrarTodas: boolean = false;
 
   @Input() displayField: string = ''; // Campo a mostrar
   @Input() nestedPath: string = ''; // Ruta anidada para acceder al campo (ejemplo: 'tarea.descripcionTarea')
@@ -164,6 +179,7 @@ export class ChipsComponent {
   @Output() deleteItem = new EventEmitter<any>();
   @Output() clearAll = new EventEmitter<void>();
   @Output() showMore = new EventEmitter<void>();
+  @Output() itemClick = new EventEmitter<any>();
 
   getDisplayValue(item: any): string {
     if (!item) return '';
@@ -173,6 +189,10 @@ export class ChipsComponent {
     }
 
     return item[this.displayField] || '';
+  }
+
+  onItemClick(item: any): void {
+    this.itemClick.emit(item);
   }
 
   @HostListener('window:resize', ['$event'])

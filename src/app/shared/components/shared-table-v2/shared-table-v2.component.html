@@ -100,7 +100,7 @@
                             <app-chips [items]="element[column]" [displayField]="getChipsConfig(column).displayField"
                                 [nestedPath]="getChipsConfig(column).nestedPath"
                                 (deleteItem)="onChipDelete(element, $event)" (clearAll)="onChipsClear(element)"
-                                (showMore)="onAsignacion(element)">
+                                (showMore)="onAsignacion(element)" (itemClick)="onAsignacion(element)">
                             </app-chips>
                         </div>
                         } @else {
@@ -115,16 +115,19 @@
                         {{ 'table.actions' | translate }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="sticky-cell">
-                        <div class="flex items-center gap-2">
-                            <button mat-icon-button color="accent" (click)="onAsignacion(element)">
-                                <mat-icon>push_pin</mat-icon>
+                        <div class="flex items-center gap-1 sm:gap-2">
+                            <button mat-icon-button color="accent" (click)="onAsignacion(element)"
+                                class="!w-8 !h-8 sm:!w-10 sm:!h-10">
+                                <mat-icon class="!w-5 !h-5 sm:!w-6 sm:!h-6">push_pin</mat-icon>
                             </button>
 
-                            <button mat-icon-button color="accent" (click)="onEdit(element.id)">
-                                <mat-icon>edit</mat-icon>
+                            <button mat-icon-button color="accent" (click)="onEdit(element.id)"
+                                class="!w-8 !h-8 sm:!w-10 sm:!h-10">
+                                <mat-icon class="!w-5 !h-5 sm:!w-6 sm:!h-6">edit</mat-icon>
                             </button>
-                            <button mat-icon-button color="accent" (click)="onSingleDelete(element.id)">
-                                <mat-icon>delete</mat-icon>
+                            <button mat-icon-button color="accent" (click)="onSingleDelete(element.id)"
+                                class="!w-8 !h-8 sm:!w-10 sm:!h-10">
+                                <mat-icon class="!w-5 !h-5 sm:!w-6 sm:!h-6">delete</mat-icon>
                             </button>
 
                             <!-- Aquí se incluye el template adicional si existe -->

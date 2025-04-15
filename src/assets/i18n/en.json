@@ -248,8 +248,8 @@
         },
         "trabajo": {
             "id": "Id",
-            "titulo": "Work",
-            "descripcionTrabajo": "Work",
+            "titulo": "Job",
+            "descripcionTrabajo": "Job",
             "trabajoTareas": "Assigned Tasks",
             "tareas": "Assigned Tasks"
         },
@@ -303,10 +303,10 @@
                 "descripcion": "Enter the task assignment"
             },
             "asignacionTrabajo": {
-                "tituloEditar": "Edit Work Assignment",
-                "tituloAgregar": "Create Work Assignment",
-                "label": "Work Assignment",
-                "descripcion": "Enter the work assignment"
+                "tituloEditar": "Edit Job Assignment",
+                "tituloAgregar": "Create Job Assignment",
+                "label": "Job Assignment",
+                "descripcion": "Enter the Job assignment"
             },
             "calendarizacion": {
                 "tituloEditar": "Edit Scheduling",
@@ -501,11 +501,12 @@
                 "descripcion": "Enter the description of the service type"
             },
             "trabajo": {
-                "tituloEditar": "Edit Work",
-                "tituloAgregar": "Create Work",
-                "label.descripcionTrabajo": "Work Description",
-                "descripcion": "Enter the description of the work",
-                "label.ingreseNombre": "Enter a new work name"
+                "tituloEditar": "Edit Job",
+                "tituloAgregar": "Create Job",
+                "label.descripcionTrabajo": "Job Description",
+                "descripcion": "Enter the description of the Job",
+                "label.ingreseNombre": "Enter a new Job name",
+                "label.mas": "(+ more)"
             },
             "tarea": {
                 "tituloEditar": "Edit Task",
@@ -540,12 +541,14 @@
             "trabajoTarea": {
                 "tituloEditar": "Edit assigned tasks",
                 "tituloAgregar": "Assign Task",
-                "trabajo": "Work",
+                "trabajo": "Job",
                 "seleccioneTareas": "Select Tasks to Assign",
                 "tareas": "tasks",
+                "sinTareasDisponibles": "No tasks available to assign",
                 "info": {
                     "ordenTareas": "The tasks are assigned in the order you select them, you can change their sequence by dragging the tags."
-                }
+                },
+                "verMas": "See more"
             }
         }
     },
