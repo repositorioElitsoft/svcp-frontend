@@ -574,6 +574,7 @@
             },
             "servicioTrabajo": {
                 "tituloAgregar": "Assign Jobs",
+                "tituloEditar": "Edit Job Assignment",
                 "servicio": "Service",
                 "seleccioneTrabajos": "Select Jobs to Assign",
                 "trabajos": "Jobs",

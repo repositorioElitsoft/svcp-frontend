@@ -546,6 +546,7 @@
             },
             "servicioTrabajo": {
                 "tituloAgregar": "Atribuir Trabalhos",
+                "tituloEditar": "Editar Atribuição de Trabalhos",
                 "servicio": "Serviço",
                 "seleccioneTrabajos": "Selecione os Trabalhos para Atribuir",
                 "trabajos": "Trabalhos",

@@ -573,6 +573,7 @@
             },
             "servicioTrabajo": {
                 "tituloAgregar": "Asignar Trabajos",
+                "tituloEditar": "Editar Asignación de Trabajos",
                 "servicio": "Servicio",
                 "seleccioneTrabajos": "Seleccione los Trabajos a Asignar",
                 "trabajos": "Trabajos",

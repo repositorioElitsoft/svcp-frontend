@@ -34,6 +34,18 @@ interface TrabajoAsignado {
     ordenEjecucionTrabajo: number;
 }
 
+interface PaginatedResponse {
+    content: ServicioTrabajo[];
+    totalElements: number;
+    totalPages: number;
+    last: boolean;
+    first: boolean;
+    pageNumber: number;
+    pageSize: number;
+    numberOfElements: number;
+    empty: boolean;
+}
+
 @Component({
     selector: 'app-servicio-trabajo-form',
     standalone: true,
@@ -132,10 +144,11 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
      * Inicializa los datos del servicio a partir de la data recibida
      */
     private inicializarDatosServicio(): void {
-        console.log('inicializarDatosServicio - Iniciando con data:', this.data);
+        console.log('1. inicializarDatosServicio - this.data inicial:', this.data);
 
         if (this.data) {
             this.servicioId = this.data;
+            console.log('2. servicioId asignado:', this.servicioId);
 
             // Cargar datos del servicio y sus trabajos
             this.isLoading = true;
@@ -146,36 +159,52 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
                 sortDirection: 'ASC'
             }).subscribe({
                 next: (response: ApiEntityResponse<ServicioTrabajo[]>) => {
-                    if (response?.data && response.data.length > 0) {
+                    console.log('3. Respuesta completa del servicio:', response);
+
+                    // Cast de la respuesta al tipo paginado
+                    const paginatedResponse = response as unknown as PaginatedResponse;
+
+                    // La respuesta ya viene con la estructura de paginación
+                    if (paginatedResponse?.content && paginatedResponse.content.length > 0) {
+                        console.log('4. Content de la respuesta:', paginatedResponse.content);
+                        console.log('5. Primer elemento de content:', paginatedResponse.content[0]);
+
                         // Guardar la data completa para uso posterior
                         this.data = {
                             id: this.servicioId,
-                            descripcion: response.data[0].servicio?.descripcion || '',
-                            servicioTrabajos: response.data
+                            descripcion: paginatedResponse.content[0].servicio?.descripcion || '',
+                            servicioTrabajos: paginatedResponse.content
                         };
+                        console.log('6. this.data después de asignar:', this.data);
 
                         // Establecer la descripción del servicio
-                        this.servicioDescripcion = response.data[0].servicio?.descripcion || '';
+                        this.servicioDescripcion = paginatedResponse.content[0].servicio?.descripcion || '';
+                        console.log('7. this.servicioDescripcion:', this.servicioDescripcion);
 
                         // Mapear los trabajos
-                        this.trabajosAsignados = response.data.map(item => ({
-                            id: item.trabajo?.id || 0,
-                            trabajoId: item.trabajo?.id || 0,
-                            descripcion: item.trabajo?.descripcionTrabajo || '',
-                            descripcionTrabajo: item.trabajo?.descripcionTrabajo || '',
-                            ordenEjecucionTrabajo: item.secuencia
-                        }));
+                        this.trabajosAsignados = paginatedResponse.content.map((item: ServicioTrabajo) => {
+                            console.log('8. Mapeando item:', item);
+                            return {
+                                id: item.trabajo?.id || 0,
+                                trabajoId: item.trabajo?.id || 0,
+                                descripcion: item.trabajo?.descripcionTrabajo || '',
+                                descripcionTrabajo: item.trabajo?.descripcionTrabajo || '',
+                                ordenEjecucionTrabajo: item.secuencia
+                            };
+                        });
 
                         this.trabajosAsignados.sort((a, b) => a.ordenEjecucionTrabajo - b.ordenEjecucionTrabajo);
-                        this.ultimoValor = Math.max(...this.trabajosAsignados.map(item => item.ordenEjecucionTrabajo));
+                        console.log('9. trabajosAsignados después de ordenar:', this.trabajosAsignados);
 
-                        console.log('inicializarDatosServicio - Data completa:', this.data);
-                        console.log('inicializarDatosServicio - Trabajos asignados mapeados:', this.trabajosAsignados);
-                        console.log('inicializarDatosServicio - Último valor de ordenEjecucionTrabajo:', this.ultimoValor);
+                        this.ultimoValor = Math.max(...this.trabajosAsignados.map(item => item.ordenEjecucionTrabajo));
+                        console.log('10. ultimoValor:', this.ultimoValor);
 
                         this.form.patchValue({
                             trabajos: this.trabajosAsignados
                         });
+                        console.log('11. Formulario después de patchValue:', this.form.value);
+                    } else {
+                        console.log('No hay contenido en la respuesta o está vacío');
                     }
                 },
                 error: (error: unknown) => {
