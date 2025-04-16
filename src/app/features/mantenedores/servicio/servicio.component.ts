@@ -31,7 +31,7 @@ export class ServicioComponent implements OnInit {
     displayedColumns: string[] = ['id', 'descripcion', 'tipoServicio', 'estado', 'trabajos'];
     columnConfig: {
         field: string;
-        type: 'text' | 'chips' | 'custom';
+        type: 'text' | 'chips' | 'custom' | 'estado';
         nestedPath?: string;
         displayField?: string;
         customTemplate?: TemplateRef<any>;
@@ -47,8 +47,7 @@ export class ServicioComponent implements OnInit {
             },
             {
                 field: 'estado',
-                type: 'text',
-                nestedPath: 'descripcion',
+                type: 'estado',
                 sortable: true
             },
             {

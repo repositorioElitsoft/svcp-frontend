@@ -103,6 +103,8 @@
                                 (showMore)="onAsignacion(element)" (itemClick)="onAsignacion(element)">
                             </app-chips>
                         </div>
+                        } @else if(isEstadoColumn(column)) {
+                        <app-chip-estados [estado]="element[column]"></app-chip-estados>
                         } @else {
                         {{ getField(element[column], column) }}
                         }
