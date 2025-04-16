@@ -10,6 +10,7 @@ import { ExportarDocService } from "../../../core/services/exportar-doc.service"
 import { DialogAlertaComponent } from "../../../shared/dialogo-alerta/dialogo-alerta.component";
 import { ServicioTrabajoService } from "../../../core/services/servicio-trabajo.service";
 import { ServicioTrabajo } from "../../../core/models/servicio-trabajo.model";
+import { TrabajoTareaService } from "../../../core/services/trabajo-tarea.service";
 import { catchError, tap, throwError, forkJoin, map, of, switchMap } from "rxjs";
 import { HeadTableComponent } from "../../../shared/head-table/head-table.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
@@ -17,7 +18,7 @@ import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
 import { ServicioService } from "../../../core/services/servicio.service";
-import { Servicio } from "../../../core/models/servicio.model";
+import { Servicio, ServicioDTO } from "../../../core/models/servicio.model";
 import { ServicioFormComponent } from "../../../shared/components/forms/servicio.component";
 import { ServicioTrabajoFormComponent } from "../../../shared/components/forms/servicio-trabajo.component";
 import { FormsModule } from "@angular/forms";
@@ -71,7 +72,7 @@ export class ServicioComponent implements OnInit {
             {
                 field: 'trabajos',
                 type: 'chips',
-                nestedPath: 'trabajo.descripcion',
+                nestedPath: 'trabajo.descripcionTrabajo',
                 sortable: false
             }
         ];
@@ -90,7 +91,8 @@ export class ServicioComponent implements OnInit {
     constructor(private cdr: ChangeDetectorRef,
         private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
         private translate: TranslateService, private toastr: ToastrService,
-        private servicioTrabajoService: ServicioTrabajoService, private servicioService: ServicioService) { }
+        private servicioTrabajoService: ServicioTrabajoService, private servicioService: ServicioService,
+        private trabajoTareaService: TrabajoTareaService) { }
 
     ngOnInit() {
         this.obtenerDatos();
@@ -323,22 +325,19 @@ export class ServicioComponent implements OnInit {
     obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
         this.isLoading = true;
 
-        // Configurar los parámetros de la llamada a la API incluyendo los filtros
         const params = {
             pageSize: 20,
             pageNumber: 0,
-            sortField: 'id',
-            sortDirection: 'asc',
-            ...optionalFilter // Incluir los filtros adicionales
+            sortField: sortField,
+            sortDirection: sortDirection,
+            ...optionalFilter
         };
 
         console.log('Parámetros de búsqueda:', params);
 
-        // Primera llamada para obtener todos los servicios y contar el total real
         this.servicioService.buscarFiltradoAsignacion(params).subscribe((fullResponse: any) => {
             console.log('Respuesta completa inicial:', fullResponse);
 
-            // Obtenemos todos los servicios únicos
             const todosLosServicios = new Map();
             if (Array.isArray(fullResponse?.content)) {
                 fullResponse.content.forEach((item: any) => {
@@ -348,25 +347,25 @@ export class ServicioComponent implements OnInit {
                             descripcion: item.descripcion,
                             tipoServicio: item.tipoServicio || {},
                             estado: item.estado || { id: 1, descripcion: 'Activo' },
-                            trabajos: Array.isArray(item.trabajos) ? [...item.trabajos] : []
+                            trabajos: Array.isArray(item.servicioTrabajos) ? item.servicioTrabajos.map((servicioTrabajo: any) => ({
+                                ...servicioTrabajo,
+                                trabajo: {
+                                    ...servicioTrabajo.trabajo,
+                                    descripcion: servicioTrabajo.trabajo?.descripcionTrabajo || ''
+                                }
+                            })) : []
                         });
                     }
                 });
             }
 
-            // Calculamos el total real de elementos y páginas
             this.totalElements = todosLosServicios.size;
             this.totalPages = Math.ceil(this.totalElements / this.pageSize);
 
-            console.log('Total real de servicios:', this.totalElements);
-            console.log('Total de páginas:', this.totalPages);
-
-            // Convertimos el Map a array y aplicamos ordenamiento
             let serviciosArray = Array.from(todosLosServicios.values());
 
-            // Ordenamos el array según el campo y dirección especificados
+            // Ordenamiento
             serviciosArray.sort((a: any, b: any) => {
-                // Función para obtener el valor anidado de un objeto
                 const getNestedValue = (obj: any, path: string) => {
                     return path.split('.').reduce((o, i) => (o ? o[i] : null), obj);
                 };
@@ -374,14 +373,12 @@ export class ServicioComponent implements OnInit {
                 const valorA = getNestedValue(a, sortField);
                 const valorB = getNestedValue(b, sortField);
 
-                // Si los valores son strings, usar localeCompare para ordenamiento correcto de texto
                 if (typeof valorA === 'string' && typeof valorB === 'string') {
                     return sortDirection === 'asc'
                         ? valorA.localeCompare(valorB)
                         : valorB.localeCompare(valorA);
                 }
 
-                // Para otros tipos de valores
                 if (sortDirection === 'asc') {
                     return valorA > valorB ? 1 : -1;
                 } else {
@@ -389,7 +386,6 @@ export class ServicioComponent implements OnInit {
                 }
             });
 
-            // Aplicamos paginación en memoria
             const inicio = this.pageNumber * this.pageSize;
             const fin = inicio + this.pageSize;
             this.dataSource = serviciosArray.slice(inicio, fin);
@@ -686,14 +682,116 @@ export class ServicioComponent implements OnInit {
         });
     }
 
-    onChipDelete(event: { parent: any, item: any }) {
-        // Implementa la lógica para eliminar un chip
-        console.log('Chip deleted:', event);
+    onChipDelete(event: { parent: Servicio, item: ServicioTrabajo }) {
+        console.log('Chip a eliminar:', event);
+        const servicio = event.parent;
+        const servicioTrabajo = event.item;
+
+        if (!servicio || !servicioTrabajo || !servicioTrabajo.trabajo) {
+            console.log('Datos inválidos para eliminar el trabajo');
+            return;
+        }
+
+        const servicioId = servicio.id;
+        const trabajoId = servicioTrabajo.trabajo.id;
+
+        if (typeof servicioId !== 'number' || typeof trabajoId !== 'number') {
+            console.log('IDs inválidos para eliminar el trabajo');
+            return;
+        }
+
+        // Obtener las traducciones
+        const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+        const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+        const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+        const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+        const dialogRef = this.dialog.open(DialogAlertaComponent, {
+            data: {
+                titulo: titulo,
+                mensaje: mensaje,
+                textoBotonCancelar: textoBotonCancelar,
+                textoBotonConfirmar: textoBotonConfirmar
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log('Eliminando trabajo:', trabajoId, 'del servicio:', servicioId);
+                this.servicioTrabajoService.borrar(servicioId, trabajoId).subscribe({
+                    next: () => {
+                        console.log('Trabajo eliminado exitosamente');
+                        this.obtenerDatos();
+                        this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+                    },
+                    error: (err: unknown) => {
+                        console.error('Error al eliminar el trabajo:', err);
+                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+                    }
+                });
+            }
+        });
     }
 
-    onChipsClear(event: any) {
-        // Implementa la lógica para limpiar todos los chips
-        console.log('Chips cleared:', event);
+    onChipsClear(event: Servicio) {
+        console.log('Limpiar todos los trabajos del servicio:', event);
+        const servicio = event;
+        const trabajos = servicio?.trabajos || [];
+
+        if (!servicio || trabajos.length === 0) {
+            console.log('No hay trabajos para eliminar');
+            return;
+        }
+
+        const servicioId = servicio.id;
+        if (typeof servicioId !== 'number') {
+            console.log('ID de servicio inválido');
+            return;
+        }
+
+        // Obtener las traducciones
+        const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+        const mensaje = this.translate.instant('alertas.eliminacionMultipleMensaje', { count: trabajos.length });
+        const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+        const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+        const dialogRef = this.dialog.open(DialogAlertaComponent, {
+            data: {
+                titulo: titulo,
+                mensaje: mensaje,
+                textoBotonCancelar: textoBotonCancelar,
+                textoBotonConfirmar: textoBotonConfirmar
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log('Eliminando todos los trabajos del servicio:', servicioId);
+
+                // Crear un array de observables para cada trabajo a eliminar
+                const deleteObservables = trabajos
+                    .filter(trabajo => trabajo.trabajo?.id)
+                    .map(trabajo => this.servicioTrabajoService.borrar(servicioId, trabajo.trabajo!.id!));
+
+                if (deleteObservables.length === 0) {
+                    console.log('No hay trabajos válidos para eliminar');
+                    return;
+                }
+
+                // Ejecutar todas las eliminaciones en paralelo
+                forkJoin(deleteObservables).subscribe({
+                    next: () => {
+                        console.log('Todos los trabajos eliminados exitosamente');
+                        this.obtenerDatos();
+                        this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+                    },
+                    error: (err: unknown) => {
+                        console.error('Error al eliminar los trabajos:', err);
+                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+                    }
+                });
+            }
+        });
     }
 
     onFilter(event: any) {
@@ -735,4 +833,115 @@ export class ServicioComponent implements OnInit {
             }
         });
     }
+
+    onDeleteTarea(servicio: Servicio, servicioTrabajo: ServicioTrabajo, tarea: any) {
+        console.log('Método onDeleteTarea - Iniciando eliminación de tarea:', { servicio, servicioTrabajo, tarea });
+
+        const trabajoId = servicioTrabajo.trabajo?.id;
+        if (typeof trabajoId !== 'number') {
+            console.log('Método onDeleteTarea - ID de trabajo no válido');
+            return;
+        }
+
+        const tareaId = tarea?.id;
+        if (typeof tareaId !== 'number') {
+            console.log('Método onDeleteTarea - ID de tarea no válido');
+            return;
+        }
+
+        // Obtener las traducciones
+        const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tarea.titulo');
+        const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+        const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+        const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+        console.log('Método onDeleteTarea - Abriendo diálogo de confirmación');
+
+        const dialogRef = this.dialog.open(DialogAlertaComponent, {
+            data: {
+                titulo: titulo,
+                mensaje: mensaje,
+                textoBotonCancelar: textoBotonCancelar,
+                textoBotonConfirmar: textoBotonConfirmar
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('Método onDeleteTarea - Resultado del diálogo:', result);
+
+            if (result) {
+                console.log('Método onDeleteTarea - Iniciando llamada al servicio para eliminar tarea:', tareaId);
+
+                this.trabajoTareaService.borrar(trabajoId, tareaId).subscribe({
+                    next: () => {
+                        console.log('Método onDeleteTarea - Eliminación exitosa');
+                        this.obtenerDatos();
+                        this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+                    },
+                    error: (err: unknown) => {
+                        console.error("Error al eliminar elementos:", err);
+                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+                    }
+                });
+            } else {
+                console.log('Método onDeleteTarea - Usuario canceló la eliminación');
+            }
+        });
+    }
+
+    onClearTareas(servicio: Servicio, servicioTrabajo: ServicioTrabajo) {
+        console.log('Método onClearTareas - Iniciando limpieza de tareas para trabajo:', servicioTrabajo);
+
+        const trabajoId = servicioTrabajo.trabajo?.id;
+        if (typeof trabajoId !== 'number') {
+            console.log('Método onClearTareas - ID de trabajo no válido');
+            return;
+        }
+
+        const servicioId = servicio.id;
+        if (typeof servicioId !== 'number') {
+            console.log('Método onClearTareas - ID de servicio no válido');
+            return;
+        }
+
+        // Obtener las traducciones
+        const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.trabajo.titulo');
+        const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+        const textoBotonCancelar = this.translate.instant('alertas.cancelar');
+        const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
+
+        console.log('Método onClearTareas - Abriendo diálogo de confirmación');
+
+        const dialogRef = this.dialog.open(DialogAlertaComponent, {
+            data: {
+                titulo: titulo,
+                mensaje: mensaje,
+                textoBotonCancelar: textoBotonCancelar,
+                textoBotonConfirmar: textoBotonConfirmar
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('Método onClearTareas - Resultado del diálogo:', result);
+
+            if (result) {
+                console.log('Método onClearTareas - Iniciando llamada al servicio para eliminar trabajo con ID:', trabajoId);
+
+                this.servicioTrabajoService.borrar(servicioId, trabajoId).subscribe({
+                    next: () => {
+                        console.log('Método onClearTareas - Eliminación exitosa');
+                        this.obtenerDatos();
+                        this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+                    },
+                    error: (err: unknown) => {
+                        console.error("Error al eliminar elementos:", err);
+                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+                    }
+                });
+            } else {
+                console.log('Método onClearTareas - Usuario canceló la eliminación');
+            }
+        });
+    }
+
 }

@@ -46,7 +46,8 @@
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
                     (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcion'"
                     (filterDelete)="onFilterDeleted($event)" [filters]='[]' (asignacion)="onAsignacion($event)"
-                    (filter)="onFilter($event)" (delete)="onDelete($event)" (edit)="onEdit($event)">
+                    (chipDelete)="onChipDelete($event)" (chipsClear)="onChipsClear($event)" (filter)="onFilter($event)"
+                    (delete)="onDelete($event)" (edit)="onEdit($event) ">
                 </app-shared-table-v2>
             </div>
         </div>
