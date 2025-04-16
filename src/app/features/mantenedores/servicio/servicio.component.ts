@@ -30,6 +30,7 @@ import { ServicioTrabajoFormComponent } from "../../../shared/components/forms/s
 })
 export class ServicioComponent implements OnInit {
     displayedColumns: string[] = ['id', 'descripcion', 'tipoServicio', 'estado', 'trabajos'];
+    isLoading = false;
     columnConfig: {
         field: string;
         type: 'text' | 'chips' | 'custom' | 'estado';
@@ -66,7 +67,6 @@ export class ServicioComponent implements OnInit {
     totalPages = 0;
     pageSize = 10;
     totalElements = 0;
-    isLoading = false;
     @ViewChild(SharedTableV2Component) sharedTableComponent!: SharedTableV2Component;
     activeOptionalFilters: any = [];
     currentSortState: { column: string, direction: string } | null = null;
@@ -643,12 +643,7 @@ export class ServicioComponent implements OnInit {
     onAsignacion(element: any): void {
         const dialogRef = this.dialog.open(ServicioTrabajoFormComponent, {
             width: '400px',
-            data: {
-                id: element.id,
-                descripcion: element.descripcion,
-                trabajos: element.trabajos || [],
-                estado: element.estado || { id: 1, descripcion: 'Activo' }
-            }
+            data: element.id
         });
 
         dialogRef.afterClosed().subscribe(result => {

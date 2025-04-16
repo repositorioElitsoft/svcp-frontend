@@ -1,11 +1,17 @@
 // servicio-trabajo.dto.ts
 
-import { ServicioDTO } from "./servicio.model";
-import { TrabajoDTO } from "./trabajo.model";
+import { Servicio, ServicioDTO } from "./servicio.model";
+import { Trabajo, TrabajoDTO } from "./trabajo.model";
 
 
-export interface ServicioTrabajo {
+export interface ServicioTrabajoDTO {
     servicio: ServicioDTO;
     trabajo: TrabajoDTO;
+    secuencia: number;
+}
+
+export interface ServicioTrabajo {
+    servicio: Servicio;
+    trabajo: Trabajo;
     secuencia: number;
 }

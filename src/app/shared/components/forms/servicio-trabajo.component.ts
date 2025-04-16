@@ -17,12 +17,15 @@ import { ServicioTrabajoService } from '../../../core/services/servicio-trabajo.
 import { TrabajoService } from '../../../core/services/trabajo.service';
 import { convertErrorMessageToI18 } from '../../../core/utils/errors.utils';
 
-// Componentes
+// Componentes y Modelos
 import { TituloDialogoComponent } from '../titulo-dialogo/titulo-dialogo.component';
 import { Trabajo } from '../../../core/models/trabajo.model';
 import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
 import { ServicioTrabajo } from '../../../core/models/servicio-trabajo.model';
 
+/**
+ * Interface para manejar los trabajos asignados en el componente
+ */
 interface TrabajoAsignado {
     id: number;
     trabajoId: number;
@@ -50,6 +53,8 @@ interface TrabajoAsignado {
     templateUrl: './servicio-trabajo.component.html'
 })
 export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
+    // #region Propiedades
+
     // Formulario
     form!: FormGroup;
 
@@ -58,7 +63,7 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
     servicioDescripcion: string = '';
     data: any;
 
-    // Listas
+    // Listas de trabajos
     Trabajos: Trabajo[] = [];
     trabajosAsignados: TrabajoAsignado[] = [];
     trabajosDisponibles: Trabajo[] = [];
@@ -70,6 +75,10 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
 
     // Control de suscripciones
     private destroy$ = new Subject<void>();
+
+    // #endregion
+
+    // #region Constructor y Ciclo de Vida
 
     constructor(
         private fb: FormBuilder,
@@ -93,9 +102,7 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
             trabajosAsignados: this.trabajosAsignados
         });
 
-        if (this.servicioId) {
-            this.cargarTrabajos();
-        }
+        this.cargarTrabajos();
 
         if (this.Trabajos.length > 0) {
             this.actualizarTrabajosDisponibles();
@@ -107,6 +114,13 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
+    // #endregion
+
+    // #region Inicialización y Carga de Datos
+
+    /**
+     * Inicializa el formulario con las validaciones necesarias
+     */
     private inicializarFormulario(): void {
         this.form = this.fb.group({
             trabajos: [[], Validators.required]
@@ -114,6 +128,9 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         console.log('inicializarFormulario - Formulario creado:', this.form.value);
     }
 
+    /**
+     * Inicializa los datos del servicio a partir de la data recibida
+     */
     private inicializarDatosServicio(): void {
         console.log('inicializarDatosServicio - Iniciando con data:', this.data);
 
@@ -124,7 +141,10 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
             if (Array.isArray(this.data.servicioTrabajos) && this.data.servicioTrabajos.length > 0) {
                 console.log('inicializarDatosServicio - ServicioTrabajos recibidos:', this.data.servicioTrabajos);
 
-                this.trabajosAsignados = this.data.servicioTrabajos.map((item: { trabajo: { id: number, descripcionTrabajo: string }, ordenEjecucionTrabajo: number }) => ({
+                this.trabajosAsignados = this.data.servicioTrabajos.map((item: {
+                    trabajo: { id: number, descripcionTrabajo: string },
+                    ordenEjecucionTrabajo: number
+                }) => ({
                     id: item.trabajo.id,
                     trabajoId: item.trabajo.id,
                     descripcion: item.trabajo.descripcionTrabajo,
@@ -147,11 +167,9 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    esActualizar(): boolean {
-        const servicioTrabajos = this.data?.servicioTrabajos;
-        return Array.isArray(servicioTrabajos) && servicioTrabajos.length > 0;
-    }
-
+    /**
+     * Carga la lista de trabajos disponibles
+     */
     private cargarTrabajos(): void {
         console.log('cargarTrabajos - Iniciando carga de trabajos');
 
@@ -169,6 +187,9 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
             });
     }
 
+    /**
+     * Actualiza la lista de trabajos disponibles filtrando los ya asignados
+     */
     private actualizarTrabajosDisponibles(): void {
         console.log('actualizarTrabajosDisponibles - Iniciando actualización');
 
@@ -179,6 +200,13 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         console.log('actualizarTrabajosDisponibles - Trabajos disponibles:', this.trabajosDisponibles);
     }
 
+    // #endregion
+
+    // #region Manejo de Trabajos
+
+    /**
+     * Elimina un trabajo de la lista de asignados
+     */
     onTrabajoDelete(trabajo: TrabajoAsignado): void {
         console.log('onTrabajoDelete - Trabajo a eliminar:', trabajo);
 
@@ -195,6 +223,9 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         this.trabajosAsignados = [...this.trabajosAsignados];
     }
 
+    /**
+     * Limpia todos los trabajos asignados
+     */
     onTrabajosClear(): void {
         console.log('onTrabajosClear - Limpiando todos los trabajos');
 
@@ -204,6 +235,9 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         this.trabajosAsignados = [...this.trabajosAsignados];
     }
 
+    /**
+     * Maneja la selección de un nuevo trabajo
+     */
     onTrabajoSelect(event: any): void {
         console.log('onTrabajoSelect - Evento recibido:', event);
 
@@ -246,6 +280,9 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         }
     }
 
+    /**
+     * Maneja el reordenamiento de trabajos por drag and drop
+     */
     onDrop(event: CdkDragDrop<TrabajoAsignado[]>): void {
         console.log('onDrop - Evento recibido:', event);
 
@@ -266,6 +303,21 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         this.trabajosAsignados = [...this.trabajosAsignados];
     }
 
+    // #endregion
+
+    // #region Guardado y Validación
+
+    /**
+     * Verifica si es una operación de actualización
+     */
+    esActualizar(): boolean {
+        const servicioTrabajos = this.data?.servicioTrabajos;
+        return Array.isArray(servicioTrabajos) && servicioTrabajos.length > 0;
+    }
+
+    /**
+     * Maneja el envío del formulario
+     */
     async onSubmit(): Promise<void> {
         console.log('onSubmit - Iniciando envío del formulario');
         console.log('onSubmit - Estado del formulario:', {
@@ -284,162 +336,15 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         console.log('onSubmit - Preparando datos para enviar');
 
         try {
+            // Manejo de actualización
             if (this.esActualizar() && Array.isArray(this.data.servicioTrabajos)) {
-                if (this.trabajosAsignados.length === 0) {
-                    console.log('onSubmit - No hay trabajos asignados, eliminando todos los existentes');
-                    const trabajosParaEliminar = this.data.servicioTrabajos.map((st: any) => ({
-                        servicio: {
-                            id: this.servicioId
-                        },
-                        trabajo: {
-                            id: st.trabajo.id
-                        },
-                        ordenEjecucionTrabajo: st.ordenEjecucionTrabajo
-                    }));
-                    console.log('onSubmit - Trabajos formateados para eliminar:', trabajosParaEliminar);
-
-                    try {
-                        await this.servicioTrabajoService.borrarLote(trabajosParaEliminar).toPromise();
-                        console.log('onSubmit - Todos los trabajos eliminados exitosamente');
-                        this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
-                        this.dialogRef.close(true);
-                        return;
-                    } catch (error) {
-                        console.error('onSubmit - Error al eliminar trabajos:', error);
-                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
-                        return;
-                    }
-                }
-
-                const trabajosEliminados = this.data.servicioTrabajos.filter(
-                    (st: any) => !this.trabajosAsignados.some(ta => ta.trabajoId === st.trabajo.id)
-                );
-
-                console.log('onSubmit - Trabajos a eliminar:', trabajosEliminados);
-
-                if (trabajosEliminados.length > 0) {
-                    const trabajosParaEliminar = trabajosEliminados.map((st: any) => ({
-                        servicio: {
-                            id: this.servicioId
-                        },
-                        trabajo: {
-                            id: st.trabajo.id
-                        },
-                        ordenEjecucionTrabajo: st.ordenEjecucionTrabajo
-                    }));
-                    console.log('onSubmit - Trabajos formateados para eliminar:', trabajosParaEliminar);
-
-                    try {
-                        await this.servicioTrabajoService.borrarLote(trabajosParaEliminar).toPromise();
-                        console.log('onSubmit - Trabajos eliminados exitosamente');
-                    } catch (error) {
-                        console.error('onSubmit - Error al eliminar trabajos:', error);
-                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
-                        return;
-                    }
-                }
-
-                const trabajosNuevos = this.trabajosAsignados.filter(
-                    ta => !this.data.servicioTrabajos.some((st: any) => st.trabajo.id === ta.trabajoId)
-                );
-
-                const trabajosReordenados = this.trabajosAsignados.filter(ta => {
-                    const trabajoExistente = this.data.servicioTrabajos.find((st: any) => st.trabajo.id === ta.trabajoId);
-                    return trabajoExistente && trabajoExistente.ordenEjecucionTrabajo !== ta.ordenEjecucionTrabajo;
-                });
-
-                console.log('onSubmit - Trabajos nuevos a agregar:', trabajosNuevos);
-                console.log('onSubmit - Trabajos reordenados:', trabajosReordenados);
-
-                if (trabajosNuevos.length === 0 && trabajosReordenados.length === 0) {
-                    this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
-                    this.dialogRef.close(true);
-                    return;
-                }
-
-                if (trabajosReordenados.length > 0) {
-                    const trabajosParaActualizar = trabajosReordenados.map(ta => ({
-                        servicioId: this.servicioId,
-                        trabajoId: ta.trabajoId,
-                        ordenEjecucionTrabajo: ta.ordenEjecucionTrabajo,
-                        secuencia: ta.ordenEjecucionTrabajo,
-                        servicio: {
-                            id: this.servicioId
-                        },
-                        trabajo: {
-                            id: ta.trabajoId
-                        }
-                    }));
-                    try {
-                        await this.servicioTrabajoService.actualizarLote(trabajosParaActualizar).toPromise();
-                        console.log('onSubmit - Orden de trabajos actualizado exitosamente');
-                    } catch (error) {
-                        console.error('onSubmit - Error al actualizar el orden de los trabajos:', error);
-                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
-                        return;
-                    }
-                }
-
-                if (trabajosNuevos.length > 0) {
-                    console.log('onSubmit - Continuando con la adición de nuevos trabajos');
-                } else {
-                    this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
-                    this.dialogRef.close(true);
-                    return;
-                }
-            }
-
-            if (this.trabajosAsignados.length === 0) {
-                console.log('onSubmit - No hay trabajos para asignar');
-                this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
-                this.dialogRef.close(true);
+                await this.manejarActualizacion();
                 return;
             }
 
-            const trabajosFormateados = this.trabajosAsignados.map(trabajo => ({
-                servicioId: this.servicioId,
-                trabajoId: trabajo.trabajoId,
-                ordenEjecucionTrabajo: trabajo.ordenEjecucionTrabajo,
-                secuencia: trabajo.ordenEjecucionTrabajo,
-                servicio: {
-                    id: this.servicioId
-                },
-                trabajo: {
-                    id: trabajo.trabajoId
-                }
-            }));
+            // Manejo de creación
+            await this.manejarCreacion();
 
-            console.log('onSubmit - Datos formateados para enviar:', trabajosFormateados);
-
-            const trabajosNuevosParaEnviar = trabajosFormateados.filter(trabajoFormateado =>
-                !this.data.servicioTrabajos.some((st: any) => st.trabajo.id === trabajoFormateado.trabajoId)
-            );
-
-            console.log('onSubmit - Trabajos nuevos a enviar:', trabajosNuevosParaEnviar);
-
-            if (trabajosNuevosParaEnviar.length === 0) {
-                console.log('onSubmit - No hay trabajos nuevos para enviar');
-                this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
-                this.dialogRef.close(true);
-                return;
-            }
-
-            this.servicioTrabajoService.crearLote(trabajosNuevosParaEnviar).subscribe({
-                next: (response) => {
-                    console.log('onSubmit - Respuesta exitosa:', response);
-                    if (this.esActualizar()) {
-                        this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
-                    } else {
-                        this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
-                    }
-                    this.dialogRef.close(true);
-                },
-                error: (error) => {
-                    console.error('onSubmit - Error en la petición:', error);
-                    const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
-                    this.toastr.error(errorMessage);
-                }
-            });
         } catch (error) {
             console.error('onSubmit - Error inesperado:', error);
             this.toastr.error(this.translate.instant('alertas.toastr.error.inesperado'));
@@ -448,7 +353,216 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         }
     }
 
+    /**
+     * Maneja la lógica de actualización de trabajos
+     */
+    private async manejarActualizacion(): Promise<void> {
+        if (this.trabajosAsignados.length === 0) {
+            await this.eliminarTodosLosTrabajos();
+            return;
+        }
+
+        // Eliminar trabajos que ya no están en la lista
+        const trabajosEliminados = this.data.servicioTrabajos.filter(
+            (st: any) => !this.trabajosAsignados.some(ta => ta.trabajoId === st.trabajo.id)
+        );
+
+        if (trabajosEliminados.length > 0) {
+            await this.eliminarTrabajos(trabajosEliminados);
+        }
+
+        // Actualizar orden de trabajos existentes
+        const trabajosReordenados = this.trabajosAsignados.filter(ta => {
+            const trabajoExistente = this.data.servicioTrabajos.find((st: any) => st.trabajo.id === ta.trabajoId);
+            return trabajoExistente && trabajoExistente.ordenEjecucionTrabajo !== ta.ordenEjecucionTrabajo;
+        });
+
+        if (trabajosReordenados.length > 0) {
+            await this.actualizarOrdenTrabajos(trabajosReordenados);
+        }
+
+        // Agregar nuevos trabajos
+        const trabajosNuevos = this.trabajosAsignados.filter(
+            ta => !this.data.servicioTrabajos.some((st: any) => st.trabajo.id === ta.trabajoId)
+        );
+
+        if (trabajosNuevos.length > 0) {
+            await this.agregarNuevosTrabajos(trabajosNuevos);
+        }
+
+        this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+        this.dialogRef.close(true);
+    }
+
+    /**
+     * Maneja la lógica de creación de nuevos trabajos
+     */
+    private async manejarCreacion(): Promise<void> {
+        if (this.trabajosAsignados.length === 0) {
+            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+            this.dialogRef.close(true);
+            return;
+        }
+
+        const trabajosFormateados = this.trabajosAsignados.map(trabajo => ({
+            servicio: {
+                id: this.servicioId,
+                descripcion: "string",
+                estado: { id: 1, descripcion: "Activo" },
+                tipoServicio: { id: 1, descripcion: "string", descripcionTipoServicio: "string" }
+            },
+            trabajo: {
+                id: trabajo.trabajoId,
+                descripcionTrabajo: "string"
+            },
+            secuencia: trabajo.ordenEjecucionTrabajo
+        }));
+
+        console.log('onSubmit - Datos formateados para enviar:', trabajosFormateados);
+
+        const trabajosNuevosParaEnviar = trabajosFormateados.filter(trabajoFormateado =>
+            !this.data.servicioTrabajos.some((st: any) => st.trabajo.id === trabajoFormateado.trabajo.id)
+        );
+
+        if (trabajosNuevosParaEnviar.length === 0) {
+            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+            this.dialogRef.close(true);
+            return;
+        }
+
+        this.servicioTrabajoService.crearLote(trabajosNuevosParaEnviar).subscribe({
+            next: (response) => {
+                console.log('onSubmit - Respuesta exitosa:', response);
+                this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+                this.dialogRef.close(true);
+            },
+            error: (error) => {
+                console.error('onSubmit - Error en la petición:', error);
+                const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
+                this.toastr.error(errorMessage);
+            }
+        });
+    }
+
+    /**
+     * Elimina todos los trabajos asociados
+     */
+    private async eliminarTodosLosTrabajos(): Promise<void> {
+        const trabajosParaEliminar = this.data.servicioTrabajos.map((st: any) => ({
+            servicio: {
+                id: this.servicioId,
+                descripcion: "string",
+                estado: { id: 1, descripcion: "Activo" },
+                tipoServicio: { id: 1, descripcion: "string", descripcionTipoServicio: "string" }
+            },
+            trabajo: {
+                id: st.trabajo.id,
+                descripcionTrabajo: "string"
+            },
+            secuencia: st.ordenEjecucionTrabajo
+        }));
+
+        try {
+            await this.servicioTrabajoService.borrarLote(trabajosParaEliminar).toPromise();
+            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+            this.dialogRef.close(true);
+        } catch (error) {
+            console.error('eliminarTodosLosTrabajos - Error:', error);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+        }
+    }
+
+    /**
+     * Elimina trabajos específicos
+     */
+    private async eliminarTrabajos(trabajosEliminados: any[]): Promise<void> {
+        const trabajosParaEliminar = trabajosEliminados.map((st: any) => ({
+            servicio: {
+                id: this.servicioId,
+                descripcion: "string",
+                estado: { id: 1, descripcion: "Activo" },
+                tipoServicio: { id: 1, descripcion: "string", descripcionTipoServicio: "string" }
+            },
+            trabajo: {
+                id: st.trabajo.id,
+                descripcionTrabajo: "string"
+            },
+            secuencia: st.ordenEjecucionTrabajo
+        }));
+
+        try {
+            await this.servicioTrabajoService.borrarLote(trabajosParaEliminar).toPromise();
+        } catch (error) {
+            console.error('eliminarTrabajos - Error:', error);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+            throw error;
+        }
+    }
+
+    /**
+     * Actualiza el orden de los trabajos
+     */
+    private async actualizarOrdenTrabajos(trabajosReordenados: TrabajoAsignado[]): Promise<void> {
+        const trabajosParaActualizar = trabajosReordenados.map(ta => ({
+            servicio: {
+                id: this.servicioId,
+                descripcion: "string",
+                estado: { id: 1, descripcion: "Activo" },
+                tipoServicio: { id: 1, descripcion: "string", descripcionTipoServicio: "string" }
+            },
+            trabajo: {
+                id: ta.trabajoId,
+                descripcionTrabajo: "string"
+            },
+            secuencia: ta.ordenEjecucionTrabajo
+        }));
+
+        try {
+            await this.servicioTrabajoService.actualizarLote(trabajosParaActualizar).toPromise();
+        } catch (error) {
+            console.error('actualizarOrdenTrabajos - Error:', error);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+            throw error;
+        }
+    }
+
+    /**
+     * Agrega nuevos trabajos al servicio
+     */
+    private async agregarNuevosTrabajos(trabajosNuevos: TrabajoAsignado[]): Promise<void> {
+        const trabajosFormateados = trabajosNuevos.map(trabajo => ({
+            servicio: {
+                id: this.servicioId,
+                descripcion: "string",
+                estado: { id: 1, descripcion: "Activo" },
+                tipoServicio: { id: 1, descripcion: "string", descripcionTipoServicio: "string" }
+            },
+            trabajo: {
+                id: trabajo.trabajoId,
+                descripcionTrabajo: "string"
+            },
+            secuencia: trabajo.ordenEjecucionTrabajo
+        }));
+
+        try {
+            await this.servicioTrabajoService.crearLote(trabajosFormateados).toPromise();
+        } catch (error) {
+            console.error('agregarNuevosTrabajos - Error:', error);
+            this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+            throw error;
+        }
+    }
+
+    // #endregion
+
+    // #region Utilidades
+
+    /**
+     * Cierra el diálogo sin guardar cambios
+     */
     onCancel(): void {
         this.dialogRef.close();
     }
+
+    // #endregion
 } 
