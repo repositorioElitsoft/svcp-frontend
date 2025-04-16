@@ -134,36 +134,61 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
     private inicializarDatosServicio(): void {
         console.log('inicializarDatosServicio - Iniciando con data:', this.data);
 
-        if (this.data?.id) {
-            this.servicioId = this.data.id;
-            this.servicioDescripcion = this.data.descripcionServicio || '';
+        if (this.data) {
+            this.servicioId = this.data;
 
-            if (Array.isArray(this.data.servicioTrabajos) && this.data.servicioTrabajos.length > 0) {
-                console.log('inicializarDatosServicio - ServicioTrabajos recibidos:', this.data.servicioTrabajos);
+            // Cargar datos del servicio y sus trabajos
+            this.isLoading = true;
+            this.servicioTrabajoService.buscarFiltrado({
+                servicio: this.servicioId,
+                pageNumber: 0,
+                sortField: 'servicio',
+                sortDirection: 'ASC'
+            }).subscribe({
+                next: (response: ApiEntityResponse<ServicioTrabajo[]>) => {
+                    if (response?.data && response.data.length > 0) {
+                        // Guardar la data completa para uso posterior
+                        this.data = {
+                            id: this.servicioId,
+                            descripcion: response.data[0].servicio?.descripcion || '',
+                            servicioTrabajos: response.data
+                        };
 
-                this.trabajosAsignados = this.data.servicioTrabajos.map((item: {
-                    trabajo: { id: number, descripcionTrabajo: string },
-                    ordenEjecucionTrabajo: number
-                }) => ({
-                    id: item.trabajo.id,
-                    trabajoId: item.trabajo.id,
-                    descripcion: item.trabajo.descripcionTrabajo,
-                    descripcionTrabajo: item.trabajo.descripcionTrabajo,
-                    ordenEjecucionTrabajo: item.ordenEjecucionTrabajo
-                }));
+                        // Establecer la descripción del servicio
+                        this.servicioDescripcion = response.data[0].servicio?.descripcion || '';
 
-                this.trabajosAsignados.sort((a, b) => a.ordenEjecucionTrabajo - b.ordenEjecucionTrabajo);
-                this.ultimoValor = Math.max(...this.data.servicioTrabajos.map((item: any) => item.ordenEjecucionTrabajo || 0));
+                        // Mapear los trabajos
+                        this.trabajosAsignados = response.data.map(item => ({
+                            id: item.trabajo?.id || 0,
+                            trabajoId: item.trabajo?.id || 0,
+                            descripcion: item.trabajo?.descripcionTrabajo || '',
+                            descripcionTrabajo: item.trabajo?.descripcionTrabajo || '',
+                            ordenEjecucionTrabajo: item.secuencia
+                        }));
 
-                console.log('inicializarDatosServicio - Trabajos asignados mapeados:', this.trabajosAsignados);
-                console.log('inicializarDatosServicio - Último valor de ordenEjecucionTrabajo:', this.ultimoValor);
+                        this.trabajosAsignados.sort((a, b) => a.ordenEjecucionTrabajo - b.ordenEjecucionTrabajo);
+                        this.ultimoValor = Math.max(...this.trabajosAsignados.map(item => item.ordenEjecucionTrabajo));
 
-                this.form.patchValue({
-                    trabajos: this.trabajosAsignados
-                });
-            }
+                        console.log('inicializarDatosServicio - Data completa:', this.data);
+                        console.log('inicializarDatosServicio - Trabajos asignados mapeados:', this.trabajosAsignados);
+                        console.log('inicializarDatosServicio - Último valor de ordenEjecucionTrabajo:', this.ultimoValor);
+
+                        this.form.patchValue({
+                            trabajos: this.trabajosAsignados
+                        });
+                    }
+                },
+                error: (error: unknown) => {
+                    console.error('Error al cargar datos del servicio:', error);
+                    this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+                },
+                complete: () => {
+                    this.isLoading = false;
+                    this.cargarTrabajos();
+                }
+            });
         } else {
-            console.warn('inicializarDatosServicio - No se recibió un objeto válido en data');
+            console.warn('inicializarDatosServicio - No se recibió un ID de servicio válido');
         }
     }
 
