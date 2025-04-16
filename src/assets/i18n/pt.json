@@ -551,7 +551,9 @@
                 "trabajos": "Trabalhos",
                 "info": {
                     "ordenTrabajos": "Os trabalhos são atribuídos na ordem em que você os seleciona. Você pode alterar a sequência arrastando as tags."
-                }
+                },
+                "sinTrabajosDisponibles": "Nenhum trabalho disponível para atribuir",
+                "verMas": "Ver mais"
             }
         }
     },

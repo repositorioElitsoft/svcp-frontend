@@ -579,7 +579,9 @@
                 "trabajos": "Jobs",
                 "info": {
                     "ordenTrabajos": "Jobs are assigned in the order you select them. You can change their sequence by dragging the tags."
-                }
+                },
+                "sinTrabajosDisponibles": "No jobs available to assign",
+                "verMas": "See more"
             }
         }
     },
