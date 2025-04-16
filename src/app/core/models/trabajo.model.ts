@@ -9,3 +9,7 @@ export interface Trabajo {
     descripcionTrabajo: string;
     trabajoTareas?: TrabajoTarea[]; // Opcional ya que puede ir vacío
 }
+
+export interface TrabajoDTO {
+    id: number;
+}
