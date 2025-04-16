@@ -571,6 +571,15 @@
                     "ordenTareas": "The tasks are assigned in the order you select them, you can change their sequence by dragging the tags."
                 },
                 "verMas": "See more"
+            },
+            "servicioTrabajo": {
+                "tituloAgregar": "Assign Jobs",
+                "servicio": "Service",
+                "seleccioneTrabajos": "Select Jobs to Assign",
+                "trabajos": "Jobs",
+                "info": {
+                    "ordenTrabajos": "Jobs are assigned in the order you select them. You can change their sequence by dragging the tags."
+                }
             }
         }
     },

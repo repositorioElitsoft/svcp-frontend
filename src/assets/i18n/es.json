@@ -570,6 +570,15 @@
                     "ordenTareas": "Las tareas se asignan en el orden en que las seleccionas, Puedes cambiar su secuencia arrastrando los tags."
                 },
                 "verMas": "Ver más"
+            },
+            "servicioTrabajo": {
+                "tituloAgregar": "Asignar Trabajos",
+                "servicio": "Servicio",
+                "seleccioneTrabajos": "Seleccione los Trabajos a Asignar",
+                "trabajos": "Trabajos",
+                "info": {
+                    "ordenTrabajos": "Los trabajos se asignan en el orden en que los seleccionas. Puedes cambiar su secuencia arrastrando los tags."
+                }
             }
         }
     },

@@ -19,6 +19,7 @@ import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-g
 import { ServicioService } from "../../../core/services/servicio.service";
 import { Servicio } from "../../../core/models/servicio.model";
 import { ServicioFormComponent } from "../../../shared/components/forms/servicio.component";
+import { ServicioTrabajoFormComponent } from "../../../shared/components/forms/servicio-trabajo.component";
 
 @Component({
     selector: "app-servicio",
@@ -640,7 +641,7 @@ export class ServicioComponent implements OnInit {
     }
 
     onAsignacion(element: any): void {
-        const dialogRef = this.dialog.open(ServicioFormComponent, {
+        const dialogRef = this.dialog.open(ServicioTrabajoFormComponent, {
             width: '400px',
             data: {
                 id: element.id,
