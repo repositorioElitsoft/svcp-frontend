@@ -460,8 +460,9 @@
             "servicio": {
                 "tituloEditar": "Edit Service",
                 "tituloAgregar": "Create Service",
-                "label.descripcionServicio": "Service Description",
-                "descripcion": "Enter the description of the service"
+                "label.descripcion": "Service",
+                "label.ingreseNombre": "Enter new name",
+                "descripcion": "Enter the service description"
             },
             "tarea": {
                 "tituloEditar": "Edit Task",

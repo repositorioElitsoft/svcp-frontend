@@ -12,6 +12,7 @@ import { convertErrorMessageToI18 } from '../../../core/utils/errors.utils';
 import { Estado } from '../../../core/models/estado.model';
 import { TipoServicio } from '../../../core/models/tipo-servicio.model';
 import { ServicioTrabajo } from '../../../core/models/servicio-trabajo.model';
+import { TipoServicioService } from '../../../core/services/tipo-servicio.service';
 
 import {
     MAT_DIALOG_DATA,
@@ -49,6 +50,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ServicioFormComponent implements OnInit {
     form!: FormGroup;
+    tiposServicio: TipoServicio[] = [];
 
     readonly dialogRef = inject(MatDialogRef<ServicioFormComponent>);
     readonly data = inject<any>(MAT_DIALOG_DATA);
@@ -57,17 +59,31 @@ export class ServicioFormComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private servicioService: ServicioService,
+        private tipoServicioService: TipoServicioService,
         private translate: TranslateService,
         private toastr: ToastrService,
     ) {
         this.form = this.fb.group({
             id: [null],
             descripcion: [null, Validators.required],
+            tipoServicioId: [null, Validators.required],
         });
     }
 
     ngOnInit() {
         console.log("Datos recibidos en el formulario:", this.data);
+
+        // Cargar tipos de servicio
+        this.tipoServicioService.buscarTodos().subscribe({
+            next: (response) => {
+                this.tiposServicio = response.data;
+                console.log("Tipos de servicio cargados:", this.tiposServicio);
+            },
+            error: (error) => {
+                const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
+                this.toastr.error(errorMessage);
+            }
+        });
 
         if (this.esActualizar() && this.data?.object) {
             console.log("Objeto recibido:", this.data.object);
@@ -75,6 +91,7 @@ export class ServicioFormComponent implements OnInit {
             this.form.patchValue({
                 id: this.data.object.id,
                 descripcion: this.data.object.descripcion,
+                tipoServicioId: this.data.object.tipoServicio?.id
             });
 
             console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -90,7 +107,7 @@ export class ServicioFormComponent implements OnInit {
                 id: this.form.value.id,
                 descripcion: this.form.value.descripcion,
                 estado: { id: 1, descripcion: 'Activo' } as Estado,
-                tipoServicio: { id: 1, descripcionTipoServicio: 'Normal' } as TipoServicio
+                tipoServicio: { id: this.form.value.tipoServicioId } as TipoServicio
             };
 
             console.log("Datos mapeados para enviar:", formData);

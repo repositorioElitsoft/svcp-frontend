@@ -8,19 +8,33 @@
 
         <!-- Campo de solo lectura para mostrar el valor actual (en modo edición) -->
         <mat-form-field *ngIf="data?.esActualizar" appearance="outline" class="w-full dark:text-white">
-            <mat-label> {{ 'mantenedores.formularios.servicio.label.descripcionServicio' | translate }}</mat-label>
-            <input matInput [value]="data?.object?.descripcionServicio" readonly maxlength="50"
+            <mat-label> {{ 'mantenedores.formularios.servicio.label.descripcion' | translate }}</mat-label>
+            <input matInput [value]="data?.object?.descripcion" readonly maxlength="50"
                 class="text-lg w-full dark:text-white bg-gray-100">
-            <mat-hint align="end">{{data?.object?.descripcionServicio?.length || 0}}/50</mat-hint>
+            <mat-hint align="end">{{data?.object?.descripcion?.length || 0}}/50</mat-hint>
         </mat-form-field>
 
         <!-- Campo obligatorio para el nuevo valor -->
         <mat-form-field appearance="outline" class="w-full dark:text-white">
             <mat-label>{{ (data?.esActualizar ? 'mantenedores.formularios.servicio.label.ingreseNombre' :
-                'mantenedores.formularios.servicio.label.descripcionServicio') | translate }}</mat-label>
-            <input matInput formControlName="descripcionServicio" class="text-lg w-full dark:text-white" maxlength="50">
-            <mat-hint align="end">{{form.get('descripcionServicio')?.value?.length || 0}}/50</mat-hint>
-            <mat-error *ngIf="form.get('descripcionServicio')?.hasError('required')" class="text-red-500 text-base">
+                'mantenedores.formularios.servicio.label.descripcion') | translate }}</mat-label>
+            <input matInput formControlName="descripcion" class="text-lg w-full dark:text-white" maxlength="50">
+            <mat-hint align="end">{{form.get('descripcion')?.value?.length || 0}}/50</mat-hint>
+            <mat-error *ngIf="form.get('descripcion')?.hasError('required')" class="text-red-500 text-base">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Select para Tipo de Servicio -->
+        <mat-form-field appearance="outline" class="w-full dark:text-white">
+            <mat-label>{{ 'mantenedores.formularios.tipoServicio.label.descripcionTipoServicio' | translate
+                }}</mat-label>
+            <mat-select formControlName="tipoServicioId" class="text-lg w-full dark:text-white">
+                <mat-option *ngFor="let tipo of tiposServicio" [value]="tipo.id">
+                    {{tipo.descripcionTipoServicio}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('tipoServicioId')?.hasError('required')" class="text-red-500 text-base">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
         </mat-form-field>

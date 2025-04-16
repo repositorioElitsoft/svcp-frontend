@@ -477,7 +477,8 @@
             "servicio": {
                 "tituloEditar": "Editar Servicio",
                 "tituloAgregar": "Crear Servicio",
-                "label.descripcionServicio": "Descripción del Servicio",
+                "label.descripcion": "Servicio",
+                "label.ingreseNombre": "Ingrese nuevo nombre",
                 "descripcion": "Ingrese la descripción del servicio"
             },
             "tarea": {
