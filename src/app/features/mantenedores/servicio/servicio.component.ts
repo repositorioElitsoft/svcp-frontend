@@ -28,7 +28,7 @@ import { ServicioFormComponent } from "../../../shared/components/forms/servicio
 
 })
 export class ServicioComponent implements OnInit {
-    displayedColumns: string[] = ['id', 'descripcion', 'tipoServicio', 'trabajos'];
+    displayedColumns: string[] = ['id', 'descripcion', 'tipoServicio', 'estado', 'trabajos'];
     columnConfig: {
         field: string;
         type: 'text' | 'chips' | 'custom';
@@ -43,6 +43,12 @@ export class ServicioComponent implements OnInit {
                 field: 'tipoServicio',
                 type: 'text',
                 nestedPath: 'descripcionTipoServicio',
+                sortable: true
+            },
+            {
+                field: 'estado',
+                type: 'text',
+                nestedPath: 'descripcion',
                 sortable: true
             },
             {
@@ -81,11 +87,18 @@ export class ServicioComponent implements OnInit {
     }
 
     onViewSelected(id: string): void {
+        const selectedObject = this.dataSource.find(item => item.id === Number(id));
+        if (!selectedObject) {
+            return;
+        }
         const dialogRef = this.dialog.open(ServicioFormComponent, {
             width: '400px',
             data: {
                 esActualizar: true,
-                object: this.dataSource.find(item => item.id === Number(id))
+                object: {
+                    ...selectedObject,
+                    estado: selectedObject.estado || { id: 1, descripcion: 'Activo' }
+                }
             }
         });
 
@@ -113,17 +126,16 @@ export class ServicioComponent implements OnInit {
             const formattedData = dataArray.map(item => {
                 const formattedItem: any = {
                     id: item.id,
-                    descripcionTrabajo: item.descripcionTrabajo,
-                    tareas: item.trabajoTareas ? item.trabajoTareas
-                        .sort((a: any, b: any) => a.ordenEjecucionTarea - b.ordenEjecucionTarea)
-                        .map((tt: any) => tt.tarea.descripcionTarea)
-                        .join(', ') : ''
+                    descripcion: item.descripcion,
+                    tipoServicio: item.tipoServicio?.descripcionTipoServicio || '',
+                    estado: item.estado?.descripcion || 'Activo',
+                    trabajos: item.trabajos ? item.trabajos.map((t: any) => t.trabajo?.descripcion).join(', ') : ''
                 };
                 return formattedItem;
             });
 
             // Definir las columnas que queremos exportar y su orden
-            const columnKeys = ['descripcion', 'trabajos'];
+            const columnKeys = ['id', 'descripcion', 'tipoServicio', 'estado', 'trabajos'];
 
             const translationKeys = columnKeys.map(key => `${translationBase}.${key}`);
 
@@ -201,7 +213,7 @@ export class ServicioComponent implements OnInit {
             'descripcion': 'descripcion',
             'fechaCreacion': 'fechaCreacion',
             'fechaModificacion': 'fechaModificacion',
-            'estado': 'estado',
+            'estado': 'estado.descripcion',
             'usuarioCreacion': 'usuarioCreacion',
             'usuarioModificacion': 'usuarioModificacion'
         };
@@ -275,6 +287,9 @@ export class ServicioComponent implements OnInit {
             width: '400px',
             data: {
                 esActualizar: false,
+                object: {
+                    estado: { id: 1, descripcion: 'Activo' }
+                }
             }
         });
 
@@ -315,6 +330,7 @@ export class ServicioComponent implements OnInit {
                             id: item.id,
                             descripcion: item.descripcion,
                             tipoServicio: item.tipoServicio || {},
+                            estado: item.estado || { id: 1, descripcion: 'Activo' },
                             trabajos: Array.isArray(item.trabajos) ? [...item.trabajos] : []
                         });
                     }
@@ -630,7 +646,8 @@ export class ServicioComponent implements OnInit {
             data: {
                 id: element.id,
                 descripcion: element.descripcion,
-                trabajos: element.trabajos || []
+                trabajos: element.trabajos || [],
+                estado: element.estado || { id: 1, descripcion: 'Activo' }
             }
         });
 
@@ -677,7 +694,10 @@ export class ServicioComponent implements OnInit {
             width: '400px',
             data: {
                 esActualizar: true,
-                object: selectedObject
+                object: {
+                    ...selectedObject,
+                    estado: selectedObject.estado || { id: 1, descripcion: 'Activo' }
+                }
             }
         });
 

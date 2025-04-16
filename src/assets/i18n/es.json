@@ -230,6 +230,7 @@
             "titulo": "Servicio",
             "descripcion": "Descripción",
             "tipoServicio": "Tipo Servicio",
+            "estado": "Estado",
             "trabajos": "Job",
             "table": {
                 "digiteBusqueda": "Digite descripción del servicio",

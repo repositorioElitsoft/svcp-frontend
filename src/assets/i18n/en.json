@@ -219,9 +219,10 @@
         "servicio": {
             "id": "Id",
             "titulo": "Service",
-            "descripcionServicio": "Service ",
+            "descripcion": "Description",
             "tipoServicio": "Service Type",
-            "trabajos": "Work",
+            "estado": "Status",
+            "trabajos": "Job",
             "table": {
                 "digiteBusqueda": "Enter service description",
                 "sinDatos": "No data available",

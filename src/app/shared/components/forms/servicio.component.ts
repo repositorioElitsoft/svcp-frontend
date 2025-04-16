@@ -126,10 +126,13 @@ export class ServicioFormComponent implements OnInit {
     onSubmit() {
         console.log("Formulario enviado:", this.form.value);
         if (this.form.valid) {
+            // Obtener el estado del objeto o usar el valor por defecto
+            const estado = this.data?.object?.estado || { id: 1, descripcion: 'Activo' };
+
             const formData: Servicio = {
                 id: this.form.value.id,
                 descripcion: this.form.value.descripcion,
-                estado: { id: 1, descripcion: 'Activo' } as Estado,
+                estado: estado as Estado,
                 tipoServicio: { id: this.form.value.tipoServicioId } as TipoServicio
             };
 
