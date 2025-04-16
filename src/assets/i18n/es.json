@@ -228,10 +228,10 @@
         "servicio": {
             "id": "Id",
             "titulo": "Servicio",
-            "descripcion": "Descripción",
+            "descripcion": "Servicio",
             "tipoServicio": "Tipo Servicio",
             "estado": "Estado",
-            "trabajos": "Job",
+            "trabajos": "Trabajo",
             "table": {
                 "digiteBusqueda": "Digite descripción del servicio",
                 "sinDatos": "No hay datos disponibles",

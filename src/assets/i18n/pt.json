@@ -209,8 +209,11 @@
         },
         "servicio": {
             "id": "Id",
-            "titulo": "Serviço",
-            "descripcionServicio": "Descrição do Serviço"
+            "titulo": "Serviços",
+            "descripcion": "Serviço",
+            "tipoServicio": "Tipo de Serviço",
+            "trabajos": "Trabalho",
+            "estado": "Estado"
         },
         "tarea": {
             "id": "Id",

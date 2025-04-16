@@ -219,7 +219,7 @@
         "servicio": {
             "id": "Id",
             "titulo": "Service",
-            "descripcion": "Description",
+            "descripcion": "Service",
             "tipoServicio": "Service Type",
             "estado": "Status",
             "trabajos": "Job",
