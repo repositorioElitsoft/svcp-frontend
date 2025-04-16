@@ -22,8 +22,7 @@ import { ServicioFormComponent } from "../../../shared/components/forms/servicio
 import { ServicioTrabajoFormComponent } from "../../../shared/components/forms/servicio-trabajo.component";
 import { FormsModule } from "@angular/forms";
 import { MatSelectModule } from "@angular/material/select";
-import { TipoServicioService } from "../../../core/services/tipo-servicio.service";
-import { EstadoService } from "../../../core/services/estado.service";
+import { BusquedaServicioComponent } from "./busqueda-servicio/busqueda-servicio.component";
 
 @Component({
     selector: "app-servicio",
@@ -38,13 +37,16 @@ import { EstadoService } from "../../../core/services/estado.service";
         TranslateModule,
         BusquedaGenericaComponent,
         FormsModule,
-        MatSelectModule
+        MatSelectModule,
+        BusquedaServicioComponent
     ],
     templateUrl: "./servicio.component.html",
+
 })
 export class ServicioComponent implements OnInit {
     displayedColumns: string[] = ['id', 'descripcion', 'tipoServicio', 'estado', 'trabajos'];
     isLoading = false;
+    searchText: string = '';
     columnConfig: {
         field: string;
         type: 'text' | 'chips' | 'custom' | 'estado';
@@ -85,22 +87,13 @@ export class ServicioComponent implements OnInit {
     activeOptionalFilters: any = [];
     currentSortState: { column: string, direction: string } | null = null;
     currentFilters: any = {};
-    searchValue: string = '';
-    selectedTipoServicio: any = null;
-    selectedEstado: any = null;
-    tiposServicio: any[] = [];
-    estados: any[] = [];
     constructor(private cdr: ChangeDetectorRef,
         private router: Router, public dialog: MatDialog, private exportService: ExportarDocService,
         private translate: TranslateService, private toastr: ToastrService,
-        private servicioTrabajoService: ServicioTrabajoService, private servicioService: ServicioService,
-        private tipoServicioService: TipoServicioService,
-        private estadoService: EstadoService) { }
+        private servicioTrabajoService: ServicioTrabajoService, private servicioService: ServicioService) { }
 
     ngOnInit() {
         this.obtenerDatos();
-        this.cargarTiposServicio();
-        this.cargarEstados();
     }
 
     /********************************** TABLA - SHARED TABLE **********************************/
@@ -727,71 +720,5 @@ export class ServicioComponent implements OnInit {
                 this.obtenerDatos("id", "desc");
             }
         });
-    }
-
-    cargarTiposServicio() {
-        this.tipoServicioService.buscarTodos().subscribe({
-            next: (response: any) => {
-                if (response && response.data) {
-                    this.tiposServicio = response.data;
-                }
-            },
-            error: (error) => {
-                console.error('Error al cargar tipos de servicio:', error);
-            }
-        });
-    }
-
-    cargarEstados() {
-        this.estadoService.buscarTodos().subscribe({
-            next: (response: any) => {
-                if (response && response.data) {
-                    this.estados = response.data;
-                }
-            },
-            error: (error) => {
-                console.error('Error al cargar estados:', error);
-            }
-        });
-    }
-
-    onSearchValueChange() {
-        // Este método se puede usar para implementar búsqueda en tiempo real si se desea
-        console.log('Valor de búsqueda cambiado:', this.searchValue);
-    }
-
-    clearSearchInput() {
-        this.searchValue = '';
-        this.executeSearch();
-    }
-
-    executeSearch() {
-        const filter: any = {};
-        const labels: any[] = [];
-
-        if (this.searchValue) {
-            filter.descripcion = this.searchValue;
-            labels.push({ field: 'descripcion', value: this.searchValue });
-        }
-
-        if (this.selectedTipoServicio) {
-            filter.tipoServicio = this.selectedTipoServicio.id;
-            labels.push({
-                field: 'tipoServicio',
-                value: this.selectedTipoServicio.descripcionTipoServicio,
-                id: this.selectedTipoServicio.id
-            });
-        }
-
-        if (this.selectedEstado) {
-            filter.estado = this.selectedEstado.id;
-            labels.push({
-                field: 'estado',
-                value: this.selectedEstado.descripcion,
-                id: this.selectedEstado.id
-            });
-        }
-
-        this.buscar({ filter, labels });
     }
 }
