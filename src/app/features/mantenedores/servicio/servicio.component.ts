@@ -195,7 +195,7 @@ export class ServicioComponent implements OnInit {
 
             console.log("Solicitando datos a la API con filtros:", filtros);
 
-            this.servicioService.buscarFiltrado(filtros).subscribe(
+            this.servicioService.buscarFiltradoAsignacion(filtros).subscribe(
                 (response: any) => {
                     const apiData = response?.content ?? response?.data ?? [];
                     console.log("CAMINO 2.1: Datos recibidos de API - Cantidad:", apiData.length);
@@ -227,9 +227,10 @@ export class ServicioComponent implements OnInit {
         const fieldMapping: { [key: string]: string } = {
             'id': 'id',
             'descripcion': 'descripcion',
+            'tipoServicio': 'tipoServicio.descripcionTipoServicio',
+            'estado': 'estado.descripcion',
             'fechaCreacion': 'fechaCreacion',
             'fechaModificacion': 'fechaModificacion',
-            'estado': 'estado.descripcion',
             'usuarioCreacion': 'usuarioCreacion',
             'usuarioModificacion': 'usuarioModificacion'
         };
@@ -334,7 +335,7 @@ export class ServicioComponent implements OnInit {
         console.log('Parámetros de búsqueda:', params);
 
         // Primera llamada para obtener todos los servicios y contar el total real
-        this.servicioService.buscarFiltrado(params).subscribe((fullResponse: any) => {
+        this.servicioService.buscarFiltradoAsignacion(params).subscribe((fullResponse: any) => {
             console.log('Respuesta completa inicial:', fullResponse);
 
             // Obtenemos todos los servicios únicos
@@ -365,9 +366,22 @@ export class ServicioComponent implements OnInit {
 
             // Ordenamos el array según el campo y dirección especificados
             serviciosArray.sort((a: any, b: any) => {
-                const valorA = a[sortField];
-                const valorB = b[sortField];
+                // Función para obtener el valor anidado de un objeto
+                const getNestedValue = (obj: any, path: string) => {
+                    return path.split('.').reduce((o, i) => (o ? o[i] : null), obj);
+                };
 
+                const valorA = getNestedValue(a, sortField);
+                const valorB = getNestedValue(b, sortField);
+
+                // Si los valores son strings, usar localeCompare para ordenamiento correcto de texto
+                if (typeof valorA === 'string' && typeof valorB === 'string') {
+                    return sortDirection === 'asc'
+                        ? valorA.localeCompare(valorB)
+                        : valorB.localeCompare(valorA);
+                }
+
+                // Para otros tipos de valores
                 if (sortDirection === 'asc') {
                     return valorA > valorB ? 1 : -1;
                 } else {

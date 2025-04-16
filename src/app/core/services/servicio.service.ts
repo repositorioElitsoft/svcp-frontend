@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Servicio } from '../models/servicio.model';
 import { ApiEntityResponse } from "../models/api-entity-response.model";
+import { PagedResponse } from "../models/paged-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -61,14 +62,44 @@ export class ServicioService {
     }
 
     // GET /core/filter/servicios
-    buscarFiltrado(filtros: { [key: string]: any }): Observable<ApiEntityResponse<Servicio[]>> {
+    buscarFiltrado(filtros: { [key: string]: any }): Observable<PagedResponse<Servicio>> {
         let params = new HttpParams();
         // Recorrer los filtros y agregar los que tengan valor
         for (let key in filtros) {
-            if (filtros.hasOwnProperty(key)) {
-                params = params.append(key, filtros[key]);
+            if (filtros.hasOwnProperty(key) && filtros[key] !== undefined && filtros[key] !== null && filtros[key] !== '') {
+                params = params.append(key, filtros[key].toString());
             }
         }
-        return this.http.get<ApiEntityResponse<Servicio[]>>(`${this.url}core/filter/servicios`, { params, headers: this.headers });
+
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        });
+
+        return this.http.get<PagedResponse<Servicio>>(`${this.url}core/filter/servicios`, {
+            params,
+            headers: headers
+        });
+    }
+
+    // GET /core/filter/servicios-trabajos-asignados
+    buscarFiltradoAsignacion(filtros: { [key: string]: any }): Observable<PagedResponse<Servicio>> {
+        let params = new HttpParams();
+        // Recorrer los filtros y agregar los que tengan valor
+        for (let key in filtros) {
+            if (filtros.hasOwnProperty(key) && filtros[key] !== undefined && filtros[key] !== null && filtros[key] !== '') {
+                params = params.append(key, filtros[key].toString());
+            }
+        }
+
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        });
+
+        return this.http.get<PagedResponse<Servicio>>(`${this.url}core/filter/servicios-trabajos-asignados`, {
+            params,
+            headers: headers
+        });
     }
 } 
