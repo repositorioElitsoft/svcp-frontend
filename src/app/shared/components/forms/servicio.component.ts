@@ -26,6 +26,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { Servicio } from '../../../core/models/servicio.model';
 import { ToastrService } from 'ngx-toastr';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-servicio-create-form',
@@ -51,6 +52,8 @@ import { ToastrService } from 'ngx-toastr';
 export class ServicioFormComponent implements OnInit {
     form!: FormGroup;
     tiposServicio: TipoServicio[] = [];
+    tipoServicioSeleccionado: number | null = null;
+    isLoading = true;
 
     readonly dialogRef = inject(MatDialogRef<ServicioFormComponent>);
     readonly data = inject<any>(MAT_DIALOG_DATA);
@@ -73,30 +76,50 @@ export class ServicioFormComponent implements OnInit {
     ngOnInit() {
         console.log("Datos recibidos en el formulario:", this.data);
 
+        // Guardar el ID del tipo de servicio si estamos en modo edición
+        if (this.esActualizar() && this.data?.object?.tipoServicio?.id) {
+            this.tipoServicioSeleccionado = this.data.object.tipoServicio.id;
+            console.log("ID del tipo de servicio a precargar:", this.tipoServicioSeleccionado);
+        }
+
         // Cargar tipos de servicio
         this.tipoServicioService.buscarTodos().subscribe({
             next: (response) => {
                 this.tiposServicio = response.data;
                 console.log("Tipos de servicio cargados:", this.tiposServicio);
+
+                // Después de cargar los tipos de servicio, establecer el valor en el formulario
+                if (this.esActualizar() && this.data?.object) {
+                    // Asegurarse de que el tipo de servicio existe en la lista
+                    const tipoServicioExiste = this.tiposServicio.some(t => t.id === this.tipoServicioSeleccionado);
+
+                    if (tipoServicioExiste) {
+                        this.form.patchValue({
+                            id: this.data.object.id,
+                            descripcion: this.data.object.descripcion,
+                            tipoServicioId: this.tipoServicioSeleccionado
+                        });
+                        console.log("Formulario actualizado con tipo de servicio:", this.form.value);
+                    } else {
+                        console.error("El tipo de servicio seleccionado no existe en la lista:", this.tipoServicioSeleccionado);
+                        this.toastr.error(this.translate.instant('mantenedores.formularios.tipoServicio.noEncontrado'));
+                    }
+                }
+
+                this.isLoading = false;
             },
             error: (error) => {
                 const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
                 this.toastr.error(errorMessage);
+                this.isLoading = false;
             }
         });
 
-        if (this.esActualizar() && this.data?.object) {
-            console.log("Objeto recibido:", this.data.object);
-
+        // Si no estamos en modo edición, solo establecer la descripción
+        if (!this.esActualizar() && this.data?.object) {
             this.form.patchValue({
-                id: this.data.object.id,
-                descripcion: this.data.object.descripcion,
-                tipoServicioId: this.data.object.tipoServicio?.id
+                descripcion: this.data.object.descripcion
             });
-
-            console.log("Datos en el formulario después de patchValue:", this.form.value);
-        } else {
-            console.error("No se recibió un objeto válido en 'data'");
         }
     }
 

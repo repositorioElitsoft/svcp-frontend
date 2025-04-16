@@ -227,8 +227,27 @@
         },
         "servicio": {
             "id": "Id",
-            "titulo": "Servicios",
-            "descripcion": "Servicio"
+            "titulo": "Servicio",
+            "descripcion": "Descripción",
+            "tipoServicio": "Tipo Servicio",
+            "trabajos": "Job",
+            "table": {
+                "digiteBusqueda": "Digite descripción del servicio",
+                "sinDatos": "No hay datos disponibles",
+                "seleccionarTodos": "Seleccionar todos",
+                "deseleccionarTodos": "Deseleccionar todos",
+                "mostrar": "Mostrar",
+                "registros": "registros",
+                "de": "de",
+                "acciones": "Acciones",
+                "buscar": "Buscar",
+                "limpiar": "Limpiar",
+                "exportar": "Exportar",
+                "eliminar": "Eliminar",
+                "editar": "Editar",
+                "ver": "Ver",
+                "asignacion": "Asignación"
+            }
         },
         "tarea": {
             "id": "Id",
@@ -279,13 +298,28 @@
             "descripcion": "Descripción"
         },
         "formularios": {
-            "campoRequerido": "Este campo es obligatorio",
+            "campoRequerido": "Este campo es requerido",
             "botonCancelar": "Cancelar",
-            "botonAgregar": "Guardar",
-            "actualizar": "Actualizar",
             "guardar": "Guardar",
-            "borrar": "Borrar",
-            "subir": "Subir",
+            "actualizar": "Actualizar",
+            "cargando": "Cargando...",
+            "toastr": {
+                "error": "Error al procesar la solicitud"
+            },
+            "servicio": {
+                "tituloEditar": "Editar Servicio",
+                "tituloAgregar": "Crear Servicio",
+                "label.descripcion": "Servicio",
+                "label.ingreseNombre": "Ingrese nuevo nombre",
+                "descripcion": "Ingrese la descripción del servicio"
+            },
+            "tipoServicio": {
+                "tituloEditar": "Editar Tipo de Servicio",
+                "tituloAgregar": "Crear Tipo de Servicio",
+                "label.descripcionTipoServicio": "Tipo de Servicio",
+                "descripcion": "Ingrese la descripción del tipo de servicio",
+                "noEncontrado": "El tipo de servicio seleccionado no existe en la lista"
+            },
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupación Comercial",
                 "tituloAgregar": "Crear Agrupación Comercial",
@@ -473,26 +507,6 @@
                 "tituloAgregar": "Crear Segmentación del Cliente",
                 "label.descripcion": "Segmentación del Cliente",
                 "descripcion": "Ingrese la segmentación del cliente"
-            },
-            "servicio": {
-                "tituloEditar": "Editar Servicio",
-                "tituloAgregar": "Crear Servicio",
-                "label.descripcion": "Servicio",
-                "label.ingreseNombre": "Ingrese nuevo nombre",
-                "descripcion": "Ingrese la descripción del servicio"
-            },
-            "tarea": {
-                "tituloEditar": "Editar Tarea",
-                "tituloAgregar": "Crear Tarea",
-                "label.descripcionTarea": "Descripción de la Tarea",
-                "descripcion": "Ingrese la descripción de la tarea"
-            },
-            "tipoCliente": {
-                "tituloEditar": "Editar Tipo de Cliente",
-                "tituloAgregar": "Crear Tipo de Cliente",
-                "label.nombre": "Tipo de Cliente",
-                "label.descripcion": "Descripción del Tipo de Cliente",
-                "descripcion": "Ingrese el tipo de cliente"
             },
             "tipoDocumentoIdentificacion": {
                 "tituloEditar": "Editar Documento Identifiación",

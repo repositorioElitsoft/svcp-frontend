@@ -29,7 +29,7 @@
         <mat-form-field appearance="outline" class="w-full dark:text-white">
             <mat-label>{{ 'mantenedores.formularios.tipoServicio.label.descripcionTipoServicio' | translate
                 }}</mat-label>
-            <mat-select formControlName="tipoServicioId" class="text-lg w-full dark:text-white">
+            <mat-select formControlName="tipoServicioId" class="text-lg w-full dark:text-white" [disabled]="isLoading">
                 <mat-option *ngFor="let tipo of tiposServicio" [value]="tipo.id">
                     {{tipo.descripcionTipoServicio}}
                 </mat-option>
@@ -37,6 +37,9 @@
             <mat-error *ngIf="form.get('tipoServicioId')?.hasError('required')" class="text-red-500 text-base">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
+            <mat-hint *ngIf="isLoading" class="text-blue-500">
+                {{ 'mantenedores.formularios.cargando' | translate }}
+            </mat-hint>
         </mat-form-field>
 
         <div class="grid grid-cols-2 gap-4 w-full">
@@ -44,7 +47,7 @@
                 class="text-lg elitsoft-warn w-full flex items-center justify-center py-2 text-center">
                 {{ 'mantenedores.formularios.botonCancelar' | translate }}
             </button>
-            <button type="submit" [disabled]="form.invalid"
+            <button type="submit" [disabled]="form.invalid || isLoading"
                 class="text-lg elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
                 {{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
                 'mantenedores.formularios.guardar') |

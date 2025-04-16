@@ -28,7 +28,7 @@ import { ServicioFormComponent } from "../../../shared/components/forms/servicio
 
 })
 export class ServicioComponent implements OnInit {
-    displayedColumns: string[] = ['id', 'descripcion', 'trabajos'];
+    displayedColumns: string[] = ['id', 'descripcion', 'tipoServicio', 'trabajos'];
     columnConfig: {
         field: string;
         type: 'text' | 'chips' | 'custom';
@@ -39,6 +39,12 @@ export class ServicioComponent implements OnInit {
     }[] = [
             { field: 'id', type: 'text' },
             { field: 'descripcion', type: 'text' },
+            {
+                field: 'tipoServicio',
+                type: 'text',
+                nestedPath: 'descripcionTipoServicio',
+                sortable: true
+            },
             {
                 field: 'trabajos',
                 type: 'chips',
@@ -308,6 +314,7 @@ export class ServicioComponent implements OnInit {
                         todosLosServicios.set(item.id, {
                             id: item.id,
                             descripcion: item.descripcion,
+                            tipoServicio: item.tipoServicio || {},
                             trabajos: Array.isArray(item.trabajos) ? [...item.trabajos] : []
                         });
                     }
@@ -665,6 +672,7 @@ export class ServicioComponent implements OnInit {
         if (!selectedObject) {
             return;
         }
+        console.log('Objeto seleccionado para editar:', selectedObject);
         const dialogRef = this.dialog.open(ServicioFormComponent, {
             width: '400px',
             data: {

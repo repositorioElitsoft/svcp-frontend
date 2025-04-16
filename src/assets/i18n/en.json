@@ -219,7 +219,26 @@
         "servicio": {
             "id": "Id",
             "titulo": "Service",
-            "descripcionServicio": "Service "
+            "descripcionServicio": "Service ",
+            "tipoServicio": "Service Type",
+            "trabajos": "Work",
+            "table": {
+                "digiteBusqueda": "Enter service description",
+                "sinDatos": "No data available",
+                "seleccionarTodos": "Select all",
+                "deseleccionarTodos": "Deselect all",
+                "mostrar": "Show",
+                "registros": "records",
+                "de": "of",
+                "acciones": "Actions",
+                "buscar": "Search",
+                "limpiar": "Clear",
+                "exportar": "Export",
+                "eliminar": "Delete",
+                "editar": "Edit",
+                "ver": "View",
+                "asignacion": "Assignment"
+            }
         },
         "tarea": {
             "id": "Id",
@@ -498,8 +517,9 @@
             "tipoServicio": {
                 "tituloEditar": "Edit Service Type",
                 "tituloAgregar": "Create Service Type",
-                "label.descripcionTipoServicio": "Service Type Description",
-                "descripcion": "Enter the description of the service type"
+                "label.descripcionTipoServicio": "Service Type",
+                "descripcion": "Enter the service type description",
+                "noEncontrado": "The selected service type does not exist in the list"
             },
             "trabajo": {
                 "tituloEditar": "Edit Job",
