@@ -476,6 +476,24 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
 
         console.log('onSubmit - Datos formateados para enviar:', trabajosFormateados);
 
+        // Si no hay servicioTrabajos previos, enviamos todos los trabajos
+        if (!this.data?.servicioTrabajos) {
+            this.servicioTrabajoService.crearLote(trabajosFormateados).subscribe({
+                next: (response) => {
+                    console.log('onSubmit - Respuesta exitosa:', response);
+                    this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+                    this.dialogRef.close(true);
+                },
+                error: (error) => {
+                    console.error('onSubmit - Error en la petición:', error);
+                    const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error));
+                    this.toastr.error(errorMessage);
+                }
+            });
+            return;
+        }
+
+        // Si hay servicioTrabajos previos, filtramos los nuevos
         const trabajosNuevosParaEnviar = trabajosFormateados.filter(trabajoFormateado =>
             !this.data.servicioTrabajos.some((st: any) => st.trabajo.id === trabajoFormateado.trabajo.id)
         );
