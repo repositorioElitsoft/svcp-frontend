@@ -146,9 +146,11 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
     private inicializarDatosServicio(): void {
         console.log('1. inicializarDatosServicio - this.data inicial:', this.data);
 
-        if (this.data) {
-            this.servicioId = this.data;
+        if (this.data?.id) {
+            this.servicioId = this.data.id;
+            this.servicioDescripcion = this.data.descripcion || '';
             console.log('2. servicioId asignado:', this.servicioId);
+            console.log('2.1 servicioDescripcion asignada:', this.servicioDescripcion);
 
             // Cargar datos del servicio y sus trabajos
             this.isLoading = true;

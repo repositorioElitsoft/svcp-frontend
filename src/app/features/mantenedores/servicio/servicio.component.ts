@@ -643,7 +643,10 @@ export class ServicioComponent implements OnInit {
     onAsignacion(element: any): void {
         const dialogRef = this.dialog.open(ServicioTrabajoFormComponent, {
             width: '400px',
-            data: element.id
+            data: {
+                id: element.id,
+                descripcion: element.descripcion
+            }
         });
 
         dialogRef.afterClosed().subscribe(result => {
