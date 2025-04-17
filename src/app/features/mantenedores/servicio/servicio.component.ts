@@ -619,18 +619,38 @@ export class ServicioComponent implements OnInit {
                 // Si no hay trabajos, eliminamos directamente el servicio
                 if (servicioTrabajos.length === 0) {
                     console.log('Método onDeleteSingleSelected - No hay trabajos, eliminando servicio directamente');
-                    this.servicioService.borrar(servicioId).subscribe({
-                        next: () => {
-                            console.log('Método onDeleteSingleSelected - Eliminación exitosa');
-                            this.sharedTableComponent.clearSelection(); // Limpiamos la selección después de eliminar
-                            this.obtenerDatos();
-                            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-                        },
-                        error: (error: unknown) => {
-                            console.error("Error al eliminar servicio:", error);
-                            this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
-                        }
-                    });
+
+                    this.servicioService.borrar(servicioId)
+                        .pipe(
+                            catchError(err => {
+                                console.error("Error al intentar eliminar el servicio:", err);
+                                console.log('Intentando actualizar el estado del servicio a Cancelado...');
+
+                                // Crear una copia del servicio con el estado actualizado
+                                const servicioActualizado: Servicio = {
+                                    id: servicioId,
+                                    descripcion: servicio!.descripcion,
+                                    tipoServicio: servicio!.tipoServicio,
+                                    estado: { id: 2, descripcion: 'Cancelado' },
+                                    trabajos: servicio!.trabajos || []
+                                };
+
+                                // Retornar el observable de actualización
+                                return this.servicioService.actualizar(servicioId, servicioActualizado);
+                            })
+                        )
+                        .subscribe({
+                            next: () => {
+                                console.log('Método onDeleteSingleSelected - Operación exitosa (eliminación o actualización)');
+                                this.sharedTableComponent.clearSelection(); // Limpiamos la selección después de eliminar
+                                this.obtenerDatos();
+                                this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                            },
+                            error: (finalErr) => {
+                                console.error("Error en ambas operaciones:", finalErr);
+                                this.toastr.error(this.translate.instant(convertErrorMessageToI18(finalErr)));
+                            }
+                        });
                     return;
                 }
 
@@ -648,21 +668,32 @@ export class ServicioComponent implements OnInit {
                         // Después de eliminar todos los trabajos, eliminamos el servicio
                         switchMap(() => this.servicioService.borrar(servicioId)),
                         catchError((error: unknown) => {
-                            console.error("Error al eliminar elementos:", error);
-                            this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
-                            return throwError(() => error);
+                            console.error("Error al intentar eliminar el servicio:", error);
+                            console.log('Intentando actualizar el estado del servicio a Cancelado...');
+
+                            // Crear una copia del servicio con el estado actualizado
+                            const servicioActualizado: Servicio = {
+                                id: servicioId,
+                                descripcion: servicio!.descripcion,
+                                tipoServicio: servicio!.tipoServicio,
+                                estado: { id: 2, descripcion: 'Cancelado' },
+                                trabajos: servicio!.trabajos || []
+                            };
+
+                            // Retornar el observable de actualización
+                            return this.servicioService.actualizar(servicioId, servicioActualizado);
                         })
                     )
                     .subscribe({
                         next: () => {
-                            console.log('Método onDeleteSingleSelected - Eliminación exitosa');
+                            console.log('Método onDeleteSingleSelected - Operación exitosa (eliminación o actualización)');
                             this.sharedTableComponent.clearSelection(); // Limpiamos la selección después de eliminar
                             this.obtenerDatos();
-                            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+                            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
                         },
-                        error: (error: unknown) => {
-                            console.error("Error al eliminar elementos:", error);
-                            this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+                        error: (finalErr) => {
+                            console.error("Error en ambas operaciones:", finalErr);
+                            this.toastr.error(this.translate.instant(convertErrorMessageToI18(finalErr)));
                         }
                     });
             } else {
