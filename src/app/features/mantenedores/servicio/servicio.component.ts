@@ -142,17 +142,45 @@ export class ServicioComponent implements OnInit {
 
             // Formatear los datos antes de la exportación
             const formattedData = dataArray.map(item => {
-                const trabajosString = Array.isArray(item.trabajos)
-                    ? item.trabajos
-                        .map((t: any) => t.trabajo?.descripcionTrabajo || t.trabajo?.descripcion || '')
-                        .filter((desc: string) => desc) // Filtrar valores vacíos
-                        .join(', ')
-                    : '';
+                // Depurar la estructura del item para entender cómo extraer los trabajos
+                console.log("Estructura de item a exportar:", JSON.stringify({
+                    id: item.id,
+                    hasTrabajos: !!item.trabajos,
+                    trabajosLength: Array.isArray(item.trabajos) ? item.trabajos.length : 'no es array',
+                    servicioTrabajosLength: Array.isArray(item.servicioTrabajos) ? item.servicioTrabajos.length : 'no es array',
+                    sample: item.trabajos && item.trabajos.length > 0 ? item.trabajos[0] : (
+                        item.servicioTrabajos && item.servicioTrabajos.length > 0 ? item.servicioTrabajos[0] : 'no hay muestra'
+                    )
+                }));
+
+                // Intentar obtener los trabajos desde trabajos o servicioTrabajos
+                let trabajosArray = [];
+                if (Array.isArray(item.trabajos) && item.trabajos.length > 0) {
+                    trabajosArray = item.trabajos;
+                } else if (Array.isArray(item.servicioTrabajos) && item.servicioTrabajos.length > 0) {
+                    trabajosArray = item.servicioTrabajos;
+                }
+
+                // Procesamiento mejorado para extraer descripciones de trabajos
+                const trabajosString = trabajosArray
+                    .map((t: any) => {
+                        if (t.trabajo) {
+                            return t.trabajo.descripcionTrabajo || t.trabajo.descripcion || '';
+                        } else if (t.descripcionTrabajo) {
+                            return t.descripcionTrabajo;
+                        } else if (t.descripcion) {
+                            return t.descripcion;
+                        }
+                        return '';
+                    })
+                    .filter((desc: string) => desc) // Filtrar valores vacíos
+                    .join(', ');
+
+                console.log("Trabajos extraídos:", trabajosString);
 
                 const formattedItem: any = {
-                    id: item.id,
                     descripcion: item.descripcion,
-                    tipoServicio: item.tipoServicio?.descripcionTipoServicio || '',
+                    tipoServicio: item.tipoServicio?.descripcionTipoServicio || item.tipoServicio?.descripcion || '',
                     estado: item.estado?.descripcion || 'Activo',
                     trabajos: trabajosString
                 };
@@ -160,7 +188,7 @@ export class ServicioComponent implements OnInit {
             });
 
             // Definir las columnas que queremos exportar y su orden
-            const columnKeys = ['id', 'descripcion', 'tipoServicio', 'estado', 'trabajos'];
+            const columnKeys = ['descripcion', 'tipoServicio', 'estado', 'trabajos'];
 
             const translationKeys = columnKeys.map(key => `${translationBase}.${key}`);
 
@@ -174,7 +202,7 @@ export class ServicioComponent implements OnInit {
                     return newItem;
                 });
 
-                console.log("Data formateada para exportación:", translatedData);
+                console.log("Data final formateada para exportación:", translatedData);
 
                 this.translate.get(`${translationBase}.titulo`).subscribe(title => {
                     this.exportService.exportToExcel(translatedData, title);
@@ -187,6 +215,7 @@ export class ServicioComponent implements OnInit {
 
         if (this.selectedData && Array.isArray(this.selectedData) && this.selectedData.length > 0) {
             console.log("CAMINO 1: Usando datos seleccionados - Cantidad:", this.selectedData.length);
+            console.log("Muestra de datos seleccionados:", this.selectedData[0]);
             handleExport(this.selectedData, 'mantenedores.servicio');
             // Mostramos el mensaje específico para la exportación de datos seleccionados
             this.toastr.success(this.translate.instant('alertas.toastr.exportar.seleccionado.success'));
@@ -208,6 +237,10 @@ export class ServicioComponent implements OnInit {
                 (response: any) => {
                     const apiData = response?.content ?? response?.data ?? [];
                     console.log("CAMINO 2.1: Datos recibidos de API - Cantidad:", apiData.length);
+
+                    if (apiData.length > 0) {
+                        console.log("Muestra de datos de API:", apiData[0]);
+                    }
 
                     if (apiData.length === 0) {
                         console.error("Error: La API no devolvió datos.");
