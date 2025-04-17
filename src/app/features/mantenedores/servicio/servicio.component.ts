@@ -282,21 +282,113 @@ export class ServicioComponent implements OnInit {
     }
 
     onFilterDeleted(filterData: { field: string, value: string }) {
-        console.log('Deleting filter:', filterData);
-        this.activeOptionalFilters = this.activeOptionalFilters.filter(
-            (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
-        );
-        const newFilter = this.activeOptionalFilters.reduce((acc: any, filter: { field: string, value: string }) => {
-            acc[filter.field] = filter.value;
-            return acc;
-        }, {});
-        this.currentFilters = newFilter;
-        // Mantener el ordenamiento actual si existe
-        if (this.currentSortState) {
-            this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, newFilter);
-        } else {
-            this.obtenerDatos("id", "asc", newFilter);
+        console.log('Eliminando filtro - Datos recibidos:', filterData);
+
+        // Limpiar el filtro específico del currentFilters
+        if (this.currentFilters && filterData.field) {
+            delete this.currentFilters[filterData.field];
         }
+
+        // Actualizar activeOptionalFilters
+        this.activeOptionalFilters = this.activeOptionalFilters.filter(
+            (filter: { field: string, value: string }) =>
+                filter.field !== filterData.field
+        );
+
+        // Verificar si era el último filtro
+        if (this.activeOptionalFilters.length === 0) {
+            // Restablecer todos los filtros
+            this.currentFilters = {};
+            this.activeOptionalFilters = [];
+
+            // Si no hay filtros, simplemente obtener todos los datos
+            this.obtenerDatos();
+            return;
+        }
+
+        // Si aún hay filtros, continuar con la lógica de filtrado
+        const params = {
+            pageSize: 5,
+            pageNumber: 0,
+            sortField: this.currentSortState?.column || 'id',
+            sortDirection: (this.currentSortState?.direction || 'asc').toUpperCase(),
+            ...this.transformFilters(this.currentFilters)
+        };
+
+        this.servicioService.buscarFiltradoAsignacion(params).subscribe({
+            next: (response: any) => {
+                this.procesarRespuestaFiltrado(response);
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                console.error('Error al aplicar filtros:', err);
+                this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+            }
+        });
+    }
+
+    private transformFilters(filters: any): any {
+        const transformedFilters: any = {};
+
+        // Mapeo de estados descriptivos a IDs
+        const estadosMap: { [key: string]: number } = {
+            'Activo': 1,
+            'Cancelado': 2,
+            'Inactivo': 3
+        };
+
+        Object.entries(filters).forEach(([key, value]) => {
+            if (key === 'estado' && typeof value === 'string') {
+                // Transformar estado de texto a ID
+                transformedFilters[key] = estadosMap[value] || value;
+            } else {
+                transformedFilters[key] = value;
+            }
+        });
+
+        return transformedFilters;
+    }
+
+    private procesarRespuestaFiltrado(fullResponse: any) {
+        console.log('Procesando respuesta completa:', fullResponse);
+        const todosLosServicios = new Map();
+
+        if (Array.isArray(fullResponse?.content)) {
+            fullResponse.content.forEach((item: any) => {
+                if (!todosLosServicios.has(item.id)) {
+                    // Procesar los trabajos correctamente
+                    const trabajosProcesados = Array.isArray(item.servicioTrabajos)
+                        ? item.servicioTrabajos.map((servicioTrabajo: any) => ({
+                            id: servicioTrabajo.id,
+                            trabajo: {
+                                id: servicioTrabajo.trabajo?.id,
+                                descripcion: servicioTrabajo.trabajo?.descripcion,
+                                descripcionTrabajo: servicioTrabajo.trabajo?.descripcionTrabajo || servicioTrabajo.trabajo?.descripcion || ''
+                            }
+                        }))
+                        : [];
+
+                    todosLosServicios.set(item.id, {
+                        id: item.id,
+                        descripcion: item.descripcion,
+                        tipoServicio: {
+                            id: item.tipoServicio?.id,
+                            descripcion: item.tipoServicio?.descripcion,
+                            descripcionTipoServicio: item.tipoServicio?.descripcionTipoServicio || item.tipoServicio?.descripcion || ''
+                        },
+                        estado: item.estado || { id: 1, descripcion: 'Activo' },
+                        trabajos: trabajosProcesados
+                    });
+                }
+            });
+        }
+
+        this.totalElements = fullResponse.totalElements || todosLosServicios.size;
+        this.totalPages = fullResponse.totalPages || Math.ceil(this.totalElements / this.pageSize);
+        this.dataSource = Array.from(todosLosServicios.values());
+
+        console.log('DataSource procesado:', this.dataSource);
+        this.cdr.detectChanges();
     }
 
     /* **********************************CRUD   - CREATE ***********************************/
@@ -342,18 +434,28 @@ export class ServicioComponent implements OnInit {
             if (Array.isArray(fullResponse?.content)) {
                 fullResponse.content.forEach((item: any) => {
                     if (!todosLosServicios.has(item.id)) {
+                        // Procesar los trabajos correctamente
+                        const trabajosProcesados = Array.isArray(item.servicioTrabajos)
+                            ? item.servicioTrabajos.map((servicioTrabajo: any) => ({
+                                id: servicioTrabajo.id,
+                                trabajo: {
+                                    id: servicioTrabajo.trabajo?.id,
+                                    descripcion: servicioTrabajo.trabajo?.descripcion,
+                                    descripcionTrabajo: servicioTrabajo.trabajo?.descripcionTrabajo || servicioTrabajo.trabajo?.descripcion || ''
+                                }
+                            }))
+                            : [];
+
                         todosLosServicios.set(item.id, {
                             id: item.id,
                             descripcion: item.descripcion,
-                            tipoServicio: item.tipoServicio || {},
+                            tipoServicio: {
+                                id: item.tipoServicio?.id,
+                                descripcion: item.tipoServicio?.descripcion,
+                                descripcionTipoServicio: item.tipoServicio?.descripcionTipoServicio || item.tipoServicio?.descripcion || ''
+                            },
                             estado: item.estado || { id: 1, descripcion: 'Activo' },
-                            trabajos: Array.isArray(item.servicioTrabajos) ? item.servicioTrabajos.map((servicioTrabajo: any) => ({
-                                ...servicioTrabajo,
-                                trabajo: {
-                                    ...servicioTrabajo.trabajo,
-                                    descripcion: servicioTrabajo.trabajo?.descripcionTrabajo || ''
-                                }
-                            })) : []
+                            trabajos: trabajosProcesados
                         });
                     }
                 });
