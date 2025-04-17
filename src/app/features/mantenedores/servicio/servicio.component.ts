@@ -617,7 +617,7 @@ export class ServicioComponent implements OnInit {
                             }
 
                             this.obtenerDatos();
-                            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
                         },
                         error: finalErr => {
                             console.error("Error en ambas operaciones:", finalErr);
@@ -696,7 +696,7 @@ export class ServicioComponent implements OnInit {
                                 console.log('Método onDeleteSingleSelected - Operación exitosa (eliminación o actualización)');
                                 this.sharedTableComponent.clearSelection(); // Limpiamos la selección después de eliminar
                                 this.obtenerDatos();
-                                this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                                this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
                             },
                             error: (finalErr) => {
                                 console.error("Error en ambas operaciones:", finalErr);
@@ -741,7 +741,7 @@ export class ServicioComponent implements OnInit {
                             console.log('Método onDeleteSingleSelected - Operación exitosa (eliminación o actualización)');
                             this.sharedTableComponent.clearSelection(); // Limpiamos la selección después de eliminar
                             this.obtenerDatos();
-                            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
                         },
                         error: (finalErr) => {
                             console.error("Error en ambas operaciones:", finalErr);
