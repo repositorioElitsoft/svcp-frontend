@@ -184,7 +184,7 @@ export class BusquedaServicioComponent implements OnInit {
 
     clearInput() {
         this.value = '';
-        this.executeSearch();
+        // No ejecutar búsqueda aquí, solo limpiar el campo
     }
 
     clearTipoServicio() {
