@@ -142,12 +142,19 @@ export class ServicioComponent implements OnInit {
 
             // Formatear los datos antes de la exportación
             const formattedData = dataArray.map(item => {
+                const trabajosString = Array.isArray(item.trabajos)
+                    ? item.trabajos
+                        .map((t: any) => t.trabajo?.descripcionTrabajo || t.trabajo?.descripcion || '')
+                        .filter((desc: string) => desc) // Filtrar valores vacíos
+                        .join(', ')
+                    : '';
+
                 const formattedItem: any = {
                     id: item.id,
                     descripcion: item.descripcion,
                     tipoServicio: item.tipoServicio?.descripcionTipoServicio || '',
                     estado: item.estado?.descripcion || 'Activo',
-                    trabajos: item.trabajos ? item.trabajos.map((t: any) => t.trabajo?.descripcion).join(', ') : ''
+                    trabajos: trabajosString
                 };
                 return formattedItem;
             });
