@@ -127,7 +127,7 @@ import { TranslateModule } from '@ngx-translate/core';
       display: flex;
       align-items: center;
       padding: 4px 8px;
-      margin-left: 8px;
+      margin-left: 3.5em;
       border-radius: 4px;
       transition: background-color 0.2s;
     }
