@@ -222,7 +222,7 @@
             "descripcion": "Service",
             "tipoServicio": "Service Type",
             "estado": "Status",
-            "trabajos": "Job",
+            "trabajos": "Jobs Assigned",
             "table": {
                 "digiteBusqueda": "Enter service description",
                 "sinDatos": "No data available",
@@ -578,7 +578,7 @@
                 "tituloEditar": "Edit Job Assignment",
                 "servicio": "Service",
                 "seleccioneTrabajos": "Select Jobs to Assign",
-                "trabajos": "Jobs",
+                "trabajos": "Jobs Assigned",
                 "info": {
                     "ordenTrabajos": "Jobs are assigned in the order you select them. You can change their sequence by dragging the tags."
                 },

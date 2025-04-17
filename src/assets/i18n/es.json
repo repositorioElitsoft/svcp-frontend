@@ -231,7 +231,7 @@
             "descripcion": "Servicio",
             "tipoServicio": "Tipo Servicio",
             "estado": "Estado",
-            "trabajos": "Trabajo",
+            "trabajos": "Trabajos Asignados",
             "table": {
                 "digiteBusqueda": "Digite descripción del servicio",
                 "sinDatos": "No hay datos disponibles",
@@ -577,7 +577,7 @@
                 "tituloEditar": "Editar Asignación de Trabajos",
                 "servicio": "Servicio",
                 "seleccioneTrabajos": "Seleccione los Trabajos a Asignar",
-                "trabajos": "Trabajos",
+                "trabajos": "Trabajos Asignados",
                 "info": {
                     "ordenTrabajos": "Los trabajos se asignan en el orden en que los seleccionas. Puedes cambiar su secuencia arrastrando los tags."
                 },
