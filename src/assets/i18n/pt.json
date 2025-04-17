@@ -722,6 +722,14 @@
                     "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
                     "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
                     "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "servicio": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
                 }
             }
         }

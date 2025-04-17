@@ -39,7 +39,8 @@ const prefixToSection: { [key: string]: string } = {
     SCTR: 'sector',
     RLES: 'role',
     TPCM: 'tipoComponente',
-    TRTR: 'trabajoTarea'
+    TRTR: 'trabajoTarea',
+    SVCS: 'servicio'
 };
 
 // Creamos un mapa inverso para buscar por código de error

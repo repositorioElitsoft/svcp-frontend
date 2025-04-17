@@ -750,6 +750,14 @@
                     "DUPLICADO": "The task is already assigned, try with a different one.",
                     "ID_REQUERIDO": "The identification document type ID is required.",
                     "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "servicio": {
+                    "NO_ENCONTRADO": "The service was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The service is required.",
+                    "DUPLICADO": "A service with the same data already exists.",
+                    "ID_REQUERIDO": "The service ID is required.",
+                    "ID_INVALIDO": "The service ID is not valid."
                 }
             }
         }

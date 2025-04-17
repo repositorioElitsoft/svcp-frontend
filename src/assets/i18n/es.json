@@ -758,6 +758,14 @@
                     "DUPLICADO": "Ya está asignada la tarea, intente con una diferente.",
                     "ID_REQUERIDO": "El ID del tipo de documento de identificación es requerido.",
                     "ID_INVALIDO": "El ID del tipo de documento de identificación no es válido."
+                },
+                "servicio": {
+                    "NO_ENCONTRADO": "El servicio no fue encontrado.",
+                    "INTEGRIDAD_VIOLADA": "El registro está actualmente asignado y no puede ser eliminado.",
+                    "REQUERIDO": "El servicio es requerido.",
+                    "DUPLICADO": "Ya existe un servicio con los mismos datos.",
+                    "ID_REQUERIDO": "El ID del servicio es requerido.",
+                    "ID_INVALIDO": "El ID del servicio no es válido."
                 }
             }
         }
