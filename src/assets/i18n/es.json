@@ -227,7 +227,7 @@
         },
         "servicio": {
             "id": "Id",
-            "titulo": "Servicio",
+            "titulo": "Servicios",
             "descripcion": "Servicio",
             "tipoServicio": "Tipo Servicio",
             "estado": "Estado",
