@@ -553,25 +553,44 @@ export class ServicioComponent implements OnInit {
             if (result) {
                 console.log('Método eliminar - Iniciando llamada al servicio para eliminar IDs:', ids);
 
-                this.servicioService.borrarLote(selectedItems).subscribe({
-                    next: () => {
-                        console.log('Método eliminar - Eliminación exitosa');
-                        this.sharedTableComponent.clearSelection();
+                this.servicioService.borrarLote(selectedItems)
+                    .pipe(
+                        catchError(err => {
+                            console.error("Error al intentar eliminar servicios:", err);
+                            console.log('Intentando actualizar el estado de los servicios a Cancelado...');
 
-                        // Calculamos si después de la eliminación la página actual podría quedar vacía
-                        const remainingItemsInPage = this.dataSource.length - ids.length;
-                        if (remainingItemsInPage <= 0 && this.pageNumber > 0) {
-                            this.pageNumber--; // Retrocedemos una página si la actual quedará vacía
+                            // Crear una copia de los servicios con el estado actualizado
+                            const serviciosActualizados = selectedItems.map(servicio => ({
+                                id: servicio.id,
+                                descripcion: servicio.descripcion,
+                                tipoServicio: servicio.tipoServicio,
+                                estado: { id: 2, descripcion: 'Cancelado' },
+                                trabajos: servicio.trabajos || []
+                            }));
+
+                            // Retornar el observable de actualización en lote
+                            return this.servicioService.actualizarLote(serviciosActualizados);
+                        })
+                    )
+                    .subscribe({
+                        next: () => {
+                            console.log('Método eliminar - Operación exitosa (eliminación o actualización)');
+                            this.sharedTableComponent.clearSelection();
+
+                            // Calculamos si después de la eliminación la página actual podría quedar vacía
+                            const remainingItemsInPage = this.dataSource.length - ids.length;
+                            if (remainingItemsInPage <= 0 && this.pageNumber > 0) {
+                                this.pageNumber--; // Retrocedemos una página si la actual quedará vacía
+                            }
+
+                            this.obtenerDatos();
+                            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
+                        },
+                        error: finalErr => {
+                            console.error("Error en ambas operaciones:", finalErr);
+                            this.toastr.error(this.translate.instant(convertErrorMessageToI18(finalErr)));
                         }
-
-                        this.obtenerDatos();
-                        this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-                    },
-                    error: err => {
-                        console.error("Error al eliminar elementos:", err);
-                        this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
-                    }
-                });
+                    });
             } else {
                 console.log('Método eliminar - Usuario canceló la eliminación');
             }
