@@ -13,6 +13,7 @@ import { Estado } from '../../../core/models/estado.model';
 import { TipoServicio } from '../../../core/models/tipo-servicio.model';
 import { ServicioTrabajo } from '../../../core/models/servicio-trabajo.model';
 import { TipoServicioService } from '../../../core/services/tipo-servicio.service';
+import { EstadoService } from '../../../core/services/estado.service';
 
 import {
     MAT_DIALOG_DATA,
@@ -54,6 +55,7 @@ export class ServicioFormComponent implements OnInit {
     tiposServicio: TipoServicio[] = [];
     tipoServicioSeleccionado: number | null = null;
     isLoading = true;
+    estados: Estado[] = [];
 
     readonly dialogRef = inject(MatDialogRef<ServicioFormComponent>);
     readonly data = inject<any>(MAT_DIALOG_DATA);
@@ -63,6 +65,7 @@ export class ServicioFormComponent implements OnInit {
         private fb: FormBuilder,
         private servicioService: ServicioService,
         private tipoServicioService: TipoServicioService,
+        private estadoService: EstadoService,
         private translate: TranslateService,
         private toastr: ToastrService,
     ) {
@@ -70,6 +73,7 @@ export class ServicioFormComponent implements OnInit {
             id: [null],
             descripcion: [null, Validators.required],
             tipoServicioId: [null, Validators.required],
+            estadoId: [1]  // Por defecto, Activo
         });
     }
 
@@ -82,13 +86,21 @@ export class ServicioFormComponent implements OnInit {
             console.log("ID del tipo de servicio a precargar:", this.tipoServicioSeleccionado);
         }
 
-        // Cargar tipos de servicio
-        this.tipoServicioService.buscarTodos().subscribe({
+        // Cargar tipos de servicio y estados en paralelo
+        forkJoin({
+            tiposServicio: this.tipoServicioService.buscarTodos(),
+            estados: this.estadoService.buscarTodos()
+        }).subscribe({
             next: (response) => {
-                this.tiposServicio = response.data;
+                // Procesar tipos de servicio
+                this.tiposServicio = response.tiposServicio.data;
                 console.log("Tipos de servicio cargados:", this.tiposServicio);
 
-                // Después de cargar los tipos de servicio, establecer el valor en el formulario
+                // Procesar estados
+                this.estados = response.estados.data;
+                console.log("Estados cargados:", this.estados);
+
+                // Después de cargar los datos, establecer el valor en el formulario
                 if (this.esActualizar() && this.data?.object) {
                     // Asegurarse de que el tipo de servicio existe en la lista
                     const tipoServicioExiste = this.tiposServicio.some(t => t.id === this.tipoServicioSeleccionado);
@@ -97,9 +109,10 @@ export class ServicioFormComponent implements OnInit {
                         this.form.patchValue({
                             id: this.data.object.id,
                             descripcion: this.data.object.descripcion,
-                            tipoServicioId: this.tipoServicioSeleccionado
+                            tipoServicioId: this.tipoServicioSeleccionado,
+                            estadoId: this.data.object.estado?.id || 1
                         });
-                        console.log("Formulario actualizado con tipo de servicio:", this.form.value);
+                        console.log("Formulario actualizado con tipo de servicio y estado:", this.form.value);
                     } else {
                         console.error("El tipo de servicio seleccionado no existe en la lista:", this.tipoServicioSeleccionado);
                         this.toastr.error(this.translate.instant('mantenedores.formularios.tipoServicio.noEncontrado'));
@@ -126,13 +139,14 @@ export class ServicioFormComponent implements OnInit {
     onSubmit() {
         console.log("Formulario enviado:", this.form.value);
         if (this.form.valid) {
-            // Obtener el estado del objeto o usar el valor por defecto
-            const estado = this.data?.object?.estado || { id: 1, descripcion: 'Activo' };
+            // Buscar el estado correspondiente al ID seleccionado
+            const estadoSeleccionado = this.estados.find(e => e.id === this.form.value.estadoId) ||
+                { id: 1, descripcion: 'Activo' };
 
             const formData: Servicio = {
                 id: this.form.value.id,
                 descripcion: this.form.value.descripcion,
-                estado: estado as Estado,
+                estado: estadoSeleccionado as Estado,
                 tipoServicio: { id: this.form.value.tipoServicioId } as TipoServicio
             };
 

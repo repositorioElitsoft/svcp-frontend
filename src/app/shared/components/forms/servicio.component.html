@@ -42,6 +42,19 @@
             </mat-hint>
         </mat-form-field>
 
+        <!-- Select para Estado (solo en modo edición) -->
+        <mat-form-field *ngIf="data?.esActualizar" appearance="outline" class="w-full dark:text-white">
+            <mat-label>{{ 'mantenedores.formularios.servicio.label.estado' | translate }}</mat-label>
+            <mat-select formControlName="estadoId" class="text-lg w-full dark:text-white">
+                <mat-option *ngFor="let estado of estados" [value]="estado.id">
+                    {{estado.descripcion}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('estadoId')?.hasError('required')" class="text-red-500 text-base">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
+
         <div class="grid grid-cols-2 gap-4 w-full">
             <button type="button" (click)="dialogRef.close()"
                 class="text-lg elitsoft-warn w-full flex items-center justify-center py-2 text-center">

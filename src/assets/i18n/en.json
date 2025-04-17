@@ -482,6 +482,7 @@
                 "tituloAgregar": "Create Service",
                 "label.descripcion": "Service",
                 "label.ingreseNombre": "Enter new name",
+                "label.estado": "State",
                 "descripcion": "Enter the service description"
             },
             "tarea": {

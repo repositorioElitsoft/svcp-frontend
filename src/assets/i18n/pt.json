@@ -461,6 +461,7 @@
                 "tituloEditar": "Editar Serviço",
                 "tituloAgregar": "Criar Serviço",
                 "label.servicio": "Descrição do Serviço",
+                "label.estado": "Estado",
                 "descripcion": "Insira a descrição do serviço"
             },
             "tarea": {

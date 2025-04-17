@@ -312,6 +312,7 @@
                 "tituloAgregar": "Crear Servicio",
                 "label.descripcion": "Servicio",
                 "label.ingreseNombre": "Ingrese nuevo nombre",
+                "label.estado": "Estado",
                 "descripcion": "Ingrese la descripción del servicio"
             },
             "tipoServicio": {
