@@ -22,8 +22,8 @@ export interface ChipItem {
     template: `
         <div class="flex flex-col gap-2">
             <div [class]="containerClass">
-                <div class="flex justify-between items-start">
-                    <div cdkDropList (cdkDropListDropped)="onDrop($event)" class="flex flex-wrap gap-2 flex-1">
+                <div class="flex flex-col gap-2">
+                    <div cdkDropList (cdkDropListDropped)="onDrop($event)" class="flex flex-wrap gap-2">
                         <div *ngFor="let item of items.slice(0, mostrarTodos ? undefined : maxVisibleItems); let i = index"
                             cdkDrag [class]="chipClass">
                             <span [class]="textClass">{{ item[displayField] }}</span>
@@ -34,15 +34,23 @@ export interface ChipItem {
                         </div>
                     </div>
                     <div *ngIf="items.length > maxVisibleItems"
-                        class="flex items-center text-blue-600 cursor-pointer hover:text-blue-700 ml-4"
-                        (click)="toggleMostrarTodos()">
-                        <mat-icon class="text-base mr-1">{{ mostrarTodos ? 'remove' : 'add' }}</mat-icon>
-                        <span class="text-sm">{{ (mostrarTodos ? verMenosTexto : verMasTexto) | translate }}</span>
+                        class="flex justify-end">
+                        <button type="button"
+                            class="flex items-center text-blue-600 cursor-pointer hover:text-blue-700"
+                            (click)="toggleMostrarTodos()">
+                            <mat-icon class="text-base mr-1">{{ mostrarTodos ? 'remove' : 'add' }}</mat-icon>
+                            <span class="text-sm font-roboto">{{ (mostrarTodos ? verMenosTexto : verMasTexto) | translate }}</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    `
+    `,
+    styles: [`
+        :host {
+            font-family: 'Roboto', sans-serif;
+        }
+    `]
 })
 export class ChipsFormComponent {
     @Input() items: ChipItem[] = [];
@@ -53,9 +61,9 @@ export class ChipsFormComponent {
 
     // Clases CSS personalizables
     @Input() containerClass: string = 'bg-gray-50 p-3 rounded';
-    @Input() chipClass: string = 'flex items-center gap-1 px-2 py-1 bg-[#e6e1dc] rounded text-sm';
-    @Input() textClass: string = 'text-gray-700';
-    @Input() deleteButtonClass: string = 'ml-1 text-gray-600 hover:text-gray-800';
+    @Input() chipClass: string = 'flex items-center gap-1 px-3 py-1.5 bg-[#e6e1dc] rounded text-sm';
+    @Input() textClass: string = 'text-gray-600 font-normal';
+    @Input() deleteButtonClass: string = 'ml-1.5 text-gray-500 hover:text-gray-700';
 
     @Output() itemDeleted = new EventEmitter<ChipItem>();
     @Output() itemsReordered = new EventEmitter<ChipItem[]>();
