@@ -582,7 +582,8 @@
                     "ordenTrabajos": "Los trabajos se asignan en el orden en que los seleccionas. Puedes cambiar su secuencia arrastrando los tags."
                 },
                 "sinTrabajosDisponibles": "No hay trabajos disponibles para asignar",
-                "verMas": "Ver más"
+                "verMas": "Ver más",
+                "verMenos": "Ver menos"
             }
         }
     },
