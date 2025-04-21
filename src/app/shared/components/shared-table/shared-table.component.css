@@ -15,8 +15,7 @@
 .mat-mdc-table-container {
     overflow-x: auto;
     position: relative;
-    @apply rounded-t-[8px];
-    border: 1px solid #e5e7eb;
+
     background: white;
     @apply dark:bg-neutral-900 dark:border-neutral-600;
 }
