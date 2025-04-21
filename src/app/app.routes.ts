@@ -23,6 +23,7 @@ import { ContratoComponent } from './features/contrato/contrato.component';
 import { RutaComponent } from './features/mantenedores/ruta/ruta.component';
 import { RoleComponent } from './features/mantenedores/role/role.component';
 import { TipoComponenteComponent } from './features/mantenedores/tipo-componente/tipo-componente.component';
+import { ServicioComponent } from './features/mantenedores/servicio/servicio.component';
 
 export const routes: Routes = [
     {
@@ -141,6 +142,10 @@ export const routes: Routes = [
                     {
                         path: "tipos-componentes",
                         component: TipoComponenteComponent
+                    },
+                    {
+                        path: "servicios",
+                        component: ServicioComponent
                     },
 
                     /*ruta_nueva*/

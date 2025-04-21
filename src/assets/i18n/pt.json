@@ -209,8 +209,11 @@
         },
         "servicio": {
             "id": "Id",
-            "titulo": "Serviço",
-            "descripcionServicio": "Descrição do Serviço"
+            "titulo": "Serviços",
+            "descripcion": "Serviço",
+            "tipoServicio": "Tipo de Serviço",
+            "trabajos": "Trabalho",
+            "estado": "Estado"
         },
         "tarea": {
             "id": "Id",
@@ -458,6 +461,7 @@
                 "tituloEditar": "Editar Serviço",
                 "tituloAgregar": "Criar Serviço",
                 "label.servicio": "Descrição do Serviço",
+                "label.estado": "Estado",
                 "descripcion": "Insira a descrição do serviço"
             },
             "tarea": {
@@ -539,6 +543,18 @@
                 "info": {
                     "ordenTareas": "As tarefas são atribuídas na ordem em que você as seleciona, você pode alterar sua sequência arrastando as tags."
                 },
+                "verMas": "Ver mais"
+            },
+            "servicioTrabajo": {
+                "tituloAgregar": "Atribuir Trabalhos",
+                "tituloEditar": "Editar Atribuição de Trabalhos",
+                "servicio": "Serviço",
+                "seleccioneTrabajos": "Selecione os Trabalhos para Atribuir",
+                "trabajos": "Trabalhos",
+                "info": {
+                    "ordenTrabajos": "Os trabalhos são atribuídos na ordem em que você os seleciona. Você pode alterar a sequência arrastando as tags."
+                },
+                "sinTrabajosDisponibles": "Nenhum trabalho disponível para atribuir",
                 "verMas": "Ver mais"
             }
         }
@@ -701,6 +717,14 @@
                     "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
                 },
                 "tipoComponente": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "servicio": {
                     "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
                     "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
                     "REQUERIDO": "O tipo de documento de identificação é obrigatório.",

@@ -228,7 +228,27 @@
         "servicio": {
             "id": "Id",
             "titulo": "Servicios",
-            "descripcion": "Servicio"
+            "descripcion": "Servicio",
+            "tipoServicio": "Tipo Servicio",
+            "estado": "Estado",
+            "trabajos": "Trabajos Asignados",
+            "table": {
+                "digiteBusqueda": "Digite descripción del servicio",
+                "sinDatos": "No hay datos disponibles",
+                "seleccionarTodos": "Seleccionar todos",
+                "deseleccionarTodos": "Deseleccionar todos",
+                "mostrar": "Mostrar",
+                "registros": "registros",
+                "de": "de",
+                "acciones": "Acciones",
+                "buscar": "Buscar",
+                "limpiar": "Limpiar",
+                "exportar": "Exportar",
+                "eliminar": "Eliminar",
+                "editar": "Editar",
+                "ver": "Ver",
+                "asignacion": "Asignación"
+            }
         },
         "tarea": {
             "id": "Id",
@@ -279,13 +299,29 @@
             "descripcion": "Descripción"
         },
         "formularios": {
-            "campoRequerido": "Este campo es obligatorio",
+            "campoRequerido": "Este campo es requerido",
             "botonCancelar": "Cancelar",
-            "botonAgregar": "Guardar",
-            "actualizar": "Actualizar",
             "guardar": "Guardar",
-            "borrar": "Borrar",
-            "subir": "Subir",
+            "actualizar": "Actualizar",
+            "cargando": "Cargando...",
+            "toastr": {
+                "error": "Error al procesar la solicitud"
+            },
+            "servicio": {
+                "tituloEditar": "Editar Servicio",
+                "tituloAgregar": "Crear Servicio",
+                "label.descripcion": "Servicio",
+                "label.ingreseNombre": "Ingrese nuevo nombre",
+                "label.estado": "Estado",
+                "descripcion": "Ingrese la descripción del servicio"
+            },
+            "tipoServicio": {
+                "tituloEditar": "Editar Tipo de Servicio",
+                "tituloAgregar": "Crear Tipo de Servicio",
+                "label.descripcionTipoServicio": "Tipo de Servicio",
+                "descripcion": "Ingrese la descripción del tipo de servicio",
+                "noEncontrado": "El tipo de servicio seleccionado no existe en la lista"
+            },
             "agrupacionComercial": {
                 "tituloEditar": "Editar Agrupación Comercial",
                 "tituloAgregar": "Crear Agrupación Comercial",
@@ -474,25 +510,6 @@
                 "label.descripcion": "Segmentación del Cliente",
                 "descripcion": "Ingrese la segmentación del cliente"
             },
-            "servicio": {
-                "tituloEditar": "Editar Servicio",
-                "tituloAgregar": "Crear Servicio",
-                "label.descripcionServicio": "Descripción del Servicio",
-                "descripcion": "Ingrese la descripción del servicio"
-            },
-            "tarea": {
-                "tituloEditar": "Editar Tarea",
-                "tituloAgregar": "Crear Tarea",
-                "label.descripcionTarea": "Descripción de la Tarea",
-                "descripcion": "Ingrese la descripción de la tarea"
-            },
-            "tipoCliente": {
-                "tituloEditar": "Editar Tipo de Cliente",
-                "tituloAgregar": "Crear Tipo de Cliente",
-                "label.nombre": "Tipo de Cliente",
-                "label.descripcion": "Descripción del Tipo de Cliente",
-                "descripcion": "Ingrese el tipo de cliente"
-            },
             "tipoDocumentoIdentificacion": {
                 "tituloEditar": "Editar Documento Identifiación",
                 "tituloAgregar": "Agrergar Documento Identifiación",
@@ -553,6 +570,18 @@
                 "info": {
                     "ordenTareas": "Las tareas se asignan en el orden en que las seleccionas, Puedes cambiar su secuencia arrastrando los tags."
                 },
+                "verMas": "Ver más"
+            },
+            "servicioTrabajo": {
+                "tituloAgregar": "Asignar Trabajos",
+                "tituloEditar": "Editar Asignación de Trabajos",
+                "servicio": "Servicio",
+                "seleccioneTrabajos": "Seleccione los Trabajos a Asignar",
+                "trabajos": "Trabajos Asignados",
+                "info": {
+                    "ordenTrabajos": "Los trabajos se asignan en el orden en que los seleccionas. Puedes cambiar su secuencia arrastrando los tags."
+                },
+                "sinTrabajosDisponibles": "No hay trabajos disponibles para asignar",
                 "verMas": "Ver más"
             }
         }
@@ -730,6 +759,14 @@
                     "DUPLICADO": "Ya está asignada la tarea, intente con una diferente.",
                     "ID_REQUERIDO": "El ID del tipo de documento de identificación es requerido.",
                     "ID_INVALIDO": "El ID del tipo de documento de identificación no es válido."
+                },
+                "servicio": {
+                    "NO_ENCONTRADO": "El servicio no fue encontrado.",
+                    "INTEGRIDAD_VIOLADA": "El registro está actualmente asignado y no puede ser eliminado.",
+                    "REQUERIDO": "El servicio es requerido.",
+                    "DUPLICADO": "Ya existe un servicio con los mismos datos.",
+                    "ID_REQUERIDO": "El ID del servicio es requerido.",
+                    "ID_INVALIDO": "El ID del servicio no es válido."
                 }
             }
         }

@@ -218,8 +218,28 @@
         },
         "servicio": {
             "id": "Id",
-            "titulo": "Service",
-            "descripcionServicio": "Service "
+            "titulo": "Services",
+            "descripcion": "Service",
+            "tipoServicio": "Service Type",
+            "estado": "Status",
+            "trabajos": "Jobs Assigned",
+            "table": {
+                "digiteBusqueda": "Enter service description",
+                "sinDatos": "No data available",
+                "seleccionarTodos": "Select all",
+                "deseleccionarTodos": "Deselect all",
+                "mostrar": "Show",
+                "registros": "records",
+                "de": "of",
+                "acciones": "Actions",
+                "buscar": "Search",
+                "limpiar": "Clear",
+                "exportar": "Export",
+                "eliminar": "Delete",
+                "editar": "Edit",
+                "ver": "View",
+                "asignacion": "Assignment"
+            }
         },
         "tarea": {
             "id": "Id",
@@ -460,8 +480,10 @@
             "servicio": {
                 "tituloEditar": "Edit Service",
                 "tituloAgregar": "Create Service",
-                "label.descripcionServicio": "Service Description",
-                "descripcion": "Enter the description of the service"
+                "label.descripcion": "Service",
+                "label.ingreseNombre": "Enter new name",
+                "label.estado": "State",
+                "descripcion": "Enter the service description"
             },
             "tarea": {
                 "tituloEditar": "Edit Task",
@@ -497,8 +519,9 @@
             "tipoServicio": {
                 "tituloEditar": "Edit Service Type",
                 "tituloAgregar": "Create Service Type",
-                "label.descripcionTipoServicio": "Service Type Description",
-                "descripcion": "Enter the description of the service type"
+                "label.descripcionTipoServicio": "Service Type",
+                "descripcion": "Enter the service type description",
+                "noEncontrado": "The selected service type does not exist in the list"
             },
             "trabajo": {
                 "tituloEditar": "Edit Job",
@@ -548,6 +571,18 @@
                 "info": {
                     "ordenTareas": "The tasks are assigned in the order you select them, you can change their sequence by dragging the tags."
                 },
+                "verMas": "See more"
+            },
+            "servicioTrabajo": {
+                "tituloAgregar": "Assign Jobs",
+                "tituloEditar": "Edit Job Assignment",
+                "servicio": "Service",
+                "seleccioneTrabajos": "Select Jobs to Assign",
+                "trabajos": "Jobs Assigned",
+                "info": {
+                    "ordenTrabajos": "Jobs are assigned in the order you select them. You can change their sequence by dragging the tags."
+                },
+                "sinTrabajosDisponibles": "No jobs available to assign",
                 "verMas": "See more"
             }
         }
@@ -716,6 +751,14 @@
                     "DUPLICADO": "The task is already assigned, try with a different one.",
                     "ID_REQUERIDO": "The identification document type ID is required.",
                     "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "servicio": {
+                    "NO_ENCONTRADO": "The service was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The service is required.",
+                    "DUPLICADO": "A service with the same data already exists.",
+                    "ID_REQUERIDO": "The service ID is required.",
+                    "ID_INVALIDO": "The service ID is not valid."
                 }
             }
         }

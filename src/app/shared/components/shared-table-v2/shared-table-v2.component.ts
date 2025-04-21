@@ -11,6 +11,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { BusquedaComponent } from "../busqueda/busqueda.component";
 import { SkeletonTableComponent } from "../skeleton-table/skeleton-table.component";
 import { ChipsComponent } from "../chips/chips.component";
+import { ChipEstadosComponent } from "../chip-estados/chip-estados.component";
 
 @Component({
   selector: "app-shared-table-v2",
@@ -25,7 +26,8 @@ import { ChipsComponent } from "../chips/chips.component";
     MatPaginatorModule,
     BusquedaComponent,
     SkeletonTableComponent,
-    ChipsComponent
+    ChipsComponent,
+    ChipEstadosComponent
   ],
   templateUrl: "./shared-table-v2.component.html",
   styleUrls: ["./shared-table-v2.component.css"],
@@ -49,7 +51,7 @@ export class SharedTableV2Component implements OnInit {
   // Nueva configuración para columnas
   @Input() columnConfig: {
     field: string;
-    type: 'text' | 'chips' | 'custom';
+    type: 'text' | 'chips' | 'custom' | 'estado';
     nestedPath?: string;
     displayField?: string;
     customTemplate?: TemplateRef<any>;
@@ -372,5 +374,9 @@ export class SharedTableV2Component implements OnInit {
 
   onShowMore(element: any): void {
     this.showMore.emit(element);
+  }
+
+  isEstadoColumn(column: string): boolean {
+    return this.getColumnType(column) === 'estado';
   }
 }
