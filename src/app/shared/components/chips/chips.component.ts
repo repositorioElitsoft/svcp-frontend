@@ -65,15 +65,15 @@ import { TranslateModule } from '@ngx-translate/core';
     }
 
     .chip {
-      background: #ccc2ac;
+      background: #e2ded5;
       border-radius: 4px;
-      padding: 2px 8px;
+      padding: 4px 12px;
       font-size: 13px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 4px;
-      height: 24px;
+      gap: 8px;
+      height: 28px;
       min-width: 110px;
       max-width: 200px;
       cursor: pointer;
@@ -81,7 +81,7 @@ import { TranslateModule } from '@ngx-translate/core';
     }
 
     .chip:hover {
-      background: #bdb5a1;
+      background: #d6d2c9;
     }
 
     .chip-content {
@@ -93,30 +93,33 @@ import { TranslateModule } from '@ngx-translate/core';
     }
 
     .task-id {
-      color: #616161;
+      color: #57534e;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       display: block;
       width: 100%;
+      font-weight: 500;
     }
 
     .delete-button {
       border: none;
-      background: transparent;
+      background: #ccc2ad;
       cursor: pointer;
       padding: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #9E9E9E;
-      width: 16px;
-      height: 16px;
+      color: #57534e;
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
+      border-radius: 2px;
+      margin-right: -4px;
     }
 
     .delete-button:hover {
-      color: #616161;
+      background: #c0b69f;
     }
 
     .more-indicator {
@@ -127,9 +130,16 @@ import { TranslateModule } from '@ngx-translate/core';
       display: flex;
       align-items: center;
       padding: 4px 8px;
-      margin-left: 3.5em;
+      margin-left: 8px;
       border-radius: 4px;
       transition: background-color 0.2s;
+    }
+
+    @media (max-width: 639px) {
+      .more-indicator {
+        margin-left: 0;
+        margin-top: 4px;
+      }
     }
 
     .more-indicator:hover {
