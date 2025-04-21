@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,8 @@ import { TipoDocumentoIdentificacionService } from '../../../../core/services/ti
 import { EstadoService } from '../../../../core/services/estado.service';
 import { Estado } from '../../../../core/models/estados.model';
 import { ApiEntityResponse } from '../../../../core/models/api-entity-response.model';
+import { ContactoService } from '../../../../core/services/contacto.service';
+import { Contacto } from '../../../../core/models/contacto.model';
 
 @Component({
     selector: 'app-contactos-cliente-crear',
@@ -33,11 +35,13 @@ export class ContactosClienteCrearComponent {
     valueToPatch: any;
     tiposDocumentos: TipoDocumentoIdentificacion[] = [];
     estados: Estado[] = [];
+    @Output() contactoCreado = new EventEmitter<any>();
 
     constructor(
         private fb: FormBuilder,
         private cdr: ChangeDetectorRef,
         private estadoService: EstadoService,
+        private contactoService: ContactoService,
         private tipoDocumentoIdentificacionesService: TipoDocumentoIdentificacionService
     ) { }
 
@@ -130,5 +134,20 @@ export class ContactosClienteCrearComponent {
             const findEstado = this.estados.find(e => e.id === value.estado.id);
             this.form.get("estado")?.setValue(findEstado);
         }
+    }
+
+    guardar() {
+        console.log("Formulario enviado:", this.form.value);
+        const contacto = this.form.value;
+        this.contactoService.crear(contacto).subscribe({
+            next: (contactoCreado: ApiEntityResponse<Contacto>) => {
+                console.log("Contacto creado:", contactoCreado);
+                this.contactoCreado.emit(contactoCreado);
+            },
+            error: (error: any) => {
+                console.error("Error al crear contacto:", error);
+                this.contactoCreado.emit(error);
+            }
+        });
     }
 }

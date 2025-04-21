@@ -41,15 +41,24 @@
 
             <!-- Table Section -->
 
+            <ng-template #actions let-element>
+                <button (click)="showContactoClienteFn(element)">
+                    <span class="material-symbols-outlined">
+                        visibility
+                    </span>
+                </button>
+            </ng-template>
+
             <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
-                <app-shared-table (dataEmitted)="onDataEmitted($event)" [translationGroup]="'mantenedores.contacto'"
-                    [displayedColumns]="displayedColumns" [dataSource]="dataSource" [pageNumber]="pageNumber"
-                    [totalElements]="totalElements" [totalPages]="totalPages" [pageSize]="pageSize"
-                    [filtersLabels]="activeOptionalFilters" (deleteSingleSelected)="onDeleteSingleSelected($event)"
-                    (deleteSelected)="onDeleteSelected($event)" (viewSelected)="onViewSelected($event)"
-                    (pageChanged)="onPageChanged($event)" (sort)="sortDatos($event)"
-                    (editSelected)="onEditSelected($event)" (selectionChange)="onSelectionChange($event)"
-                    (filterDelete)="onFilterDelete($event)" [filters]='[]'>
+                <app-shared-table (dataEmitted)="onDataEmitted($event)" [additionalActionsTemplate]="actions"
+                    [translationGroup]="'mantenedores.contacto'" [displayedColumns]="displayedColumns"
+                    [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
+                    [totalPages]="totalPages" [pageSize]="pageSize" [filtersLabels]="activeOptionalFilters"
+                    (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
+                    (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
+                    (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
+                    (selectionChange)="onSelectionChange($event)" (filterDelete)="onFilterDelete($event)"
+                    [filters]='[]'>
                 </app-shared-table>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, EventEmitter, Output, Input } from '@angular/core';
 import { UploadImageComponent } from '../../upload-image/upload-image/upload-image.component';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -16,7 +16,9 @@ import { TipoDocumentoIdentificacionService } from '../../../../core/services/ti
 import { EstadoService } from '../../../../core/services/estado.service';
 import { Estado } from '../../../../core/models/estados.model';
 import { ApiEntityResponse } from '../../../../core/models/api-entity-response.model';
-
+import { TipoDocumentoIdentificacion as TipoDocumentoIdentificacionEnum } from '../../../../core/enums/tipo-documento-identifcacion.enum';
+import { ClienteEnum } from '../../../../core/enums/cliente.enum';
+import { ClienteCrear } from '../../../../core/models/cliente.model';
 
 @Component({
   selector: 'app-informacion-personal',
@@ -35,7 +37,6 @@ import { ApiEntityResponse } from '../../../../core/models/api-entity-response.m
     TranslateModule,
     MatFormFieldModule,
     TituloDialogoComponent,
-
   ],
   templateUrl: './informacion-personal.component.html',
   styleUrl: './informacion-personal.component.css'
@@ -43,9 +44,14 @@ import { ApiEntityResponse } from '../../../../core/models/api-entity-response.m
 export class InformacionPersonalComponent {
   form!: FormGroup;
 
+  @Output() clienteActualizado = new EventEmitter<any>();
+  @Input() clienteOriginal: any;
+
   tiposDocumentos: TipoDocumentoIdentificacion[] = [];
   estados: Estado[] = [];
   valueToPatch: any;
+
+
   constructor(
     private fb: FormBuilder,
     private estadoService: EstadoService,
@@ -112,7 +118,85 @@ export class InformacionPersonalComponent {
 
   patch(value: any) {
     this.form.patchValue(value);
-
     this.valueToPatch = value;
+    this.clienteOriginal = value;
+  }
+
+  /**
+   * Procesa un RUT chileno para separar el número del dígito verificador
+   * @param rutCompleto El RUT completo ingresado
+   * @returns Objeto con el número y dígito verificador separados
+   */
+  procesarRutChileno(rutCompleto: string): { numero: string, digitoVerificador: string } {
+    // Eliminar puntos y guiones
+    let rut = rutCompleto.replace(/\./g, '').replace(/-/g, '').trim();
+
+    // El último carácter es el dígito verificador
+    const digitoVerificador = rut.slice(-1);
+    // El resto es el número
+    const numero = rut.slice(0, -1);
+
+    return {
+      numero: numero,
+      digitoVerificador: digitoVerificador
+    };
+  }
+
+  prepararClienteParaActualizar(): any {
+    if (!this.form.valid) {
+      return null;
+    }
+
+    // Extraer el dígito verificador si es RUT chileno
+    const tipoDocId = this.form.value.tipoDocumentoIdentificacion?.id;
+    let numeroDoc = this.form.value.numeroDocumentoIdentificacion;
+    let digitoVer = null;
+
+    if (tipoDocId === TipoDocumentoIdentificacionEnum.RUT) { // Si es RUT chileno
+      const rutProcesado = this.procesarRutChileno(numeroDoc);
+      numeroDoc = rutProcesado.numero;
+      digitoVer = rutProcesado.digitoVerificador;
+    }
+
+    const documentoIdentificacion = {
+      id: this.clienteOriginal.documentoIdentificacion.id,
+      numero: numeroDoc,
+      digitoVerificador: digitoVer,
+      tipoDocumentoIdentificacion: this.form.value.tipoDocumentoIdentificacion
+    };
+
+    const cliente: ClienteCrear = {
+      documentoIdentificacion: documentoIdentificacion,
+      nombre: this.form.value.nombre,
+      apellidoPaterno: this.form.value.apellidoPaterno,
+      apellidoMaterno: this.form.value.apellidoMaterno,
+      estado: this.form.value.estado,
+      fechaNacimiento: this.form.value.fechaNacimiento,
+      tipoCliente: { id: ClienteEnum.TIPO_CLIENTE_INDEFINIDO, nombre: "" },
+      clasificacionCliente: { id: ClienteEnum.CLASIFICACION_CLIENTE_INDEFINIDA, clasificacionClienteDesc: "" },
+      agrupacionComercial: { id: ClienteEnum.AGRUPACION_COMERCIAL_INDEFINIDA, nombreGrupoComercial: "" },
+      segmentacionCliente: { id: ClienteEnum.SEGMENTACION_CLIENTE_INDEFINIDA, descripcion: "" },
+    }
+
+    const clienteActualizar = {
+      ...this.clienteOriginal,  // Primero copiamos todos los campos del objeto original
+      ...cliente,           // Luego sobreescribimos con los valores nuevos del cliente
+      id: this.clienteOriginal.id  // Aseguramos que el ID sea el original
+    }
+
+    return clienteActualizar;
+  }
+
+  onSubmit() {
+    console.log("Formulario enviado:", this.form.value);
+
+    if (this.form.valid) {
+      const clienteActualizar = this.prepararClienteParaActualizar();
+      if (clienteActualizar) {
+        this.clienteActualizado.emit(clienteActualizar);
+      }
+    } else {
+      console.log("Formulario no válido");
+    }
   }
 }

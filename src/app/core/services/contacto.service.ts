@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Contacto } from "../models/contacto.model";
+import { ApiEntityResponse } from "../models/api-entity-response.model";
 
 @Injectable({
     providedIn: 'root',
@@ -39,8 +40,8 @@ export class ContactoService {
         return this.http.put<Contacto>(`${this.url}contactos/${contactoId}`, contacto);
     }
 
-    crear(contacto: Contacto): Observable<Contacto> {
-        return this.http.post<Contacto>(`${this.url}contactos`, contacto);
+    crear(contacto: Contacto): Observable<ApiEntityResponse<Contacto>> {
+        return this.http.post<ApiEntityResponse<Contacto>>(`${this.url}contactos`, contacto);
     }
 
     buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {

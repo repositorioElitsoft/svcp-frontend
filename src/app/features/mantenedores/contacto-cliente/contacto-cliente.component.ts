@@ -38,6 +38,7 @@ export class ContactoClienteComponent implements OnInit {
     totalPages = 0
     pageSize = 10;
     showDiv: boolean = false;
+
     totalElements = 0;
     isLoading = false; // Variable para controlar el estado de carga
     currentSortState: { column: string; direction: string } | null = null;
@@ -45,6 +46,7 @@ export class ContactoClienteComponent implements OnInit {
     @ViewChild(SharedTableComponent) sharedTableComponent!: SharedTableComponent;
     activeOptionalFilters: any = [];
 
+    @Output() showContactoCliente = new EventEmitter<any>();
     @Output() agregarContactoPressed = new EventEmitter<void>();
 
     constructor(private cdr: ChangeDetectorRef,
@@ -432,6 +434,11 @@ export class ContactoClienteComponent implements OnInit {
 
     agregarContacto() {
         this.agregarContactoPressed.emit();
+    }
+
+    showContactoClienteFn(element: any) {
+        console.log("Elemento seleccionado:", element);
+        this.showContactoCliente.emit(element);
     }
 
 
