@@ -9,7 +9,7 @@
 
     <div class="m-4"></div>
 
-    <div class=" rounded-t-lg dark:bg-neutral-500 bg-gray-100 p-1"></div>
+    <div class="rounded-t-lg dark:bg-neutral-700 bg-gray-100 p-1 border border-b-0 border-[#e5e7eb]"></div>
     <div class="dark:bg-neutral-500 bg-gray-100">
         <div class="flex gap-4 rounded-t-lg overflow-hidden dark:bg-neutral-800">
             @for (filter of filters; track $index) {
@@ -54,8 +54,8 @@
     <!-- Contenido real de la tabla cuando no está cargando -->
     <div class="flex flex-col gap-4">
         <!-- Tabla -->
-        <div class="overflow-x-auto">
-            <table mat-table [dataSource]="dataSource" class="w-full"
+        <div class="mat-mdc-table-container">
+            <table mat-table [dataSource]="dataSource" class="w-full min-w-full table-fixed"
                 *ngIf="dataSource.length > 0; else noDataTemplate">
 
                 <!-- Checkbox Column -->
@@ -96,23 +96,27 @@
                 </ng-container>
 
                 <!-- Actions Column -->
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef class="font-bold text-gray-700 text-lg">
-                        {{ 'table.actions' | translate }}
+                <ng-container matColumnDef="actions" [sticky]="true" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef class="font-bold text-gray-700 text-lg sticky-header">
+                        <div class="flex justify-center w-full">
+                            {{ 'table.actions' | translate }}
+                        </div>
                     </th>
-                    <td mat-cell *matCellDef="let element" class="flex items-center gap-2">
-                        <button mat-icon-button color="accent" (click)="onEdit(element.id)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button color="accent" (click)="onSingleDelete(element.id)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                        <!-- Aquí se incluye el template adicional si existe -->
-                        <ng-container *ngIf="additionalActionsTemplate">
-                            <ng-container
-                                *ngTemplateOutlet="additionalActionsTemplate; context: { $implicit: element }"></ng-container>
-                        </ng-container>
-
+                    <td mat-cell *matCellDef="let element" class="sticky-cell">
+                        <div class="flex items-center justify-center gap-1 sm:gap-2">
+                            <button class="action-icon" color="accent" (click)="onEdit(element.id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button class="action-icon" color="accent" (click)="onSingleDelete(element.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <!-- Aquí se incluye el template adicional si existe -->
+                            <ng-container *ngIf="additionalActionsTemplate">
+                                <ng-container
+                                    *ngTemplateOutlet="additionalActionsTemplate; context: { $implicit: element }">
+                                </ng-container>
+                            </ng-container>
+                        </div>
                     </td>
                 </ng-container>
 
