@@ -23,10 +23,10 @@ import { EstadoService } from '../../../../core/services/estado.service';
     ],
     template: `
     <div class="">
-        <div class="flex flex-col md:flex-row items-center lg:items-end gap-4 p-4">
+        <div class="flex flex-col sm:flex-row items-start lg:items-end gap-4 p-4">
             <!-- Campo de búsqueda -->
-            <div class="w-full md:w-auto">
-                <div class="relative w-full md:w-[240px] lg:w-[300px]">
+            <div class="w-full sm:w-[300px]">
+                <div class="relative w-full">
                     <input [(ngModel)]="value" type="text"
                         class="w-full h-[44px] px-4 py-2 rounded-lg border-2 border-[#C2C2C2] bg-white text-[#757575] text-lg outline-none focus:border-[#3f51b5]"
                         (ngModelChange)="onValueChange()"
@@ -40,8 +40,8 @@ import { EstadoService } from '../../../../core/services/estado.service';
             </div>
 
             <!-- Select de Tipo Servicio -->
-            <div class="w-full md:w-auto self-end md:mx-4">
-                <div class="relative w-full md:w-[160px] lg:w-[200px]">
+            <div class="w-full sm:w-[200px]">
+                <div class="relative w-full">
                     <mat-select [(ngModel)]="selectedTipoServicio" (selectionChange)="onValueChange()"
                         [placeholder]="'mantenedores.servicio.tipoServicio' | translate"
                         class="block w-full h-[44px] px-4 py-2 text-lg text-[#757575] bg-white border-2 border-[#C2C2C2] rounded-lg appearance-none focus:outline-none focus:border-[#3f51b5]">
@@ -54,8 +54,8 @@ import { EstadoService } from '../../../../core/services/estado.service';
             </div>
 
             <!-- Select de Estado -->
-            <div class="w-full md:w-auto self-end">
-                <div class="relative w-full md:w-[160px] lg:w-[200px]">
+            <div class="w-full sm:w-[200px]">
+                <div class="relative w-full">
                     <mat-select [(ngModel)]="selectedEstado" (selectionChange)="onValueChange()"
                         [placeholder]="'mantenedores.servicio.estado' | translate"
                         class="block w-full h-[44px] px-4 py-2 text-lg text-[#757575] bg-white border-2 border-[#C2C2C2] rounded-lg appearance-none focus:outline-none focus:border-[#3f51b5]">
@@ -68,10 +68,12 @@ import { EstadoService } from '../../../../core/services/estado.service';
             </div>
 
             <!-- Botón de búsqueda -->
-            <button (click)="executeSearch()"
-                class="w-full md:w-auto h-[44px] px-4 md:px-6 rounded-lg bg-[#3f51b5] text-white hover:bg-[#303f9f] transition-colors">
-                {{ 'mantenedores.buscar' | translate }}
-            </button>
+            <div class="w-full sm:w-auto sm:ml-auto lg:ml-0">
+                <button (click)="executeSearch()"
+                    class="w-full sm:w-[140px] h-[44px] px-4 rounded-lg bg-[#3f51b5] text-white hover:bg-[#303f9f] transition-colors">
+                    {{ 'mantenedores.buscar' | translate }}
+                </button>
+            </div>
         </div>
     </div>
     `
