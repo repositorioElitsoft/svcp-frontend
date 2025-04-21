@@ -28,10 +28,10 @@ export interface ChipItem {
                          class="flex flex-wrap gap-3 p-3 bg-gray-50 rounded-lg">
                         <div *ngFor="let item of items.slice(0, mostrarTodos ? undefined : maxVisibleItems); let i = index"
                             cdkDrag 
-                            class="group inline-flex items-center h-[26px] px-2.5 bg-[#f3f0ed] rounded text-sm font-roboto cursor-move">
+                            class="group inline-flex items-center h-[26px] px-2.5 bg-[#f3f0ed] rounded text-lg font-roboto cursor-move">
                             <span class="text-[#4a4a4a]">{{ item[displayField] }}</span>
                             <button type="button" (click)="onItemDelete(item)"
-                                class="ml-1.5 w-[18px] h-[18px] flex items-center justify-center bg-[#e0dad4] hover:bg-[#d3ccc4] rounded text-[#4a4a4a] text-base leading-none">
+                                class="ml-1.5 w-[18px] h-[18px] flex items-center justify-center bg-[#e0dad4] hover:bg-[#d3ccc4] rounded text-[#4a4a4a] text-lg leading-none">
                                 ×
                             </button>
                         </div>
