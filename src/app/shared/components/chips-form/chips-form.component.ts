@@ -23,12 +23,15 @@ export interface ChipItem {
         <div class="flex flex-col gap-2">
             <div [class]="containerClass">
                 <div class="flex flex-col gap-2">
-                    <div cdkDropList (cdkDropListDropped)="onDrop($event)" class="flex flex-wrap gap-2">
+                    <div cdkDropList 
+                         (cdkDropListDropped)="onDrop($event)" 
+                         class="flex flex-wrap gap-3 p-3 bg-gray-50 rounded-lg">
                         <div *ngFor="let item of items.slice(0, mostrarTodos ? undefined : maxVisibleItems); let i = index"
-                            cdkDrag [class]="chipClass">
-                            <span [class]="textClass">{{ item[displayField] }}</span>
+                            cdkDrag 
+                            class="group inline-flex items-center h-[26px] px-2.5 bg-[#f3f0ed] rounded text-sm font-roboto cursor-move">
+                            <span class="text-[#4a4a4a]">{{ item[displayField] }}</span>
                             <button type="button" (click)="onItemDelete(item)"
-                                [class]="deleteButtonClass">
+                                class="ml-1.5 w-[18px] h-[18px] flex items-center justify-center bg-[#e0dad4] hover:bg-[#d3ccc4] rounded text-[#4a4a4a] text-base leading-none">
                                 ×
                             </button>
                         </div>
@@ -38,8 +41,8 @@ export interface ChipItem {
                         <button type="button"
                             class="flex items-center text-blue-600 cursor-pointer hover:text-blue-700"
                             (click)="toggleMostrarTodos()">
-                            <mat-icon class="text-base mr-1">{{ mostrarTodos ? 'remove' : 'add' }}</mat-icon>
-                            <span class="text-sm font-roboto">{{ (mostrarTodos ? verMenosTexto : verMasTexto) | translate }}</span>
+                            <mat-icon class="text-lg mr-1">{{ mostrarTodos ? 'remove' : 'add' }}</mat-icon>
+                            <span class="text-lg font-roboto">{{ (mostrarTodos ? verMenosTexto : verMasTexto) | translate }}</span>
                         </button>
                     </div>
                 </div>
@@ -49,6 +52,22 @@ export interface ChipItem {
     styles: [`
         :host {
             font-family: 'Roboto', sans-serif;
+        }
+
+        .cdk-drag-preview {
+            box-sizing: border-box;
+            border-radius: 4px;
+            box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+        }
+
+        .cdk-drag-placeholder {
+            opacity: 0;
+        }
+
+        .cdk-drag-animating {
+            transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
         }
     `]
 })
@@ -60,10 +79,7 @@ export class ChipsFormComponent {
     @Input() verMenosTexto: string = 'mantenedores.formularios.servicioTrabajo.verMenos';
 
     // Clases CSS personalizables
-    @Input() containerClass: string = 'bg-gray-50 p-3 rounded';
-    @Input() chipClass: string = 'flex items-center gap-1 px-3 py-1.5 bg-[#e6e1dc] rounded text-sm';
-    @Input() textClass: string = 'text-gray-600 font-normal';
-    @Input() deleteButtonClass: string = 'ml-1.5 text-gray-500 hover:text-gray-700';
+    @Input() containerClass: string = 'bg-gray-50 rounded-lg';
 
     @Output() itemDeleted = new EventEmitter<ChipItem>();
     @Output() itemsReordered = new EventEmitter<ChipItem[]>();
