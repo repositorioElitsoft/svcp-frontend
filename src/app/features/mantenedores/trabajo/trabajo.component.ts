@@ -166,7 +166,7 @@ export class TrabajoComponent implements OnInit {
 
       console.log("Solicitando datos a la API con filtros:", filtros);
 
-      this.trabajoService.buscarFiltrado(filtros).subscribe(
+      this.trabajoService.buscarFiltradoAsignacion(filtros).subscribe(
         (response: any) => {
           const apiData = response?.content ?? response?.data ?? [];
           console.log("CAMINO 2.1: Datos recibidos de API - Cantidad:", apiData.length);
@@ -307,7 +307,7 @@ export class TrabajoComponent implements OnInit {
     console.log('Parámetros de búsqueda:', params);
 
     // Primera llamada para obtener todos los trabajos y contar el total real
-    this.trabajoService.buscarFiltrado(params).subscribe((fullResponse: any) => {
+    this.trabajoService.buscarFiltradoAsignacion(params).subscribe((fullResponse: any) => {
       console.log('Respuesta completa inicial:', fullResponse);
 
       // Obtenemos todos los trabajos únicos
