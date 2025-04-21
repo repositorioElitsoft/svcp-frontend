@@ -25,7 +25,7 @@ import { TranslateModule } from '@ngx-translate/core';
           </div>
         </div>
         <div *ngIf="showMoreIndicator" class="more-indicator" (click)="onMoreClick()">
-          <span>{{ 'mantenedores.formularios.trabajo.label.mas' | translate }}</span>
+          <span>(+ {{ 'mantenedores.formularios.trabajo.label.mas' | translate }})</span>
         </div>
       </div>
     </div>
@@ -34,34 +34,25 @@ import { TranslateModule } from '@ngx-translate/core';
     .chips-container {
       display: flex;
       flex-direction: column;
-      max-width: 300px;
+      max-width: 450px;
     }
 
     .chips-wrapper {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
       align-items: flex-start;
-    }
-
-    @media (min-width: 640px) {
-      .chips-wrapper {
-        flex-direction: row;
-        align-items: center;
-      }
+      gap: 8px;
     }
 
     .chips-grid {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 4px;
-      max-width: 250px;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 400px;
     }
 
     .chips-row {
       display: flex;
-      gap: 4px;
+      gap: 8px;
     }
 
     .chip {
@@ -74,8 +65,7 @@ import { TranslateModule } from '@ngx-translate/core';
       justify-content: space-between;
       gap: 8px;
       height: 28px;
-      min-width: 110px;
-      max-width: 200px;
+      width: 180px;
       cursor: pointer;
       transition: background-color 0.2s;
     }
@@ -129,22 +119,12 @@ import { TranslateModule } from '@ngx-translate/core';
       font-size: 13px;
       display: flex;
       align-items: center;
-      padding: 4px 8px;
+      padding: 4px 0;
       margin-left: 8px;
-      border-radius: 4px;
-      transition: background-color 0.2s;
-    }
-
-    @media (max-width: 639px) {
-      .more-indicator {
-        margin-left: 0;
-        margin-top: 4px;
-      }
     }
 
     .more-indicator:hover {
       color: rgb(30 64 175);
-      background-color: rgba(37, 99, 235, 0.1);
     }
 
     mat-icon {
@@ -158,13 +138,12 @@ import { TranslateModule } from '@ngx-translate/core';
 export class ChipsComponent {
   private _items: any[] = [];
   private currentMaxVisible: number = 4;
-  private screenWidth: number = window.innerWidth;
   private showAll: boolean = false;
   public mostrarTodas: boolean = false;
 
-  @Input() displayField: string = ''; // Campo a mostrar
-  @Input() nestedPath: string = ''; // Ruta anidada para acceder al campo (ejemplo: 'tarea.descripcionTarea')
-  @Input() expandOnMore: boolean = false; // Controla si se expanden todos los items al hacer clic en "más"
+  @Input() displayField: string = '';
+  @Input() nestedPath: string = '';
+  @Input() expandOnMore: boolean = false;
 
   @Input()
   set items(value: any[]) {
@@ -201,40 +180,20 @@ export class ChipsComponent {
     return item[this.displayField] || '';
   }
 
-  onItemClick(item: any): void {
-    this.itemClick.emit(item);
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.screenWidth = window.innerWidth;
-    this.updateMaxVisible();
-  }
-
-  ngOnInit() {
-    this.updateMaxVisible();
-  }
-
-  private updateMaxVisible() {
-    if (this.screenWidth >= 1024) {
-      this.currentMaxVisible = 4; // Desktop
-    } else if (this.screenWidth >= 640) {
-      this.currentMaxVisible = 3; // Tablet
-    } else {
-      this.currentMaxVisible = 1; // Mobile
-    }
-  }
-
   getVisibleRows(): any[][] {
     const visibleItems = this.visibleItems;
     const rows: any[][] = [];
-    const itemsPerRow = this.screenWidth < 640 ? 1 : 2;
+    const itemsPerRow = 2;
 
     for (let i = 0; i < visibleItems.length; i += itemsPerRow) {
       rows.push(visibleItems.slice(i, i + itemsPerRow));
     }
 
     return rows;
+  }
+
+  onItemClick(item: any): void {
+    this.itemClick.emit(item);
   }
 
   onDelete(item: any): void {
