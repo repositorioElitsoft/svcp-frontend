@@ -153,6 +153,8 @@ export class ClienteComponent implements OnInit {
         if (data.content.length > 0) {
           this.displayedColumns = Object.keys(data.content[0]);
         }
+        this.displayedColumns = this.displayedColumns.filter(column => column !== 'apellidoPaterno')
+        this.displayedColumns = this.displayedColumns.filter(column => column !== 'apellidoMaterno')
 
         // Desactivar el estado de carga
         this.isLoading = false;

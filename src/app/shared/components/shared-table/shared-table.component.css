@@ -34,3 +34,19 @@
 .mat-mdc-icon-button {
     @apply text-gray-600 hover:text-gray-800;
 }
+
+.sticky-header {
+    position: sticky !important;
+    right: 0 !important;
+    @apply bg-gray-100;
+    @apply dark:bg-neutral-800;
+    box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+.sticky-cell {
+    position: sticky !important;
+    right: 0 !important;
+    z-index: 1;
+    box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
+}

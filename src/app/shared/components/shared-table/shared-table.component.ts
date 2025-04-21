@@ -91,8 +91,16 @@ export class SharedTableComponent implements OnInit {
     this.updateSelection();
   }
 
-  getField(value: any) {
+  getField(element: any, column: string) {
+
+    const value = element[column]
+
     if (typeof value !== 'object' || value === null) {
+
+      //\u00A0 es un espacio en blanco que no salta linea
+      if (column.toLowerCase().includes("nombre") && element["apellidoPaterno"] && element["apellidoMaterno"]) {
+        return `${value}\u00A0${element["apellidoPaterno"]}\u00A0${element["apellidoMaterno"]}`
+      }
       return value;
     }
     for (const key in value) {
