@@ -487,7 +487,7 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
             this.servicioTrabajoService.crearLote(trabajosFormateados).subscribe({
                 next: (response) => {
                     console.log('onSubmit - Respuesta exitosa:', response);
-                    this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+                    this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
                     this.dialogRef.close(true);
                 },
                 error: (error) => {
@@ -513,7 +513,7 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         this.servicioTrabajoService.crearLote(trabajosNuevosParaEnviar).subscribe({
             next: (response) => {
                 console.log('onSubmit - Respuesta exitosa:', response);
-                this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+                this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
                 this.dialogRef.close(true);
             },
             error: (error) => {
