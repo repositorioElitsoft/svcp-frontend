@@ -94,6 +94,13 @@ export class ChipsFormComponent {
         if (event.previousIndex === event.currentIndex) return;
 
         moveItemInArray(this.items, event.previousIndex, event.currentIndex);
+
+        // Actualizar el orden de los elementos
+        this.items = this.items.map((item, index) => ({
+            ...item,
+            ordenEjecucionTrabajo: index + 1
+        }));
+
         this.itemsReordered.emit(this.items);
     }
 

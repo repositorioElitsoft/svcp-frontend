@@ -659,10 +659,13 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
     }
 
     onChipsReordered(items: ChipItem[]): void {
-        this.trabajosAsignados = items.map(item =>
-            this.trabajosAsignados.find(t => t.id === item.id)!
-        );
-        this.onTrabajosReordered(this.trabajosAsignados);
+        this.trabajosAsignados = items.map((item, index) => ({
+            ...this.trabajosAsignados.find(t => t.id === item.id)!,
+            ordenEjecucionTrabajo: index + 1
+        }));
+
+        this.form.patchValue({ trabajos: this.trabajosAsignados });
+        console.log('Trabajos reordenados:', this.trabajosAsignados);
     }
 
     // #endregion
