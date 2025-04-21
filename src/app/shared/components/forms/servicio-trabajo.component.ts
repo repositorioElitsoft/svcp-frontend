@@ -19,6 +19,7 @@ import { convertErrorMessageToI18 } from '../../../core/utils/errors.utils';
 
 // Componentes y Modelos
 import { TituloDialogoComponent } from '../titulo-dialogo/titulo-dialogo.component';
+import { ChipsFormComponent, ChipItem } from '../chips-form/chips-form.component';
 import { Trabajo } from '../../../core/models/trabajo.model';
 import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
 import { ServicioTrabajo } from '../../../core/models/servicio-trabajo.model';
@@ -26,12 +27,12 @@ import { ServicioTrabajo } from '../../../core/models/servicio-trabajo.model';
 /**
  * Interface para manejar los trabajos asignados en el componente
  */
-interface TrabajoAsignado {
-    id: number;
+interface TrabajoAsignado extends ChipItem {
     trabajoId: number;
     descripcion: string;
     descripcionTrabajo: string;
     ordenEjecucionTrabajo: number;
+    displayText: string;
 }
 
 interface PaginatedResponse {
@@ -60,7 +61,8 @@ interface PaginatedResponse {
         MatIconModule,
         TranslateModule,
         TituloDialogoComponent,
-        DragDropModule
+        DragDropModule,
+        ChipsFormComponent
     ],
     templateUrl: './servicio-trabajo.component.html'
 })
@@ -184,16 +186,14 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
                         console.log('7. this.servicioDescripcion:', this.servicioDescripcion);
 
                         // Mapear los trabajos
-                        this.trabajosAsignados = paginatedResponse.content.map((item: ServicioTrabajo) => {
-                            console.log('8. Mapeando item:', item);
-                            return {
-                                id: item.trabajo?.id || 0,
-                                trabajoId: item.trabajo?.id || 0,
-                                descripcion: item.trabajo?.descripcionTrabajo || '',
-                                descripcionTrabajo: item.trabajo?.descripcionTrabajo || '',
-                                ordenEjecucionTrabajo: item.secuencia
-                            };
-                        });
+                        this.trabajosAsignados = paginatedResponse.content.map((item: ServicioTrabajo) => ({
+                            id: item.trabajo?.id || 0,
+                            trabajoId: item.trabajo?.id || 0,
+                            descripcion: item.trabajo?.descripcionTrabajo || '',
+                            descripcionTrabajo: item.trabajo?.descripcionTrabajo || '',
+                            ordenEjecucionTrabajo: item.secuencia,
+                            displayText: item.trabajo?.descripcionTrabajo || ''
+                        }));
 
                         this.trabajosAsignados.sort((a, b) => a.ordenEjecucionTrabajo - b.ordenEjecucionTrabajo);
                         console.log('9. trabajosAsignados después de ordenar:', this.trabajosAsignados);
@@ -322,7 +322,8 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
                 trabajoId: trabajoSeleccionado.id,
                 descripcion: trabajoSeleccionado.descripcionTrabajo,
                 descripcionTrabajo: trabajoSeleccionado.descripcionTrabajo,
-                ordenEjecucionTrabajo: this.ultimoValor + 1
+                ordenEjecucionTrabajo: this.ultimoValor + 1,
+                displayText: trabajoSeleccionado.descripcionTrabajo
             };
 
             this.trabajosAsignados = [...this.trabajosAsignados, nuevoTrabajoAsignado];
@@ -357,6 +358,11 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
 
         this.form.patchValue({ trabajos: this.trabajosAsignados });
         this.trabajosAsignados = [...this.trabajosAsignados];
+    }
+
+    onTrabajosReordered(trabajos: TrabajoAsignado[]): void {
+        this.trabajosAsignados = trabajos;
+        this.form.patchValue({ trabajos: this.trabajosAsignados });
     }
 
     // #endregion
@@ -636,6 +642,27 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
      */
     onCancel(): void {
         this.dialogRef.close();
+    }
+
+    mapTrabajoToChipItem(trabajo: TrabajoAsignado): TrabajoAsignado {
+        return {
+            ...trabajo,
+            displayText: trabajo.descripcionTrabajo
+        };
+    }
+
+    onChipDeleted(item: ChipItem): void {
+        const trabajo = this.trabajosAsignados.find(t => t.id === item.id);
+        if (trabajo) {
+            this.onTrabajoDelete(trabajo);
+        }
+    }
+
+    onChipsReordered(items: ChipItem[]): void {
+        this.trabajosAsignados = items.map(item =>
+            this.trabajosAsignados.find(t => t.id === item.id)!
+        );
+        this.onTrabajosReordered(this.trabajosAsignados);
     }
 
     // #endregion

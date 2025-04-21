@@ -507,7 +507,8 @@
                 "label.descripcionTrabajo": "Descrição do Trabalho",
                 "descripcion": "Insira a descrição do trabalho",
                 "label.ingreseNombre": "Insira um novo nome",
-                "label.mas": "(+ mais)"
+                "label.mas": "(+ mais)",
+                "verMenos": "Ver menos"
             },
             "zona": {
                 "tituloEditar": "Editar Zona",
@@ -555,7 +556,8 @@
                     "ordenTrabajos": "Os trabalhos são atribuídos na ordem em que você os seleciona. Você pode alterar a sequência arrastando as tags."
                 },
                 "sinTrabajosDisponibles": "Nenhum trabalho disponível para atribuir",
-                "verMas": "Ver mais"
+                "verMas": "Ver mais",
+                "verMenos": "Ver menos"
             }
         }
     },
