@@ -27,12 +27,19 @@
                 "permission": "access.employees",
                 "title": "mantenedores.formularios.cliente.menus.locaciones",
                 "link": "locaciones"
-            },
+            }
+        ]
+    },
+    {
+        "icon": "groups",
+        "permission": "access.userManagement",
+        "title": "mantenedores.formularios.cliente.menus.contactos",
+        "menus": [
             {
                 "type": "item",
                 "permission": "access.employees",
                 "title": "mantenedores.formularios.cliente.menus.contactos",
-                "link": "contactos"
+                "link": "contactos-cliente"
             }
         ]
     }

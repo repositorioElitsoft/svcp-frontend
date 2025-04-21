@@ -109,10 +109,8 @@
                         </button>
                         <!-- Aquí se incluye el template adicional si existe -->
                         <ng-container *ngIf="additionalActionsTemplate">
-                            <button mat-icon-button color="accent">
-                                <ng-container
-                                    *ngTemplateOutlet="additionalActionsTemplate; context: { $implicit: element }"></ng-container>
-                            </button>
+                            <ng-container
+                                *ngTemplateOutlet="additionalActionsTemplate; context: { $implicit: element }"></ng-container>
                         </ng-container>
 
                     </td>

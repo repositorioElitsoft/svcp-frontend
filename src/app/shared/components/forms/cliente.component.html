@@ -16,13 +16,29 @@
 				<app-upload-image></app-upload-image>
 			</div>
 
-			<app-informacion-personal class="col-span-3"></app-informacion-personal>
+			<app-informacion-personal class="col-span-3" [clienteOriginal]="data.object"
+				(clienteActualizado)="manejarClienteActualizado($event)">
+			</app-informacion-personal>
 		</div>
 		<app-informacion-comercial *ngIf="pantallaActual==='informacion-comercial'"></app-informacion-comercial>
 		<app-datos-contacto *ngIf="pantallaActual==='datos-contacto'"></app-datos-contacto>
 		<app-direccion-empleado [cliente]="data.object"
 			*ngIf="pantallaActual==='locaciones' && data.object"></app-direccion-empleado>
 
+		<app-contacto-cliente (showContactoCliente)="showContactoClienteFn($event)"
+			(agregarContactoPressed)="agregarContactoPressed()" (clienteActualizado)="manejarClienteActualizado($event)"
+			*ngIf="pantallaActual==='contactos-cliente'"></app-contacto-cliente>
+
+		<app-show-contacto-cliente *ngIf="pantallaActual==='contactos-cliente-show'"></app-show-contacto-cliente>
+
+		<div class="grid grid-cols-5 gap-4" *ngIf="pantallaActual==='contactos-cliente-crear'">
+			<div class="h-full border-2 border-gray-300 rounded-lg p-4 shadow-md col-span-2">
+				<app-upload-image></app-upload-image>
+			</div>
+
+			<app-contactos-cliente-crear (contactoCreado)="manejarContactoCreado($event)"
+				class="col-span-3"></app-contactos-cliente-crear>
+		</div>
 
 		<mat-dialog-actions align="end">
 

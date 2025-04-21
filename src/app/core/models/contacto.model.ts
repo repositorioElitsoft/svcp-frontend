@@ -1,13 +1,25 @@
+import { Cliente } from "./cliente.model";
+import { DocumentoIdentificacion } from "./documentoIdentificacion.model";
+import { Direccion } from "./direccion.model";
+
 export interface Contacto {
+    id?: number;
+    nombre?: string;
+    apellidoPaterno?: string;
+    apellidoMaterno?: string;
+    fechaNacimiento?: string;
+    imagenPerfil?: string;
+    correoElectronico?: string;
+    telefonoFijo?: number;
+    telefonoMovil?: number;
+    documentoIdentificacion?: DocumentoIdentificacion;
+    cliente?: Cliente;
+    contactoDireccion?: ContactoDireccion[];
+}
+
+export interface ContactoDireccion {
     id: number;
-    nombre: string | null;
-    apellidoPaterno: string | null;
-    apellidoMaterno: string | null;
-    rut: string | null;
-    rutDv: string | null;
-    fechaNacimiento: string | null;
-    email: string | null;
-    telefonoFijo: number | null;
-    telefonoMovil: number | null;
-    imagen: string | null;
+    contacto: Contacto;
+    direccion: Direccion;
+    principal: boolean;
 }

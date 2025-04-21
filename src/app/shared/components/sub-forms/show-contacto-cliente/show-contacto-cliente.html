@@ -1,0 +1,151 @@
+<!-- Detalle del contacto -->
+<div class="p-4">
+
+    <div class="flex justify-between items-start gap-4 mb-2">
+
+
+        <div class="w-2/5 h-full bg-gray-200 rounded-lg p-6 mb-4">
+            <div class="flex flex-col items-center h-[15vh]">
+                <!-- Avatar Placeholder -->
+
+                @if (selectedFile && fileUrl) {
+                <img [src]="fileUrl" alt="Selected image" />
+                } @else {
+                <div class="flex flex-col items-center justify-center h-full">
+                    <div class="w-14 h-14 bg-gray-500 rounded-full"></div>
+                    <div class="w-32 h-8 bg-gray-500 rounded-t-full mt-2"></div>
+                </div>
+                }
+            </div>
+        </div>
+
+
+        <div class="w-3/5 pl-4 mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-lg font-medium">INFORMACIÓN PERSONAL</h2>
+                <div class="flex gap-2">
+                    <button mat-icon-button color="primary">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-gray-500 text-lg">Nombre</p>
+                    <p class="text-lg">{{ contacto?.nombre }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-lg">Apellido Paterno</p>
+                    <p class="text-lg">{{ contacto?.apellidoPaterno }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-lg">Apellido materno</p>
+                    <p class="text-lg">{{ contacto?.apellidoMaterno }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-lg">Rol</p>
+                    <p class="text-lg">{{ contacto?.rol }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-lg">Tipo de Documento</p>
+                    <p class="text-lg">{{ contacto?.tipoDocumento }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-lg">Nº documento</p>
+                    <p class="text-lg">{{ contacto?.numeroDocumento }}</p>
+                </div>
+            </div>
+
+
+            <!-- Sección de datos de contacto -->
+            <div class="mb-6">
+                <h2 class="text-lg font-medium mb-2">DATOS DE CONTACTO</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <p class="text-gray-500 text-lg">Teléfono</p>
+                        <p class="text-base">{{ contacto?.telefono }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-lg">Celular</p>
+                        <p class="text-lg">{{ contacto?.celular }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-lg">Correo electrónico</p>
+                        <p class="text-lg">{{ contacto?.correoElectronico }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sección de localizaciones -->
+    <div class="mb-6">
+        <div class="flex justify-between items-center mb-2">
+            <h2 class="text-lg font-medium">LOCACIONES({{ contacto?.locaciones?.length || 0 }})</h2>
+            <button mat-icon-button (click)="toggleLocaciones()">
+                <mat-icon>{{ showLocaciones ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+            </button>
+        </div>
+
+        <div *ngIf="showLocaciones">
+            <!-- Formulario para agregar localización -->
+            <div class="flex flex-col md:flex-row gap-2 mb-4">
+                <mat-form-field appearance="outline" class="w-full md:w-1/2">
+                    <mat-label>Seleccionar localización</mat-label>
+                    <mat-select [(ngModel)]="nuevaLocalizacion">
+                        <mat-option *ngFor="let loc of locacionesDisponibles" [value]="loc">{{ loc.nombre
+                            }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-full md:w-1/2">
+                    <mat-label>Rol</mat-label>
+                    <input matInput [(ngModel)]="nuevoRolLocalizacion">
+                </mat-form-field>
+                <button mat-raised-button color="primary" class="h-14" (click)="guardarLocalizacion()">
+                    Guardar
+                </button>
+            </div>
+
+            <button mat-button color="primary" class="flex items-center mb-4" (click)="agregarLocalizacion()">
+                <mat-icon>add</mat-icon>
+                <span>Agregar localización</span>
+            </button>
+
+            <!-- Lista de localizaciones -->
+            <div *ngFor="let locacion of contacto?.locaciones" class="border border-gray-200 rounded-md p-4 mb-2">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <mat-icon>location_on</mat-icon>
+                            <span>{{ locacion.direccion }}</span>
+                        </div>
+                        <div class="ml-6 mt-1">
+                            <span class="text-sm">Rol: {{ locacion.rol }}</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button mat-icon-button (click)="verLocacion(locacion)">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" (click)="editarLocacion(locacion)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="eliminarLocacion(locacion)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón de aceptar -->
+    <div class="flex justify-center mt-6">
+        <button mat-raised-button color="primary" class="w-48" (click)="aceptar()">
+            Aceptar
+        </button>
+    </div>
+</div>

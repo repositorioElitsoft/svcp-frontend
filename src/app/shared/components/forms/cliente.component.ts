@@ -35,6 +35,9 @@ import { TipoDocumentoIdentificacion } from "../../../core/enums/tipo-documento-
 import { ClienteEnum } from "../../../core/enums/cliente.enum"
 import { concatMap, of } from "rxjs"
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
+import { ContactosClienteCrearComponent } from "../sub-forms/contactos-cliente-crear/contactos-cliente-crear.component"
+import { ContactoClienteComponent } from "../../../features/mantenedores/contacto-cliente/contacto-cliente.component"
+import { ShowContactoClienteComponent } from "../sub-forms/show-contacto-cliente/show-contacto-cliente"
 
 @Component({
   selector: "app-cliente-create-form",
@@ -52,15 +55,18 @@ import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
     MatDialogClose,
     MatError,
     MatIconModule,
+    ContactosClienteCrearComponent,
     TranslateModule,
     TituloDialogoComponent,
     InformacionPersonalComponent,
+    ContactoClienteComponent,
     SidebarItemLinkComponent,
     SidebarComponent,
     InformacionComercialComponent,
     DatosContactoComponent,
     DireccionEmpleadoComponent,
-    UploadImageComponent
+    UploadImageComponent,
+    ShowContactoClienteComponent
   ],
   templateUrl: `./cliente.component.html`,
   styles: [],
@@ -83,13 +89,15 @@ export class ClienteFormComponent implements OnInit {
   estado: Estado[] = []
   agrupacionComercial: AgrupacionComercial[] = []
   segmentacionCliente: SegmentacionCliente[] = []
-  pantallaActual = "datos-generales"
+  pantallaActual = "contactos-cliente"
   isLoading = false
 
   @ViewChild(InformacionPersonalComponent) informacionPersonal!: InformacionPersonalComponent;
   @ViewChild(UploadImageComponent) uploadImage!: UploadImageComponent;
   @ViewChild(InformacionComercialComponent) informacionComercial!: InformacionComercialComponent;
   @ViewChild(DatosContactoComponent) datosContacto!: DatosContactoComponent;
+  @ViewChild(ContactoClienteComponent) contactoCliente!: ContactoClienteComponent;
+  @ViewChild(ContactosClienteCrearComponent) contactosClienteCrear!: ContactosClienteCrearComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -165,7 +173,26 @@ export class ClienteFormComponent implements OnInit {
       this.envioFormularioLocaciones()
       return
     }
+    if (this.pantallaActual === "contactos-cliente-crear") {
+      this.envioFormularioContactosClienteCrear()
+      return
+    }
   }
+
+  envioFormularioContactosClienteCrear() {
+    console.log("Formulario Contactos Cliente Crear enviado");
+    this.contactosClienteCrear.guardar();
+  }
+
+  manejarContactoCreado(contactoCreado: any) {
+    console.log("Contacto creado recibido:", contactoCreado);
+  }
+
+  showContactoClienteFn(element: any) {
+    console.log("Elemento seleccionado:", element);
+    this.pantallaActual = "contactos-cliente-show"
+  }
+
 
   envioFormularioDatosGenerales() {
     if (!this.informacionPersonal) {
@@ -173,75 +200,39 @@ export class ClienteFormComponent implements OnInit {
       return;
     }
 
-    console.log("Formulario enviado:", this.informacionPersonal.form.value)
+    this.informacionPersonal.onSubmit();
+  }
 
-    if (this.informacionPersonal.form.valid) {
-      this.isLoading = true;
-      // Extraer el dígito verificador si es RUT chileno
-      const tipoDocId = this.informacionPersonal.form.value.tipoDocumentoIdentificacion?.id;
-      let numeroDoc = this.informacionPersonal.form.value.numeroDocumentoIdentificacion;
-      let digitoVer = null;
+  manejarClienteActualizado(clienteActualizar: any) {
+    console.log("Cliente actualizado recibido:", clienteActualizar);
 
-      if (tipoDocId === TipoDocumentoIdentificacion.RUT) { // Si es RUT chileno
-        const rutProcesado = this.procesarRutChileno(numeroDoc);
-        numeroDoc = rutProcesado.numero;
-        digitoVer = rutProcesado.digitoVerificador;
-      }
-
-      const documentoIdentificacion = {
-        id: this.data.object.documentoIdentificacion.id,
-        numero: numeroDoc,
-        digitoVerificador: digitoVer,
-        tipoDocumentoIdentificacion: this.informacionPersonal.form.value.tipoDocumentoIdentificacion
-      };
-
-
-      const cliente: ClienteCrear = {
-        documentoIdentificacion: documentoIdentificacion,
-        nombre: this.informacionPersonal.form.value.nombre,
-        apellidoPaterno: this.informacionPersonal.form.value.apellidoPaterno,
-        apellidoMaterno: this.informacionPersonal.form.value.apellidoMaterno,
-        estado: this.informacionPersonal.form.value.estado,
-        fechaNacimiento: this.informacionPersonal.form.value.fechaNacimiento,
-        tipoCliente: { id: ClienteEnum.TIPO_CLIENTE_INDEFINIDO, nombre: "" },
-        clasificacionCliente: { id: ClienteEnum.CLASIFICACION_CLIENTE_INDEFINIDA, clasificacionClienteDesc: "" },
-        agrupacionComercial: { id: ClienteEnum.AGRUPACION_COMERCIAL_INDEFINIDA, nombreGrupoComercial: "" },
-        segmentacionCliente: { id: ClienteEnum.SEGMENTACION_CLIENTE_INDEFINIDA, descripcion: "" },
-      }
-
-      const clienteActualizar = {
-        ...this.data.object,  // Primero copiamos todos los campos del objeto original
-        ...cliente,           // Luego sobreescribimos con los valores nuevos del cliente
-        id: this.data.object.id  // Aseguramos que el ID sea el original
-      }
-
-      console.log("clienteActualizar", clienteActualizar)
-
-      this.clienteService.actualizar(this.data.object.id, clienteActualizar as any).pipe(
-        concatMap((clienteCreado: ApiEntityResponse<string>) => {
-
-          if (this.uploadImage && this.uploadImage.selectedFile) {
-            return this.clienteService.subirImagen(this.data.object.id, this.uploadImage.selectedFile);
-          }
-          return of(clienteCreado);
-        })
-      ).subscribe({
-        next: (result: any) => {
-          console.log("Operación completada:", result);
-          this.isLoading = false;
-          this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
-          //this.dialogRef.close(true);
-        },
-        error: (error: any) => {
-          console.error("Error en la operación:", error);
-          this.isLoading = false;
-          const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
-          this.toastr.error(errorMessage);
+    this.isLoading = true;
+    this.clienteService.actualizar(this.data.object.id, clienteActualizar as any).pipe(
+      concatMap((clienteCreado: ApiEntityResponse<string>) => {
+        if (this.uploadImage && this.uploadImage.selectedFile) {
+          return this.clienteService.subirImagen(this.data.object.id, this.uploadImage.selectedFile);
         }
-      });
-    } else {
-      console.log("Formulario no válido")
-    }
+        return of(clienteCreado);
+      })
+    ).subscribe({
+      next: (result: any) => {
+        console.log("Operación completada:", result);
+        this.isLoading = false;
+        this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+        //this.dialogRef.close(true);
+      },
+      error: (error: any) => {
+        console.error("Error en la operación:", error);
+        this.isLoading = false;
+        const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
+        this.toastr.error(errorMessage);
+      }
+    });
+  }
+
+  agregarContactoPressed() {
+    console.log("Agregar contacto presionado");
+    this.pantallaActual = "contactos-cliente-crear"
   }
 
   envioFormularioInformacionComercial() {
@@ -347,27 +338,5 @@ export class ClienteFormComponent implements OnInit {
   envioFormularioLocaciones() {
 
   }
-
-  /**
-    * Procesa un RUT chileno para separar el número del dígito verificador
-    * @param rutCompleto El RUT completo ingresado
-    * @returns Objeto con el número y dígito verificador separados
-    */
-  procesarRutChileno(rutCompleto: string): { numero: string, digitoVerificador: string } {
-    // Eliminar puntos y guiones
-    let rut = rutCompleto.replace(/\./g, '').replace(/-/g, '').trim();
-
-    // El último carácter es el dígito verificador
-    const digitoVerificador = rut.slice(-1);
-    // El resto es el número
-    const numero = rut.slice(0, -1);
-
-    return {
-      numero: numero,
-      digitoVerificador: digitoVerificador
-    };
-  }
-
-
 }
 
