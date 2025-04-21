@@ -39,8 +39,15 @@ import { TranslateModule } from '@ngx-translate/core';
 
     .chips-wrapper {
       display: flex;
-      align-items: flex-start;
+      flex-direction: column;
       gap: 8px;
+    }
+
+    @media (min-width: 640px) {
+      .chips-wrapper {
+        flex-direction: row;
+        align-items: flex-start;
+      }
     }
 
     .chips-grid {
@@ -123,6 +130,13 @@ import { TranslateModule } from '@ngx-translate/core';
       margin-left: 8px;
     }
 
+    @media (max-width: 639px) {
+      .more-indicator {
+        margin-left: 0;
+        margin-top: 4px;
+      }
+    }
+
     .more-indicator:hover {
       color: rgb(30 64 175);
     }
@@ -138,6 +152,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class ChipsComponent {
   private _items: any[] = [];
   private currentMaxVisible: number = 4;
+  private screenWidth: number = window.innerWidth;
   private showAll: boolean = false;
   public mostrarTodas: boolean = false;
 
@@ -170,6 +185,26 @@ export class ChipsComponent {
   @Output() showMore = new EventEmitter<void>();
   @Output() itemClick = new EventEmitter<any>();
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.screenWidth = window.innerWidth;
+    this.updateMaxVisible();
+  }
+
+  ngOnInit() {
+    this.updateMaxVisible();
+  }
+
+  private updateMaxVisible() {
+    if (this.screenWidth >= 1024) {
+      this.currentMaxVisible = 4; // Desktop
+    } else if (this.screenWidth >= 640) {
+      this.currentMaxVisible = 3; // Tablet
+    } else {
+      this.currentMaxVisible = 1; // Mobile
+    }
+  }
+
   getDisplayValue(item: any): string {
     if (!item) return '';
 
@@ -183,7 +218,7 @@ export class ChipsComponent {
   getVisibleRows(): any[][] {
     const visibleItems = this.visibleItems;
     const rows: any[][] = [];
-    const itemsPerRow = 2;
+    const itemsPerRow = this.screenWidth < 640 ? 1 : 2;
 
     for (let i = 0; i < visibleItems.length; i += itemsPerRow) {
       rows.push(visibleItems.slice(i, i + itemsPerRow));
