@@ -20,7 +20,6 @@ import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
 import { TipoProductoTipoComponenteService } from "../../../core/services/tipo-producto-tipo-componente.service";
 import { TipoProductoTipoComponente } from "../../../core/models/tipo-producto-tipo.componente.model";
-import { TipoProductoTipoComponenteFormComponent } from "../../../shared/components/forms/tipo-producto-tipo-componente.component";
 import { TipoProductoViewComponent } from "../../../shared/components/forms/tipo-producto-view.component";
 
 @Component({
@@ -87,7 +86,7 @@ export class TipoProductoComponent implements OnInit {
 
   onViewSelected(id: string): void {
     const dialogRef = this.dialog.open(TipoProductoFormComponent, {
-      width: '400px',
+      width: '450px',
       data: {
         esActualizar: true,
         object: this.dataSource.find(item => item.id === Number(id))
@@ -487,7 +486,7 @@ export class TipoProductoComponent implements OnInit {
       return;
     }
     const dialogRef = this.dialog.open(TipoProductoFormComponent, {
-      width: '400px',
+      width: '450px',
       data: {
         esActualizar: true,
         object: selectedObject
@@ -501,13 +500,13 @@ export class TipoProductoComponent implements OnInit {
     });
   }
 
+
   onAsignacion(element: any): void {
-    const dialogRef = this.dialog.open(TipoProductoTipoComponenteFormComponent, {
-      width: '400px',
+    const dialogRef = this.dialog.open(TipoProductoFormComponent, {
+      width: '450px',
       data: {
-        id: element.id,
-        descripcionTipoProducto: element.descripcionTipoProducto,
-        tipoProductoTipoComponentes: element.tipoProductoTipoComponentes || []
+        esActualizar: true,
+        object: element
       }
     });
 
@@ -517,6 +516,8 @@ export class TipoProductoComponent implements OnInit {
       }
     });
   }
+
+
 
   onDeleteSelected(ids: string[]) {
     const selectedItems = this.dataSource.filter(item => ids.includes(item.id.toString()));
