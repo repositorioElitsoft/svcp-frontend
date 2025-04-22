@@ -647,6 +647,30 @@ export class TrabajoComponent implements OnInit {
     });
   }
 
+
+  onShowMore(element: any): void {
+    const dialogRef = this.dialog.open(TrabajoTareaFormComponent, {
+      width: '450px',
+      data: {
+        id: element.id,
+        descripcionTrabajo: element.descripcionTrabajo,
+        trabajoTareas: element.trabajoTareas || [],
+        mostrarTodo: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos();
+      }
+    });
+  }
+
+
+
+
+
+
   onChipDelete(event: { parent: any, item: any }) {
     // Implementa la lógica para eliminar un chip
     console.log('Chip deleted:', event);

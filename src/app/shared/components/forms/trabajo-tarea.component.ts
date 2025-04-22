@@ -70,6 +70,7 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
     isLoading = false;
     ultimoValor: number = 0;
     mostrarTodas: boolean = false;
+    mostrarTodos: boolean = false;
 
     // Control de suscripciones
     private destroy$ = new Subject<void>();
@@ -103,6 +104,10 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
         // Inicializar tareasDisponibles con todas las tareas si ya están cargadas
         if (this.Tareas.length > 0) {
             this.actualizarTareasDisponibles();
+        }
+
+        if (this.data?.mostrarTodo) {
+            this.mostrarTodos = true;
         }
     }
 

@@ -40,7 +40,7 @@
         <!-- Tareas seleccionadas (chips) -->
         <div class="flex flex-col gap-2">
             <app-chips-form [items]="tareasAsignadas" [displayField]="'descripcionTarea'" [maxVisibleItems]="4"
-                [verMasTexto]="'mantenedores.formularios.trabajoTarea.verMas'"
+                [mostrarTodo]="mostrarTodos" [verMasTexto]="'mantenedores.formularios.trabajoTarea.verMas'"
                 [verMenosTexto]="'mantenedores.formularios.servicioTrabajo.verMenos'"
                 (itemDeleted)="onChipDeleted($event)" (itemsReordered)="onChipsReordered($event)">
             </app-chips-form>
