@@ -768,6 +768,14 @@
                     "DUPLICADO": "Ya existe un servicio con los mismos datos.",
                     "ID_REQUERIDO": "El ID del servicio es requerido.",
                     "ID_INVALIDO": "El ID del servicio no es válido."
+                },
+                "trabajo": {
+                    "NO_ENCONTRADO": "El trabajo no fue encontrado.",
+                    "INTEGRIDAD_VIOLADA": "El registro está actualmente asignado y no puede ser eliminado.",
+                    "REQUERIDO": "El trabajo es requerido.",
+                    "DUPLICADO": "Ya existe un trabajo con los mismos datos.",
+                    "ID_REQUERIDO": "El ID del trabajo es requerido.",
+                    "ID_INVALIDO": "El ID del trabajo no es válido."
                 }
             }
         }

@@ -760,6 +760,14 @@
                     "DUPLICADO": "A service with the same data already exists.",
                     "ID_REQUERIDO": "The service ID is required.",
                     "ID_INVALIDO": "The service ID is not valid."
+                },
+                "trabajo": {
+                    "NO_ENCONTRADO": "The job was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The job is required.",
+                    "DUPLICADO": "A job with the same data already exists.",
+                    "ID_REQUERIDO": "The job ID is required.",
+                    "ID_INVALIDO": "The job ID is not valid."
                 }
             }
         }

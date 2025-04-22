@@ -40,7 +40,8 @@ const prefixToSection: { [key: string]: string } = {
     RLES: 'role',
     TPCM: 'tipoComponente',
     TRTR: 'trabajoTarea',
-    SVCS: 'servicio'
+    SVCS: 'servicio',
+    TRBJ: 'trabajo'
 };
 
 // Creamos un mapa inverso para buscar por código de error
