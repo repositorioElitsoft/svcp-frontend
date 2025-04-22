@@ -273,7 +273,9 @@
             "tipoComponente": "Tipo de Componente",
             "sinComponentes": "No hay componentes asignados",
             "agregarComponente": "Agregar Componente",
-            "cantidad": "Cantidad"
+            "cantidad": "Cantidad",
+            "resumen": "Resumen",
+            "ingreseNombre": "Ingrese nuevo nombre"
         },
         "tipoServicio": {
             "id": "Id",
