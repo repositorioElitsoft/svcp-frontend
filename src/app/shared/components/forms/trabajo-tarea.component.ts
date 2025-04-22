@@ -19,16 +19,18 @@ import { convertErrorMessageToI18 } from '../../../core/utils/errors.utils';
 
 // Componentes
 import { TituloDialogoComponent } from '../titulo-dialogo/titulo-dialogo.component';
+import { ChipsFormComponent, ChipItem } from '../chips-form/chips-form.component';
 import { Tarea } from '../../../core/models/tarea.model';
 import { ApiEntityResponse } from '../../../core/models/api-entity-response.model';
 import { TrabajoTarea } from '../../../core/models/trabajo-tarea.model';
 
-interface TareaAsignada {
+interface TareaAsignada extends ChipItem {
     id: number;
     tareaId: number;
     descripcion: string;
     descripcionTarea: string;
     ordenEjecucionTarea: number;
+    displayText: string;
 }
 
 @Component({
@@ -45,7 +47,8 @@ interface TareaAsignada {
         MatIconModule,
         TranslateModule,
         TituloDialogoComponent,
-        DragDropModule
+        DragDropModule,
+        ChipsFormComponent
     ],
     templateUrl: './trabajo-tarea.component.html'
 })
@@ -136,7 +139,8 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                     tareaId: item.tarea.id,
                     descripcion: item.tarea.descripcionTarea,
                     descripcionTarea: item.tarea.descripcionTarea,
-                    ordenEjecucionTarea: item.ordenEjecucionTarea
+                    ordenEjecucionTarea: item.ordenEjecucionTarea,
+                    displayText: item.tarea.descripcionTarea
                 }));
 
                 // Ordenar las tareas por ordenEjecucionTarea
@@ -152,7 +156,7 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 console.log('inicializarDatosTrabajo - Formulario actualizado:', this.form.value);
             }
         } else {
-            console.warn('inicializarDatosTrabajo - No se recibió un objeto válido en data');
+            console.warn('inicializarDatosTrabajo - No se recibió un ID de trabajo válido');
         }
     }
 
@@ -245,7 +249,40 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Maneja la selección de nuevas tareas
+     * Maneja la eliminación de un chip
+     */
+    onChipDeleted(item: ChipItem): void {
+        const tarea = this.tareasAsignadas.find(t => t.id === item.id);
+        if (tarea) {
+            this.onTareaDelete(tarea);
+        }
+    }
+
+    /**
+     * Maneja el reordenamiento de los chips
+     */
+    onChipsReordered(items: ChipItem[]): void {
+        this.tareasAsignadas = items.map((item, index) => ({
+            ...this.tareasAsignadas.find(t => t.id === item.id)!,
+            ordenEjecucionTarea: index + 1
+        }));
+
+        this.form.patchValue({ tareas: this.tareasAsignadas });
+        console.log('Tareas reordenadas:', this.tareasAsignadas);
+    }
+
+    /**
+     * Mapea una tarea a un ChipItem
+     */
+    mapTareaToChipItem(tarea: TareaAsignada): TareaAsignada {
+        return {
+            ...tarea,
+            displayText: tarea.descripcionTarea
+        };
+    }
+
+    /**
+     * Maneja la selección de una nueva tarea
      */
     onTareaSelect(event: any): void {
         console.log('onTareaSelect - Evento recibido:', event);
@@ -259,8 +296,7 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
         const tareaSeleccionada = this.Tareas.find(t => t.id === tareaId);
         console.log('onTareaSelect - Tarea seleccionada:', tareaSeleccionada);
 
-        if (tareaSeleccionada) {
-            // Verificar si la tarea ya está en las tareas asignadas localmente
+        if (tareaSeleccionada?.id) {
             const tareaYaAsignada = this.tareasAsignadas.some(t => t.tareaId === tareaSeleccionada.id);
 
             if (tareaYaAsignada) {
@@ -269,7 +305,6 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            // Agregar la nueva tarea
             console.log('onTareaSelect - Agregando nueva tarea');
 
             const nuevaTareaAsignada: TareaAsignada = {
@@ -277,23 +312,17 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                 tareaId: tareaSeleccionada.id,
                 descripcion: tareaSeleccionada.descripcionTarea,
                 descripcionTarea: tareaSeleccionada.descripcionTarea,
-                ordenEjecucionTarea: this.ultimoValor + 1
+                ordenEjecucionTarea: this.ultimoValor + 1,
+                displayText: tareaSeleccionada.descripcionTarea
             };
 
-            // Agregar la nueva tarea al array
             this.tareasAsignadas = [...this.tareasAsignadas, nuevaTareaAsignada];
             this.ultimoValor++;
 
             console.log('onTareaSelect - Lista actualizada de tareas:', this.tareasAsignadas);
 
-            // Actualizar el formulario con los nuevos valores
             this.form.patchValue({ tareas: this.tareasAsignadas });
-            console.log('onTareaSelect - Formulario actualizado:', this.form.value);
-
-            // Actualizar las tareas disponibles después de agregar
             this.actualizarTareasDisponibles();
-
-            // Forzar la detección de cambios
             this.tareasAsignadas = [...this.tareasAsignadas];
         }
     }
