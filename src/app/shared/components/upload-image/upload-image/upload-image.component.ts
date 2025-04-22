@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-upload-image',
   standalone: true,
   imports: [
-    TranslateModule
+    TranslateModule,
+    CommonModule
   ],
   templateUrl: './upload-image.component.html',
   styleUrl: './upload-image.component.css'
@@ -14,6 +16,7 @@ export class UploadImageComponent {
 
   selectedFile: File | null = null;
   fileUrl: string | null = null;
+  tooltipText: string = 'Formatos permitidos:</br>JPG,PNG. BMP, WEBP </br></br>Peso máximo:  </br>2mb';
 
   ngOnInit() {
     if (this.selectedFile) {

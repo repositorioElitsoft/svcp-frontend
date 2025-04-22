@@ -378,7 +378,7 @@
                 },
                 "tituloEditar": "Editar Cliente",
                 "tituloAgregar": "Crear Cliente",
-                "label.nombre": "Nombre",
+                "label.nombre": "Nombre o Razón Social",
                 "label.apellidoPaterno?": "Apellido Paterno",
                 "label.apellidoMaterno?": "Apellido Materno",
                 "label.rut": "Rut",
@@ -430,7 +430,7 @@
             "empleado": {
                 "tituloEditar": "Editar Empleado",
                 "tituloAgregar": "Crear Empleado",
-                "label.nombre": "Nombre",
+                "label.nombre": "Nombre o Razón Social",
                 "label.apellidoPaterno": "Apellido Paterno",
                 "label.apellidoMaterno": "Apellido Materno",
                 "label.imagenPerfil": "Imagen de Perfil",
