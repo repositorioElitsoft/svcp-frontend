@@ -88,9 +88,6 @@
     background-color: inherit;
 }
 
-.sticky-cell:hover {
-    @apply bg-gray-100 dark:bg-neutral-700;
-}
 
 /* Asegurar que el scroll no afecte la apariencia en móvil */
 @media (max-width: 640px) {
