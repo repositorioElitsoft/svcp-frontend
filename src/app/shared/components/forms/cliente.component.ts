@@ -92,6 +92,8 @@ export class ClienteFormComponent implements OnInit {
   pantallaActual = "contactos-cliente"
   isLoading = false
 
+  contactoClienteSeleccionado: any
+
   @ViewChild(InformacionPersonalComponent) informacionPersonal!: InformacionPersonalComponent;
   @ViewChild(UploadImageComponent) uploadImage!: UploadImageComponent;
   @ViewChild(InformacionComercialComponent) informacionComercial!: InformacionComercialComponent;
@@ -190,9 +192,15 @@ export class ClienteFormComponent implements OnInit {
 
   showContactoClienteFn(element: any) {
     console.log("Elemento seleccionado:", element);
+    this.contactoClienteSeleccionado = element
     this.pantallaActual = "contactos-cliente-show"
   }
 
+  contactoClienteAceptarEvent() {
+    console.log("Aceptar evento recibido");
+    this.pantallaActual = "contactos-cliente"
+    this.contactoClienteSeleccionado = null
+  }
 
   envioFormularioDatosGenerales() {
     if (!this.informacionPersonal) {

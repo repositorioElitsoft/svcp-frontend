@@ -18,6 +18,7 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { ClienteCrearFormComponent } from "../../../shared/components/forms/cliente-crear.component";
+import { ShowClienteComponent } from "../../../shared/components/sub-forms/show-cliente/show-cliente.component";
 @Component({
   selector: "app-cliente",
   standalone: true,
@@ -124,6 +125,14 @@ export class ClienteComponent implements OnInit {
 
 
 
+  showClienteFn(element: any) {
+    const dialogRef = this.dialog.open(ShowClienteComponent, {
+      width: '800px',
+      data: {
+        object: element
+      }
+    });
+  }
 
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
@@ -137,6 +146,7 @@ export class ClienteComponent implements OnInit {
       sortDirection: sortDirection,
       ...optionalFilter
     }
+
 
     this.clienteService.buscarFiltrado(mandatoryFilter).subscribe(
       (data: PagedResponse<Cliente[]>) => {
@@ -312,6 +322,10 @@ export class ClienteComponent implements OnInit {
   agregarServicio() {
     const dialogRef = this.dialog.open(ClienteCrearFormComponent, {
 
+      height: 'auto',
+
+      autoFocus: false,
+      disableClose: true,
       data: {
         esActualizar: false,
       }

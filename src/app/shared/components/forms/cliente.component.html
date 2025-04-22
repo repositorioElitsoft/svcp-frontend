@@ -29,7 +29,9 @@
 			(agregarContactoPressed)="agregarContactoPressed()" (clienteActualizado)="manejarClienteActualizado($event)"
 			*ngIf="pantallaActual==='contactos-cliente'"></app-contacto-cliente>
 
-		<app-show-contacto-cliente *ngIf="pantallaActual==='contactos-cliente-show'"></app-show-contacto-cliente>
+		<app-show-contacto-cliente (aceptarEvent)="contactoClienteAceptarEvent()"
+			[contacto]="contactoClienteSeleccionado"
+			*ngIf="pantallaActual==='contactos-cliente-show'"></app-show-contacto-cliente>
 
 		<div class="grid grid-cols-5 gap-4" *ngIf="pantallaActual==='contactos-cliente-crear'">
 			<div class="h-full border-2 border-gray-300 rounded-lg p-4 shadow-md col-span-2">
@@ -40,7 +42,7 @@
 				class="col-span-3"></app-contactos-cliente-crear>
 		</div>
 
-		<mat-dialog-actions align="end">
+		<mat-dialog-actions align="end" *ngIf="pantallaActual!=='contactos-cliente-show'">
 
 			<div class="grid grid-cols-2 gap-4 w-full">
 				<button (click)="dialogRef.close()"

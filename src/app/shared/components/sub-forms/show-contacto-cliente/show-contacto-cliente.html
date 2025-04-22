@@ -22,7 +22,7 @@
 
         <div class="w-3/5 pl-4 mb-6">
             <div class="flex justify-between items-center mb-2">
-                <h2 class="text-lg font-medium">INFORMACIÓN PERSONAL</h2>
+                <h2 class="text-lg font-medium dark:text-white">INFORMACIÓN PERSONAL</h2>
                 <div class="flex gap-2">
                     <button mat-icon-button color="primary">
                         <mat-icon>edit</mat-icon>
@@ -35,47 +35,47 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <p class="text-gray-500 text-lg">Nombre</p>
-                    <p class="text-lg">{{ contacto?.nombre }}</p>
+                    <p class="text-lg dark:text-white">Nombre</p>
+                    <p class="text-lg dark:text-white">{{ contacto?.nombre }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-500 text-lg">Apellido Paterno</p>
-                    <p class="text-lg">{{ contacto?.apellidoPaterno }}</p>
+                    <p class="text-lg dark:text-white">Apellido Paterno</p>
+                    <p class="text-lg dark:text-white">{{ contacto?.apellidoPaterno }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-500 text-lg">Apellido materno</p>
-                    <p class="text-lg">{{ contacto?.apellidoMaterno }}</p>
+                    <p class="text-lg dark:text-white">Apellido materno</p>
+                    <p class="text-lg dark:text-white">{{ contacto?.apellidoMaterno }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-500 text-lg">Rol</p>
-                    <p class="text-lg">{{ contacto?.rol }}</p>
+                    <p class="text-lg dark:text-white">Rol</p>
+                    <p class="text-lg dark:text-white">{{ contacto?.rol }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-500 text-lg">Tipo de Documento</p>
-                    <p class="text-lg">{{ contacto?.tipoDocumento }}</p>
+                    <p class="text-lg dark:text-white">Tipo de Documento</p>
+                    <p class="text-lg dark:text-white">{{ contacto?.tipoDocumento }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-500 text-lg">Nº documento</p>
-                    <p class="text-lg">{{ contacto?.numeroDocumento }}</p>
+                    <p class="text-lg dark:text-white">Nº documento</p>
+                    <p class="text-lg dark:text-white">{{ contacto?.numeroDocumento }}</p>
                 </div>
             </div>
 
 
             <!-- Sección de datos de contacto -->
             <div class="mb-6">
-                <h2 class="text-lg font-medium mb-2">DATOS DE CONTACTO</h2>
+                <h2 class="text-lg font-medium mb-2 dark:text-white">DATOS DE CONTACTO</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
-                        <p class="text-gray-500 text-lg">Teléfono</p>
-                        <p class="text-base">{{ contacto?.telefono }}</p>
+                        <p class="text-lg dark:text-white">Teléfono</p>
+                        <p class="text-base dark:text-white">{{ contacto?.telefono }}</p>
                     </div>
                     <div>
-                        <p class="text-gray-500 text-lg">Celular</p>
-                        <p class="text-lg">{{ contacto?.celular }}</p>
+                        <p class="text-lg dark:text-white">Celular</p>
+                        <p class="text-lg dark:text-white">{{ contacto?.celular }}</p>
                     </div>
                     <div>
-                        <p class="text-gray-500 text-lg">Correo electrónico</p>
-                        <p class="text-lg">{{ contacto?.correoElectronico }}</p>
+                        <p class="text-lg dark:text-white">Correo electrónico</p>
+                        <p class="text-lg dark:text-white">{{ contacto?.correoElectronico }}</p>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
     <!-- Sección de localizaciones -->
     <div class="mb-6">
         <div class="flex justify-between items-center mb-2">
-            <h2 class="text-lg font-medium">LOCACIONES({{ contacto?.locaciones?.length || 0 }})</h2>
+            <h2 class="text-lg font-medium dark:text-white">LOCACIONES({{ contacto?.locaciones?.length || 0 }})</h2>
             <button mat-icon-button (click)="toggleLocaciones()">
                 <mat-icon>{{ showLocaciones ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
             </button>
@@ -111,7 +111,7 @@
 
             <button mat-button color="primary" class="flex items-center mb-4" (click)="agregarLocalizacion()">
                 <mat-icon>add</mat-icon>
-                <span>Agregar localización</span>
+                <span class="dark:text-white">Agregar localización</span>
             </button>
 
             <!-- Lista de localizaciones -->
@@ -120,10 +120,10 @@
                     <div>
                         <div class="flex items-center gap-2">
                             <mat-icon>location_on</mat-icon>
-                            <span>{{ locacion.direccion }}</span>
+                            <span class="dark:text-white">{{ locacion.direccion }}</span>
                         </div>
                         <div class="ml-6 mt-1">
-                            <span class="text-sm">Rol: {{ locacion.rol }}</span>
+                            <span class="text-sm dark:text-white">Rol: {{ locacion.rol }}</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
