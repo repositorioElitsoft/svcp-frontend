@@ -260,7 +260,8 @@
             "id": "Id",
             "titulo": "Product Type",
             "descripcionTipoProducto": "Product Type",
-            "label.ingreseNombre": "Enter new name"
+            "label.ingreseNombre": "Enter new name",
+            "label.resumen": "Summary"
         },
         "tipoServicio": {
             "id": "Id",

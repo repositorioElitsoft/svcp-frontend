@@ -26,6 +26,7 @@ import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.compone
 import { TipoProducto } from '../../../core/models/tipo-producto.model';
 import { catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { TipoComponenteService } from '../../../core/services/tipo-componente.service';
 
 @Component({
   selector: 'app-tipo-producto-create-form',
@@ -64,6 +65,7 @@ export class TipoProductoFormComponent implements OnInit {
     private tipoProductoService: TipoProductoService,
     private translate: TranslateService,
     private toastr: ToastrService,
+    private tipoComponenteService: TipoComponenteService,
     /*other-services-injection*/
 
   ) {
@@ -97,9 +99,6 @@ export class TipoProductoFormComponent implements OnInit {
 
 
   }
-
-
-
 
 
   onSubmit() {
