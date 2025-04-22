@@ -234,7 +234,8 @@
         "tipoProducto": {
             "id": "Id",
             "titulo": "Tipo de Produto",
-            "descripcionTipoProducto": "Descrição do Tipo de Produto"
+            "descripcionTipoProducto": "Tipo de Produto",
+            "label.ingreseNombre": "Insira um novo nome"
         },
         "tipoServicio": {
             "id": "Id",
