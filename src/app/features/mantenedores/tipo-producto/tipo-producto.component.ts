@@ -552,4 +552,22 @@ export class TipoProductoComponent implements OnInit {
       }
     });
   }
+
+
+  onShowMore(element: any): void {
+    const dialogRef = this.dialog.open(TipoProductoFormComponent, {
+      width: '450px',
+      data: {
+        esActualizar: true,
+        object: element
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos();
+      }
+    });
+  }
+
 }
