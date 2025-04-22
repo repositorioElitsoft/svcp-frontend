@@ -257,7 +257,7 @@
         },
         "tipoCliente": {
             "id": "Id",
-            "titulo": "Tipo de Cliente",
+            "titulo": "Tipo de Clientes",
             "nombre": "Tipo de Componente"
         },
         "tipoEmpleado": {
@@ -267,8 +267,11 @@
         },
         "tipoProducto": {
             "id": "Id",
-            "titulo": "Tipo de Producto",
-            "descripcionTipoProducto": "Descripción del Tipo de Producto"
+            "titulo": "Tipos de Productos",
+            "descripcionTipoProducto": "Tipo de Producto",
+            "tipoProductoTipoComponentes": "Tipo de Componente",
+            "sinComponentes": "No hay componentes asignados",
+            "agregarComponente": "Agregar Componente"
         },
         "tipoServicio": {
             "id": "Id",
@@ -277,7 +280,7 @@
         },
         "trabajo": {
             "id": "Id",
-            "titulo": "Trabajo",
+            "titulo": "Trabajos",
             "descripcionTrabajo": "Trabajo",
             "trabajoTareas": "Tareas Asignadas",
             "tareas": "Tareas Asignadas"
@@ -524,9 +527,18 @@
             },
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Producto",
+                "tituloDetalle": "Detalle tipo de producto",
                 "tituloAgregar": "Crear Tipo de Producto",
-                "label.descripcionTipoProducto": "Descripción del Tipo de Producto",
-                "descripcionTipoProducto": "Ingrese la descripción del tipo de producto"
+                "descripcionTipoProducto": "Ingrese el tipo de producto",
+                "sinComponentes": "No hay componentes asignados",
+                "agregarComponente": "Agregar Componente",
+                "label": {
+                    "tipoComponente": "Tipo de Componente",
+                    "cantidad": "Cantidad",
+                    "resumen": "Resumen",
+                    "ingreseNombre": "Ingrese nuevo nombre",
+                    "descripcionTipoProducto": "Tipo de Producto"
+                }
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Servicio",
@@ -540,7 +552,7 @@
                 "label.descripcionTrabajo": "Trabajo",
                 "descripcion": "Ingrese la descripción del trabajo",
                 "label.ingreseNombre": "Ingrese nuevo nombre",
-                "label.mas": "(+ más)"
+                "label.mas": "más"
             },
             "zona": {
                 "tituloEditar": "Editar Zona",
@@ -570,7 +582,8 @@
                 "info": {
                     "ordenTareas": "Las tareas se asignan en el orden en que las seleccionas, Puedes cambiar su secuencia arrastrando los tags."
                 },
-                "verMas": "Ver más"
+                "verMas": "Ver más",
+                "verMenos": "Ver menos"
             },
             "servicioTrabajo": {
                 "tituloAgregar": "Asignar Trabajos",
@@ -584,7 +597,8 @@
                 "sinTrabajosDisponibles": "No hay trabajos disponibles para asignar",
                 "verMas": "Ver más",
                 "verMenos": "Ver menos"
-            }
+            },
+            "cantidadMinima": "La cantidad debe ser mayor a 0"
         }
     },
     "alertas": {
@@ -768,6 +782,14 @@
                     "DUPLICADO": "Ya existe un servicio con los mismos datos.",
                     "ID_REQUERIDO": "El ID del servicio es requerido.",
                     "ID_INVALIDO": "El ID del servicio no es válido."
+                },
+                "trabajo": {
+                    "NO_ENCONTRADO": "El trabajo no fue encontrado.",
+                    "INTEGRIDAD_VIOLADA": "El registro está actualmente asignado y no puede ser eliminado.",
+                    "REQUERIDO": "El trabajo es requerido.",
+                    "DUPLICADO": "Ya existe un trabajo con los mismos datos.",
+                    "ID_REQUERIDO": "El ID del trabajo es requerido.",
+                    "ID_INVALIDO": "El ID del trabajo no es válido."
                 }
             }
         }

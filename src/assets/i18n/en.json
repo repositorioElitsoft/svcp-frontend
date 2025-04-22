@@ -259,7 +259,9 @@
         "tipoProducto": {
             "id": "Id",
             "titulo": "Product Type",
-            "descripcionTipoProducto": "Product Type"
+            "descripcionTipoProducto": "Product Type",
+            "label.ingreseNombre": "Enter new name",
+            "label.resumen": "Summary"
         },
         "tipoServicio": {
             "id": "Id",
@@ -268,7 +270,7 @@
         },
         "trabajo": {
             "id": "Id",
-            "titulo": "Job",
+            "titulo": "Jobs",
             "descripcionTrabajo": "Job",
             "trabajoTareas": "Assigned Tasks",
             "tareas": "Assigned Tasks"
@@ -513,8 +515,14 @@
             "tipoProducto": {
                 "tituloEditar": "Edit Product Type",
                 "tituloAgregar": "Create Product Type",
-                "label.descripcionTipoProducto": "Product Type Description",
-                "descripcionTipoProducto": "Enter the description of the product type"
+                "tituloDetalle": "Product type details",
+                "label": {
+                    "descripcionTipoProducto": "Product Type Description",
+                    "ingreseNombre": "Enter new name",
+                    "resumen": "Summary",
+                    "tipoComponente": "Component Type",
+                    "cantidad": "Quantity"
+                }
             },
             "tipoServicio": {
                 "tituloEditar": "Edit Service Type",
@@ -528,8 +536,8 @@
                 "tituloAgregar": "Create Job",
                 "label.descripcionTrabajo": "Job Description",
                 "descripcion": "Enter the description of the Job",
-                "label.ingreseNombre": "Enter a new Job name",
-                "label.mas": "(+ more)"
+                "label.ingreseNombre": "Enter a new name",
+                "label.mas": "more"
             },
             "tarea": {
                 "tituloEditar": "Edit Task",
@@ -760,6 +768,14 @@
                     "DUPLICADO": "A service with the same data already exists.",
                     "ID_REQUERIDO": "The service ID is required.",
                     "ID_INVALIDO": "The service ID is not valid."
+                },
+                "trabajo": {
+                    "NO_ENCONTRADO": "The job was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The job is required.",
+                    "DUPLICADO": "A job with the same data already exists.",
+                    "ID_REQUERIDO": "The job ID is required.",
+                    "ID_INVALIDO": "The job ID is not valid."
                 }
             }
         }

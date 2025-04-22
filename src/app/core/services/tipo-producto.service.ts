@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { TipoProducto } from '../../core/models/tipo-producto.model';
 import { ApiEntityResponse } from "../models/api-entity-response.model";
+import { PagedResponse } from "../models/paged-content.models";
 
 @Injectable({
     providedIn: 'root',
@@ -56,4 +57,28 @@ export class TipoProductoService {
         // Hacer la solicitud GET con los parámetros dinámicos
         return this.http.get(`${this.url}core/filter/tipos-productos`, { params, headers: this.headers });
     }
+
+
+
+    // GET /core/filter/servicios-trabajos-asignados
+    buscarFiltradoAsignacion(filtros: { [key: string]: any }): Observable<PagedResponse<TipoProducto>> {
+        let params = new HttpParams();
+        // Recorrer los filtros y agregar los que tengan valor
+        for (let key in filtros) {
+            if (filtros.hasOwnProperty(key) && filtros[key] !== undefined && filtros[key] !== null && filtros[key] !== '') {
+                params = params.append(key, filtros[key].toString());
+            }
+        }
+
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        });
+
+        return this.http.get<PagedResponse<TipoProducto>>(`${this.url}core/filter/tipos-productos-tipos-componentes-asginacion`, {
+            params,
+            headers: headers
+        });
+    }
+
 }

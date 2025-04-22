@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,14 +18,16 @@ import { TranslateModule } from '@ngx-translate/core';
               <div class="chip-content">
                 <span class="task-id">{{getDisplayValue(item) || 'Sin descripción'}}</span>
               </div>
-              <button class="delete-button" (click)="onDelete(item); $event.stopPropagation()">
+              <button *ngIf="showDeleteButton && !isLastItem(item)" 
+                (click)="onDelete(item); $event.stopPropagation()" 
+                class="delete-button">
                 <mat-icon>close</mat-icon>
               </button>
             </div>
           </div>
         </div>
         <div *ngIf="showMoreIndicator" class="more-indicator" (click)="onMoreClick()">
-          <span>{{ 'mantenedores.formularios.trabajo.label.mas' | translate }}</span>
+          <span>(+ {{ 'mantenedores.formularios.trabajo.label.mas' | translate }})</span>
         </div>
       </div>
     </div>
@@ -34,54 +36,51 @@ import { TranslateModule } from '@ngx-translate/core';
     .chips-container {
       display: flex;
       flex-direction: column;
-      max-width: 300px;
+      max-width: 450px;
     }
 
     .chips-wrapper {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      align-items: flex-start;
+      gap: 8px;
     }
 
     @media (min-width: 640px) {
       .chips-wrapper {
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
       }
     }
 
     .chips-grid {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 4px;
-      max-width: 250px;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 400px;
     }
 
     .chips-row {
       display: flex;
-      gap: 4px;
+      gap: 8px;
     }
 
     .chip {
-      background: #ccc2ac;
+      background: #e2ded5;
       border-radius: 4px;
-      padding: 2px 8px;
+      padding: 4px 12px;
       font-size: 13px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 4px;
-      height: 24px;
-      min-width: 110px;
-      max-width: 200px;
+      gap: 8px;
+      height: 28px;
+      width: 180px;
       cursor: pointer;
       transition: background-color 0.2s;
     }
 
     .chip:hover {
-      background: #bdb5a1;
+      background: #d6d2c9;
     }
 
     .chip-content {
@@ -93,30 +92,33 @@ import { TranslateModule } from '@ngx-translate/core';
     }
 
     .task-id {
-      color: #616161;
+      color: #57534e;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       display: block;
       width: 100%;
+      font-weight: 500;
     }
 
     .delete-button {
       border: none;
-      background: transparent;
+      background: #ccc2ad;
       cursor: pointer;
       padding: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #9E9E9E;
-      width: 16px;
-      height: 16px;
+      color: #57534e;
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
+      border-radius: 2px;
+      margin-right: -4px;
     }
 
     .delete-button:hover {
-      color: #616161;
+      background: #c0b69f;
     }
 
     .more-indicator {
@@ -126,15 +128,19 @@ import { TranslateModule } from '@ngx-translate/core';
       font-size: 13px;
       display: flex;
       align-items: center;
-      padding: 4px 8px;
-      margin-left: 3.5em;
-      border-radius: 4px;
-      transition: background-color 0.2s;
+      padding: 4px 0;
+      margin-left: 8px;
+    }
+
+    @media (max-width: 639px) {
+      .more-indicator {
+        margin-left: 0;
+        margin-top: 4px;
+      }
     }
 
     .more-indicator:hover {
       color: rgb(30 64 175);
-      background-color: rgba(37, 99, 235, 0.1);
     }
 
     mat-icon {
@@ -143,18 +149,20 @@ import { TranslateModule } from '@ngx-translate/core';
       height: 14px;
       line-height: 14px;
     }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChipsComponent {
   private _items: any[] = [];
   private currentMaxVisible: number = 4;
   private screenWidth: number = window.innerWidth;
   private showAll: boolean = false;
-  public mostrarTodas: boolean = false;
 
-  @Input() displayField: string = ''; // Campo a mostrar
-  @Input() nestedPath: string = ''; // Ruta anidada para acceder al campo (ejemplo: 'tarea.descripcionTarea')
-  @Input() expandOnMore: boolean = false; // Controla si se expanden todos los items al hacer clic en "más"
+  @Input() displayField: string = '';
+  @Input() nestedPath: string = '';
+  @Input() expandOnMore: boolean = false;
+  @Input() maxDisplay: number = 3;
+  @Input() showDeleteButton: boolean = true;
 
   @Input()
   set items(value: any[]) {
@@ -178,22 +186,8 @@ export class ChipsComponent {
 
   @Output() deleteItem = new EventEmitter<any>();
   @Output() clearAll = new EventEmitter<void>();
-  @Output() showMore = new EventEmitter<void>();
+  @Output() showMore = new EventEmitter<boolean>();
   @Output() itemClick = new EventEmitter<any>();
-
-  getDisplayValue(item: any): string {
-    if (!item) return '';
-
-    if (this.nestedPath) {
-      return this.nestedPath.split('.').reduce((obj, key) => obj?.[key], item) || '';
-    }
-
-    return item[this.displayField] || '';
-  }
-
-  onItemClick(item: any): void {
-    this.itemClick.emit(item);
-  }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -215,6 +209,16 @@ export class ChipsComponent {
     }
   }
 
+  getDisplayValue(item: any): string {
+    if (!item) return '';
+
+    if (this.nestedPath) {
+      return this.nestedPath.split('.').reduce((obj, key) => obj?.[key], item) || '';
+    }
+
+    return item[this.displayField] || '';
+  }
+
   getVisibleRows(): any[][] {
     const visibleItems = this.visibleItems;
     const rows: any[][] = [];
@@ -227,15 +231,26 @@ export class ChipsComponent {
     return rows;
   }
 
+  onItemClick(item: any): void {
+    this.itemClick.emit(item);
+  }
+
   onDelete(item: any): void {
     this.deleteItem.emit(item);
   }
 
   onMoreClick(): void {
+    console.log('chips: onMoreClick llamado');
+    console.log('chips: expandOnMore =', this.expandOnMore);
     if (this.expandOnMore) {
       this.showAll = true;
     } else {
-      this.showMore.emit();
+      console.log('chips: Emitiendo showMore');
+      this.showMore.emit(true);
     }
+  }
+
+  isLastItem(index: number): boolean {
+    return index === this._items.length - 1;
   }
 } 

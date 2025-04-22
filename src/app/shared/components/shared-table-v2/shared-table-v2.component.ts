@@ -47,6 +47,9 @@ export class SharedTableV2Component implements OnInit {
   @Input() simpleSearchField: string = "";
   @Input() filterSearch: string = "";
   @Input() additionalActionsTemplate!: TemplateRef<any>;
+  @Input() showAssignButton: boolean = true;
+  @Input() showViewButton: boolean = false;
+  @Input() showChipsDeleteButton: boolean = true;
 
   // Nueva configuración para columnas
   @Input() columnConfig: {
@@ -73,6 +76,7 @@ export class SharedTableV2Component implements OnInit {
   @Output() chipsClear = new EventEmitter<any>();
   @Output() asignacion = new EventEmitter<any>();
   @Output() showMore = new EventEmitter<any>();
+  @Output() onViewForm = new EventEmitter<any>();
 
   @ViewChildren('filterInput') filterInputs!: QueryList<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -373,6 +377,9 @@ export class SharedTableV2Component implements OnInit {
   }
 
   onShowMore(element: any): void {
+    console.log('shared-table-v2: Emitiendo showMore con elemento:', element);
+    console.log('shared-table-v2: Tipo de elemento:', typeof element);
+    console.log('shared-table-v2: ¿El elemento tiene id?', element?.id);
     this.showMore.emit(element);
   }
 

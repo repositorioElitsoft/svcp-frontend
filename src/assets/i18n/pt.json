@@ -234,7 +234,9 @@
         "tipoProducto": {
             "id": "Id",
             "titulo": "Tipo de Produto",
-            "descripcionTipoProducto": "Descrição do Tipo de Produto"
+            "descripcionTipoProducto": "Tipo de Produto",
+            "label.ingreseNombre": "Insira um novo nome",
+            "label.resumen": "Resumo"
         },
         "tipoServicio": {
             "id": "Id",
@@ -243,7 +245,7 @@
         },
         "trabajo": {
             "id": "Id",
-            "titulo": "Trabalho",
+            "titulo": "Trabalhos",
             "descripcionTrabajo": "Trabalho",
             "trabajoTareas": "Tarefas Atribuídas",
             "tareas": "Tarefas Atribuídas"
@@ -492,8 +494,14 @@
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Produto",
                 "tituloAgregar": "Criar Tipo de Produto",
-                "label.descripcionTipoProducto": "Descrição do Tipo de Produto",
-                "descripcionTipoProducto": "Insira a descrição do tipo de produto"
+                "tituloDetalle": "Detalhes do tipo de produto",
+                "label": {
+                    "descripcionTipoProducto": "Descrição do Tipo de Produto",
+                    "ingreseNombre": "Insira um novo nome",
+                    "resumen": "Resumo",
+                    "tipoComponente": "Tipo de Componente",
+                    "cantidad": "Quantidade"
+                }
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Serviço",
@@ -507,7 +515,7 @@
                 "label.descripcionTrabajo": "Descrição do Trabalho",
                 "descripcion": "Insira a descrição do trabalho",
                 "label.ingreseNombre": "Insira um novo nome",
-                "label.mas": "(+ mais)",
+                "label.mas": "mais",
                 "verMenos": "Ver menos"
             },
             "zona": {
@@ -727,6 +735,14 @@
                     "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
                 },
                 "servicio": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "trabajo": {
                     "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
                     "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
                     "REQUERIDO": "O tipo de documento de identificação é obrigatório.",

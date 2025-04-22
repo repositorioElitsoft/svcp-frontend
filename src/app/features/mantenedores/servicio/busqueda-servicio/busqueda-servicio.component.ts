@@ -23,55 +23,59 @@ import { EstadoService } from '../../../../core/services/estado.service';
     ],
     template: `
     <div class="">
-        <div class="flex flex-col md:flex-row items-center lg:items-end gap-4 p-4">
-            <!-- Campo de búsqueda -->
-            <div class="w-full md:w-auto">
-                <div class="relative w-full md:w-[240px] lg:w-[300px]">
-                    <input [(ngModel)]="value" type="text"
-                        class="w-full h-[44px] px-4 py-2 rounded-lg border-2 border-[#C2C2C2] bg-white text-[#757575] text-lg outline-none focus:border-[#3f51b5]"
-                        (ngModelChange)="onValueChange()"
-                        [placeholder]="('table.digiteBusqueda' | translate) + ' ' + ('mantenedores.servicio.descripcion' | translate)" />
-                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2"
-                        [ngClass]="{'text-red-500': value, 'text-[#757575]': !value}" 
-                        (click)="value ? clearInput() : null">
-                        <mat-icon>{{value ? 'close' : 'search'}}</mat-icon>
-                    </button>
+        <div class="flex flex-col xl:flex-row items-start xl:items-end gap-4 p-4">
+            <div class="flex flex-col sm:flex-row xl:flex-row items-start gap-4 w-full xl:w-auto">
+                <!-- Campo de búsqueda -->
+                <div class="w-full sm:flex-1 xl:w-[300px]">
+                    <div class="relative w-full">
+                        <input [(ngModel)]="value" type="text"
+                            class="w-full h-[44px] px-4 py-2 rounded-lg border-2 border-[#C2C2C2] bg-white text-[#757575] text-lg outline-none focus:border-[#3f51b5]"
+                            (ngModelChange)="onValueChange()"
+                            [placeholder]="('table.digiteBusqueda' | translate) + ' ' + ('mantenedores.servicio.descripcion' | translate)" />
+                        <button class="absolute right-3 top-1/2 transform -translate-y-1/2"
+                            [ngClass]="{'text-red-500': value, 'text-[#757575]': !value}" 
+                            (click)="value ? clearInput() : null">
+                            <mat-icon>{{value ? 'close' : 'search'}}</mat-icon>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Select de Tipo Servicio -->
-            <div class="w-full md:w-auto self-end md:mx-4">
-                <div class="relative w-full md:w-[160px] lg:w-[200px]">
-                    <mat-select [(ngModel)]="selectedTipoServicio" (selectionChange)="onValueChange()"
-                        [placeholder]="'mantenedores.servicio.tipoServicio' | translate"
-                        class="block w-full h-[44px] px-4 py-2 text-lg text-[#757575] bg-white border-2 border-[#C2C2C2] rounded-lg appearance-none focus:outline-none focus:border-[#3f51b5]">
-                        <mat-option [value]="null">{{ 'mantenedores.seleccion' | translate }}</mat-option>
-                        <mat-option *ngFor="let tipo of tiposServicio" [value]="tipo">
-                            {{ tipo.descripcionTipoServicio }}
-                        </mat-option>
-                    </mat-select>
+                <!-- Select de Tipo Servicio -->
+                <div class="w-full sm:flex-1 xl:w-[200px]">
+                    <div class="relative w-full">
+                        <mat-select [(ngModel)]="selectedTipoServicio" (selectionChange)="onValueChange()"
+                            [placeholder]="'mantenedores.servicio.tipoServicio' | translate"
+                            class="block w-full h-[44px] px-4 py-2 text-lg text-[#757575] bg-white border-2 border-[#C2C2C2] rounded-lg appearance-none focus:outline-none focus:border-[#3f51b5]">
+                            <mat-option [value]="null">{{ 'mantenedores.seleccion' | translate }}</mat-option>
+                            <mat-option *ngFor="let tipo of tiposServicio" [value]="tipo">
+                                {{ tipo.descripcionTipoServicio }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Select de Estado -->
-            <div class="w-full md:w-auto self-end">
-                <div class="relative w-full md:w-[160px] lg:w-[200px]">
-                    <mat-select [(ngModel)]="selectedEstado" (selectionChange)="onValueChange()"
-                        [placeholder]="'mantenedores.servicio.estado' | translate"
-                        class="block w-full h-[44px] px-4 py-2 text-lg text-[#757575] bg-white border-2 border-[#C2C2C2] rounded-lg appearance-none focus:outline-none focus:border-[#3f51b5]">
-                        <mat-option [value]="null">{{ 'mantenedores.seleccion' | translate }}</mat-option>
-                        <mat-option *ngFor="let estado of estados" [value]="estado">
-                            {{ estado.descripcion }}
-                        </mat-option>
-                    </mat-select>
+                <!-- Select de Estado -->
+                <div class="w-full sm:flex-1 xl:w-[200px]">
+                    <div class="relative w-full">
+                        <mat-select [(ngModel)]="selectedEstado" (selectionChange)="onValueChange()"
+                            [placeholder]="'mantenedores.servicio.estado' | translate"
+                            class="block w-full h-[44px] px-4 py-2 text-lg text-[#757575] bg-white border-2 border-[#C2C2C2] rounded-lg appearance-none focus:outline-none focus:border-[#3f51b5]">
+                            <mat-option [value]="null">{{ 'mantenedores.seleccion' | translate }}</mat-option>
+                            <mat-option *ngFor="let estado of estados" [value]="estado">
+                                {{ estado.descripcion }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
                 </div>
             </div>
 
             <!-- Botón de búsqueda -->
-            <button (click)="executeSearch()"
-                class="w-full md:w-auto h-[44px] px-4 md:px-6 rounded-lg bg-[#3f51b5] text-white hover:bg-[#303f9f] transition-colors">
-                {{ 'mantenedores.buscar' | translate }}
-            </button>
+            <div class="w-full sm:flex sm:justify-end xl:w-auto">
+                <button (click)="executeSearch()"
+                    class="w-full sm:w-[140px] h-[44px] px-4 rounded-lg bg-[#3f51b5] text-white hover:bg-[#303f9f] transition-colors">
+                    {{ 'mantenedores.buscar' | translate }}
+                </button>
+            </div>
         </div>
     </div>
     `

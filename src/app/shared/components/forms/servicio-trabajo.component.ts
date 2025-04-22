@@ -121,6 +121,10 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         if (this.Trabajos.length > 0) {
             this.actualizarTrabajosDisponibles();
         }
+
+        if (this.data?.mostrarTodo) {
+            this.mostrarTodos = true;
+        }
     }
 
     ngOnDestroy(): void {
@@ -487,7 +491,7 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
             this.servicioTrabajoService.crearLote(trabajosFormateados).subscribe({
                 next: (response) => {
                     console.log('onSubmit - Respuesta exitosa:', response);
-                    this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+                    this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
                     this.dialogRef.close(true);
                 },
                 error: (error) => {
@@ -513,7 +517,7 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         this.servicioTrabajoService.crearLote(trabajosNuevosParaEnviar).subscribe({
             next: (response) => {
                 console.log('onSubmit - Respuesta exitosa:', response);
-                this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+                this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
                 this.dialogRef.close(true);
             },
             error: (error) => {
@@ -659,10 +663,13 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
     }
 
     onChipsReordered(items: ChipItem[]): void {
-        this.trabajosAsignados = items.map(item =>
-            this.trabajosAsignados.find(t => t.id === item.id)!
-        );
-        this.onTrabajosReordered(this.trabajosAsignados);
+        this.trabajosAsignados = items.map((item, index) => ({
+            ...this.trabajosAsignados.find(t => t.id === item.id)!,
+            ordenEjecucionTrabajo: index + 1
+        }));
+
+        this.form.patchValue({ trabajos: this.trabajosAsignados });
+        console.log('Trabajos reordenados:', this.trabajosAsignados);
     }
 
     // #endregion

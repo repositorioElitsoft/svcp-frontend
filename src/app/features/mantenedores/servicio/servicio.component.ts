@@ -858,21 +858,7 @@ export class ServicioComponent implements OnInit {
         });
     }
 
-    onAsignacion(element: any): void {
-        const dialogRef = this.dialog.open(ServicioTrabajoFormComponent, {
-            width: '450px',
-            data: {
-                id: element.id,
-                descripcion: element.descripcion
-            }
-        });
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.obtenerDatos();
-            }
-        });
-    }
 
     onChipDelete(event: { parent: Servicio, item: ServicioTrabajo }) {
         console.log('Chip a eliminar:', event);
@@ -1134,6 +1120,42 @@ export class ServicioComponent implements OnInit {
                 console.log('Método onClearTareas - Usuario canceló la eliminación');
             }
         });
+    }
+
+    onShowMore(element: any): void {
+        console.log('servicio.component: onShowMore llamado con elemento:', element);
+        const dialogRef = this.dialog.open(ServicioTrabajoFormComponent, {
+            width: '450px',
+            data: {
+                id: element.id,
+                descripcion: element.descripcion,
+                mostrarTodo: true
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.obtenerDatos();
+            }
+        });
+    }
+
+
+    onAsignacion(element: any): void {
+        const dialogRef = this.dialog.open(ServicioTrabajoFormComponent, {
+            width: '450px',
+            data: {
+                id: element.id,
+                descripcion: element.descripcion
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.obtenerDatos();
+            }
+        });
+
     }
 
 }

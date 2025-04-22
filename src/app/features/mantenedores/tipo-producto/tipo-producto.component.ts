@@ -20,7 +20,7 @@ import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-generica/busqueda-generica.component";
 import { TipoProductoTipoComponenteService } from "../../../core/services/tipo-producto-tipo-componente.service";
 import { TipoProductoTipoComponente } from "../../../core/models/tipo-producto-tipo.componente.model";
-import { TipoProductoTipoComponenteFormComponent } from "../../../shared/components/forms/tipo-producto-tipo-componente.component";
+import { TipoProductoViewComponent } from "../../../shared/components/forms/tipo-producto-view.component";
 
 @Component({
   selector: "app-tipo-producto",
@@ -44,7 +44,8 @@ export class TipoProductoComponent implements OnInit {
       {
         field: 'tipoProductoTipoComponentes',
         type: 'chips',
-        nestedPath: 'tipoComponente.descripcionTipoComponente',
+        nestedPath: 'tipoComponente.nombre',
+        displayField: 'tipoComponente.nombre',
         sortable: false
       }
     ];
@@ -59,6 +60,9 @@ export class TipoProductoComponent implements OnInit {
   isLoading = false;
   @ViewChild(SharedTableV2Component) sharedTableComponent!: SharedTableV2Component;
   activeOptionalFilters: any = [];
+  currentFilters: any = {};
+  currentSortState: { column: string, direction: string } | null = null;
+
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -82,7 +86,7 @@ export class TipoProductoComponent implements OnInit {
 
   onViewSelected(id: string): void {
     const dialogRef = this.dialog.open(TipoProductoFormComponent, {
-      width: '400px',
+      width: '450px',
       data: {
         esActualizar: true,
         object: this.dataSource.find(item => item.id === Number(id))
@@ -105,18 +109,18 @@ export class TipoProductoComponent implements OnInit {
 
       const formattedData = dataArray.map(item => {
         const formattedItem: any = {
-          id: item.id,
           descripcionTipoProducto: item.descripcionTipoProducto,
-          componentes: item.tipoProductoTipoComponentes ? item.tipoProductoTipoComponentes
-            .sort((a: any, b: any) => a.ordenEjecucionTipoComponente - b.ordenEjecucionTipoComponente)
-            .map((tt: any) => tt.tipoComponente.descripcionTipoComponente)
-            .join(', ') : ''
+          tipoProductoTipoComponentes: item.tipoProductoTipoComponentes ?
+            item.tipoProductoTipoComponentes
+              .map((tt: any) => `${tt.tipoComponente.nombre} (${tt.cantidad})`)
+              .join(', ')
+            : ''
         };
         return formattedItem;
       });
 
-      const columnKeys = ['descripcionTipoProducto', 'componentes'];
-      const translationKeys = columnKeys.map(key => `${translationBase}.${key}`);
+      const columnKeys = ['descripcionTipoProducto', 'tipoProductoTipoComponentes'];
+      const translationKeys = columnKeys.map(key => `mantenedores.tipoProducto.${key}`);
 
       this.translate.get(translationKeys).subscribe(translations => {
         const translatedData = formattedData.map(item => {
@@ -128,7 +132,7 @@ export class TipoProductoComponent implements OnInit {
           return newItem;
         });
 
-        this.translate.get(`${translationBase}.titulo`).subscribe(title => {
+        this.translate.get('mantenedores.tipoProducto.titulo').subscribe(title => {
           this.exportService.exportToExcel(translatedData, title);
         });
       });
@@ -146,7 +150,7 @@ export class TipoProductoComponent implements OnInit {
         ...optionalFilter
       };
 
-      this.tipoProductoService.buscarFiltrado(filtros).subscribe(
+      this.tipoProductoService.buscarFiltradoAsignacion(filtros).subscribe(
         (response: any) => {
           const apiData = response?.content ?? response?.data ?? [];
           if (apiData.length === 0) {
@@ -189,17 +193,30 @@ export class TipoProductoComponent implements OnInit {
   }
 
   onPageChanged(newPage: number) {
+    console.log("Página cambiada", newPage);
     this.pageNumber = newPage;
-    this.obtenerDatos();
+    // Usar el estado del ordenamiento guardado si existe y los filtros actuales
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+    } else {
+      this.obtenerDatos("id", "asc", this.currentFilters);
+    }
   }
-
   buscar(data: { filter: any, labels: any[] }) {
+    console.log('Search input:', data);
     this.pageNumber = 0;
     this.activeOptionalFilters = data.labels || [];
-    this.obtenerDatos("id", "asc", data.filter);
+    this.currentFilters = data.filter;
+
+    // Mantener el ordenamiento actual si existe
+    const sortField = this.currentSortState?.column || 'id';
+    const sortDirection = this.currentSortState?.direction || 'asc';
+
+    this.obtenerDatos(sortField, sortDirection, this.currentFilters);
   }
 
   onFilterDeleted(filterData: { field: string, value: string }) {
+    console.log('Deleting filter:', filterData);
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );
@@ -207,57 +224,46 @@ export class TipoProductoComponent implements OnInit {
       acc[filter.field] = filter.value;
       return acc;
     }, {});
-    this.obtenerDatos("id", "asc", newFilter);
+    this.currentFilters = newFilter;
+    // Mantener el ordenamiento actual si existe
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, newFilter);
+    } else {
+      this.obtenerDatos("id", "asc", newFilter);
+    }
   }
+
+
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     this.isLoading = true;
 
-    this.tipoProductoService.buscarFiltrado({
-      pageSize: 10,
-      pageNumber: 0,
-      sortField: 'id',
-      sortDirection: 'asc'
-    }).subscribe((fullResponse: any) => {
-      const todosTiposProductos = new Map();
-      if (Array.isArray(fullResponse?.content)) {
-        fullResponse.content.forEach((item: any) => {
-          if (!todosTiposProductos.has(item.id)) {
-            todosTiposProductos.set(item.id, {
-              id: item.id,
-              descripcionTipoProducto: item.descripcionTipoProducto,
-              tipoProductoTipoComponentes: Array.isArray(item.tipoProductoTipoComponentes) ? [...item.tipoProductoTipoComponentes] : []
-            });
-          }
-        });
-      }
+    const params = {
+      pageSize: this.pageSize,
+      pageNumber: this.pageNumber,
+      sortField: sortField,
+      sortDirection: sortDirection.toUpperCase(),
+      ...optionalFilter
+    };
 
-      this.totalElements = todosTiposProductos.size;
-      this.totalPages = Math.ceil(this.totalElements / this.pageSize);
+    console.log('Parámetros de búsqueda:', params);
 
-      let tiposProductosArray = Array.from(todosTiposProductos.values());
-
-      tiposProductosArray.sort((a: any, b: any) => {
-        const valorA = a[sortField];
-        const valorB = b[sortField];
-
-        if (sortDirection === 'asc') {
-          return valorA > valorB ? 1 : -1;
-        } else {
-          return valorA < valorB ? 1 : -1;
+    this.tipoProductoService.buscarFiltradoAsignacion(params).subscribe({
+      next: (response: any) => {
+        if (response?.content) {
+          this.dataSource = response.content;
+          this.totalElements = response.totalElements;
+          this.totalPages = response.totalPages;
+          this.pageNumber = response.pageNumber;
         }
-      });
-
-      const inicio = this.pageNumber * this.pageSize;
-      const fin = inicio + this.pageSize;
-      this.dataSource = tiposProductosArray.slice(inicio, fin);
-
-      this.isLoading = false;
-      this.cdr.detectChanges();
-    }, error => {
-      console.error('Error al obtener datos:', error);
-      this.isLoading = false;
-      this.cdr.detectChanges();
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al obtener datos:', error);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -480,7 +486,7 @@ export class TipoProductoComponent implements OnInit {
       return;
     }
     const dialogRef = this.dialog.open(TipoProductoFormComponent, {
-      width: '400px',
+      width: '450px',
       data: {
         esActualizar: true,
         object: selectedObject
@@ -494,13 +500,13 @@ export class TipoProductoComponent implements OnInit {
     });
   }
 
+
   onAsignacion(element: any): void {
-    const dialogRef = this.dialog.open(TipoProductoTipoComponenteFormComponent, {
-      width: '400px',
+    const dialogRef = this.dialog.open(TipoProductoFormComponent, {
+      width: '450px',
       data: {
-        id: element.id,
-        descripcionTipoProducto: element.descripcionTipoProducto,
-        tipoProductoTipoComponentes: element.tipoProductoTipoComponentes || []
+        esActualizar: true,
+        object: element
       }
     });
 
@@ -510,6 +516,8 @@ export class TipoProductoComponent implements OnInit {
       }
     });
   }
+
+
 
   onDeleteSelected(ids: string[]) {
     const selectedItems = this.dataSource.filter(item => ids.includes(item.id.toString()));
@@ -528,5 +536,20 @@ export class TipoProductoComponent implements OnInit {
   onEdit(event: any) {
     const id = event?.target?.value || event;
     this.onEditSelected(id);
+  }
+
+  onViewForm(element: any): void {
+    const dialogRef = this.dialog.open(TipoProductoViewComponent, {
+      width: '450px',
+      data: {
+        object: element.id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos();
+      }
+    });
   }
 }

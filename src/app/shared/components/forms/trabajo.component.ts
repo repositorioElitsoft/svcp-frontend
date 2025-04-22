@@ -81,11 +81,10 @@ export class TrabajoFormComponent implements OnInit {
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
 
-
       this.form.patchValue({
         /*object-fields-edit*/
         id: this.data.object.id,
-        descripcionTrabajo: this.data.object.descripcionTrabajo,
+        descripcionTrabajo: '', // Inicializamos vacío para el modo edición
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);

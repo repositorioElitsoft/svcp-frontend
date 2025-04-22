@@ -27,38 +27,23 @@
                 </mat-select>
             </mat-form-field>
 
+
             <!-- Mensaje informativo -->
-            <div class="flex items-center gap-2 text-base text-gray-500">
-                <mat-icon class="text-lg">info</mat-icon>
-                <p>{{ 'mantenedores.formularios.trabajoTarea.info.ordenTareas' | translate }}</p>
+            <div class="flex items-start gap-2 text-base text-gray-500 leading-snug">
+                <mat-icon class="text-lg mt-1 min-w-[20px]">info</mat-icon>
+                <p class="break-words">{{ 'mantenedores.formularios.trabajoTarea.info.ordenTareas' | translate }}
+                </p>
             </div>
+
         </div>
 
         <!-- Tareas seleccionadas (chips) -->
         <div class="flex flex-col gap-2">
-            <div class="flex flex-col gap-2">
-                <div class="bg-gray-50 p-3 rounded">
-                    <div class="flex justify-between items-start">
-                        <div cdkDropList (cdkDropListDropped)="onDrop($event)" class="flex flex-wrap gap-2 flex-1">
-                            <div *ngFor="let tarea of tareasAsignadas.slice(0, mostrarTodas ? undefined : 4); let i = index"
-                                cdkDrag class="flex items-center gap-1 px-2 py-1 bg-[#e6e1dc] rounded text-sm">
-                                <span class="text-gray-700">{{ tarea.descripcionTarea }}</span>
-                                <button type="button" (click)="onTareaDelete(tarea)"
-                                    class="ml-1 text-gray-600 hover:text-gray-800">
-                                    ×
-                                </button>
-                            </div>
-                        </div>
-                        <div *ngIf="tareasAsignadas.length > 4"
-                            class="flex items-center text-blue-600 cursor-pointer hover:text-blue-700 ml-4"
-                            (click)="mostrarTodas = !mostrarTodas">
-                            <mat-icon class="text-base mr-1">{{ mostrarTodas ? 'remove' : 'add' }}</mat-icon>
-                            <span class="text-sm">{{ 'mantenedores.formularios.trabajoTarea.verMas' | translate
-                                }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-chips-form [items]="tareasAsignadas" [displayField]="'descripcionTarea'" [maxVisibleItems]="4"
+                [mostrarTodo]="mostrarTodos" [verMasTexto]="'mantenedores.formularios.trabajoTarea.verMas'"
+                [verMenosTexto]="'mantenedores.formularios.servicioTrabajo.verMenos'"
+                (itemDeleted)="onChipDeleted($event)" (itemsReordered)="onChipsReordered($event)">
+            </app-chips-form>
             <mat-error *ngIf="form.get('tareas')?.hasError('required') && form.get('tareas')?.touched">
                 {{ 'mantenedores.formularios.trabajoTarea.errors.tareasRequeridas' | translate }}
             </mat-error>
