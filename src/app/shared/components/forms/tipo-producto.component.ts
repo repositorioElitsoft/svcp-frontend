@@ -81,7 +81,7 @@ export class TipoProductoFormComponent implements OnInit {
     if (this.esActualizar() && this.data?.object) {
       this.form.patchValue({
         id: this.data.object.id,
-        descripcionTipoProducto: '',
+        descripcionTipoProducto: this.data.object.descripcionTipoProducto,
         tipoProductoTipoComponentes: this.data.object.tipoProductoTipoComponentes || []
       });
     }
