@@ -9,10 +9,8 @@ import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { convertErrorMessageToI18 } from '../../../core/utils/errors.utils';
-/*services-imports*/
-
-
-
+import { TipoProductoTipoComponente } from '../../../core/models/tipo-producto-tipo.componente.model';
+import { TipoComponente } from '../../../core/models/tipo-componente.model';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -24,9 +22,11 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../titulo-dialogo/titulo-dialogo.component";
 import { TipoProducto } from '../../../core/models/tipo-producto.model';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, tap, throwError, forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TipoComponenteService } from '../../../core/services/tipo-componente.service';
+import { TipoProductoTipoComponenteService } from '../../../core/services/tipo-producto-tipo-componente.service';
+import { TipoComponenteAsignacionComponent } from '../tipo-componente-asignacion/tipo-componente-asignacion.component';
 
 @Component({
   selector: 'app-tipo-producto-create-form',
@@ -45,20 +45,19 @@ import { TipoComponenteService } from '../../../core/services/tipo-componente.se
     MatError,
     TranslateModule,
     TituloDialogoComponent,
+    TipoComponenteAsignacionComponent,
   ],
   templateUrl: `./tipo-producto.component.html`,
   styles: [],
 })
 export class TipoProductoFormComponent implements OnInit {
   form!: FormGroup;
+  tiposComponentes: TipoComponente[] = [];
+  tiposComponente: string[] = ['Tipo 1', 'Tipo 2', 'Tipo 3']; // Esto debe ser reemplazado con los tipos reales
 
   readonly dialogRef = inject(MatDialogRef<TipoProductoFormComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly esActualizar = model(this.data.esActualizar);
-
-  /*variable-declarations*/
-
-
 
   constructor(
     private fb: FormBuilder,
@@ -66,81 +65,161 @@ export class TipoProductoFormComponent implements OnInit {
     private translate: TranslateService,
     private toastr: ToastrService,
     private tipoComponenteService: TipoComponenteService,
-    /*other-services-injection*/
-
+    private tipoProductoTipoComponenteService: TipoProductoTipoComponenteService
   ) {
-    // Tipando el FormGroup
     this.form = this.fb.group({
-      /*inputsflag*/
-      id: [null,],
+      id: [null],
       descripcionTipoProducto: [null, Validators.required],
+      tipoComponenteId: [null],
+      tipoProductoTipoComponentes: [[]]
     });
   }
 
-
   ngOnInit() {
-    console.log("Datos recibidos en el formulario:", this.data);
+    this.cargarTiposComponentes();
 
-    // Verificar si 'data.object' existe y tiene el campo 'descripcionTrabajo'
     if (this.esActualizar() && this.data?.object) {
-      console.log("Objeto recibido:", this.data.object);
-
       this.form.patchValue({
-        /*object-fields-edit*/
         id: this.data.object.id,
-        descripcionTipoProducto: '', // Inicializamos vacío para el modo edición
+        descripcionTipoProducto: this.data.object.descripcionTipoProducto,
+        tipoProductoTipoComponentes: this.data.object.tipoProductoTipoComponentes || []
       });
-
-      console.log("Datos en el formulario después de patchValue:", this.form.value);
-    } else {
-      console.error("No se recibió un objeto válido en 'data'");
     }
-    /*services-init-call*/
 
-
+    // Suscribirse a los cambios del select de tipo componente
+    this.form.get('tipoComponenteId')?.valueChanges.subscribe(tipoComponenteId => {
+      if (tipoComponenteId) {
+        this.agregarTipoComponente(tipoComponenteId);
+        // Resetear la selección para permitir seleccionar el mismo tipo nuevamente si se elimina
+        setTimeout(() => {
+          this.form.patchValue({ tipoComponenteId: null }, { emitEvent: false });
+        });
+      }
+    });
   }
 
+  cargarTiposComponentes() {
+    this.tipoComponenteService.buscarTodos().subscribe({
+      next: (response) => {
+        this.tiposComponentes = response.data;
+      },
+      error: (error) => {
+        console.error('Error al cargar tipos de componentes:', error);
+        this.toastr.error(this.translate.instant('mantenedores.formularios.error.cargarTiposComponentes'));
+      }
+    });
+  }
 
   onSubmit() {
-    console.log("Formulario enviado:", this.form.value);
-
     if (this.form.valid) {
-      const formData: TipoProducto = {
-        /*form-fields-submit*/
+      const tipoProducto: TipoProducto = {
         id: this.form.value.id,
         descripcionTipoProducto: this.form.value.descripcionTipoProducto,
+        tipoProductoTipoComponentes: []
       };
 
-      console.log("Datos mapeados para enviar:", formData);
-
-      // Cierra el formulario con los datos correctos
       if (this.esActualizar()) {
-        this.tipoProductoService.actualizar(formData.id, formData).subscribe({
+        this.tipoProductoService.actualizar(tipoProducto.id!, tipoProducto).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
-            this.dialogRef.close(true);
+            this.guardarRelacionTipoComponente(response.id!);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
             this.toastr.error(errorMessage);
           }
-        })
-
-      }
-      else {
-        this.tipoProductoService.crear(formData).subscribe({
+        });
+      } else {
+        this.tipoProductoService.crear(tipoProducto).subscribe({
           next: (response) => {
-            this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
-            this.dialogRef.close(true);
+            this.guardarRelacionTipoComponente(response.id!);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
             this.toastr.error(errorMessage);
           }
-        })
+        });
       }
-    } else {
-      console.log("Formulario no válido");
     }
+  }
+
+  private guardarRelacionTipoComponente(tipoProductoId: number) {
+    const relacion: TipoProductoTipoComponente = {
+      tipoProducto: { id: tipoProductoId, descripcionTipoProducto: this.form.value.descripcionTipoProducto },
+      tipoComponente: {
+        id: this.form.value.tipoComponenteId,
+        nombre: '',  // Se llenará desde el backend
+        descripcion: ''  // Se llenará desde el backend
+      },
+      cantidad: 1
+    };
+
+    this.tipoProductoTipoComponenteService.crear(relacion).subscribe({
+      next: () => {
+        this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+        this.dialogRef.close(true);
+      },
+      error: (error) => {
+        const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+        this.toastr.error(errorMessage);
+      }
+    });
+  }
+
+  get tipoComponenteControl() {
+    return this.form.get('tipoComponente');
+  }
+
+  get cantidadControl() {
+    return this.form.get('cantidad');
+  }
+
+  agregarTipoComponente(tipoComponenteId: number) {
+    const tipoComponente = this.tiposComponentes.find(t => t.id === tipoComponenteId);
+    const componentesActuales = this.form.get('tipoProductoTipoComponentes')?.value || [];
+
+    // Verificar si ya existe
+    if (tipoComponente && !componentesActuales.some((c: TipoProductoTipoComponente) => c.tipoComponente.id === tipoComponenteId)) {
+      const nuevoComponente: TipoProductoTipoComponente = {
+        tipoComponente: tipoComponente,
+        cantidad: 1,
+        tipoProducto: {
+          id: this.form.get('id')?.value,
+          descripcionTipoProducto: this.form.get('descripcionTipoProducto')?.value
+        }
+      };
+
+      this.form.patchValue({
+        tipoProductoTipoComponentes: [...componentesActuales, nuevoComponente]
+      });
+    }
+  }
+
+  get tiposComponentesDisponibles() {
+    const componentesActuales = this.form.get('tipoProductoTipoComponentes')?.value || [];
+    const idsSeleccionados = new Set(componentesActuales.map((c: TipoProductoTipoComponente) => c.tipoComponente.id));
+    return this.tiposComponentes.filter(t => !idsSeleccionados.has(t.id));
+  }
+
+  eliminarTipoComponente(item: TipoProductoTipoComponente) {
+    const componentesActuales = this.form.get('tipoProductoTipoComponentes')?.value || [];
+    const nuevosComponentes = componentesActuales.filter(
+      (comp: TipoProductoTipoComponente) => comp.tipoComponente.id !== item.tipoComponente.id
+    );
+    this.form.patchValue({
+      tipoProductoTipoComponentes: nuevosComponentes
+    });
+  }
+
+  actualizarCantidad(event: { item: TipoProductoTipoComponente, cantidad: number }) {
+    const componentesActuales = this.form.get('tipoProductoTipoComponentes')?.value || [];
+    const nuevosComponentes = componentesActuales.map((comp: TipoProductoTipoComponente) => {
+      if (comp.tipoComponente.id === event.item.tipoComponente.id) {
+        return { ...comp, cantidad: event.cantidad };
+      }
+      return comp;
+    });
+    this.form.patchValue({
+      tipoProductoTipoComponentes: nuevosComponentes
+    });
   }
 }

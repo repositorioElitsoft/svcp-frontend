@@ -269,7 +269,9 @@
             "id": "Id",
             "titulo": "Tipos de Productos",
             "descripcionTipoProducto": "Tipo de Producto",
-            "tipoProductoTipoComponentes": "Tipo de Componente"
+            "tipoProductoTipoComponentes": "Tipo de Componente",
+            "sinComponentes": "No hay componentes asignados",
+            "agregarComponente": "Agregar Componente"
         },
         "tipoServicio": {
             "id": "Id",
@@ -529,7 +531,14 @@
                 "label.descripcionTipoProducto": "Tipo de Producto",
                 "descripcionTipoProducto": "Ingrese el tipo de producto",
                 "label.ingreseNombre": "Ingrese nuevo nombre",
-                "label.resumen": "Resumen"
+                "label.resumen": "Resumen",
+                "sinComponentes": "No hay componentes asignados",
+                "agregarComponente": "Agregar Componente",
+                "label": {
+                    "tipoComponente": "Tipo de Componente",
+                    "cantidad": "Cantidad",
+                    "resumen": "Resumen"
+                }
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Servicio",
@@ -588,7 +597,8 @@
                 "sinTrabajosDisponibles": "No hay trabajos disponibles para asignar",
                 "verMas": "Ver más",
                 "verMenos": "Ver menos"
-            }
+            },
+            "cantidadMinima": "La cantidad debe ser mayor a 0"
         }
     },
     "alertas": {
