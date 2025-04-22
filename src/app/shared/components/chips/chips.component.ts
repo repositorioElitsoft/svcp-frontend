@@ -154,7 +154,6 @@ export class ChipsComponent {
   private currentMaxVisible: number = 4;
   private screenWidth: number = window.innerWidth;
   private showAll: boolean = false;
-  public mostrarTodas: boolean = false;
 
   @Input() displayField: string = '';
   @Input() nestedPath: string = '';
@@ -182,7 +181,7 @@ export class ChipsComponent {
 
   @Output() deleteItem = new EventEmitter<any>();
   @Output() clearAll = new EventEmitter<void>();
-  @Output() showMore = new EventEmitter<void>();
+  @Output() showMore = new EventEmitter<boolean>();
   @Output() itemClick = new EventEmitter<any>();
 
   @HostListener('window:resize', ['$event'])
@@ -236,10 +235,13 @@ export class ChipsComponent {
   }
 
   onMoreClick(): void {
+    console.log('chips: onMoreClick llamado');
+    console.log('chips: expandOnMore =', this.expandOnMore);
     if (this.expandOnMore) {
       this.showAll = true;
     } else {
-      this.showMore.emit();
+      console.log('chips: Emitiendo showMore');
+      this.showMore.emit(true);
     }
   }
 } 

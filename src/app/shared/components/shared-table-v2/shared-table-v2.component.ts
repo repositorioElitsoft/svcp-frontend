@@ -373,6 +373,9 @@ export class SharedTableV2Component implements OnInit {
   }
 
   onShowMore(element: any): void {
+    console.log('shared-table-v2: Emitiendo showMore con elemento:', element);
+    console.log('shared-table-v2: Tipo de elemento:', typeof element);
+    console.log('shared-table-v2: ¿El elemento tiene id?', element?.id);
     this.showMore.emit(element);
   }
 
