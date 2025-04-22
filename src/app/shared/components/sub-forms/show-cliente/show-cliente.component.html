@@ -1,0 +1,139 @@
+<app-titulo-dialogo title="Detalle de Cliente" icon="person" [ref]="dialogRef">
+</app-titulo-dialogo>
+
+<mat-dialog-content class="!p-0 dark:bg-neutral-800">
+    <div class="p-4">
+
+        <div class="flex justify-center mb-4">
+            <div class="w-2/5 bg-gray-200 rounded-lg p-6">
+                <div class="flex flex-col items-center h-[15vh]">
+                    <!-- Avatar Placeholder -->
+
+                    @if (selectedFile && fileUrl) {
+                    <img [src]="fileUrl" alt="Selected image" />
+                    } @else {
+                    <div class="flex flex-col items-center justify-center h-full">
+                        <div class="w-14 h-14 bg-gray-500 rounded-full"></div>
+                        <div class="w-32 h-8 bg-gray-500 rounded-t-full mt-2"></div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- DATOS GENERALES -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-medium dark:text-white">DATOS GENERALES</h2>
+                <button mat-icon-button color="primary">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-lg dark:text-white">Nombre o razón social:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.nombre }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Apellido Paterno:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.apellidoPaterno }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Apellido materno:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.apellidoMaterno }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Fecha de nacimiento:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.fechaNacimiento }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Tipo de Documento:</p>
+                    <p class="text-lg dark:text-white">{{
+                        cliente?.documentoIdentificacion?.tipoDocumentoIdentificacion?.descripcion }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Nº documento:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.documentoIdentificacion?.numero }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Estado:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.estado.descripcion }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INFORMACIÓN COMERCIAL -->
+        <div class="mb-6">
+            <h2 class="text-lg font-medium mb-4 dark:text-white">INFORMACIÓN COMERCIAL</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-lg dark:text-white">Clasificación cliente:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.clasificacionCliente.clasificacionClienteDesc }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Agrupación Comercial:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.agrupacionComercial.nombreGrupoComercial }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Segmentación cliente:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.segmentacionCliente.descripcion }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Campo adicional 1:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.campoAdicional1 }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Campo adicional 2:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.campoAdicional2 }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACTO -->
+        <div class="mb-6">
+            <h2 class="text-lg font-medium mb-4 dark:text-white">CONTACTO</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-lg dark:text-white">Correo electrónico:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.correoElectronico }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Celular:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.celular }}</p>
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white">Teléfono:</p>
+                    <p class="text-lg dark:text-white">{{ cliente?.telefono }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOCACIONES -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-lg font-medium">LOCACIONES({{ cliente?.locaciones?.length || 0 }})</h2>
+                <button mat-icon-button (click)="toggleLocaciones()">
+                    <mat-icon>{{ showLocaciones ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+                </button>
+            </div>
+
+            <div *ngIf="showLocaciones">
+                <!-- Lista de localizaciones -->
+                <div *ngFor="let locacion of cliente?.locaciones" class="border border-gray-200 rounded-md p-4 mb-2">
+                    <div class="flex items-center gap-2">
+                        <mat-icon>location_on</mat-icon>
+                        <span>{{ locacion.direccion }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón de aceptar -->
+        <div class="flex justify-center mt-6">
+            <button mat-raised-button color="primary" class="w-48" (click)="aceptar()">
+                Aceptar
+            </button>
+        </div>
+    </div>
+</mat-dialog-content>
