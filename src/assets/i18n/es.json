@@ -796,6 +796,14 @@
                     "DUPLICADO": "Ya existe un trabajo con los mismos datos.",
                     "ID_REQUERIDO": "El ID del trabajo es requerido.",
                     "ID_INVALIDO": "El ID del trabajo no es válido."
+                },
+                "tareas": {
+                    "NO_ENCONTRADO": "La tarea no fue encontrada.",
+                    "INTEGRIDAD_VIOLADA": "El registro está actualmente asignado y no puede ser eliminado.",
+                    "REQUERIDO": "La tarea es requerida.",
+                    "DUPLICADO": "Ya existe una tarea con los mismos datos.",
+                    "ID_REQUERIDO": "El ID de la tarea es requerido.",
+                    "ID_INVALIDO": "El ID de la tarea no es válido."
                 }
             }
         }

@@ -776,6 +776,14 @@
                     "DUPLICADO": "A job with the same data already exists.",
                     "ID_REQUERIDO": "The job ID is required.",
                     "ID_INVALIDO": "The job ID is not valid."
+                },
+                "tarea": {
+                    "NO_ENCONTRADO": "The task was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The task is required.",
+                    "DUPLICADO": "A task with the same data already exists.",
+                    "ID_REQUERIDO": "The task ID is required.",
+                    "ID_INVALIDO": "The task ID is not valid."
                 }
             }
         }
