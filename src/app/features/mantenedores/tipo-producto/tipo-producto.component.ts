@@ -107,19 +107,26 @@ export class TipoProductoComponent implements OnInit {
         return;
       }
 
-      const formattedData = dataArray.map(item => {
-        const formattedItem: any = {
+      // Crear filas expandidas para cada componente
+      const formattedData = dataArray.flatMap(item => {
+        // Si no hay componentes, crear al menos una fila con el tipo de producto
+        if (!item.tipoProductoTipoComponentes || item.tipoProductoTipoComponentes.length === 0) {
+          return [{
+            descripcionTipoProducto: item.descripcionTipoProducto,
+            tipoComponente: '',
+            cantidad: ''
+          }];
+        }
+
+        // Crear una fila por cada componente
+        return item.tipoProductoTipoComponentes.map((tt: any) => ({
           descripcionTipoProducto: item.descripcionTipoProducto,
-          tipoProductoTipoComponentes: item.tipoProductoTipoComponentes ?
-            item.tipoProductoTipoComponentes
-              .map((tt: any) => `${tt.tipoComponente.nombre} (${tt.cantidad})`)
-              .join(', ')
-            : ''
-        };
-        return formattedItem;
+          tipoComponente: tt.tipoComponente.nombre,
+          cantidad: tt.cantidad
+        }));
       });
 
-      const columnKeys = ['descripcionTipoProducto', 'tipoProductoTipoComponentes'];
+      const columnKeys = ['descripcionTipoProducto', 'tipoComponente', 'cantidad'];
       const translationKeys = columnKeys.map(key => `mantenedores.tipoProducto.${key}`);
 
       this.translate.get(translationKeys).subscribe(translations => {
