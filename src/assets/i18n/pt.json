@@ -236,7 +236,11 @@
             "titulo": "Tipo de Produto",
             "descripcionTipoProducto": "Tipo de Produto",
             "label.ingreseNombre": "Insira um novo nome",
-            "label.resumen": "Resumo"
+            "label.resumen": "Resumo",
+            "tipoComponente": "Tipo de Componente",
+            "cantidad": "Quantidade",
+            "sinComponentes": "Nenhum componente atribuído",
+            "agregarComponente": "Adicionar Componente"
         },
         "tipoServicio": {
             "id": "Id",

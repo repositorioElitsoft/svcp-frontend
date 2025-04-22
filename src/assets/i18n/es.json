@@ -270,8 +270,12 @@
             "titulo": "Tipos de Productos",
             "descripcionTipoProducto": "Tipo de Producto",
             "tipoProductoTipoComponentes": "Tipo de Componente",
+            "tipoComponente": "Tipo de Componente",
             "sinComponentes": "No hay componentes asignados",
-            "agregarComponente": "Agregar Componente"
+            "agregarComponente": "Agregar Componente",
+            "cantidad": "Cantidad",
+            "resumen": "Resumen",
+            "ingreseNombre": "Ingrese nuevo nombre"
         },
         "tipoServicio": {
             "id": "Id",

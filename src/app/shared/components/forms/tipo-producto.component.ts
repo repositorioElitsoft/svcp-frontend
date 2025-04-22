@@ -81,7 +81,7 @@ export class TipoProductoFormComponent implements OnInit {
     if (this.esActualizar() && this.data?.object) {
       this.form.patchValue({
         id: this.data.object.id,
-        descripcionTipoProducto: '',
+        descripcionTipoProducto: this.data.object.descripcionTipoProducto,
         tipoProductoTipoComponentes: this.data.object.tipoProductoTipoComponentes || []
       });
     }
@@ -167,7 +167,11 @@ export class TipoProductoFormComponent implements OnInit {
   private crearRelacionesComponentes(tipoProductoId: number) {
     const componentesActuales = this.form.value.tipoProductoTipoComponentes || [];
     if (componentesActuales.length === 0) {
-      this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+      // Mostrar mensaje según si es edición o creación usando esActualizar()
+      const mensaje = this.esActualizar() ?
+        this.translate.instant('alertas.toastr.editar.success') :
+        this.translate.instant('alertas.toastr.guardar.success');
+      this.toastr.success(mensaje);
       this.dialogRef.close(true);
       return;
     }
@@ -190,7 +194,11 @@ export class TipoProductoFormComponent implements OnInit {
 
     forkJoin(observables).subscribe({
       next: () => {
-        this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+        // Mostrar mensaje según si es edición o creación usando esActualizar()
+        const mensaje = this.esActualizar() ?
+          this.translate.instant('alertas.toastr.editar.success') :
+          this.translate.instant('alertas.toastr.guardar.success');
+        this.toastr.success(mensaje);
         this.dialogRef.close(true);
       },
       error: (error) => {

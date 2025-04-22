@@ -107,19 +107,26 @@ export class TipoProductoComponent implements OnInit {
         return;
       }
 
-      const formattedData = dataArray.map(item => {
-        const formattedItem: any = {
+      // Crear filas expandidas para cada componente
+      const formattedData = dataArray.flatMap(item => {
+        // Si no hay componentes, crear al menos una fila con el tipo de producto
+        if (!item.tipoProductoTipoComponentes || item.tipoProductoTipoComponentes.length === 0) {
+          return [{
+            descripcionTipoProducto: item.descripcionTipoProducto,
+            tipoComponente: '',
+            cantidad: ''
+          }];
+        }
+
+        // Crear una fila por cada componente
+        return item.tipoProductoTipoComponentes.map((tt: any) => ({
           descripcionTipoProducto: item.descripcionTipoProducto,
-          tipoProductoTipoComponentes: item.tipoProductoTipoComponentes ?
-            item.tipoProductoTipoComponentes
-              .map((tt: any) => `${tt.tipoComponente.nombre} (${tt.cantidad})`)
-              .join(', ')
-            : ''
-        };
-        return formattedItem;
+          tipoComponente: tt.tipoComponente.nombre,
+          cantidad: tt.cantidad
+        }));
       });
 
-      const columnKeys = ['descripcionTipoProducto', 'tipoProductoTipoComponentes'];
+      const columnKeys = ['descripcionTipoProducto', 'tipoComponente', 'cantidad'];
       const translationKeys = columnKeys.map(key => `mantenedores.tipoProducto.${key}`);
 
       this.translate.get(translationKeys).subscribe(translations => {
@@ -281,7 +288,7 @@ export class TipoProductoComponent implements OnInit {
     }
 
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoProducto.titulo');
-    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: selectedItems.length });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
 
@@ -296,23 +303,52 @@ export class TipoProductoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.tipoProductoService.borrarTodos(ids).subscribe({
-          next: () => {
-            this.sharedTableComponent.clearSelection();
+        // Crear un array de observables para eliminar las relaciones de cada tipo de producto
+        const deleteOperations = selectedItems.map(tipoProducto => {
+          const tipoProductoId = tipoProducto.id;
+          const tipoProductoTipoComponentes = tipoProducto.tipoProductoTipoComponentes || [];
 
-            const remainingItemsInPage = this.dataSource.length - ids.length;
-            if (remainingItemsInPage <= 0 && this.pageNumber > 0) {
-              this.pageNumber--;
-            }
-
-            this.obtenerDatos();
-            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-          },
-          error: err => {
-            console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          if (tipoProductoTipoComponentes.length === 0) {
+            return this.tipoProductoService.borrar(tipoProductoId);
           }
+
+          const deleteRelaciones$ = tipoProductoTipoComponentes
+            .filter(relacion => relacion.tipoComponente?.id !== undefined)
+            .map(relacion =>
+              this.tipoProductoTipoComponenteService.borrar(tipoProductoId, relacion.tipoComponente.id!)
+            );
+
+          return forkJoin(deleteRelaciones$).pipe(
+            switchMap(() => this.tipoProductoService.borrar(tipoProductoId))
+          );
         });
+
+        // Ejecutar todas las operaciones de eliminación en paralelo
+        forkJoin(deleteOperations)
+          .pipe(
+            catchError((error: unknown) => {
+              console.error("Error al eliminar elementos:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+              this.obtenerDatos();
+              return throwError(() => error);
+            })
+          )
+          .subscribe({
+            next: () => {
+              this.sharedTableComponent.clearSelection();
+              const remainingItemsInPage = this.dataSource.length - ids.length;
+              if (remainingItemsInPage <= 0 && this.pageNumber > 0) {
+                this.pageNumber--;
+              }
+              this.obtenerDatos();
+              this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+            },
+            error: (error: unknown) => {
+              console.error("Error al eliminar elementos:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+              this.obtenerDatos();
+            }
+          });
       }
     });
   }
@@ -351,6 +387,7 @@ export class TipoProductoComponent implements OnInit {
             },
             error: (error: unknown) => {
               console.error("Error al eliminar tipo producto:", error);
+              this.obtenerDatos();
               this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
             }
           });
@@ -380,6 +417,7 @@ export class TipoProductoComponent implements OnInit {
             },
             error: (error: unknown) => {
               console.error("Error al eliminar elementos:", error);
+              this.obtenerDatos();
               this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
             }
           });
@@ -512,7 +550,7 @@ export class TipoProductoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos();
+        this.obtenerDatos("id", "desc");
       }
     });
   }
@@ -548,8 +586,26 @@ export class TipoProductoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos();
+        this.obtenerDatos("id", "desc");
       }
     });
   }
+
+
+  onShowMore(element: any): void {
+    const dialogRef = this.dialog.open(TipoProductoFormComponent, {
+      width: '450px',
+      data: {
+        esActualizar: true,
+        object: element
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos("id", "desc");
+      }
+    });
+  }
+
 }

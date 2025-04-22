@@ -8,12 +8,13 @@
 
         <!--Input -->
 
-        <mat-form-field appearance="outline" class="w-full dark:text-white  ">
+        <mat-form-field appearance="outline" class="w-full dark:text-white">
             <mat-label class="text-lg">{{ 'mantenedores.formularios.tarea.label.descripcionTarea' | translate
                 }}</mat-label>
             <input matInput formControlName="descripcionTarea"
                 [attr.placeholder]="'mantenedores.formularios.descripcionTarea.descripcion' | translate"
-                class="text-lg w-full dark:text-white ">
+                class="text-lg w-full dark:text-white" maxlength="50">
+            <mat-hint align="end">{{form.get('descripcionTarea')?.value?.length || 0}}/50</mat-hint>
             <mat-error *ngIf="form.get('descripcionTarea')?.hasError('required')" class="text-red-500 text-base">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>

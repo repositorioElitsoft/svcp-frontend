@@ -260,6 +260,10 @@
             "id": "Id",
             "titulo": "Product Type",
             "descripcionTipoProducto": "Product Type",
+            "tipoComponente": "Component Type",
+            "cantidad": "Quantity",
+            "sinComponentes": "No components assigned",
+            "agregarComponente": "Add Component",
             "label.ingreseNombre": "Enter new name",
             "label.resumen": "Summary"
         },
