@@ -124,6 +124,10 @@
                                 <mat-icon>push_pin</mat-icon>
                             </button>
 
+                            <button *ngIf="showViewButton" class="action-icon" (click)="onViewForm.emit(element)">
+                                <mat-icon>remove_red_eye</mat-icon>
+                            </button>
+
                             <button class="action-icon" color="accent" (click)="onEdit(element.id)">
                                 <mat-icon>edit</mat-icon>
                             </button>

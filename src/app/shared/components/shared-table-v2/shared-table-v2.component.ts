@@ -48,6 +48,7 @@ export class SharedTableV2Component implements OnInit {
   @Input() filterSearch: string = "";
   @Input() additionalActionsTemplate!: TemplateRef<any>;
   @Input() showAssignButton: boolean = true;
+  @Input() showViewButton: boolean = false;
 
   // Nueva configuración para columnas
   @Input() columnConfig: {
@@ -74,6 +75,7 @@ export class SharedTableV2Component implements OnInit {
   @Output() chipsClear = new EventEmitter<any>();
   @Output() asignacion = new EventEmitter<any>();
   @Output() showMore = new EventEmitter<any>();
+  @Output() onViewForm = new EventEmitter<any>();
 
   @ViewChildren('filterInput') filterInputs!: QueryList<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;

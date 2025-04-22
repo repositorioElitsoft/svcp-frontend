@@ -535,4 +535,21 @@ export class TipoProductoComponent implements OnInit {
     const id = event?.target?.value || event;
     this.onEditSelected(id);
   }
+
+  onViewForm(element: any): void {
+    const dialogRef = this.dialog.open(TipoProductoFormComponent, {
+      width: '400px',
+      data: {
+        esActualizar: false,
+        esVisualizar: true,
+        object: element
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerDatos();
+      }
+    });
+  }
 }
