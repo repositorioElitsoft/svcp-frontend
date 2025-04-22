@@ -100,7 +100,8 @@
                             <app-chips [items]="element[column]" [displayField]="getChipsConfig(column).displayField"
                                 [nestedPath]="getChipsConfig(column).nestedPath"
                                 (deleteItem)="onChipDelete(element, $event)" (clearAll)="onChipsClear(element)"
-                                (showMore)="onShowMore(element)" (itemClick)="onAsignacion(element)">
+                                (showMore)="onShowMore(element)" (itemClick)="onAsignacion(element)"
+                                [showDeleteButton]="showChipsDeleteButton">
                             </app-chips>
                         </div>
                         } @else if(isEstadoColumn(column)) {

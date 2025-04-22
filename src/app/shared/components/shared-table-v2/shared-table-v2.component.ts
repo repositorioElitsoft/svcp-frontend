@@ -49,6 +49,7 @@ export class SharedTableV2Component implements OnInit {
   @Input() additionalActionsTemplate!: TemplateRef<any>;
   @Input() showAssignButton: boolean = true;
   @Input() showViewButton: boolean = false;
+  @Input() showChipsDeleteButton: boolean = true;
 
   // Nueva configuración para columnas
   @Input() columnConfig: {

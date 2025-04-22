@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,9 @@ import { TranslateModule } from '@ngx-translate/core';
               <div class="chip-content">
                 <span class="task-id">{{getDisplayValue(item) || 'Sin descripción'}}</span>
               </div>
-              <button class="delete-button" (click)="onDelete(item); $event.stopPropagation()">
+              <button *ngIf="showDeleteButton && !isLastItem(item)" 
+                (click)="onDelete(item); $event.stopPropagation()" 
+                class="delete-button">
                 <mat-icon>close</mat-icon>
               </button>
             </div>
@@ -147,7 +149,8 @@ import { TranslateModule } from '@ngx-translate/core';
       height: 14px;
       line-height: 14px;
     }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChipsComponent {
   private _items: any[] = [];
@@ -158,6 +161,8 @@ export class ChipsComponent {
   @Input() displayField: string = '';
   @Input() nestedPath: string = '';
   @Input() expandOnMore: boolean = false;
+  @Input() maxDisplay: number = 3;
+  @Input() showDeleteButton: boolean = true;
 
   @Input()
   set items(value: any[]) {
@@ -243,5 +248,9 @@ export class ChipsComponent {
       console.log('chips: Emitiendo showMore');
       this.showMore.emit(true);
     }
+  }
+
+  isLastItem(index: number): boolean {
+    return index === this._items.length - 1;
   }
 } 
