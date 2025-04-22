@@ -267,8 +267,9 @@
         },
         "tipoProducto": {
             "id": "Id",
-            "titulo": "Tipo de Producto",
-            "descripcionTipoProducto": "Descripción del Tipo de Producto"
+            "titulo": "Tipos de Productos",
+            "descripcionTipoProducto": "Tipo de Producto",
+            "tipoProductoTipoComponentes": "Tipo de Componente"
         },
         "tipoServicio": {
             "id": "Id",

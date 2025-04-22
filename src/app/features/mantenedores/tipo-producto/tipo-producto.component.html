@@ -53,7 +53,8 @@
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
                     (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTipoProducto'"
                     (filterDelete)="onFilterDeleted($event)" [filters]='[]' (asignacion)="onAsignacion($event)"
-                    (filter)="onFilter($event)" (delete)="onDelete($event)" (edit)="onEdit($event)">
+                    (filter)="onFilter($event)" (delete)="onDelete($event)" (edit)="onEdit($event)"
+                    [showAssignButton]="false">
                 </app-shared-table-v2>
             </div>
         </div>

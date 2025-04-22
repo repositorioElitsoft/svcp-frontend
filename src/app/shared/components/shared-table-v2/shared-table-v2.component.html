@@ -120,7 +120,7 @@
                     </th>
                     <td mat-cell *matCellDef="let element" class="sticky-cell">
                         <div class="flex items-center justify-center gap-1 sm:gap-2">
-                            <button class="action-icon" (click)="onAsignacion(element)">
+                            <button *ngIf="showAssignButton" class="action-icon" (click)="onAsignacion(element)">
                                 <mat-icon>push_pin</mat-icon>
                             </button>
 

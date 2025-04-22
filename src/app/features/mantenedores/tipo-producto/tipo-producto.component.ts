@@ -44,7 +44,8 @@ export class TipoProductoComponent implements OnInit {
       {
         field: 'tipoProductoTipoComponentes',
         type: 'chips',
-        nestedPath: 'tipoComponente.descripcionTipoComponente',
+        nestedPath: 'tipoComponente.nombre',
+        displayField: 'tipoComponente.nombre',
         sortable: false
       }
     ];
@@ -59,6 +60,9 @@ export class TipoProductoComponent implements OnInit {
   isLoading = false;
   @ViewChild(SharedTableV2Component) sharedTableComponent!: SharedTableV2Component;
   activeOptionalFilters: any = [];
+  currentFilters: any = {};
+  currentSortState: { column: string, direction: string } | null = null;
+
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -189,17 +193,30 @@ export class TipoProductoComponent implements OnInit {
   }
 
   onPageChanged(newPage: number) {
+    console.log("Página cambiada", newPage);
     this.pageNumber = newPage;
-    this.obtenerDatos();
+    // Usar el estado del ordenamiento guardado si existe y los filtros actuales
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, this.currentFilters);
+    } else {
+      this.obtenerDatos("id", "asc", this.currentFilters);
+    }
   }
-
   buscar(data: { filter: any, labels: any[] }) {
+    console.log('Search input:', data);
     this.pageNumber = 0;
     this.activeOptionalFilters = data.labels || [];
-    this.obtenerDatos("id", "asc", data.filter);
+    this.currentFilters = data.filter;
+
+    // Mantener el ordenamiento actual si existe
+    const sortField = this.currentSortState?.column || 'id';
+    const sortDirection = this.currentSortState?.direction || 'asc';
+
+    this.obtenerDatos(sortField, sortDirection, this.currentFilters);
   }
 
   onFilterDeleted(filterData: { field: string, value: string }) {
+    console.log('Deleting filter:', filterData);
     this.activeOptionalFilters = this.activeOptionalFilters.filter(
       (filter: { field: string, value: string }) => !(filter.field === filterData.field && filter.value === filterData.value)
     );
@@ -207,57 +224,46 @@ export class TipoProductoComponent implements OnInit {
       acc[filter.field] = filter.value;
       return acc;
     }, {});
-    this.obtenerDatos("id", "asc", newFilter);
+    this.currentFilters = newFilter;
+    // Mantener el ordenamiento actual si existe
+    if (this.currentSortState) {
+      this.obtenerDatos(this.currentSortState.column, this.currentSortState.direction, newFilter);
+    } else {
+      this.obtenerDatos("id", "asc", newFilter);
+    }
   }
+
+
 
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     this.isLoading = true;
 
-    this.tipoProductoService.buscarFiltradoAsignacion({
-      pageSize: 10,
-      pageNumber: 0,
-      sortField: 'id',
-      sortDirection: 'asc'
-    }).subscribe((fullResponse: any) => {
-      const todosTiposProductos = new Map();
-      if (Array.isArray(fullResponse?.content)) {
-        fullResponse.content.forEach((item: any) => {
-          if (!todosTiposProductos.has(item.id)) {
-            todosTiposProductos.set(item.id, {
-              id: item.id,
-              descripcionTipoProducto: item.descripcionTipoProducto,
-              tipoProductoTipoComponentes: Array.isArray(item.tipoProductoTipoComponentes) ? [...item.tipoProductoTipoComponentes] : []
-            });
-          }
-        });
-      }
+    const params = {
+      pageSize: this.pageSize,
+      pageNumber: this.pageNumber,
+      sortField: sortField,
+      sortDirection: sortDirection.toUpperCase(),
+      ...optionalFilter
+    };
 
-      this.totalElements = todosTiposProductos.size;
-      this.totalPages = Math.ceil(this.totalElements / this.pageSize);
+    console.log('Parámetros de búsqueda:', params);
 
-      let tiposProductosArray = Array.from(todosTiposProductos.values());
-
-      tiposProductosArray.sort((a: any, b: any) => {
-        const valorA = a[sortField];
-        const valorB = b[sortField];
-
-        if (sortDirection === 'asc') {
-          return valorA > valorB ? 1 : -1;
-        } else {
-          return valorA < valorB ? 1 : -1;
+    this.tipoProductoService.buscarFiltradoAsignacion(params).subscribe({
+      next: (response: any) => {
+        if (response?.content) {
+          this.dataSource = response.content;
+          this.totalElements = response.totalElements;
+          this.totalPages = response.totalPages;
+          this.pageNumber = response.pageNumber;
         }
-      });
-
-      const inicio = this.pageNumber * this.pageSize;
-      const fin = inicio + this.pageSize;
-      this.dataSource = tiposProductosArray.slice(inicio, fin);
-
-      this.isLoading = false;
-      this.cdr.detectChanges();
-    }, error => {
-      console.error('Error al obtener datos:', error);
-      this.isLoading = false;
-      this.cdr.detectChanges();
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al obtener datos:', error);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

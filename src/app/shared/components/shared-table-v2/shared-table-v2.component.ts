@@ -47,6 +47,7 @@ export class SharedTableV2Component implements OnInit {
   @Input() simpleSearchField: string = "";
   @Input() filterSearch: string = "";
   @Input() additionalActionsTemplate!: TemplateRef<any>;
+  @Input() showAssignButton: boolean = true;
 
   // Nueva configuración para columnas
   @Input() columnConfig: {
