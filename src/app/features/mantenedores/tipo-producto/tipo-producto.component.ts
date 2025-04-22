@@ -550,7 +550,7 @@ export class TipoProductoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos();
+        this.obtenerDatos("id", "desc");
       }
     });
   }
@@ -586,7 +586,7 @@ export class TipoProductoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos();
+        this.obtenerDatos("id", "desc");
       }
     });
   }
@@ -603,7 +603,7 @@ export class TipoProductoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.obtenerDatos();
+        this.obtenerDatos("id", "desc");
       }
     });
   }
