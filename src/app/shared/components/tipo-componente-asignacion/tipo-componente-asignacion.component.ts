@@ -19,8 +19,8 @@ import { TranslateModule } from '@ngx-translate/core';
       <div *ngFor="let item of tiposComponentes" 
            class="h-[24.23px] bg-[#ededed] rounded-lg grid grid-cols-3">
         <!-- Columna 1: Nombre -->
-        <div class="px-3 py-0.5 text-[#424242] text-base font-semibold font-['Roboto'] flex items-center">
-          {{item.tipoComponente.nombre}}
+        <div class="px-3 py-0.5 text-[#424242] text-base font-semibold font-['Roboto'] flex items-center truncate overflow-hidden">
+          <span class="truncate" [title]="item.tipoComponente.nombre">{{item.tipoComponente.nombre}}</span>
         </div>
         <!-- Columna 2: Controles de cantidad -->
         <div class=" flex justify-center items-center">
