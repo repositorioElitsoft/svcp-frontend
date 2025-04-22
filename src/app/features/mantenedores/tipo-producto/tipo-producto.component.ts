@@ -288,7 +288,7 @@ export class TipoProductoComponent implements OnInit {
     }
 
     const titulo = this.translate.instant('alertas.eliminacionIndividualTitulo') + ' ' + this.translate.instant('mantenedores.tipoProducto.titulo');
-    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: 1 });
+    const mensaje = this.translate.instant('alertas.eliminacionIndividualMensaje', { count: selectedItems.length });
     const textoBotonCancelar = this.translate.instant('alertas.cancelar');
     const textoBotonConfirmar = this.translate.instant('alertas.eliminar');
 
@@ -303,23 +303,50 @@ export class TipoProductoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.tipoProductoService.borrarTodos(ids).subscribe({
-          next: () => {
-            this.sharedTableComponent.clearSelection();
+        // Crear un array de observables para eliminar las relaciones de cada tipo de producto
+        const deleteOperations = selectedItems.map(tipoProducto => {
+          const tipoProductoId = tipoProducto.id;
+          const tipoProductoTipoComponentes = tipoProducto.tipoProductoTipoComponentes || [];
 
-            const remainingItemsInPage = this.dataSource.length - ids.length;
-            if (remainingItemsInPage <= 0 && this.pageNumber > 0) {
-              this.pageNumber--;
-            }
-
-            this.obtenerDatos();
-            this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
-          },
-          error: err => {
-            console.error("Error al eliminar elementos:", err);
-            this.toastr.error(this.translate.instant(convertErrorMessageToI18(err)));
+          if (tipoProductoTipoComponentes.length === 0) {
+            return this.tipoProductoService.borrar(tipoProductoId);
           }
+
+          const deleteRelaciones$ = tipoProductoTipoComponentes
+            .filter(relacion => relacion.tipoComponente?.id !== undefined)
+            .map(relacion =>
+              this.tipoProductoTipoComponenteService.borrar(tipoProductoId, relacion.tipoComponente.id!)
+            );
+
+          return forkJoin(deleteRelaciones$).pipe(
+            switchMap(() => this.tipoProductoService.borrar(tipoProductoId))
+          );
         });
+
+        // Ejecutar todas las operaciones de eliminación en paralelo
+        forkJoin(deleteOperations)
+          .pipe(
+            catchError((error: unknown) => {
+              console.error("Error al eliminar elementos:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+              return throwError(() => error);
+            })
+          )
+          .subscribe({
+            next: () => {
+              this.sharedTableComponent.clearSelection();
+              const remainingItemsInPage = this.dataSource.length - ids.length;
+              if (remainingItemsInPage <= 0 && this.pageNumber > 0) {
+                this.pageNumber--;
+              }
+              this.obtenerDatos();
+              this.toastr.success(this.translate.instant('alertas.toastr.eliminar.success'));
+            },
+            error: (error: unknown) => {
+              console.error("Error al eliminar elementos:", error);
+              this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+            }
+          });
       }
     });
   }
