@@ -128,15 +128,35 @@ export class TipoProductoViewComponent {
     }
 
     backToAsignacion(): void {
+        // Asegurarnos de que tenemos todos los datos necesarios
+        const tipoProductoCompleto = {
+            id: this.tipoProducto?.id,
+            descripcionTipoProducto: this.tipoProducto?.descripcionTipoProducto,
+            tipoProductoTipoComponentes: this.tipoProducto?.tipoProductoTipoComponentes?.map(comp => ({
+                tipoComponente: {
+                    id: comp.tipoComponente.id,
+                    nombre: comp.tipoComponente.nombre,
+                    descripcion: comp.tipoComponente.descripcion
+                },
+                cantidad: comp.cantidad,
+                tipoProducto: {
+                    id: this.tipoProducto?.id,
+                    descripcionTipoProducto: this.tipoProducto?.descripcionTipoProducto
+                }
+            }))
+        };
+
+        console.log('Datos a enviar a asignación:', tipoProductoCompleto);
+
         // Cerrar el diálogo actual
         this.dialogRef.close();
 
-        // Abrir el nuevo diálogo de asignación
+        // Abrir el nuevo diálogo de asignación con los datos completos
         this.dialog.open(TipoProductoFormComponent, {
             width: '450px',
             data: {
                 esActualizar: true,
-                object: this.tipoProducto
+                object: tipoProductoCompleto
             }
         });
     }

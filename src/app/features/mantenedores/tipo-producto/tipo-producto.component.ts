@@ -109,18 +109,18 @@ export class TipoProductoComponent implements OnInit {
 
       const formattedData = dataArray.map(item => {
         const formattedItem: any = {
-          id: item.id,
           descripcionTipoProducto: item.descripcionTipoProducto,
-          componentes: item.tipoProductoTipoComponentes ? item.tipoProductoTipoComponentes
-            .sort((a: any, b: any) => a.ordenEjecucionTipoComponente - b.ordenEjecucionTipoComponente)
-            .map((tt: any) => tt.tipoComponente.descripcionTipoComponente)
-            .join(', ') : ''
+          tipoProductoTipoComponentes: item.tipoProductoTipoComponentes ?
+            item.tipoProductoTipoComponentes
+              .map((tt: any) => `${tt.tipoComponente.nombre} (${tt.cantidad})`)
+              .join(', ')
+            : ''
         };
         return formattedItem;
       });
 
-      const columnKeys = ['descripcionTipoProducto', 'componentes'];
-      const translationKeys = columnKeys.map(key => `${translationBase}.${key}`);
+      const columnKeys = ['descripcionTipoProducto', 'tipoProductoTipoComponentes'];
+      const translationKeys = columnKeys.map(key => `mantenedores.tipoProducto.${key}`);
 
       this.translate.get(translationKeys).subscribe(translations => {
         const translatedData = formattedData.map(item => {
@@ -132,7 +132,7 @@ export class TipoProductoComponent implements OnInit {
           return newItem;
         });
 
-        this.translate.get(`${translationBase}.titulo`).subscribe(title => {
+        this.translate.get('mantenedores.tipoProducto.titulo').subscribe(title => {
           this.exportService.exportToExcel(translatedData, title);
         });
       });
