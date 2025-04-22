@@ -264,6 +264,7 @@
             "tipoComponente": "Component Type",
             "cantidad": "Quantity",
             "sinComponentes": "No components assigned",
+            "sinComponentesAsignados": "No component types assigned. Edit to start.",
             "agregarComponente": "Add Component",
             "label.ingreseNombre": "Enter new name",
             "label.resumen": "Summary"

@@ -57,11 +57,16 @@ import { TipoProductoFormComponent } from './tipo-producto.component';
 
         <!-- Lista de componentes -->
         <div class="space-y-2">
-          <ng-container *ngFor="let componente of tipoProducto?.tipoProductoTipoComponentes">
-            <div class="flex items-center">
-              <span class="text-lg">{{componente.tipoComponente.nombre}} ({{componente.cantidad}})</span>
-            </div>
+          <ng-container *ngIf="(tipoProducto?.tipoProductoTipoComponentes || []).length > 0; else noComponentes">
+            <ng-container *ngFor="let componente of (tipoProducto?.tipoProductoTipoComponentes || [])">
+              <div class="flex items-center">
+                <span class="text-lg">{{componente.tipoComponente.nombre}} ({{componente.cantidad}})</span>
+              </div>
+            </ng-container>
           </ng-container>
+          <ng-template #noComponentes>
+            <div class="self-stretch text-center justify-center text-[#757575] text-xl font-normal font-['Roboto']">{{'mantenedores.tipoProducto.sinComponentesAsignados' | translate}}</div>
+          </ng-template>
         </div>
 
         <!-- Botón de aceptar -->

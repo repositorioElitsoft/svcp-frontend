@@ -241,6 +241,7 @@
             "tipoComponente": "Tipo de Componente",
             "cantidad": "Quantidade",
             "sinComponentes": "Nenhum componente atribuído",
+            "sinComponentesAsignados": "Nenhum tipo de componente atribuído. Edite para começar.",
             "agregarComponente": "Adicionar Componente"
         },
         "tipoServicio": {
