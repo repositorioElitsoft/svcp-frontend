@@ -146,18 +146,19 @@ export class TipoProductoViewComponent {
             }))
         };
 
-        console.log('Datos a enviar a asignación:', tipoProductoCompleto);
-
-        // Cerrar el diálogo actual
-        this.dialogRef.close();
-
         // Abrir el nuevo diálogo de asignación con los datos completos
-        this.dialog.open(TipoProductoFormComponent, {
+        const dialogRef = this.dialog.open(TipoProductoFormComponent, {
             width: '450px',
             data: {
                 esActualizar: true,
                 object: tipoProductoCompleto
             }
+        });
+
+        // Suscribirse al resultado del nuevo diálogo
+        dialogRef.afterClosed().subscribe(result => {
+            // Cerrar el diálogo actual con el mismo resultado
+            this.dialogRef.close(result);
         });
     }
 }
