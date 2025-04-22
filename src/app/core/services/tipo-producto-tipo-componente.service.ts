@@ -117,4 +117,6 @@ export class TipoProductoTipoComponenteService {
         }
         return this.http.get(`${this.url}`, { params, headers: this.headers });
     }
+
+
 } 

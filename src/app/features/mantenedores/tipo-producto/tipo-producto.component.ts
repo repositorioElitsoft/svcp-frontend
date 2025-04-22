@@ -146,7 +146,7 @@ export class TipoProductoComponent implements OnInit {
         ...optionalFilter
       };
 
-      this.tipoProductoService.buscarFiltrado(filtros).subscribe(
+      this.tipoProductoService.buscarFiltradoAsignacion(filtros).subscribe(
         (response: any) => {
           const apiData = response?.content ?? response?.data ?? [];
           if (apiData.length === 0) {
@@ -213,7 +213,7 @@ export class TipoProductoComponent implements OnInit {
   obtenerDatos(sortField: string = 'id', sortDirection: string = 'asc', optionalFilter: any = {}) {
     this.isLoading = true;
 
-    this.tipoProductoService.buscarFiltrado({
+    this.tipoProductoService.buscarFiltradoAsignacion({
       pageSize: 10,
       pageNumber: 0,
       sortField: 'id',
