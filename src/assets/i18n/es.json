@@ -257,7 +257,7 @@
         },
         "tipoCliente": {
             "id": "Id",
-            "titulo": "Tipo de Cliente",
+            "titulo": "Tipo de Clientes",
             "nombre": "Tipo de Componente"
         },
         "tipoEmpleado": {
@@ -277,7 +277,7 @@
         },
         "trabajo": {
             "id": "Id",
-            "titulo": "Trabajo",
+            "titulo": "Trabajos",
             "descripcionTrabajo": "Trabajo",
             "trabajoTareas": "Tareas Asignadas",
             "tareas": "Tareas Asignadas"
@@ -570,7 +570,8 @@
                 "info": {
                     "ordenTareas": "Las tareas se asignan en el orden en que las seleccionas, Puedes cambiar su secuencia arrastrando los tags."
                 },
-                "verMas": "Ver más"
+                "verMas": "Ver más",
+                "verMenos": "Ver menos"
             },
             "servicioTrabajo": {
                 "tituloAgregar": "Asignar Trabajos",

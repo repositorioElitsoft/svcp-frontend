@@ -243,7 +243,7 @@
         },
         "trabajo": {
             "id": "Id",
-            "titulo": "Trabalho",
+            "titulo": "Trabalhos",
             "descripcionTrabajo": "Trabalho",
             "trabajoTareas": "Tarefas Atribuídas",
             "tareas": "Tarefas Atribuídas"
