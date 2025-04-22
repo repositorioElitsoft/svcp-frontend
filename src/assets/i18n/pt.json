@@ -494,8 +494,13 @@
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Produto",
                 "tituloAgregar": "Criar Tipo de Produto",
-                "label.descripcionTipoProducto": "Descrição do Tipo de Produto",
-                "descripcionTipoProducto": "Insira a descrição do tipo de produto"
+                "label": {
+                    "descripcionTipoProducto": "Descrição do Tipo de Produto",
+                    "ingreseNombre": "Insira um novo nome",
+                    "resumen": "Resumo",
+                    "tipoComponente": "Tipo de Componente",
+                    "cantidad": "Quantidade"
+                }
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Serviço",

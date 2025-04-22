@@ -528,16 +528,15 @@
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Producto",
                 "tituloAgregar": "Crear Tipo de Producto",
-                "label.descripcionTipoProducto": "Tipo de Producto",
                 "descripcionTipoProducto": "Ingrese el tipo de producto",
-                "label.ingreseNombre": "Ingrese nuevo nombre",
-                "label.resumen": "Resumen",
                 "sinComponentes": "No hay componentes asignados",
                 "agregarComponente": "Agregar Componente",
                 "label": {
                     "tipoComponente": "Tipo de Componente",
                     "cantidad": "Cantidad",
-                    "resumen": "Resumen"
+                    "resumen": "Resumen",
+                    "ingreseNombre": "Ingrese nuevo nombre",
+                    "descripcionTipoProducto": "Tipo de Producto"
                 }
             },
             "tipoServicio": {

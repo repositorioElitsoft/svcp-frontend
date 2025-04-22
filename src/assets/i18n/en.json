@@ -515,8 +515,13 @@
             "tipoProducto": {
                 "tituloEditar": "Edit Product Type",
                 "tituloAgregar": "Create Product Type",
-                "label.descripcionTipoProducto": "Product Type Description",
-                "descripcionTipoProducto": "Enter the description of the product type"
+                "label": {
+                    "descripcionTipoProducto": "Product Type Description",
+                    "ingreseNombre": "Enter new name",
+                    "resumen": "Summary",
+                    "tipoComponente": "Component Type",
+                    "cantidad": "Quantity"
+                }
             },
             "tipoServicio": {
                 "tituloEditar": "Edit Service Type",
