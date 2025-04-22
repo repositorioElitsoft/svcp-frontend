@@ -329,6 +329,7 @@ export class TipoProductoComponent implements OnInit {
             catchError((error: unknown) => {
               console.error("Error al eliminar elementos:", error);
               this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+              this.obtenerDatos();
               return throwError(() => error);
             })
           )
@@ -345,6 +346,7 @@ export class TipoProductoComponent implements OnInit {
             error: (error: unknown) => {
               console.error("Error al eliminar elementos:", error);
               this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
+              this.obtenerDatos();
             }
           });
       }
@@ -385,6 +387,7 @@ export class TipoProductoComponent implements OnInit {
             },
             error: (error: unknown) => {
               console.error("Error al eliminar tipo producto:", error);
+              this.obtenerDatos();
               this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
             }
           });
@@ -414,6 +417,7 @@ export class TipoProductoComponent implements OnInit {
             },
             error: (error: unknown) => {
               console.error("Error al eliminar elementos:", error);
+              this.obtenerDatos();
               this.toastr.error(this.translate.instant(convertErrorMessageToI18(error)));
             }
           });
