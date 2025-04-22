@@ -1,7 +1,7 @@
 import { Component, Inject, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -12,6 +12,7 @@ import { TipoComponenteAsignacionComponent } from '../tipo-componente-asignacion
 import { TipoProducto } from '../../../core/models/tipo-producto.model';
 import { TipoProductoService } from '../../../core/services/tipo-producto.service';
 import { firstValueFrom } from 'rxjs';
+import { TipoProductoFormComponent } from './tipo-producto.component';
 
 @Component({
     selector: 'app-tipo-producto-view',
@@ -41,7 +42,7 @@ import { firstValueFrom } from 'rxjs';
         <!-- Título y botón de editar -->
         <div class="flex justify-between items-center">
           <h2 class="text-xl font-medium">{{'mantenedores.tipoProducto.descripcionTipoProducto' | translate}}</h2>
-          <button mat-icon-button class="text-green-500">
+          <button mat-icon-button class="text-green-500" (click)="backToAsignacion()">
             <mat-icon>edit</mat-icon>
           </button>
         </div>
@@ -91,7 +92,8 @@ export class TipoProductoViewComponent {
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<TipoProductoViewComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { object: number },
-        private tipoProductoService: TipoProductoService
+        private tipoProductoService: TipoProductoService,
+        private dialog: MatDialog
     ) {
         console.log('Data recibida del padre:', this.data);
         this.form = this.fb.group({
@@ -123,5 +125,19 @@ export class TipoProductoViewComponent {
         } catch (error) {
             console.error('Error al cargar los datos:', error);
         }
+    }
+
+    backToAsignacion(): void {
+        // Cerrar el diálogo actual
+        this.dialogRef.close();
+
+        // Abrir el nuevo diálogo de asignación
+        this.dialog.open(TipoProductoFormComponent, {
+            width: '450px',
+            data: {
+                esActualizar: true,
+                object: this.tipoProducto
+            }
+        });
     }
 }
