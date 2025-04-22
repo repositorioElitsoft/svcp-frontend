@@ -1,16 +1,19 @@
 <form [formGroup]="form">
 
-    <mat-form-field appearance="outline" class="w-full">
+    <mat-form-field appearance="outline" class="w-full mb-4">
         <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.nombre' | translate }}</mat-label>
         <input matInput formControlName="nombre"
             [attr.placeholder]="'mantenedores.formularios.nombre.descripcion' | translate" class="w-full text-lg">
         <mat-error *ngIf="form.get('nombre')?.hasError('required')" class="text-red-500">
             {{ 'mantenedores.formularios.campoRequerido' | translate }}
         </mat-error>
+        <mat-error *ngIf="form.get('nombre')?.hasError('specialChars')" class="text-red-500">
+            {{ 'mantenedores.formularios.caracteresNoPermitidos' | translate }}
+        </mat-error>
     </mat-form-field>
 
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 
         <mat-form-field appearance="outline" class="w-full">
             <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.apellidoPaterno' | translate
@@ -20,6 +23,9 @@
                 class="w-full text-lg">
             <mat-error *ngIf="form.get('apellidoPaterno')?.hasError('required')" class="text-red-500">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+            <mat-error *ngIf="form.get('apellidoPaterno')?.hasError('specialChars')" class="text-red-500">
+                {{ 'mantenedores.formularios.caracteresNoPermitidos' | translate }}
             </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-full">
@@ -31,11 +37,14 @@
             <mat-error *ngIf="form.get('apellidoMaterno')?.hasError('required')" class="text-red-500">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
             </mat-error>
+            <mat-error *ngIf="form.get('apellidoMaterno')?.hasError('specialChars')" class="text-red-500">
+                {{ 'mantenedores.formularios.caracteresNoPermitidos' | translate }}
+            </mat-error>
         </mat-form-field>
 
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 
 
         <mat-form-field appearance="outline" class="w-full">
@@ -66,7 +75,7 @@
 
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 
         <mat-form-field appearance="outline" class="w-full">
             <mat-label class="text-lg">

@@ -348,6 +348,7 @@ export class ClienteComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(ClienteFormComponent, {
       minWidth: '700px',
+      minHeight: '700px',
       data: {
         esActualizar: true,
         object: selectedObject

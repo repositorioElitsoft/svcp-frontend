@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, EventEmitter, Output, Input } from '@angular/core';
 import { UploadImageComponent } from '../../upload-image/upload-image/upload-image.component';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
@@ -61,9 +61,9 @@ export class InformacionPersonalComponent {
   ngOnInit() {
     this.form = this.fb.group({
       id: [null],
-      nombre: [null, Validators.required],
-      apellidoPaterno: [null, Validators.required],
-      apellidoMaterno: [null, Validators.required],
+      nombre: [null, [Validators.required, this.noSpecialCharsValidator()]],
+      apellidoPaterno: [null, [Validators.required, this.noSpecialCharsValidator()]],
+      apellidoMaterno: [null, [Validators.required, this.noSpecialCharsValidator()]],
       tipoDocumentoIdentificacion: [null, Validators.required],
       numeroDocumentoIdentificacion: [null, Validators.required],
       estado: [null, Validators.required],
@@ -198,5 +198,23 @@ export class InformacionPersonalComponent {
     } else {
       console.log("Formulario no válido");
     }
+  }
+
+  /**
+   * Validator para evitar caracteres especiales de programación y números en nombres y apellidos
+   */
+  noSpecialCharsValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value) {
+        return null;
+      }
+
+      // Regex que permite letras, espacios y caracteres acentuados comunes en nombres
+      // pero excluye números y caracteres especiales de programación
+      const pattern = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s\-']+$/;
+
+      const valid = pattern.test(control.value);
+      return valid ? null : { 'specialChars': { value: control.value } };
+    };
   }
 }
