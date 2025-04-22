@@ -237,6 +237,7 @@
             "descripcionTipoProducto": "Tipo de Produto",
             "label.ingreseNombre": "Insira um novo nome",
             "label.resumen": "Resumo",
+            "tipoProductoTipoComponentes": "Tipo de Componente",
             "tipoComponente": "Tipo de Componente",
             "cantidad": "Quantidade",
             "sinComponentes": "Nenhum componente atribuído",

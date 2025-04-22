@@ -260,6 +260,7 @@
             "id": "Id",
             "titulo": "Product Type",
             "descripcionTipoProducto": "Product Type",
+            "tipoProductoTipoComponentes": "Component Type",
             "tipoComponente": "Component Type",
             "cantidad": "Quantity",
             "sinComponentes": "No components assigned",
