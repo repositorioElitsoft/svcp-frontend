@@ -527,6 +527,7 @@
             },
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Producto",
+                "tituloDetalle": "Detalle tipo de producto",
                 "tituloAgregar": "Crear Tipo de Producto",
                 "descripcionTipoProducto": "Ingrese el tipo de producto",
                 "sinComponentes": "No hay componentes asignados",

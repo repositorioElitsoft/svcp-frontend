@@ -21,6 +21,7 @@ import { BusquedaGenericaComponent } from "../../../shared/components/busqueda-g
 import { TipoProductoTipoComponenteService } from "../../../core/services/tipo-producto-tipo-componente.service";
 import { TipoProductoTipoComponente } from "../../../core/models/tipo-producto-tipo.componente.model";
 import { TipoProductoTipoComponenteFormComponent } from "../../../shared/components/forms/tipo-producto-tipo-componente.component";
+import { TipoProductoViewComponent } from "../../../shared/components/forms/tipo-producto-view.component";
 
 @Component({
   selector: "app-tipo-producto",
@@ -537,12 +538,10 @@ export class TipoProductoComponent implements OnInit {
   }
 
   onViewForm(element: any): void {
-    const dialogRef = this.dialog.open(TipoProductoFormComponent, {
-      width: '400px',
+    const dialogRef = this.dialog.open(TipoProductoViewComponent, {
+      width: '450px',
       data: {
-        esActualizar: false,
-        esVisualizar: true,
-        object: element
+        object: element.id
       }
     });
 

@@ -494,6 +494,7 @@
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Produto",
                 "tituloAgregar": "Criar Tipo de Produto",
+                "tituloDetalle": "Detalhes do tipo de produto",
                 "label": {
                     "descripcionTipoProducto": "Descrição do Tipo de Produto",
                     "ingreseNombre": "Insira um novo nome",
