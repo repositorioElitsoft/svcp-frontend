@@ -538,7 +538,7 @@ export class TrabajoTareaFormComponent implements OnInit, OnDestroy {
                     if (this.esActualizar()) {
                         this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
                     } else {
-                        this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+                        this.toastr.success(this.translate.instant('alertas.toastr.editar.success'));
                     }
                     this.dialogRef.close(true);
                 },
