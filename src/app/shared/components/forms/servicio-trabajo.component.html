@@ -40,7 +40,7 @@
         <div class="flex flex-col gap-2">
             <app-chips-form [items]="trabajosAsignados" [displayField]="'descripcionTrabajo'" [maxVisibleItems]="4"
                 [verMasTexto]="'mantenedores.formularios.servicioTrabajo.verMas'"
-                [verMenosTexto]="'mantenedores.formularios.servicioTrabajo.verMenos'"
+                [verMenosTexto]="'mantenedores.formularios.servicioTrabajo.verMenos'" [mostrarTodo]="mostrarTodos"
                 (itemDeleted)="onChipDeleted($event)" (itemsReordered)="onChipsReordered($event)">
             </app-chips-form>
             <mat-error *ngIf="form.get('trabajos')?.hasError('required') && form.get('trabajos')?.touched">

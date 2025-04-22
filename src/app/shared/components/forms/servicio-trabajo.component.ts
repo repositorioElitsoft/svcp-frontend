@@ -121,6 +121,10 @@ export class ServicioTrabajoFormComponent implements OnInit, OnDestroy {
         if (this.Trabajos.length > 0) {
             this.actualizarTrabajosDisponibles();
         }
+
+        if (this.data?.mostrarTodo) {
+            this.mostrarTodos = true;
+        }
     }
 
     ngOnDestroy(): void {

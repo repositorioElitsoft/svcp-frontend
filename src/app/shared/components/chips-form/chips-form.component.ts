@@ -77,6 +77,7 @@ export class ChipsFormComponent {
     @Input() maxVisibleItems: number = 4;
     @Input() verMasTexto: string = 'mantenedores.formularios.servicioTrabajo.verMas';
     @Input() verMenosTexto: string = 'mantenedores.formularios.servicioTrabajo.verMenos';
+    @Input() mostrarTodo: boolean = false;
 
     // Clases CSS personalizables
     @Input() containerClass: string = 'bg-gray-50 rounded-lg';
@@ -85,6 +86,12 @@ export class ChipsFormComponent {
     @Output() itemsReordered = new EventEmitter<ChipItem[]>();
 
     mostrarTodos: boolean = false;
+
+    ngOnInit() {
+        if (this.mostrarTodo) {
+            this.mostrarTodos = true;
+        }
+    }
 
     onItemDelete(item: ChipItem): void {
         this.itemDeleted.emit(item);

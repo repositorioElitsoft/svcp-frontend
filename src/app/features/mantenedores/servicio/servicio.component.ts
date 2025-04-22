@@ -1128,7 +1128,8 @@ export class ServicioComponent implements OnInit {
             width: '450px',
             data: {
                 id: element.id,
-                descripcion: element.descripcion
+                descripcion: element.descripcion,
+                mostrarTodo: true
             }
         });
 
