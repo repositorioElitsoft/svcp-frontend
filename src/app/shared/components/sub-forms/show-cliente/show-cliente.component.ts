@@ -6,6 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogContent, MatDialogActions, MatD
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../../titulo-dialogo/titulo-dialogo.component";
 import { Cliente } from '../../../../core/models/cliente.model';
+import { ClienteService } from '../../../../core/services/cliente.service';
 
 
 
@@ -28,12 +29,12 @@ export class ShowClienteComponent implements OnInit {
     readonly dialogRef = inject(MatDialogRef<ShowClienteComponent>);
     readonly data = inject<any>(MAT_DIALOG_DATA);
 
-    selectedFile: File | null = null;
+
     fileUrl: string | null = null;
     cliente: any | undefined;
     showLocaciones = false;
 
-    constructor() { }
+    constructor(private clienteService: ClienteService) { }
 
     ngOnInit(): void {
         // Inicializar el cliente desde los datos del diálogo
@@ -41,6 +42,13 @@ export class ShowClienteComponent implements OnInit {
             this.cliente = this.data.object;
             console.log("show cliente: ", this.cliente);
         }
+
+
+        this.clienteService.descargarImagen(this.data.object.id).subscribe((imagen: File) => {
+            console.log("Imagen descargada:")
+            this.fileUrl = URL.createObjectURL(imagen);
+        })
+
     }
 
     toggleLocaciones(): void {
