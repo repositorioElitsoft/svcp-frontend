@@ -310,7 +310,7 @@ export class ServicioComponent implements OnInit {
 
     buscar(data: { filter: any, labels: any[] }) {
         console.log('Search input:', data);
-        this.pageNumber = 0;
+        this.pageNumber = 0; // Resetear a la primera página cuando se aplica un nuevo filtro
         this.activeOptionalFilters = data.labels || [];
         this.currentFilters = data.filter;
         // Mantener el ordenamiento actual si existe
@@ -335,21 +335,24 @@ export class ServicioComponent implements OnInit {
                 filter.field !== filterData.field
         );
 
+        // Resetear a la primera página cuando se elimina un filtro
+        this.pageNumber = 0;
+
         // Verificar si era el último filtro
         if (this.activeOptionalFilters.length === 0) {
             // Restablecer todos los filtros
             this.currentFilters = {};
             this.activeOptionalFilters = [];
 
-            // Si no hay filtros, simplemente obtener todos los datos
+            // Si no hay filtros, simplemente obtener todos los datos desde la primera página
             this.obtenerDatos();
             return;
         }
 
         // Si aún hay filtros, continuar con la lógica de filtrado
         const params = {
-            pageSize: 5,
-            pageNumber: 0,
+            pageSize: this.pageSize,
+            pageNumber: this.pageNumber,
             sortField: this.currentSortState?.column || 'id',
             sortDirection: (this.currentSortState?.direction || 'asc').toUpperCase(),
             ...this.transformFilters(this.currentFilters)
@@ -423,11 +426,19 @@ export class ServicioComponent implements OnInit {
             });
         }
 
-        this.totalElements = fullResponse.totalElements || todosLosServicios.size;
+        // Actualizar correctamente los valores de paginación desde la respuesta
+        this.totalElements = fullResponse.totalElements || 0;
         this.totalPages = fullResponse.totalPages || Math.ceil(this.totalElements / this.pageSize);
         this.dataSource = Array.from(todosLosServicios.values());
 
         console.log('DataSource procesado:', this.dataSource);
+        console.log('Información de paginación:', {
+            totalElements: this.totalElements,
+            totalPages: this.totalPages,
+            pageSize: this.pageSize,
+            currentPage: this.pageNumber
+        });
+
         this.cdr.detectChanges();
     }
 
