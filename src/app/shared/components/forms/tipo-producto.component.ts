@@ -119,9 +119,31 @@ export class TipoProductoFormComponent implements OnInit {
       };
 
       if (this.esActualizar()) {
+        // Primero actualizamos el tipo producto
         this.tipoProductoService.actualizar(tipoProducto.id!, tipoProducto).subscribe({
-          next: (response) => {
-            this.guardarRelacionTipoComponente(response.id!);
+          next: (response: any) => {
+            // Obtenemos las relaciones actuales para eliminarlas
+            const relacionesActuales = this.data.object.tipoProductoTipoComponentes || [];
+            const deleteObservables = relacionesActuales.map((relacion: TipoProductoTipoComponente) =>
+              this.tipoProductoTipoComponenteService.borrar(tipoProducto.id!, relacion.tipoComponente.id!)
+            );
+
+            // Si no hay relaciones a eliminar, procedemos a crear las nuevas
+            if (deleteObservables.length === 0) {
+              this.crearRelacionesComponentes(tipoProducto.id!);
+              return;
+            }
+
+            // Eliminamos las relaciones antiguas y luego creamos las nuevas
+            forkJoin(deleteObservables).subscribe({
+              next: () => {
+                this.crearRelacionesComponentes(tipoProducto.id!);
+              },
+              error: (error) => {
+                const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
+                this.toastr.error(errorMessage);
+              }
+            });
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant('mantenedores.formularios.toastr.error');
@@ -130,8 +152,8 @@ export class TipoProductoFormComponent implements OnInit {
         });
       } else {
         this.tipoProductoService.crear(tipoProducto).subscribe({
-          next: (response) => {
-            this.guardarRelacionTipoComponente(response.id!);
+          next: (response: any) => {
+            this.crearRelacionesComponentes(response.data.id);
           },
           error: (error) => {
             const errorMessage = error.error?.message || this.translate.instant(convertErrorMessageToI18(error.message));
@@ -142,18 +164,31 @@ export class TipoProductoFormComponent implements OnInit {
     }
   }
 
-  private guardarRelacionTipoComponente(tipoProductoId: number) {
-    const relacion: TipoProductoTipoComponente = {
-      tipoProducto: { id: tipoProductoId, descripcionTipoProducto: this.form.value.descripcionTipoProducto },
-      tipoComponente: {
-        id: this.form.value.tipoComponenteId,
-        nombre: '',  // Se llenará desde el backend
-        descripcion: ''  // Se llenará desde el backend
-      },
-      cantidad: 1
-    };
+  private crearRelacionesComponentes(tipoProductoId: number) {
+    const componentesActuales = this.form.value.tipoProductoTipoComponentes || [];
+    if (componentesActuales.length === 0) {
+      this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
+      this.dialogRef.close(true);
+      return;
+    }
 
-    this.tipoProductoTipoComponenteService.crear(relacion).subscribe({
+    const observables = componentesActuales.map((componente: TipoProductoTipoComponente) => {
+      const relacion: TipoProductoTipoComponente = {
+        tipoProducto: {
+          id: tipoProductoId,
+          descripcionTipoProducto: this.form.value.descripcionTipoProducto
+        },
+        tipoComponente: {
+          id: componente.tipoComponente.id,
+          nombre: componente.tipoComponente.nombre,
+          descripcion: componente.tipoComponente.descripcion
+        },
+        cantidad: componente.cantidad
+      };
+      return this.tipoProductoTipoComponenteService.crear(relacion);
+    });
+
+    forkJoin(observables).subscribe({
       next: () => {
         this.toastr.success(this.translate.instant('alertas.toastr.guardar.success'));
         this.dialogRef.close(true);
