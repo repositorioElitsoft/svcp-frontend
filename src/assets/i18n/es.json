@@ -526,8 +526,9 @@
             "tipoProducto": {
                 "tituloEditar": "Editar Tipo de Producto",
                 "tituloAgregar": "Crear Tipo de Producto",
-                "label.descripcionTipoProducto": "Descripción del Tipo de Producto",
-                "descripcionTipoProducto": "Ingrese la descripción del tipo de producto"
+                "label.descripcionTipoProducto": "Tipo de Producto",
+                "descripcionTipoProducto": "Ingrese el tipo de producto",
+                "label.ingreseNombre": "Ingrese nuevo nombre"
             },
             "tipoServicio": {
                 "tituloEditar": "Editar Tipo de Servicio",

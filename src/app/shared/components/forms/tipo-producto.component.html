@@ -5,19 +5,28 @@
 
 <mat-dialog-content class="!p-0 dark:bg-neutral-800">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
-     
-        <!--Input -->
 
-					   <mat-form-field appearance="outline" class="w-full dark:text-white  ">
-							<mat-label class="text-lg" >{{ 'mantenedores.formularios.tipoProducto.label.descripcionTipoProducto' | translate }}</mat-label>
-							<input matInput formControlName="descripcionTipoProducto"
-								[attr.placeholder]="'mantenedores.formularios.descripcionTipoProducto.descripcion' | translate"
-								class="text-lg w-full dark:text-white ">
-							<mat-error *ngIf="form.get('descripcionTipoProducto')?.hasError('required')" class="text-red-500 text-base">
-								{{ 'mantenedores.formularios.campoRequerido' | translate }}
-							</mat-error>
-						</mat-form-field>
-					
+        <!-- Campo de solo lectura para mostrar el valor actual (en modo edición) -->
+        <mat-form-field *ngIf="data?.esActualizar" appearance="outline" class="w-full dark:text-white">
+            <mat-label>{{ 'mantenedores.formularios.tipoProducto.label.descripcionTipoProducto' | translate
+                }}</mat-label>
+            <input matInput [value]="data?.object?.descripcionTipoProducto" readonly maxlength="50"
+                class="text-lg w-full dark:text-white bg-gray-100">
+            <mat-hint align="end">{{data?.object?.descripcionTipoProducto?.length || 0}}/50</mat-hint>
+        </mat-form-field>
+
+        <!-- Campo obligatorio para el nuevo valor -->
+        <mat-form-field appearance="outline" class="w-full dark:text-white">
+            <mat-label>{{ (data?.esActualizar ? 'mantenedores.formularios.tipoProducto.label.ingreseNombre' :
+                'mantenedores.formularios.tipoProducto.label.descripcionTipoProducto') | translate }}</mat-label>
+            <input matInput formControlName="descripcionTipoProducto" class="text-lg w-full dark:text-white"
+                maxlength="50"
+                [placeholder]="'mantenedores.formularios.tipoProducto.label.descripcionTipoProducto' | translate">
+            <mat-hint align="end">{{form.get('descripcionTipoProducto')?.value?.length || 0}}/50</mat-hint>
+            <mat-error *ngIf="form.get('descripcionTipoProducto')?.hasError('required')" class="text-red-500 text-base">
+                {{ 'mantenedores.formularios.campoRequerido' | translate }}
+            </mat-error>
+        </mat-form-field>
 
         <div class="grid grid-cols-2 gap-4 w-full">
             <button type="button" (click)="dialogRef.close()"

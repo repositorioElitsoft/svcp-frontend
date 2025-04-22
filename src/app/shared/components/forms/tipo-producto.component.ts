@@ -75,18 +75,18 @@ export class TipoProductoFormComponent implements OnInit {
     });
   }
 
+
   ngOnInit() {
     console.log("Datos recibidos en el formulario:", this.data);
 
-    // Verificar si 'data.object' existe y tiene el campo 'descripcionTipoProducto'
+    // Verificar si 'data.object' existe y tiene el campo 'descripcionTrabajo'
     if (this.esActualizar() && this.data?.object) {
       console.log("Objeto recibido:", this.data.object);
-
 
       this.form.patchValue({
         /*object-fields-edit*/
         id: this.data.object.id,
-        descripcionTipoProducto: this.data.object.descripcionTipoProducto,
+        descripcionTipoProducto: '', // Inicializamos vacío para el modo edición
       });
 
       console.log("Datos en el formulario después de patchValue:", this.form.value);
@@ -97,6 +97,10 @@ export class TipoProductoFormComponent implements OnInit {
 
 
   }
+
+
+
+
 
   onSubmit() {
     console.log("Formulario enviado:", this.form.value);
