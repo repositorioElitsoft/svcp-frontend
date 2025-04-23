@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common"
-import { Component, OnInit, inject, model, ViewChild } from "@angular/core"
+import { Component, OnInit, inject, model, ViewChild, AfterViewInit } from "@angular/core"
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from "@angular/forms"
 import { MatButtonModule } from "@angular/material/button"
 import { MatOptionModule } from "@angular/material/core"
@@ -63,7 +63,7 @@ import { concatMap, of } from "rxjs"
     templateUrl: `./cliente-crear.component.html`,
     styles: [],
 })
-export class ClienteCrearFormComponent implements OnInit {
+export class ClienteCrearFormComponent implements OnInit, AfterViewInit {
     form!: FormGroup
     showAdditionalInfo = false
     show = true
@@ -75,7 +75,7 @@ export class ClienteCrearFormComponent implements OnInit {
     readonly data = inject<any>(MAT_DIALOG_DATA)
     readonly esActualizar = model(this.data.esActualizar)
 
-    @ViewChild(InformacionPersonalComponent) informacionPersonal!: InformacionPersonalComponent;
+    @ViewChild('infoPersonal') informacionPersonal!: InformacionPersonalComponent;
     @ViewChild(UploadImageComponent) uploadImage!: UploadImageComponent;
 
     /*variable-declarations*/
@@ -85,6 +85,11 @@ export class ClienteCrearFormComponent implements OnInit {
     agrupacionComercial: AgrupacionComercial[] = []
     segmentacionCliente: SegmentacionCliente[] = []
     pantallaActual = "datos-generales"
+
+    // Método para validar el formulario de forma segura
+    isFormValid(): boolean {
+        return this.informacionPersonal?.form?.valid ?? false;
+    }
 
     constructor(
         private fb: FormBuilder,
@@ -100,13 +105,21 @@ export class ClienteCrearFormComponent implements OnInit {
         // Verificar si 'data.object' existe y tiene el campo 'descripcionCliente'
         if (this.esActualizar() && this.data?.object) {
             console.log("Objeto recibido:", this.data.object)
-
-            //console.log("Datos en el formulario después de patchValue:", this.form.value)
         } else {
-            console.error("No se recibió un objeto válido en 'data'")
+            console.log("No se recibió un objeto válido en 'data' o no es actualización")
         }
         /*services-init-call*/
+    }
 
+    // Agregar ngAfterViewInit para asegurarnos de que los componentes hijos estén inicializados
+    ngAfterViewInit() {
+        // Asegurarnos de que informacionPersonal esté inicializado
+        if (this.esActualizar() && this.data?.object && this.informacionPersonal) {
+            // Si estamos actualizando, pasar los datos al componente hijo
+            setTimeout(() => {
+                this.informacionPersonal.patch(this.data.object);
+            }, 0);
+        }
     }
 
     handleLinkClick(link: string) {
@@ -115,13 +128,18 @@ export class ClienteCrearFormComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log("Formulario enviado:", this.informacionPersonal.form)
+        console.log("Formulario enviado:", this.informacionPersonal?.form);
 
-        if (this.informacionPersonal.form.valid) {
-            this.isLoading = true;
+        if (!this.isFormValid()) {
+            console.log("Formulario no válido");
+            return;
+        }
+
+        this.isLoading = true;
+        try {
             // Extraer el dígito verificador si es RUT chileno
-            const tipoDocId = this.informacionPersonal.form.value.tipoDocumentoIdentificacion?.id;
-            let numeroDoc = this.informacionPersonal.form.value.numeroDocumentoIdentificacion;
+            const tipoDocId = this.informacionPersonal?.form?.value?.tipoDocumentoIdentificacion?.id;
+            let numeroDoc = this.informacionPersonal?.form?.value?.numeroDocumentoIdentificacion;
             let digitoVer = null;
 
             if (tipoDocId === TipoDocumentoIdentificacion.RUT) { // Si es RUT chileno
@@ -134,17 +152,16 @@ export class ClienteCrearFormComponent implements OnInit {
                 id: null,
                 numero: numeroDoc,
                 digitoVerificador: digitoVer,
-                tipoDocumentoIdentificacion: this.informacionPersonal.form.value.tipoDocumentoIdentificacion
+                tipoDocumentoIdentificacion: this.informacionPersonal?.form?.value?.tipoDocumentoIdentificacion
             };
-
 
             const cliente: ClienteCrear = {
                 documentoIdentificacion: documentoIdentificacion,
-                nombre: this.informacionPersonal.form.value.nombre,
-                apellidoPaterno: this.informacionPersonal.form.value.apellidoPaterno,
-                apellidoMaterno: this.informacionPersonal.form.value.apellidoMaterno,
-                estado: this.informacionPersonal.form.value.estado,
-                fechaNacimiento: this.informacionPersonal.form.value.fechaNacimiento,
+                nombre: this.informacionPersonal?.form?.value?.nombre,
+                apellidoPaterno: this.informacionPersonal?.form?.value?.apellidoPaterno,
+                apellidoMaterno: this.informacionPersonal?.form?.value?.apellidoMaterno,
+                estado: this.informacionPersonal?.form?.value?.estado,
+                fechaNacimiento: this.informacionPersonal?.form?.value?.fechaNacimiento,
                 tipoCliente: { id: ClienteEnum.TIPO_CLIENTE_INDEFINIDO, nombre: "" },
                 clasificacionCliente: { id: ClienteEnum.CLASIFICACION_CLIENTE_INDEFINIDA, clasificacionClienteDesc: "" },
                 agrupacionComercial: { id: ClienteEnum.AGRUPACION_COMERCIAL_INDEFINIDA, nombreGrupoComercial: "" },
@@ -172,8 +189,10 @@ export class ClienteCrearFormComponent implements OnInit {
                     this.toastr.error(errorMessage);
                 }
             });
-        } else {
-            console.log("Formulario no válido")
+        } catch (error) {
+            console.error("Error al procesar el formulario:", error);
+            this.isLoading = false;
+            this.toastr.error(this.translate.instant('alertas.toastr.guardar.error'));
         }
     }
 
