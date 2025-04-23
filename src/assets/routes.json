@@ -60,6 +60,11 @@
                         "permission": "access.componentTypes",
                         "title": "sideBar.componentTypes",
                         "link": "portal/mantenedores/tipos-componentes"
+                    },
+                    {
+                        "permission": "access.components",
+                        "title": "sideBar.components",
+                        "link": "portal/mantenedores/componentes"
                     }
                 ]
             },
