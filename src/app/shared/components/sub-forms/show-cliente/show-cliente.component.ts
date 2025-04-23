@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TituloDialogoComponent } from "../../titulo-dialogo/titulo-dialogo.component";
 import { Cliente } from '../../../../core/models/cliente.model';
 import { ClienteService } from '../../../../core/services/cliente.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 
@@ -22,7 +23,8 @@ import { ClienteService } from '../../../../core/services/cliente.service';
         MatDialogActions,
         MatDialogClose,
         TranslateModule,
-        TituloDialogoComponent
+        TituloDialogoComponent,
+        MatProgressBarModule
     ]
 })
 export class ShowClienteComponent implements OnInit {
@@ -33,6 +35,7 @@ export class ShowClienteComponent implements OnInit {
     fileUrl: string | null = null;
     cliente: any | undefined;
     showLocaciones = false;
+    isLoadingImage = false;
 
     constructor(private clienteService: ClienteService) { }
 
@@ -43,12 +46,20 @@ export class ShowClienteComponent implements OnInit {
             console.log("show cliente: ", this.cliente);
         }
 
+        // Activar el indicador de carga
+        this.isLoadingImage = true;
 
-        this.clienteService.descargarImagen(this.data.object.id).subscribe((imagen: File) => {
-            console.log("Imagen descargada:")
-            this.fileUrl = URL.createObjectURL(imagen);
-        })
-
+        this.clienteService.descargarImagen(this.data.object.id).subscribe({
+            next: (imagen: File) => {
+                console.log("Imagen descargada:")
+                this.fileUrl = URL.createObjectURL(imagen);
+                this.isLoadingImage = false;
+            },
+            error: (error) => {
+                console.error("Error al descargar la imagen:", error);
+                this.isLoadingImage = false;
+            }
+        });
     }
 
     toggleLocaciones(): void {

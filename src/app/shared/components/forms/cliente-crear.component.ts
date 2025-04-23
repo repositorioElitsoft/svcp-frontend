@@ -101,7 +101,7 @@ export class ClienteCrearFormComponent implements OnInit {
         if (this.esActualizar() && this.data?.object) {
             console.log("Objeto recibido:", this.data.object)
 
-            console.log("Datos en el formulario después de patchValue:", this.form.value)
+            //console.log("Datos en el formulario después de patchValue:", this.form.value)
         } else {
             console.error("No se recibió un objeto válido en 'data'")
         }

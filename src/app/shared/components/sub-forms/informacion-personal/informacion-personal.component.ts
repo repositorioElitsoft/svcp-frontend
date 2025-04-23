@@ -74,7 +74,7 @@ export class InformacionPersonalComponent {
       next: (estados: ApiEntityResponse<Estado[]>) => {
         console.log('Estados cargados:', estados);
         this.estados = estados.data;
-        const findEstado = this.estados.find(e => e.id === this.valueToPatch.estado.id);
+        const findEstado = this.estados.find(e => e.id === this.valueToPatch?.estado?.id);
         this.form.get("estado")?.setValue(findEstado);
       },
       error: (error: any) => {
@@ -87,7 +87,7 @@ export class InformacionPersonalComponent {
         console.log('Tipos de documentos cargados:', tipos);
         this.tiposDocumentos = tipos.data as any;
         //console.log('Tipos de documentos cargados:', this.tiposDocumentos);
-        const findTipoDocumento = this.tiposDocumentos.find(e => e.id === this.valueToPatch.documentoIdentificacion.tipoDocumentoIdentificacion.id);
+        const findTipoDocumento = this.tiposDocumentos.find(e => e.id === this.valueToPatch?.documentoIdentificacion?.tipoDocumentoIdentificacion?.id);
 
         this.form.get('numeroDocumentoIdentificacion')?.patchValue(this.getNumeroIdentificacion())
         this.form.get("tipoDocumentoIdentificacion")?.setValue(findTipoDocumento);
