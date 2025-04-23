@@ -73,8 +73,8 @@ import { TipoProductoFormComponent } from './tipo-producto.component';
         <div class="mt-6">
           <button 
             (click)="dialogRef.close()"
-            class="text-lg elitsoft-warn w-full flex items-center justify-center py-2 text-center">
-            Aceptar
+            class="text-lg elitsoft-btn w-full flex items-center justify-center py-2 text-center">
+            {{'mantenedores.botonAceptar' | translate}}
           </button>
         </div>
       </div>

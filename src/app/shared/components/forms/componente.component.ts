@@ -7,9 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 // Asegúrate de importar correctamente todos los servicios que utilices
 
 @Component({
-    selector: 'app-componente-form',
-    standalone: true,
-    template: `
+  selector: 'app-componente-form',
+  standalone: true,
+  template: `
     <app-titulo-dialogo
       [title]="esActualizar() ? 'mantenedores.formularios.role.tituloEditar' : 'mantenedores.formularios.role.tituloAgregar' | translate"
       icon="task"
@@ -32,32 +32,32 @@ import { ToastrService } from 'ngx-toastr';
       </form>
     </mat-dialog-content>
   `,
-    imports: [MatDialogModule, ReactiveFormsModule, TranslateModule, TituloDialogoComponent]
+  imports: [MatDialogModule, ReactiveFormsModule, TranslateModule, TituloDialogoComponent]
 })
 export class ComponenteFormComponent {
-    form!: FormGroup;
+  form!: FormGroup;
 
-    readonly dialogRef = inject(MatDialogRef<ComponenteFormComponent>);
-    readonly data = inject<any>(MAT_DIALOG_DATA);
+  readonly dialogRef = inject(MatDialogRef<ComponenteFormComponent>);
+  readonly data = inject<any>(MAT_DIALOG_DATA);
 
-    constructor(
-        private fb: FormBuilder,
-        private translate: TranslateService,
-        private toastr: ToastrService
-    ) {
-        this.form = this.fb.group({
-            id: [null],
-            descripcion: [null, Validators.required],
-        });
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService,
+    private toastr: ToastrService
+  ) {
+    this.form = this.fb.group({
+      id: [null],
+      descripcion: [null, Validators.required],
+    });
+  }
+
+  esActualizar(): boolean {
+    return !!this.data?.esActualizar;
+  }
+
+  onSubmit(): void {
+    if (this.form.valid) {
+      this.dialogRef.close(this.form.value);
     }
-
-    esActualizar(): boolean {
-        return !!this.data?.esActualizar;
-    }
-
-    onSubmit(): void {
-        if (this.form.valid) {
-            this.dialogRef.close(this.form.value);
-        }
-    }
+  }
 }

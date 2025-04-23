@@ -39,11 +39,13 @@
 
 
             <ng-template #actions let-element>
-                <button (click)="showClienteFn(element)">
-                    <span class="material-symbols-outlined">
-                        visibility
-                    </span>
-                </button>
+                <div class="flex items-center justify-center">
+                    <button (click)="showClienteFn(element)" class="p-1">
+                        <span class="material-symbols-outlined text-base">
+                            visibility
+                        </span>
+                    </button>
+                </div>
             </ng-template>
 
 
