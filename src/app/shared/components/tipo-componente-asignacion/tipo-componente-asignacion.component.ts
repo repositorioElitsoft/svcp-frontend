@@ -40,9 +40,9 @@ import { TranslateModule } from '@ngx-translate/core';
         </div>
         <!-- Columna 3: Botón eliminar -->
         <div class=" flex justify-end items-center px-3">
-          <button mat-icon-button (click)="onRemove(item)" 
+          <button  (click)="onRemove(item)" 
                   class="!w-5 !h-5 !p-0">
-            <mat-icon class="!text-[#c0392b]">delete</mat-icon>
+            <span class="material-symbols-outlined !text-[#c0392b]">delete</span>
           </button>
         </div>
       </div>
