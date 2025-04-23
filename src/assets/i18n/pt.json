@@ -277,6 +277,18 @@
             "nombre": "Tipo de Componente",
             "descripcion": "Descrição"
         },
+        "componente": {
+            "id": "Id",
+            "titulo": "Componentes",
+            "descripcionComponente": "Componente",
+            "codigo": "Código",
+            "tipoComponente": "Tipo de Componente",
+            "estadoComponente": "Estado do Componente",
+            "fechaCambioEstado": "Data de Mudança de Estado",
+            "proveedor": "Fornecedor",
+            "observacion": "Observação",
+            "modelo": "Modelo"
+        },
         "formularios": {
             "campoRequerido": "Este campo é obrigatório",
             "botonCancelar": "Cancelar",
@@ -572,6 +584,12 @@
                 "sinTrabajosDisponibles": "Nenhum trabalho disponível para atribuir",
                 "verMas": "Ver mais",
                 "verMenos": "Ver menos"
+            },
+            "componente": {
+                "tituloEditar": "Editar Componente",
+                "tituloAgregar": "Criar Componente",
+                "label.descripcionComponente": "Componente",
+                "descripcion": "Insira o componente"
             }
         }
     },
@@ -757,6 +775,14 @@
                     "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
                 },
                 "tarea": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "componente": {
                     "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
                     "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
                     "REQUERIDO": "O tipo de documento de identificação é obrigatório.",

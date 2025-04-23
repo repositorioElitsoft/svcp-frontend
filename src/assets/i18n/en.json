@@ -36,6 +36,7 @@
         "productTypes": "Product Types",
         "componentTypes": "Component Types",
         "tipoComponentes": "Type Components",
+        "componentes": "Components",
         "zones": "Zones",
         "sectors": "Sectors",
         "routes": "Routes",
@@ -160,6 +161,18 @@
             "id": "Id",
             "titulo": "Commune",
             "descripcionComuna": "Commune "
+        },
+        "componente": {
+            "id": "Id",
+            "titulo": "Components",
+            "codigo": "Code",
+            "descripcionComponente": "Component ",
+            "tipoComponente": "Component Type",
+            "estadoComponente": "Component State",
+            "fechaCambioEstado": "Component State Change Date",
+            "proveedor": "Provider",
+            "observacion": "Observation",
+            "modelo": "Model"
         },
         "empleado": {
             "id": "Id",
@@ -599,6 +612,12 @@
                 "sinTrabajosDisponibles": "No jobs available to assign",
                 "verMas": "See more",
                 "verMenos": "See less"
+            },
+            "componente": {
+                "tituloEditar": "Edit Component",
+                "tituloAgregar": "Create Component",
+                "label.descripcionComponente": "Component",
+                "descripcion": "Enter the component"
             }
         }
     },
@@ -790,6 +809,14 @@
                     "DUPLICADO": "A job with the same data already exists.",
                     "ID_REQUERIDO": "The job ID is required.",
                     "ID_INVALIDO": "The job ID is not valid."
+                },
+                "componente": {
+                    "NO_ENCONTRADO": "The component was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The component is required.",
+                    "DUPLICADO": "A component with the same data already exists.",
+                    "ID_REQUERIDO": "The component ID is required.",
+                    "ID_INVALIDO": "The component ID is not valid."
                 }
             }
         }

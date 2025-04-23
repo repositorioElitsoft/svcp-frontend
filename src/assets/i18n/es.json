@@ -306,6 +306,18 @@
             "nombre": "Tipo de Componente",
             "descripcion": "Descripción"
         },
+        "componente": {
+            "id": "Id",
+            "titulo": "Componentes",
+            "descripcionComponente": "Componente",
+            "codigo": "Código",
+            "tipoComponente": "Tipo de Componente",
+            "estadoComponente": "Estado del Componente",
+            "fechaCambioEstado": "Fecha de Cambio de Estado",
+            "proveedor": "Proveedor",
+            "observacion": "Observación",
+            "modelo": "Modelo"
+        },
         "formularios": {
             "campoRequerido": "Este campo es requerido",
             "botonCancelar": "Cancelar",
@@ -593,6 +605,12 @@
                 "label.nombre": "Tipo de Cliente",
                 "label.estado": "Estado"
             },
+            "componente": {
+                "tituloEditar": "Editar Componente",
+                "tituloAgregar": "Crear Componente",
+                "label.descripcionComponente": "Componente",
+                "descripcion": "Ingrese el componente"
+            },
             "trabajoTarea": {
                 "tituloEditar": "Editar tareas asignadas",
                 "tituloAgregar": "Asignar Tarea",
@@ -819,6 +837,14 @@
                     "DUPLICADO": "Ya existe una tarea con los mismos datos.",
                     "ID_REQUERIDO": "El ID de la tarea es requerido.",
                     "ID_INVALIDO": "El ID de la tarea no es válido."
+                },
+                "componente": {
+                    "NO_ENCONTRADO": "El componente no fue encontrado.",
+                    "INTEGRIDAD_VIOLADA": "El registro está actualmente asignado y no puede ser eliminado.",
+                    "REQUERIDO": "El componente es requerido.",
+                    "DUPLICADO": "Ya existe un componente con los mismos datos.",
+                    "ID_REQUERIDO": "El ID del componente es requerido.",
+                    "ID_INVALIDO": "El ID del componente no es válido."
                 }
             }
         }
