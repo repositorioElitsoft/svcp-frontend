@@ -585,6 +585,14 @@
                 "label.nombre": "Tipo de Componente",
                 "label.descripcion": "Descripción"
             },
+            "tipoCliente": {
+                "tituloEditar": "Editar Tipo de Cliente",
+                "tituloAgregar": "Crear Tipo de Cliente",
+                "label.descripcion": "Descripción del Tipo de Cliente",
+                "descripcion": "Ingrese la descripción del tipo de cliente",
+                "label.nombre": "Tipo de Cliente",
+                "label.estado": "Estado"
+            },
             "trabajoTarea": {
                 "tituloEditar": "Editar tareas asignadas",
                 "tituloAgregar": "Asignar Tarea",
