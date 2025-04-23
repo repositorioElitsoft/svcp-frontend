@@ -25,11 +25,21 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
           "configurations": {
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ]
+            },
             "production": {
               "budgets": [
                 {
@@ -61,6 +71,9 @@
             },
             "development": {
               "buildTarget": "svcp-frontend:build:development"
+            },
+            "qa": {
+              "buildTarget": "svcp-frontend:build:qa"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +97,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           }

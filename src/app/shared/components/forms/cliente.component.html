@@ -1,0 +1,62 @@
+<app-titulo-dialogo
+	[title]="(esActualizar() ? 'mantenedores.formularios.cliente.tituloEditar' : 'mantenedores.formularios.cliente.tituloAgregar') | translate"
+	icon="task" [ref]="dialogRef">
+</app-titulo-dialogo>
+
+
+<mat-dialog-content class="relative dark:bg-neutral-800">
+
+	<app-sidebar routesRoute="/assets/routes-clientes-form.json" (linkClick)="handleLinkClick($event)"
+		[isForForms]="true"></app-sidebar>
+
+	<div class="pl-28">
+
+		<div class="grid grid-cols-5 gap-4" *ngIf="pantallaActual==='datos-generales'">
+			<div class="h-full border-2 border-gray-300 rounded-lg p-4 shadow-md col-span-2">
+				<app-upload-image></app-upload-image>
+			</div>
+
+			<app-informacion-personal class="col-span-3" [clienteOriginal]="data.object"
+				(clienteActualizado)="manejarClienteActualizado($event)">
+			</app-informacion-personal>
+		</div>
+		<app-informacion-comercial *ngIf="pantallaActual==='informacion-comercial'"></app-informacion-comercial>
+		<app-datos-contacto *ngIf="pantallaActual==='datos-contacto'"></app-datos-contacto>
+		<app-direccion-empleado [cliente]="data.object"
+			*ngIf="pantallaActual==='locaciones' && data.object"></app-direccion-empleado>
+
+		<app-contacto-cliente (showContactoCliente)="showContactoClienteFn($event)"
+			(agregarContactoPressed)="agregarContactoPressed()" (clienteActualizado)="manejarClienteActualizado($event)"
+			*ngIf="pantallaActual==='contactos-cliente'"></app-contacto-cliente>
+
+		<app-show-contacto-cliente (aceptarEvent)="contactoClienteAceptarEvent()"
+			[contacto]="contactoClienteSeleccionado"
+			*ngIf="pantallaActual==='contactos-cliente-show'"></app-show-contacto-cliente>
+
+		<div class="grid grid-cols-5 gap-4" *ngIf="pantallaActual==='contactos-cliente-crear'">
+			<div class="h-full border-2 border-gray-300 rounded-lg p-4 shadow-md col-span-2">
+				<app-upload-image></app-upload-image>
+			</div>
+
+			<app-contactos-cliente-crear (contactoCreado)="manejarContactoCreado($event)"
+				class="col-span-3"></app-contactos-cliente-crear>
+		</div>
+
+		<mat-dialog-actions align="end" *ngIf="pantallaActual!=='contactos-cliente-show'">
+
+			<div class="grid grid-cols-2 gap-4 w-full">
+				<button (click)="dialogRef.close()"
+					class="elitsoft-warn w-full flex items-center justify-center py-2 text-center">
+					{{ 'mantenedores.formularios.botonCancelar' | translate }}
+				</button>
+				<button (click)="onSubmit()"
+					class="elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
+					{{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
+					'mantenedores.formularios.guardar') |
+					translate }}
+				</button>
+			</div>
+		</mat-dialog-actions>
+	</div>
+
+</mat-dialog-content>

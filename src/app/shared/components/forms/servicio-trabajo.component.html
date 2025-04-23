@@ -1,0 +1,63 @@
+<app-titulo-dialogo
+    [title]="(esActualizar() ? 'mantenedores.formularios.servicioTrabajo.tituloEditar' : 'mantenedores.formularios.servicioTrabajo.tituloAgregar') | translate"
+    icon="task" [ref]="dialogRef">
+</app-titulo-dialogo>
+
+<div class="p-6">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+        <!-- Servicio -->
+        <div class="flex items-center gap-2">
+            <span class="text-gray-700">{{ 'mantenedores.formularios.servicioTrabajo.servicio' | translate }}:</span>
+            <span class="text-gray-900">{{ servicioDescripcion }}</span>
+        </div>
+
+        <!-- Selector de trabajos -->
+        <div class="flex flex-col gap-1">
+            <span class="text-gray-700">{{ 'mantenedores.formularios.servicioTrabajo.seleccioneTrabajos' | translate
+                }}:</span>
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-select (selectionChange)="onTrabajoSelect($event)" (opened)="onTrabajoSelect($event)"
+                    placeholder="{{ 'mantenedores.formularios.servicioTrabajo.trabajos' | translate }}">
+                    <mat-option *ngFor="let trabajo of trabajosDisponibles" [value]="trabajo.id">
+                        {{ trabajo.descripcionTrabajo }}
+                    </mat-option>
+                    <mat-option *ngIf="trabajosDisponibles.length === 0" disabled>
+                        {{ 'mantenedores.formularios.servicioTrabajo.sinTrabajosDisponibles' | translate }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Mensaje informativo -->
+            <div class="flex items-start gap-2 text-base text-gray-500 leading-snug">
+                <mat-icon class="text-lg mt-1 min-w-[20px]">info</mat-icon>
+                <p class="break-words">{{ 'mantenedores.formularios.servicioTrabajo.info.ordenTrabajos' | translate }}
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Trabajos seleccionados (chips) -->
+        <div class="flex flex-col gap-2">
+            <app-chips-form [items]="trabajosAsignados" [displayField]="'descripcionTrabajo'" [maxVisibleItems]="4"
+                [verMasTexto]="'mantenedores.formularios.servicioTrabajo.verMas'"
+                [verMenosTexto]="'mantenedores.formularios.servicioTrabajo.verMenos'" [mostrarTodo]="mostrarTodos"
+                (itemDeleted)="onChipDeleted($event)" (itemsReordered)="onChipsReordered($event)">
+            </app-chips-form>
+            <mat-error *ngIf="form.get('trabajos')?.hasError('required') && form.get('trabajos')?.touched">
+                {{ 'mantenedores.formularios.servicioTrabajo.errors.trabajosRequeridos' | translate }}
+            </mat-error>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 w-full">
+            <button type="button" (click)="dialogRef.close()"
+                class="text-lg elitsoft-warn w-full flex items-center justify-center py-2 text-center">
+                {{ 'mantenedores.formularios.botonCancelar' | translate }}
+            </button>
+            <button type="submit" [disabled]="form.invalid"
+                class="text-lg elitsoft-btn w-full flex items-center justify-center py-2 text-center disabled:opacity-50">
+                {{ (esActualizar() ? 'mantenedores.formularios.actualizar' : 'mantenedores.formularios.guardar') |
+                translate }}
+            </button>
+        </div>
+    </form>
+</div>

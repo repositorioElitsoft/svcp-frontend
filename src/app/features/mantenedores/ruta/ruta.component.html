@@ -1,0 +1,61 @@
+<div class="grid grid-cols-10">
+    <div class="col-span-0 sm:col-span-1"></div>
+    <div class="col-span-10 sm:col-span-8 px-[5%] sm:px-0">
+        <div
+            class="container mx-auto p-4 rounded-lg overflow-hidden z-10  bg-white dark:bg-neutral-800 dark:border dark:border-white">
+
+            <!-- Contenedor del botón y el título -->
+            <div class="flex sm:flex-row items-center sm:space-x-2 w-full sm:w-auto  p-4">
+                <!-- Botón regresar (más grande en móvil) -->
+                <button class="elitsoft-warn text-base sm:text-base w-auto sm:w-auto" (click)="volver()">
+                    <mat-icon>arrow_back</mat-icon> {{ 'mantenedores.volver' | translate }}
+                </button>
+                <!-- Titulo centrado en móvil y a la izquierda en desktop -->
+                <h1 class="text-xl sm:text-center sm:w-auto w-full text-center sm:text-left">
+                    {{ 'mantenedores.ruta.titulo' | translate }}
+                </h1>
+            </div>
+            <!-- Header Section -->
+            <div
+                class="bg-white p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center gap-4 dark:bg-neutral-800 sm:mb-0">
+
+                <!-- Contenedor del botón y el título -->
+                <div class="flex sm:flex-row items-center sm:space-x-2 w-full sm:w-auto ">
+
+                </div>
+
+                <!-- Opciones del mantenedor -->
+                <div class="w-full sm:w-auto ">
+                    <app-opciones-mantenedor [hasSelection]="hasSelection" [selectedData]="selectedData"
+                        (agregar)="agregarServicio()" (exportar)="exportarExcel()" (eliminar)="eliminar($event)">
+                    </app-opciones-mantenedor>
+                </div>
+
+            </div>
+
+
+            <!--Search Genérico  -->
+            <app-busqueda-generica [fieldName]="'descripcion'" [translationPrefix]="'mantenedores.ruta'"
+                [translationFieldKey]="'descripcion'" [placeholderTranslationKey]="'table.digiteBusqueda'"
+                [buttonText]="'mantenedores.buscar'" (applyfilter)="buscar($event)">
+            </app-busqueda-generica>
+
+            <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
+                <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
+                    [translationGroup]="'mantenedores.ruta'" [displayedColumns]="displayedColumns"
+                    [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
+                    [totalPages]="totalPages" [pageSize]="pageSize"
+                    (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
+                    (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
+                    (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
+                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcion'"
+                    (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
+            </div>
+        </div>
+
+        <div class="col-span-0 sm:col-span-1"></div>
+
+        <section class="min-h-10 w-full dark:bg-neutral-800">
+        </section>
+    </div>
+</div>

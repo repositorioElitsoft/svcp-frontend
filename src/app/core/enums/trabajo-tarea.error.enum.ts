@@ -1,0 +1,8 @@
+export enum TrabajoTareaError {
+    NO_ENCONTRADO = 'TRTR_000',
+    INTEGRIDAD_VIOLADA = 'TRTR_001',
+    REQUERIDO = 'TRTR_002',
+    DUPLICADO = 'TRTR_003',
+    ID_REQUERIDO = 'TRTR_004',
+    ID_INVALIDO = 'TRTR_005'
+} 

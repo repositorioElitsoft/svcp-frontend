@@ -1,0 +1,37 @@
+<div class="flex w-full  flex-wrap md:flex-nowrap gap-4 justify-center md:justify-start">
+    <!-- Buscar (input) -->
+    <div class="w-full md:w-3/5 flex justify-center"> <!-- 100% en móviles y 3/5 en desktop -->
+        <div
+            class="w-full md:w-[300px] md:h-[44px] px-3 py-2 rounded-lg border-2 border-[#C2C2C2] flex justify-between items-center dark:text-gray-100">
+            <input [(ngModel)]="value" type="text"
+                class="w-full h-full bg-transparent border-0 outline-none text-[#757575] text-lg font-roboto font-normal dark:text-[#ccc]"
+                (ngModelChange)="onValueChange()" [placeholder]="'home.placeholder-search' | translate" />
+            <div class="flex items-center gap-2">
+
+                <mat-icon class="text-[#757575] dark:text-[#ccc]">search</mat-icon>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtro (Select estilizado con Tailwind) -->
+    <div *ngIf="shouldShowSearch()" class="w-full md:w-2/5 flex justify-center">
+        <div
+            class="w-full md:w-[200px] md:h-[44px] px-3 py-2 rounded-lg border-2 border-[#C2C2C2] flex justify-between items-center bg-white dark:bg-[#1e1e1e]">
+            <mat-select [(ngModel)]="selectedFilter" class="w-full text-lg text-[#757575] dark:text-[#ccc]">
+                <mat-option *ngIf="!filterOptions.length" [disabled]="true">{{ 'home.seleccion' | translate
+                    }}</mat-option>
+                <mat-option *ngFor="let option of filterOptions" [value]="option.value">{{ option.label }}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+
+    <!-- Botón de buscar -->
+    <div class="w-full md:w-1/4 flex justify-center"> <!-- 100% en móviles y 1/4 en desktop -->
+        <button (click)="executeSearch()"
+            class="w-full md:w-[200px] md:h-[44px] elitsoft-btn flex justify-center items-center text-center text-lg">
+            {{ 'mantenedores.buscar' | translate }}
+        </button>
+    </div>
+
+</div>

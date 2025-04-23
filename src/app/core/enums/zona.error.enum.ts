@@ -1,0 +1,8 @@
+export enum ZonaError {
+    NO_ENCONTRADO = 'ZNAS_000',
+    INTEGRIDAD_VIOLADA = 'ZNAS_001',
+    REQUERIDO = 'ZNAS_002',
+    DUPLICADO = 'ZNAS_003',
+    ID_REQUERIDO = 'ZNAS_004',
+    ID_INVALIDO = 'ZNAS_005'
+} 

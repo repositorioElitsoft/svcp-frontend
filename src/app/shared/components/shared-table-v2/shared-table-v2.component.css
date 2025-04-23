@@ -1,0 +1,125 @@
+:host {
+    @apply block w-full;
+}
+
+.mat-mdc-table {
+    width: 100%;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-top: none;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    @apply dark:bg-neutral-900 dark:border-neutral-600;
+}
+
+/* Contenedor de la tabla */
+.mat-mdc-table-container {
+    overflow-x: auto;
+    position: relative;
+    @apply rounded-t-[8px];
+    border: 1px solid #e5e7eb;
+    background: white;
+    @apply dark:bg-neutral-900 dark:border-neutral-600;
+}
+
+.mat-mdc-header-row {
+    @apply bg-gray-100;
+    border-bottom: 1px solid #e0e0e0;
+    @apply dark:bg-neutral-800 dark:border-neutral-600;
+}
+
+/* Estilo base para todas las filas */
+.mat-mdc-row {
+    border-bottom: 1px solid #e0e0e0;
+    @apply dark:border-neutral-700;
+    transition: background-color 0.2s ease;
+}
+
+/* Filas pares */
+.mat-mdc-row:nth-child(even) {
+    background-color: #FFFFFF;
+    @apply dark:bg-neutral-900;
+}
+
+/* Filas impares */
+.mat-mdc-row:nth-child(odd) {
+    background-color: #F5F5F5;
+    @apply dark:bg-neutral-800;
+}
+
+.mat-mdc-header-cell {
+    @apply py-3 px-4 text-left font-semibold;
+    @apply text-gray-700 dark:text-gray-300;
+}
+
+.mat-mdc-cell {
+    @apply py-3 px-4;
+    @apply text-gray-800 dark:text-gray-300;
+}
+
+/* Efecto hover simple y uniforme */
+.mat-mdc-row:hover {
+    background-color: #ECECEC !important;
+    @apply dark:bg-neutral-700 !important;
+}
+
+.mat-mdc-checkbox {
+    @apply mr-2;
+}
+
+.mat-mdc-icon-button {
+    @apply text-gray-600 hover:text-gray-800;
+    @apply dark:text-gray-400 dark:hover:text-gray-200;
+}
+
+/* Estilos para la columna sticky de acciones */
+.sticky-header {
+    position: sticky !important;
+    right: 0 !important;
+    @apply bg-gray-100;
+    @apply dark:bg-neutral-800;
+    box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+.sticky-cell {
+    position: sticky !important;
+    right: 0 !important;
+    z-index: 1;
+    box-shadow: -4px 0 4px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* Asegurar que el scroll no afecte la apariencia en móvil */
+@media (max-width: 640px) {
+    .mat-mdc-table-container {
+        @apply rounded-none;
+        margin: 0 -1rem;
+    }
+
+    .mat-mdc-table {
+        border: none;
+    }
+}
+
+.action-icon {
+    transition: transform 0.2s ease;
+}
+
+.action-icon:hover {
+    transform: scale(1.2);
+}
+
+.action-icon mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+}
+
+@media (min-width: 640px) {
+    .action-icon mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+    }
+}

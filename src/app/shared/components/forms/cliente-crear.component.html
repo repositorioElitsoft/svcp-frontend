@@ -1,0 +1,32 @@
+<app-titulo-dialogo
+    [title]="(esActualizar() ? 'mantenedores.formularios.cliente.tituloEditar' : 'mantenedores.formularios.cliente.tituloAgregar') | translate"
+    icon="task" [ref]="dialogRef">
+</app-titulo-dialogo>
+
+<mat-dialog-content class="relative dark:bg-neutral-800 p-0 ">
+
+    <div
+        class="max-w-[80%] mx-auto mb-8 pt-8 pb-4 border border-gray-200 dark:border-neutral-700 rounded-lg shadow-lg bg-white dark:bg-neutral-800">
+        <div class="w-[20vw] mx-auto">
+            <app-upload-image></app-upload-image>
+        </div>
+    </div>
+
+    <div class="text-2xl  dark:text-white  mb-4">Datos Generales</div>
+
+    <app-informacion-personal #infoPersonal></app-informacion-personal>
+
+
+    <div class="grid grid-cols-2 gap-4 w-full scale-[0.9]  dark:bg-neutral-800 ">
+        <button (click)="dialogRef.close()"
+            class="elitsoft-warn w-full flex items-center justify-center py-4 text-center">
+            {{ 'mantenedores.formularios.botonCancelar' | translate }}
+        </button>
+        <button (click)="onSubmit()" [disabled]="this.isLoading || !isFormValid()"
+            class="elitsoft-btn w-full flex items-center justify-center py-4 text-center disabled:opacity-50">
+            {{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
+            'mantenedores.formularios.guardar') | translate }}
+        </button>
+    </div>
+
+</mat-dialog-content>

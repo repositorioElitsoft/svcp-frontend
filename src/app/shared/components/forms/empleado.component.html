@@ -1,0 +1,27 @@
+<app-titulo-dialogo
+	[title]="(esActualizar() ? 'mantenedores.formularios.empleado.tituloEditar' : 'mantenedores.formularios.empleado.tituloAgregar') | translate"
+	icon="task" [ref]="dialogRef">
+</app-titulo-dialogo>
+
+<mat-dialog-content class="!p-0 dark:bg-neutral-800">
+	<mat-stepper [linear]="false" #stepper class="dark:bg-neutral-800">
+		<mat-step>
+			<app-upload-image></app-upload-image>
+			<app-informacion-personal></app-informacion-personal>
+			<button class="elitsoft-btn" (click)="nextStep() ">{{"mantenedores.siguiente" |
+				translate}}</button>
+		</mat-step>
+		<mat-step>
+			<app-datos-contacto></app-datos-contacto>
+			<button class="elitsoft-warn mr-2" matStepperPrevious>{{"mantenedores.volver" | translate}}</button>
+			<button class="elitsoft-btn" matStepperNext>{{"mantenedores.siguiente" | translate}}</button>
+		</mat-step>
+		<mat-step>
+			<app-informacion-laboral></app-informacion-laboral>
+			<button class="elitsoft-warn mr-2" matStepperPrevious>{{"mantenedores.volver" | translate}}</button>
+			<button class="elitsoft-btn" (click)="onSubmit()">{{"mantenedores.formularios.guardar" |
+				translate}}</button>
+		</mat-step>
+	</mat-stepper>
+
+</mat-dialog-content>

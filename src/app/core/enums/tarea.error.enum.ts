@@ -1,0 +1,8 @@
+export enum TareaError {
+    NO_ENCONTRADO = 'TRAS_000',
+    INTEGRIDAD_VIOLADA = 'TRAS_001',
+    REQUERIDO = 'TRAS_002',
+    DUPLICADO = 'TRAS_003',
+    ID_REQUERIDO = 'TRAS_004',
+    ID_INVALIDO = 'TRAS_005'
+} 

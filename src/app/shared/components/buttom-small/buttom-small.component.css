@@ -1,0 +1,29 @@
+@import "src/app/tokens.scss";
+
+.buttom-small_3100-89801 {
+  padding: 8px 12px 8px 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: green;
+  width: 150px;
+  height: 36px;
+}
+
+.check-small_I3100-89801-1457-15379 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.text-default_I3100-89801-1457-15380 {
+  color: green;
+  font-weight: 400;
+  text-align: center;
+  text-wrap: nowrap;
+}

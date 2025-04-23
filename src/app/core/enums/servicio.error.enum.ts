@@ -1,0 +1,8 @@
+export enum ServicioError {
+    NO_ENCONTRADO = 'SVCS_000',
+    INTEGRIDAD_VIOLADA = 'SVCS_001',
+    REQUERIDO = 'SVCS_002',
+    DUPLICADO = 'SVCS_003',
+    ID_REQUERIDO = 'SVCS_004',
+    ID_INVALIDO = 'SVCS_005'
+} 

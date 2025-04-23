@@ -1,0 +1,797 @@
+{
+    "title": "Accessibility",
+    "colorMode": "Color Mode",
+    "language": "Language",
+    "searchLanguage": "Search Language",
+    "fontSize": "Font Size",
+    "colorModes": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    },
+    "login": {
+        "optimizeTime": "Optimize your time",
+        "oneClick": "in one click",
+        "welcome": "Welcome to Servicampo!",
+        "accessAccount": "Access your account to begin.",
+        "username": "Username",
+        "password": "Password",
+        "emptyField": "This field cannot be empty.",
+        "signIn": "Sign In",
+        "forgotPassword": "Forgot your password?",
+        "errors": {
+            "invalidCredentials": "Invalid username or password.",
+            "unexpectedError": "Unexpected error.",
+            "serverError": "There was a problem contacting the server, please try again later."
+        }
+    },
+    "sideBar": {
+        "services": "Services",
+        "serviceType": "Service Type",
+        "jobs": "Jobs",
+        "tasks": "Tasks",
+        "jobAssignment": "Job Assignment",
+        "taskAssignment": "Task Assignment",
+        "products": "Products",
+        "productTypes": "Product Types",
+        "componentTypes": "Component Types",
+        "tipoComponentes": "Type Components",
+        "zones": "Zones",
+        "sectors": "Sectors",
+        "routes": "Routes",
+        "communes": "Communes",
+        "regions": "Regions",
+        "countries": "Countries",
+        "employees": "Employees",
+        "employeeTypes": "Employee Types",
+        "roles": "Roles",
+        "permissionAssignment": "Permission Assignment",
+        "roleAssignment": "Role Assignment",
+        "clients": "Clients",
+        "clientTypes": "Client Types",
+        "clientClassification": "Client Classification",
+        "commercialGroupings": "Commercial Groupings",
+        "clientSegmentations": "Client Segmentations",
+        "locations": "Locations",
+        "contractManagement": "Contract Management",
+        "scheduler": "Scheduler",
+        "workOrderReport": "Work Order Report",
+        "maintainers": "Maintainers",
+        "serviceManagement": "Service Management",
+        "productManagemenet": "Product Management",
+        "userManagement": "User Management",
+        "contracts": "Contracts",
+        "geography": "Geography"
+    },
+    "home": {
+        "placeholder-search": "Enter a search",
+        "welcome": "Hello",
+        "seleccion": "Choose an option"
+    },
+    "perfil": {
+        "myprofile": "My Profile",
+        "rol": "Admin",
+        "settings": "Settings",
+        "logout": "Logout"
+    },
+    "table": {
+        "filtrosSeleccionados": "Active filters ({{count}})",
+        "actions": "Actions",
+        "seleccionados": "{{count}} selected elements",
+        "of": "of",
+        "dataDisponible": "No data available",
+        "digiteBusqueda": "Enter a"
+    },
+    "opciones-mantenedor": {
+        "botonAgregar": {
+            "texto": "Add New"
+        },
+        "botonExportar": {
+            "texto": "Export to Excel"
+        }
+    },
+    "mantenedores": {
+        "volver": "Back",
+        "siguiente": "Next",
+        "buscar": "Search",
+        "id": "Id",
+        "seleccion": "None",
+        "agrupacionComercial": {
+            "id": "Id",
+            "titulo": "Commercial Grouping",
+            "nombreGrupoComercial": "Commercial Grouping",
+            "descripcion": "Commercial Grouping Description"
+        },
+        "asignacionPermiso": {
+            "id": "Id",
+            "titulo": "Permission Assignment",
+            "descripcionAsignacionPermiso": "Permission Assignment "
+        },
+        "asignacionRol": {
+            "id": "Id",
+            "titulo": "Role Assignment",
+            "descripcionAsignacionRol": "Role Assignment "
+        },
+        "asignacionTarea": {
+            "id": "Id",
+            "titulo": "Task Assignment",
+            "descripcionAsignacionTarea": "Task Assignment "
+        },
+        "asignacionTrabajo": {
+            "id": "Id",
+            "titulo": "Work Assignment",
+            "descripcionAsignacionTrabajo": "Work Assignment "
+        },
+        "calendarizacion": {
+            "id": "Id",
+            "titulo": "Scheduling",
+            "descripcionCalendarizacion": "Scheduling "
+        },
+        "clasificacionCliente": {
+            "id": "Id",
+            "titulo": "Client Classification",
+            "clasificacionClienteDesc": "Client Classification "
+        },
+        "cliente": {
+            "id": "Id",
+            "titulo": "Client",
+            "descripcionCliente": "Client",
+            "nombre": "Name",
+            "apellidoPaterno": "First Lastname",
+            "apellidoMaterno": "Second Lastname",
+            "imagenPerfil": "Image",
+            "descripcionEmpleado": "Employee",
+            "email": "Email",
+            "fechaNacimiento": "Date of Birth",
+            "campo1": "Field 1",
+            "campo2": "Field 2",
+            "telefonoFijo": "Landline",
+            "telefonoMovil": "Mobile Phone",
+            "tipoCliente": "Client Type",
+            "clasificacionCliente": "Client Classification",
+            "estado": "State",
+            "direcciones": "Addresses",
+            "agrupacionComercial": "Commercial Grouping",
+            "segmentacionCliente": "Client Segmentation",
+            "descripcion": "Enter the description of the client",
+            "documentoIdentificacion": "Identification Document"
+        },
+        "comuna": {
+            "id": "Id",
+            "titulo": "Commune",
+            "descripcionComuna": "Commune "
+        },
+        "empleado": {
+            "id": "Id",
+            "titulo": "Employee",
+            "nombre": "Name",
+            "apellidoPaterno": "First Lastname",
+            "apellidoMaterno": "Second Lastname",
+            "imagenPerfil": "Image",
+            "descripcionEmpleado": "Employee "
+        },
+        "gestionContrato": {
+            "id": "Id",
+            "titulo": "Contract Management",
+            "descripcionGestionContrato": "Contract Management "
+        },
+        "informeOt": {
+            "id": "Id",
+            "titulo": "OT Report",
+            "descripcionInformeOt": "OT Report "
+        },
+        "locacion": {
+            "id": "Id",
+            "titulo": "Location",
+            "descripcionLocacion": "Location "
+        },
+        "pais": {
+            "id": "Id",
+            "titulo": "Country",
+            "descripcionPais": "Country "
+        },
+        "producto": {
+            "id": "Id",
+            "titulo": "Product",
+            "descripcionProducto": "Product "
+        },
+        "region": {
+            "id": "Id",
+            "titulo": "Region",
+            "descripcionRegion": "Region "
+        },
+        "role": {
+            "id": "Id",
+            "titulo": "Role",
+            "nombreRol": "Role"
+        },
+        "sector": {
+            "id": "Id",
+            "titulo": "Sector",
+            "descripcionSector": "Sector ",
+            "zona": "Zone"
+        },
+        "segmentacionCliente": {
+            "id": "Id",
+            "titulo": "Client Segmentation",
+            "descripcion": "Client Segmentation "
+        },
+        "servicio": {
+            "id": "Id",
+            "titulo": "Services",
+            "descripcion": "Service",
+            "tipoServicio": "Service Type",
+            "estado": "Status",
+            "trabajos": "Jobs Assigned",
+            "table": {
+                "digiteBusqueda": "Enter service description",
+                "sinDatos": "No data available",
+                "seleccionarTodos": "Select all",
+                "deseleccionarTodos": "Deselect all",
+                "mostrar": "Show",
+                "registros": "records",
+                "de": "of",
+                "acciones": "Actions",
+                "buscar": "Search",
+                "limpiar": "Clear",
+                "exportar": "Export",
+                "eliminar": "Delete",
+                "editar": "Edit",
+                "ver": "View",
+                "asignacion": "Assignment"
+            }
+        },
+        "tarea": {
+            "id": "Id",
+            "titulo": "Task",
+            "descripcionTarea": "Task "
+        },
+        "tipoCliente": {
+            "id": "Id",
+            "titulo": "Client Type",
+            "nombre": "Client Type "
+        },
+        "tipoEmpleado": {
+            "id": "Id",
+            "titulo": "Employee Type",
+            "descripcionTipoEmpleado": "Employee Type"
+        },
+        "tipoProducto": {
+            "id": "Id",
+            "titulo": "Product Type",
+            "descripcionTipoProducto": "Product Type",
+            "tipoProductoTipoComponentes": "Component Type",
+            "tipoComponente": "Component Type",
+            "cantidad": "Quantity",
+            "sinComponentes": "No components assigned",
+            "sinComponentesAsignados": "No component types assigned. Edit to start.",
+            "agregarComponente": "Add Component",
+            "label.ingreseNombre": "Enter new name",
+            "label.resumen": "Summary"
+        },
+        "tipoServicio": {
+            "id": "Id",
+            "titulo": "Service Type",
+            "descripcionTipoServicio": "Service Type"
+        },
+        "trabajo": {
+            "id": "Id",
+            "titulo": "Jobs",
+            "descripcionTrabajo": "Job",
+            "trabajoTareas": "Assigned Tasks",
+            "tareas": "Assigned Tasks"
+        },
+        "zona": {
+            "id": "Id",
+            "titulo": "Zone",
+            "descripcionZona": "Zone"
+        },
+        "ruta": {
+            "id": "Id",
+            "titulo": "Routes",
+            "descripcion": "Routes"
+        },
+        "tipoComponente": {
+            "id": "Id",
+            "titulo": "Component Type",
+            "nombre": "Component Type",
+            "descripcion": "Description"
+        },
+        "formularios": {
+            "campoRequerido": "This field is required",
+            "botonCancelar": "Cancel",
+            "botonAgregar": "Save",
+            "actualizar": "Update",
+            "guardar": "Save",
+            "borrar": "Delete",
+            "subir": "Upload",
+            "agrupacionComercial": {
+                "tituloEditar": "Edit Commercial Grouping",
+                "tituloAgregar": "Create Commercial Grouping",
+                "label.nombreGrupoComercial": "Commercial Grouping",
+                "label.descripcion": "Commercial Grouping Description",
+                "descripcion": "Enter the commercial grouping"
+            },
+            "asignacionPermiso": {
+                "tituloEditar": "Edit Permission Assignment",
+                "tituloAgregar": "Create Permission Assignment",
+                "label.descripcionPermiso": "Permission Assignment",
+                "descripcion": "Enter the permission assignment"
+            },
+            "asignacionRol": {
+                "tituloEditar": "Edit Role Assignment",
+                "tituloAgregar": "Create Role Assignment",
+                "label": "Role Assignment",
+                "descripcion": "Enter the role assignment"
+            },
+            "asignacionTarea": {
+                "tituloEditar": "Edit Task Assignment",
+                "tituloAgregar": "Create Task Assignment",
+                "label": "Task Assignment",
+                "descripcion": "Enter the task assignment"
+            },
+            "asignacionTrabajo": {
+                "tituloEditar": "Edit Job Assignment",
+                "tituloAgregar": "Create Job Assignment",
+                "label": "Job Assignment",
+                "descripcion": "Enter the Job assignment"
+            },
+            "calendarizacion": {
+                "tituloEditar": "Edit Scheduling",
+                "tituloAgregar": "Create Scheduling",
+                "label": "Scheduling",
+                "descripcion": "Enter the description of the scheduling"
+            },
+            "clasificacionCliente": {
+                "tituloEditar": "Edit Client Classification",
+                "tituloAgregar": "Create Client Classification",
+                "label.clasificacionClienteDesc": "Client Classification",
+                "descripcion": "Enter the client classification"
+            },
+            "cliente": {
+                "menus": {
+                    "datosGenerales": "General Data",
+                    "informacionComercial": "Commercial Information",
+                    "datosContacto": "Contact Data",
+                    "locaciones": "Locations",
+                    "contactos": "Contacts"
+                },
+                "tituloEditar": "Edit Client",
+                "tituloAgregar": "Create Client",
+                "label.nombre": "Name",
+                "label.apellidoPaterno?": "First Lastname",
+                "label.apellidoMaterno?": "Second Lastname",
+                "label.rut": "RUT",
+                "label.rutDv": "DV",
+                "label.fechaNacimiento": "Date of Birth",
+                "label.imagenPerfil?": "Profile Image",
+                "cliente.label.email?": "Email",
+                "label.campo1?": "Field 1",
+                "label.campo2?": "Field 2",
+                "label.campo1": "Field 1",
+                "label.campo2": "Field 2",
+                "label.telefonoFijo?": "Landline",
+                "label.telefonoMovil?": "Mobile Phone",
+                "label.tipoCliente": "Client Type",
+                "label.clasificacionCliente": "Client Classification",
+                "label.estado": "State",
+                "label.direcciones": "Addresses",
+                "label.agrupacionComercial": "Commercial Grouping",
+                "label.segmentacionCliente": "Client Segmentation",
+                "label.descripcion": "Enter the client description"
+            },
+            "comuna": {
+                "tituloEditar": "Edit Commune",
+                "tituloAgregar": "Create Commune",
+                "label.descripcionComuna": "Commune",
+                "descripcion": "Enter the commune"
+            },
+            "direccionEmpleado": {
+                "tituloEditar": "Edit Address and Location",
+                "tituloAgregar": "Create Address and Location",
+                "label.id": "ID",
+                "label.estado": "State",
+                "label.pais": "Country",
+                "label.region": "Region / State (Main territorial Division)",
+                "label.provincia": "SubTerritorial Division",
+                "label.calle": "Street",
+                "label.numeracion": "Number",
+                "label.ciudad": "City",
+                "label.direccion": "Address",
+                "label.latitud": "Latitude",
+                "label.longitud": "Longitude",
+                "label.descripcion": "Description",
+                "label.referencia": "Reference",
+                "label.empleado": "Employee"
+            },
+            "empleado": {
+                "tituloEditar": "Edit Employee",
+                "tituloAgregar": "Create Employee",
+                "label": "Employee Description",
+                "label.descripcion": "Enter the description of the employee",
+                "label.nombre": "Name",
+                "label.apellidoPaterno": "Paternal Surname",
+                "label.apellidoMaterno": "Maternal Surname",
+                "label.imagenPerfil": "Profile Image",
+                "label.telefonoFijo": "Landline",
+                "label.telefonoMovil": "Mobile Phone",
+                "label.fechaNacimiento": "Date of Birth",
+                "label.email": "Email",
+                "label.contrasena": "Password",
+                "label.rut": "RUT",
+                "label.rutDv": "DV",
+                "label.rol": "Role",
+                "label.nombreUsuario": "Username",
+                "label.tipoEmpleadoId": "Employee Type",
+                "label.roleId": "Role",
+                "label.estadoId": "State",
+                "label.numeroDocumento": "Document Number",
+                "label.tipoDocumento": "Document Type"
+            },
+            "estado": {
+                "tituloEditar": "Edit State",
+                "tituloAgregar": "Create State",
+                "label": "State Description",
+                "label.descripcion": "State Description"
+            },
+            "gestionContrato": {
+                "tituloEditar": "Edit Contract Management",
+                "tituloAgregar": "Create Contract Management",
+                "label": "Contract Management Description",
+                "descripcion": "Enter the description of the contract management"
+            },
+            "informeOt": {
+                "tituloEditar": "Edit OT Report",
+                "tituloAgregar": "Create OT Report",
+                "label": "OT Report Description",
+                "descripcion": "Enter the description of the OT report"
+            },
+            "locacion": {
+                "tituloEditar": "Edit Location",
+                "tituloAgregar": "Create Location",
+                "label": "Location Description",
+                "descripcion": "Enter the description of the location"
+            },
+            "pais": {
+                "tituloEditar": "Edit Country",
+                "tituloAgregar": "Create Country",
+                "label": "Country Description",
+                "descripcion": "Enter the description of the country"
+            },
+            "producto": {
+                "tituloEditar": "Edit Product",
+                "tituloAgregar": "Create Product",
+                "label": "Product Description",
+                "descripcion": "Enter the description of the product"
+            },
+            "region": {
+                "tituloEditar": "Edit Region",
+                "tituloAgregar": "Create Region",
+                "label": "Region Description",
+                "descripcion": "Enter the description of the region"
+            },
+            "sector": {
+                "tituloEditar": "Edit Sector",
+                "tituloAgregar": "Create Sector",
+                "label": {
+                    "descripcionSector": "Sector",
+                    "zona": "Zone"
+                },
+                "descripcion": "Enter the description of the sector"
+            },
+            "segmentacionCliente": {
+                "tituloEditar": "Edit Client Segmentation",
+                "tituloAgregar": "Create Client Segmentation",
+                "label.descripcion": "Client Segmentation Description",
+                "descripcion": "Enter the description of the client segmentation"
+            },
+            "servicio": {
+                "tituloEditar": "Edit Service",
+                "tituloAgregar": "Create Service",
+                "label.descripcion": "Service",
+                "label.ingreseNombre": "Enter new name",
+                "label.estado": "State",
+                "descripcion": "Enter the service description"
+            },
+            "tarea": {
+                "tituloEditar": "Edit Task",
+                "tituloAgregar": "Create Task",
+                "label.descripcionTarea": "Task Description",
+                "descripcion": "Enter the description of the task"
+            },
+            "tipoCliente": {
+                "tituloEditar": "Edit Client Type",
+                "tituloAgregar": "Create Client Type",
+                "label.nombre": "Client Type Description",
+                "label.descripcion": "Client Type Description",
+                "descripcion": "Enter the description of the client type"
+            },
+            "tipoDocumentoIdentificacion": {
+                "tituloEditar": "Editat Identification Document  Type",
+                "tituloAgregar": "Create Identification Document  Type",
+                "label.descripcion": "Identification Document Type Description",
+                "descripcion": "Identification Document Type Description"
+            },
+            "tipoEmpleado": {
+                "tituloEditar": "Edit Employee Type",
+                "tituloAgregar": "Create Employee Type",
+                "label.descripcionTipoEmpleado": "Employee Type Description",
+                "descripcion": "Enter the description of the employee type"
+            },
+            "tipoProducto": {
+                "tituloEditar": "Edit Product Type",
+                "tituloAgregar": "Create Product Type",
+                "tituloDetalle": "Product type details",
+                "label": {
+                    "descripcionTipoProducto": "Product Type Description",
+                    "ingreseNombre": "Enter new name",
+                    "resumen": "Summary",
+                    "tipoComponente": "Component Type",
+                    "cantidad": "Quantity"
+                }
+            },
+            "tipoServicio": {
+                "tituloEditar": "Edit Service Type",
+                "tituloAgregar": "Create Service Type",
+                "label.descripcionTipoServicio": "Service Type",
+                "descripcion": "Enter the service type description",
+                "noEncontrado": "The selected service type does not exist in the list"
+            },
+            "trabajo": {
+                "tituloEditar": "Edit Job",
+                "tituloAgregar": "Create Job",
+                "label.descripcionTrabajo": "Job Description",
+                "descripcion": "Enter the description of the Job",
+                "label.ingreseNombre": "Enter a new name",
+                "label.mas": "more"
+            },
+            "tarea": {
+                "tituloEditar": "Edit Task",
+                "tituloAgregar": "Create Task",
+                "label.descripcionTarea": "Task Description",
+                "descripcion": "Enter the description of the task"
+            },
+            "zona": {
+                "tituloEditar": "Edit Zone",
+                "tituloAgregar": "Create Zone",
+                "label.descripcionZona": "Zone Description",
+                "descripcion": "Enter the description of the zone"
+            },
+            "ruta": {
+                "tituloEditar": "Edit Route",
+                "tituloAgregar": "Create Route",
+                "label.descripcion": "Route Description",
+                "descripcion": "Enter the description of the route"
+            },
+            "role": {
+                "tituloEditar": "Edit Role",
+                "tituloAgregar": "Create Role",
+                "label.nombreRol": "Role",
+                "nombreRol": "Enter the  role"
+            },
+            "tipoComponente": {
+                "tituloEditar": "Edit Component Type",
+                "tituloAgregar": "Create Component Type",
+                "label.nombre": "Component Type",
+                "label.descripcion": "Description"
+            },
+            "trabajoTarea": {
+                "tituloEditar": "Edit assigned tasks",
+                "tituloAgregar": "Assign Task",
+                "trabajo": "Job",
+                "seleccioneTareas": "Select Tasks to Assign",
+                "tareas": "tasks",
+                "sinTareasDisponibles": "No tasks available to assign",
+                "info": {
+                    "ordenTareas": "The tasks are assigned in the order you select them, you can change their sequence by dragging the tags."
+                },
+                "verMas": "See more"
+            },
+            "servicioTrabajo": {
+                "tituloAgregar": "Assign Jobs",
+                "tituloEditar": "Edit Job Assignment",
+                "servicio": "Service",
+                "seleccioneTrabajos": "Select Jobs to Assign",
+                "trabajos": "Jobs Assigned",
+                "info": {
+                    "ordenTrabajos": "Jobs are assigned in the order you select them. You can change their sequence by dragging the tags."
+                },
+                "sinTrabajosDisponibles": "No jobs available to assign",
+                "verMas": "See more",
+                "verMenos": "See less"
+            }
+        }
+    },
+    "alertas": {
+        "eliminacionIndividualTitulo": "Delete",
+        "eliminacionIndividualMensaje": "Are you sure you want to delete {{count}} item(s)? This action cannot be undone.",
+        "cancelar": "Cancel",
+        "eliminar": "Delete",
+        "toastr": {
+            "guardar": {
+                "success": "Record successfully entered"
+            },
+            "editar": {
+                "success": "Information has been successfully modified"
+            },
+            "exportar": {
+                "todo": {
+                    "success": "The export completed successfully. All records have been exported."
+                },
+                "seleccionado": {
+                    "success": "The export completed successfully. The selected records have been exported."
+                }
+            },
+            "eliminar": {
+                "success": "Deletion has been successfully completed"
+            },
+            "errors": {
+                "cliente": {
+                    "NO_ENCONTRADO": "The client was not found.",
+                    "INTEGRIDAD_VIOLADA": "Client data integrity was violated.",
+                    "REQUERIDO": "The client field is required.",
+                    "DUPLICADO": "A client with the same data already exists.",
+                    "CONTRASENA_REQUERIDO": "The client's password is required.",
+                    "CORREO_DUPLICADO": "The client's email is already registered.",
+                    "CORREO_REQUERIDO": "The client's email is required.",
+                    "CORREO_NO_ENCONTRADO": "The client's email was not found.",
+                    "ID_REQUERIDO": "The client's ID is required.",
+                    "ID_INVALIDO": "The client's ID is not valid."
+                },
+                "contacto": {
+                    "NO_ENCONTRADO": "The contact was not found.",
+                    "INTEGRIDAD_VIOLADA": "Contact data integrity was violated.",
+                    "REQUERIDO": "The contact field is required.",
+                    "DUPLICADO": "A contact with the same data already exists.",
+                    "ID_REQUERIDO": "The contact's ID is required.",
+                    "ID_INVALIDO": "The contact's ID is not valid."
+                },
+                "documentoIdentificacion": {
+                    "NO_ENCONTRADO": "The identification document was not found.",
+                    "INTEGRIDAD_VIOLADA": "Identification document data integrity was violated.",
+                    "REQUERIDO": "The identification document is required.",
+                    "DUPLICADO": "An identification document with the same data already exists.",
+                    "NUMERO_REQUERIDO": "The identification document number is required.",
+                    "DIGITO_VERIFICADOR_REQUERIDO": "The identification document verifier digit is required."
+                },
+                "empleado": {
+                    "NO_ENCONTRADO": "The employee was not found.",
+                    "INTEGRIDAD_VIOLADA": "Employee data integrity was violated.",
+                    "REQUERIDO": "The employee field is required.",
+                    "DUPLICADO": "An employee with the same data already exists.",
+                    "CONTRASENA_REQUERIDO": "The employee's password is required.",
+                    "CORREO_DUPLICADO": "The employee's email is already registered.",
+                    "CORREO_REQUERIDO": "The employee's email is required.",
+                    "CORREO_NO_ENCONTRADO": "The employee's email was not found.",
+                    "ID_REQUERIDO": "The employee's ID is required.",
+                    "ID_INVALIDO": "The employee's ID is not valid.",
+                    "CREDENCIALES_INVALIDAS": "Invalid credentials.",
+                    "EMPLEADO_DESVINCULADO": "Access denied. Contact your administrator."
+                },
+                "general": {
+                    "ERROR_INTERNO": "An internal server error occurred."
+                },
+                "tipoDireccion": {
+                    "NO_ENCONTRADO": "The address type was not found.",
+                    "INTEGRIDAD_VIOLADA": "Address type data integrity was violated.",
+                    "REQUERIDO": "The address type field is required.",
+                    "DUPLICADO": "An address type with the same data already exists.",
+                    "ID_REQUERIDO": "The address type ID is required.",
+                    "ID_INVALIDO": "The address type ID is not valid."
+                },
+                "tipoDocumentoIdentificacion": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "Identification document type data integrity was violated.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "tipoCliente": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "agrupacionComercial": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "zona": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "tipoServicio": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "ruta": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "tipoEmpleado": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "sector": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "role": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "tipoComponente": {
+                    "NO_ENCONTRADO": "The identification document type was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The identification document type is required.",
+                    "DUPLICADO": "An identification document type with the same data already exists.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "trabajoTarea": {
+                    "NO_ENCONTRADO": "The assignment of tasks was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The assignment of tasks is required.",
+                    "DUPLICADO": "The task is already assigned, try with a different one.",
+                    "ID_REQUERIDO": "The identification document type ID is required.",
+                    "ID_INVALIDO": "The identification document type ID is not valid."
+                },
+                "tarea": {
+                    "NO_ENCONTRADO": "The task was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The task is required.",
+                    "DUPLICADO": "A task with the same data already exists.",
+                    "ID_REQUERIDO": "The task ID is required.",
+                    "ID_INVALIDO": "The task ID is not valid."
+                },
+                "servicio": {
+                    "NO_ENCONTRADO": "The service was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The service is required.",
+                    "DUPLICADO": "A service with the same data already exists.",
+                    "ID_REQUERIDO": "The service ID is required.",
+                    "ID_INVALIDO": "The service ID is not valid."
+                },
+                "trabajo": {
+                    "NO_ENCONTRADO": "The job was not found.",
+                    "INTEGRIDAD_VIOLADA": "The record is currently assigned and cannot be deleted.",
+                    "REQUERIDO": "The job is required.",
+                    "DUPLICADO": "A job with the same data already exists.",
+                    "ID_REQUERIDO": "The job ID is required.",
+                    "ID_INVALIDO": "The job ID is not valid."
+                }
+            }
+        }
+    }
+}

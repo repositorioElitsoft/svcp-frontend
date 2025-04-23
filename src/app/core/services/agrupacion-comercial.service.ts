@@ -1,0 +1,60 @@
+import { Injectable } from "@angular/core";
+import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { AgrupacionComercial } from '../../core/models/agrupacion-comercial.model';
+import { ApiEntityResponse } from "../models/api-entity-response.model";
+
+@Injectable({
+    providedIn: 'root',
+    deps: [HttpClient]
+})
+export class AgrupacionComercialService {
+    readonly url = `${environment.apiUrl}`
+    constructor(private http: HttpClient) { }
+
+    headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+    });
+
+
+    buscar(agrupacionComercialId: number): Observable<ApiEntityResponse<AgrupacionComercial>> {
+        return this.http.get<ApiEntityResponse<AgrupacionComercial>>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`);
+    }
+
+    buscarTodos(): Observable<ApiEntityResponse<AgrupacionComercial[]>> {
+        return this.http.get<ApiEntityResponse<AgrupacionComercial[]>>(`${this.url}agrupaciones-comerciales`);
+    }
+
+
+    borrar(agrupacionComercialId: number): Observable<ApiEntityResponse<any>> {
+        return this.http.delete<ApiEntityResponse<any>>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`);
+    }
+
+
+    borrarTodos(ids: number[]): Observable<any> {
+        return this.http.delete<any>(`${this.url}agrupaciones-comerciales/lote`, { body: ids });
+    }
+
+    actualizar(agrupacionComercialId: number, agrupacionComercial: AgrupacionComercial): Observable<AgrupacionComercial> {
+        return this.http.put<AgrupacionComercial>(`${this.url}agrupaciones-comerciales/${agrupacionComercialId}`, agrupacionComercial);
+    }
+
+    crear(agrupacionComercial: AgrupacionComercial): Observable<AgrupacionComercial> {
+        return this.http.post<AgrupacionComercial>(`${this.url}agrupaciones-comerciales`, agrupacionComercial);
+    }
+
+    buscarFiltrado(filtros: { [key: string]: any }): Observable<any> {
+        console.log("filtros", filtros)
+        let params = new HttpParams(filtros);
+        // Recorrer los filtros y agregar los que tengan valor
+        for (let key in filtros) {
+            if (filtros.hasOwnProperty(key)) {
+                params = params.append(key, filtros[key]);
+            }
+        }
+        console.log("params", params)
+        // Hacer la solicitud GET con los parámetros dinámicos
+        return this.http.get(`${this.url}core/filter/agrupaciones-comerciales`, { params, headers: this.headers });
+    }
+}

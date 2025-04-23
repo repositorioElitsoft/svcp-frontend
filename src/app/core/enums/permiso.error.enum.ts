@@ -1,0 +1,8 @@
+export enum PermisoError {
+    NO_ENCONTRADO = 'PERM_000',
+    INTEGRIDAD_VIOLADA = 'PERM_001',
+    REQUERIDO = 'PERM_002',
+    DUPLICADO = 'PERM_003',
+    ID_REQUERIDO = 'PERM_004',
+    ID_INVALIDO = 'PERM_005'
+} 

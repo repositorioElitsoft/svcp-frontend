@@ -1,0 +1,770 @@
+{
+    "title": "Acessibilidade",
+    "colorMode": "Modo de Cor",
+    "language": "Idioma",
+    "searchLanguage": "Buscar Idioma",
+    "fontSize": "Tamanho da Fonte",
+    "colorModes": {
+        "light": "Claro",
+        "dark": "Escuro",
+        "system": "Sistema"
+    },
+    "login": {
+        "optimizeTime": "Otimize seu tempo",
+        "oneClick": "em um clique",
+        "welcome": "Bem-vindo ao Servicampo!",
+        "accessAccount": "Acesse sua conta para começar.",
+        "username": "Usuário",
+        "password": "Senha",
+        "emptyField": "Este campo não pode estar vazio.",
+        "signIn": "Entrar",
+        "forgotPassword": "Esqueceu sua senha?",
+        "errors": {
+            "invalidCredentials": "Nome de usuário ou senha inválidos.",
+            "unexpectedError": "Erro inesperado.",
+            "serverError": "Houve um problema ao contatar o servidor, tente novamente mais tarde."
+        }
+    },
+    "sideBar": {
+        "services": "Serviços",
+        "serviceType": "Tipo de Serviços",
+        "jobs": "Trabalhos",
+        "tasks": "Tarefas",
+        "jobAssignment": "Atribuição de Trabalhos",
+        "taskAssignment": "Atribuição de Tarefas",
+        "products": "Produtos",
+        "productTypes": "Tipos de Produto",
+        "componentTypes": "Tipos de Componentes",
+        "zones": "Zonas",
+        "sectors": "Setores",
+        "routes": "Rotas",
+        "communes": "Comunas",
+        "regions": "Regiões",
+        "countries": "Países",
+        "employees": "Empregado",
+        "employeeTypes": "Tipo de Empregado",
+        "roles": "Cargo",
+        "permissionAssignment": "Atribuição de Permissões",
+        "roleAssignment": "Atribuição de Funções",
+        "clients": "Clientes",
+        "clientTypes": "Tipos de Cliente",
+        "clientClassification": "Classificação de Clientes",
+        "commercialGroupings": "Agrupamentos Comerciais",
+        "clientSegmentations": "Segmentações de Clientes",
+        "locations": "Localizações",
+        "contractManagement": "Gestão de Contratos",
+        "scheduler": "Agendador",
+        "workOrderReport": "Relatório de Ordem de Serviço",
+        "serviceManagement": "Gestão de Serviços",
+        "productManagemenet": "Gestão de Produtos",
+        "userManagement": "Gestão de Usuários",
+        "contracts": "Contratos",
+        "geography": "Geografia"
+    },
+    "home": {
+        "placeholder-search": "Digite uma pesquisa",
+        "welcome": "Olá",
+        "seleccion": "Selecione uma opção"
+    },
+    "perfil": {
+        "myprofile": "Meu Perfil",
+        "rol": "Admin",
+        "settings": "Configurações",
+        "logout": "Sair"
+    },
+    "table": {
+        "filtrosSeleccionados": "Filtros ativos ({{count}})",
+        "actions": "Ações",
+        "seleccionados": "{{count}} elementos selecionados",
+        "of": "de",
+        "dataDisponible": "Não há dados disponíveis",
+        "digiteBusqueda": "Digite um"
+    },
+    "opciones-mantenedor": {
+        "botonAgregar": {
+            "texto": "Adicionar"
+        },
+        "botonExportar": {
+            "texto": "Exportar para Excel"
+        }
+    },
+    "mantenedores": {
+        "volver": "Voltar",
+        "id": "Id",
+        "buscar": "Buscar",
+        "seleccion": "Nenhuma",
+        "agrupacionComercial": {
+            "id": "Id",
+            "titulo": "Agrupamento Comercial",
+            "nombreGrupoComercial": "Descrição do Agrupamento Comercial"
+        },
+        "asignacionPermiso": {
+            "id": "Id",
+            "titulo": "Atribuição de Permissão",
+            "descripcionAsignacionPermiso": "Descrição da Atribuição de Permissão"
+        },
+        "asignacionRol": {
+            "id": "Id",
+            "titulo": "Atribuição de Função",
+            "descripcionAsignacionRol": "Descrição da Atribuição de Função"
+        },
+        "asignacionTarea": {
+            "id": "Id",
+            "titulo": "Atribuição de Tarefa",
+            "descripcionAsignacionTarea": "Descrição da Atribuição de Tarefa"
+        },
+        "asignacionTrabajo": {
+            "id": "Id",
+            "titulo": "Atribuição de Trabalho",
+            "descripcionAsignacionTrabajo": "Descrição da Atribuição de Trabalho"
+        },
+        "calendarizacion": {
+            "id": "Id",
+            "titulo": "Agendamento",
+            "descripcionCalendarizacion": "Descrição do Agendamento"
+        },
+        "clasificacionCliente": {
+            "id": "Id",
+            "titulo": "Classificação do Cliente",
+            "clasificacionClienteDesc": "Descrição da Classificação do Cliente"
+        },
+        "cliente": {
+            "id": "Id",
+            "titulo": "Cliente",
+            "descripcionCliente": "Cliente",
+            "nombre": "Nome",
+            "apellidoPaterno": "Primeiro Sobrenome",
+            "apellidoMaterno": "Segundo Sobrenome",
+            "imagenPerfil": "Imagem",
+            "descripcionEmpleado": "Funcionário",
+            "email": "Email",
+            "fechaNacimiento": "Data de Nascimento",
+            "campo1": "Campo 1",
+            "campo2": "Campo 2",
+            "telefonoFijo": "Telefone Fixo",
+            "telefonoMovil": "Telefone Móvel",
+            "tipoCliente": "Tipo de Cliente",
+            "clasificacionCliente": "Classificação do Cliente",
+            "estado": "Estado",
+            "direcciones": "Endereços",
+            "agrupacionComercial": "Agrupamento Comercial",
+            "segmentacionCliente": "Segmentação do Cliente",
+            "descripcion": "Insira a descrição do cliente",
+            "documentoIdentificacion": "Documento de Identificação"
+        },
+        "comuna": {
+            "id": "Id",
+            "titulo": "Comuna",
+            "descripcionComuna": "Descrição da Comuna"
+        },
+        "empleado": {
+            "id": "Id",
+            "titulo": "Empregado",
+            "descripcionEmpleado": "Descrição do Empregado",
+            "nombre": "Nome",
+            "apellidoPaterno": "Primeiro Sobrenome",
+            "apellidoMaterno": "Segundo Sobrenome",
+            "imagenPerfil": "Imagem"
+        },
+        "gestionContrato": {
+            "id": "Id",
+            "titulo": "Gestão de Contrato",
+            "descripcionGestionContrato": "Descrição da Gestão de Contrato"
+        },
+        "informeOt": {
+            "id": "Id",
+            "titulo": "Relatório OT",
+            "descripcionInformeOt": "Descrição do Relatório OT"
+        },
+        "locacion": {
+            "id": "Id",
+            "titulo": "Localização",
+            "descripcionLocacion": "Descrição da Localização"
+        },
+        "pais": {
+            "id": "Id",
+            "titulo": "País",
+            "descripcionPais": "Descrição do País"
+        },
+        "producto": {
+            "id": "Id",
+            "titulo": "Produto",
+            "descripcionProducto": "Descrição do Produto"
+        },
+        "region": {
+            "id": "Id",
+            "titulo": "Região",
+            "descripcionRegion": "Descrição da Região"
+        },
+        "sector": {
+            "id": "Id",
+            "titulo": "Setor",
+            "descripcionSector": "Setor",
+            "zona": "Zona"
+        },
+        "segmentacionCliente": {
+            "id": "Id",
+            "titulo": "Segmentação do Cliente",
+            "descripcion": "Descrição da Segmentação do Cliente"
+        },
+        "servicio": {
+            "id": "Id",
+            "titulo": "Serviços",
+            "descripcion": "Serviço",
+            "tipoServicio": "Tipo de Serviço",
+            "trabajos": "Trabalho",
+            "estado": "Estado"
+        },
+        "tarea": {
+            "id": "Id",
+            "titulo": "Tarefa",
+            "descripcionTarea": "Descrição da Tarefa"
+        },
+        "tipoCliente": {
+            "id": "Id",
+            "titulo": "Tipo de Cliente",
+            "nombre": "Descrição do Tipo de Cliente",
+            "descripcion": "Descrição do Tipo de Cliente"
+        },
+        "tipoEmpleado": {
+            "id": "Id",
+            "titulo": "Tipo de Empregado",
+            "descripcionTipoEmpleado": "Descrição do Tipo de Empregado"
+        },
+        "tipoProducto": {
+            "id": "Id",
+            "titulo": "Tipo de Produto",
+            "descripcionTipoProducto": "Tipo de Produto",
+            "label.ingreseNombre": "Insira um novo nome",
+            "label.resumen": "Resumo",
+            "tipoProductoTipoComponentes": "Tipo de Componente",
+            "tipoComponente": "Tipo de Componente",
+            "cantidad": "Quantidade",
+            "sinComponentes": "Nenhum componente atribuído",
+            "sinComponentesAsignados": "Nenhum tipo de componente atribuído. Edite para começar.",
+            "agregarComponente": "Adicionar Componente"
+        },
+        "tipoServicio": {
+            "id": "Id",
+            "titulo": "Tipo de Serviço",
+            "descripcionTipoServicio": "Descrição do Tipo de Serviço"
+        },
+        "trabajo": {
+            "id": "Id",
+            "titulo": "Trabalhos",
+            "descripcionTrabajo": "Trabalho",
+            "trabajoTareas": "Tarefas Atribuídas",
+            "tareas": "Tarefas Atribuídas"
+        },
+        "zona": {
+            "id": "Id",
+            "titulo": "Zona",
+            "descripcionZona": "Descrição da Zona"
+        },
+        "role": {
+            "id": "Id",
+            "titulo": "Cargo",
+            "nombreRol": "Cargo"
+        },
+        "ruta": {
+            "id": "Id",
+            "titulo": "Rota",
+            "descripcion": "Descrição da Rota"
+        },
+        "tipoComponente": {
+            "id": "Id",
+            "titulo": "Tipo de Componente",
+            "nombre": "Tipo de Componente",
+            "descripcion": "Descrição"
+        },
+        "formularios": {
+            "campoRequerido": "Este campo é obrigatório",
+            "botonCancelar": "Cancelar",
+            "botonAgregar": "Salvar",
+            "actualizar": "Atualizar",
+            "guardar": "Salvar",
+            "borrar": "Excluir",
+            "subir": "Carregar",
+            "agrupacionComercial": {
+                "tituloEditar": "Editar Agrupamento Comercial",
+                "tituloAgregar": "Criar Agrupamento Comercial",
+                "label.nombreGrupoComercial": "Descrição do Agrupamento Comercial",
+                "label.descripcion": "Descrição do Agrupamento Comercial",
+                "descripcion": "Insira a descrição do agrupamento comercial"
+            },
+            "asignacionPermiso": {
+                "tituloEditar": "Editar Atribuição de Permissão",
+                "tituloAgregar": "Criar Atribuição de Permissão",
+                "label": "Descrição da Atribuição de Permissão",
+                "descripcion": "Insira a descrição da atribuição de permissão"
+            },
+            "asignacionRol": {
+                "tituloEditar": "Editar Atribuição de Função",
+                "tituloAgregar": "Criar Atribuição de Função",
+                "label": "Descrição da Atribuição de Função",
+                "descripcion": "Insira a descrição da atribuição de função"
+            },
+            "asignacionTarea": {
+                "tituloEditar": "Editar Atribuição de Tarefa",
+                "tituloAgregar": "Criar Atribuição de Tarefa",
+                "label": "Descrição da Atribuição de Tarefa",
+                "descripcion": "Insira a descrição da atribuição de tarefa"
+            },
+            "asignacionTrabajo": {
+                "tituloEditar": "Editar Atribuição de Trabalho",
+                "tituloAgregar": "Criar Atribuição de Trabalho",
+                "label": "Descrição da Atribuição de Trabalho",
+                "descripcion": "Insira a descrição da atribuição de trabalho"
+            },
+            "calendarizacion": {
+                "tituloEditar": "Editar Agendamento",
+                "tituloAgregar": "Criar Agendamento",
+                "label": "Descrição do Agendamento",
+                "descripcion": "Insira a descrição do agendamento"
+            },
+            "clasificacionCliente": {
+                "tituloEditar": "Editar Classificação do Cliente",
+                "tituloAgregar": "Criar Classificação do Cliente",
+                "label": "Descrição da Classificação do Cliente",
+                "descripcion": "Insira a descrição da classificação do cliente"
+            },
+            "cliente": {
+                "menus": {
+                    "datosGenerales": "Dados Gerais",
+                    "informacionComercial": "Informações Comerciais",
+                    "datosContacto": "Dados de Contato",
+                    "locaciones": "Localizações",
+                    "contactos": "Contatos"
+                },
+                "tituloEditar": "Editar Cliente",
+                "tituloAgregar": "Criar Cliente",
+                "label.nombre": "Nome",
+                "label.apellidoPaterno?": "Sobrenome Paterno",
+                "label.apellidoMaterno?": "Sobrenome Materno",
+                "label.rut": "RUT",
+                "label.rutDv": "DV",
+                "label.fechaNacimiento": "Data de Nascimento",
+                "label.imagenPerfil?": "Imagem de Perfil",
+                "cliente.label.email?": "Email",
+                "label.campo1?": "Campo 1",
+                "label.campo2?": "Campo 2",
+                "label.campo1": "Campo 1",
+                "label.campo2": "Campo 2",
+                "label.telefonoFijo?": "Telefone Fixo",
+                "label.telefonoMovil?": "Telefone Móvel",
+                "label.tipoCliente": "Tipo de Cliente",
+                "label.clasificacionCliente": "Classificação do Cliente",
+                "label.estado": "Estado",
+                "label.direcciones": "Endereços",
+                "label.agrupacionComercial": "Agrupamento Comercial",
+                "label.segmentacionCliente": "Segmentação do Cliente",
+                "descripcion": "Insira a descrição do cliente"
+            },
+            "comuna": {
+                "tituloEditar": "Editar Comuna",
+                "tituloAgregar": "Criar Comuna",
+                "label": "Descrição da Comuna",
+                "descripcion": "Insira a descrição da comuna"
+            },
+            "direccionEmpleado": {
+                "tituloEditar": "Editar Direção",
+                "tituloAgregar": "Criar Direção",
+                "label.id": "ID",
+                "label.estado": "Estado",
+                "label.comuna": "Município",
+                "label.calle": "Rua",
+                "label.numeracion": "Número",
+                "label.latitud": "Latitude",
+                "label.longitud": "Longitude",
+                "label.pais": "Pais",
+                "label.ciudad": "Ciudade",
+                "label.direccion": "Direção",
+                "label.region": "Región",
+                "label.provincia": "Privincia",
+                "label.descripcion": "Descrição",
+                "label.referencia": "Referência",
+                "label.empleado": "Funcionário"
+            },
+            "empleado": {
+                "tituloEditar": "Editar Funcionário",
+                "tituloAgregar": "Criar Funcionário",
+                "label.nombre": "Nome",
+                "label.apellidoPaterno": "Sobrenome Paterno",
+                "label.apellidoMaterno": "Sobrenome Materno",
+                "label.imagenPerfil": "Imagem de Perfil",
+                "label.telefonoFijo": "Telefone Fixo",
+                "label.telefonoMovil": "Telefone Celular",
+                "label.fechaNacimiento": "Data de Nascimento",
+                "label.email": "E-mail",
+                "label.rut": "RUT",
+                "label.contrasena": "Senha",
+                "label.rol": "Rol",
+                "label.rutDv": "DV",
+                "label.nombreUsuario": "Nome de Usuário",
+                "label.tipoEmpleadoId": "Tipo de Funcionário",
+                "label.roleId": "Cargo",
+                "label.estadoId": "Estado",
+                "label.numeroDocumento": "Número do Documento",
+                "label.tipoDocumento": "Tipo de Documento",
+                "label.documentoIdentificacion": "N° do Documento"
+            },
+            "estado": {
+                "tituloEditar": "Editar Estado",
+                "tituloAgregar": "Criar Estado",
+                "label": "Descrição do Estado",
+                "label.descripcion": "Descrição do Estado"
+            },
+            "gestionContrato": {
+                "tituloEditar": "Editar Gestão de Contrato",
+                "tituloAgregar": "Criar Gestão de Contrato",
+                "label": "Descrição da Gestão de Contrato",
+                "descripcion": "Insira a descrição da gestão de contrato"
+            },
+            "informeOt": {
+                "tituloEditar": "Editar Relatório OT",
+                "tituloAgregar": "Criar Relatório OT",
+                "label": "Descrição do Relatório OT",
+                "descripcion": "Insira a descrição do relatório OT"
+            },
+            "locacion": {
+                "tituloEditar": "Editar Localização",
+                "tituloAgregar": "Criar Localização",
+                "label": "Descrição da Localização",
+                "descripcion": "Insira a descrição da localização"
+            },
+            "pais": {
+                "tituloEditar": "Editar País",
+                "tituloAgregar": "Criar País",
+                "label": "Descrição do País",
+                "descripcion": "Insira a descrição do país"
+            },
+            "producto": {
+                "tituloEditar": "Editar Produto",
+                "tituloAgregar": "Criar Produto",
+                "label": "Descrição do Produto",
+                "descripcion": "Insira a descrição do produto"
+            },
+            "region": {
+                "tituloEditar": "Editar Região",
+                "tituloAgregar": "Criar Região",
+                "label": "Descrição da Região",
+                "descripcion": "Insira a descrição da região"
+            },
+            "sector": {
+                "tituloEditar": "Editar Setor",
+                "tituloAgregar": "Criar Setor",
+                "label": {
+                    "descripcionSector": "Setor",
+                    "zona": "Zona"
+                },
+                "descripcion": "Digite a descrição do setor"
+            },
+            "segmentacionCliente": {
+                "tituloEditar": "Editar Segmentação do Cliente",
+                "tituloAgregar": "Criar Segmentação do Cliente",
+                "label.descripcion": "Descrição da Segmentação do Cliente",
+                "descripcion": "Insira a descrição da segmentação do cliente"
+            },
+            "servicio": {
+                "tituloEditar": "Editar Serviço",
+                "tituloAgregar": "Criar Serviço",
+                "label.servicio": "Descrição do Serviço",
+                "label.estado": "Estado",
+                "descripcion": "Insira a descrição do serviço"
+            },
+            "tarea": {
+                "tituloEditar": "Editar Tarefa",
+                "tituloAgregar": "Criar Tarefa",
+                "label.descripcionTarea": "Descrição da Tarefa",
+                "descripcion": "Insira a descrição da tarefa"
+            },
+            "tipoCliente": {
+                "tituloEditar": "Editar Tipo de Cliente",
+                "tituloAgregar": "Criar Tipo de Cliente",
+                "label.nombre": "Descrição do Tipo de Cliente",
+                "label.descripcion": "Descrição do Tipo de Cliente",
+                "descripcion": "Insira a descrição do tipo de cliente"
+            },
+            "tipoDocumentoIdentificacion": {
+                "tituloEditar": "Editar Tipo de Identificação do Documento",
+                "tituloAgregar": "Criar Tipo de Identificação do Documento",
+                "label.descripcion": "Descrição do Tipo de Documento",
+                "descripcion": "Descrição do Tipo de Documento"
+            },
+            "tipoEmpleado": {
+                "tituloEditar": "Editar Tipo de Empregado",
+                "tituloAgregar": "Criar Tipo de Empregado",
+                "label.descripcionTipoEmpleado": "Descrição do Tipo de Empregado",
+                "descripcion": "Insira a descrição do tipo de empregado"
+            },
+            "tipoProducto": {
+                "tituloEditar": "Editar Tipo de Produto",
+                "tituloAgregar": "Criar Tipo de Produto",
+                "tituloDetalle": "Detalhes do tipo de produto",
+                "label": {
+                    "descripcionTipoProducto": "Descrição do Tipo de Produto",
+                    "ingreseNombre": "Insira um novo nome",
+                    "resumen": "Resumo",
+                    "tipoComponente": "Tipo de Componente",
+                    "cantidad": "Quantidade"
+                }
+            },
+            "tipoServicio": {
+                "tituloEditar": "Editar Tipo de Serviço",
+                "tituloAgregar": "Criar Tipo de Serviço",
+                "label.descripcionTipoServicio": "Descrição do Tipo de Serviço",
+                "descripcionTipoServicio": "Insira a descrição do tipo de serviço"
+            },
+            "trabajo": {
+                "tituloEditar": "Editar Trabalho",
+                "tituloAgregar": "Criar Trabalho",
+                "label.descripcionTrabajo": "Descrição do Trabalho",
+                "descripcion": "Insira a descrição do trabalho",
+                "label.ingreseNombre": "Insira um novo nome",
+                "label.mas": "mais",
+                "verMenos": "Ver menos"
+            },
+            "zona": {
+                "tituloEditar": "Editar Zona",
+                "tituloAgregar": "Criar Zona",
+                "label.descripcionZona": "Descrição da Zona",
+                "descripcion": "Insira a descrição da zona"
+            },
+            "ruta": {
+                "tituloEditar": "Editar Rota",
+                "tituloAgregar": "Criar Rota",
+                "label.descripcion": "Descrição da Rota",
+                "descripcion": "Insira a descrição da Rota"
+            },
+            "role": {
+                "tituloEditar": "Editar Cargo",
+                "tituloAgregar": "Criar Cargo",
+                "label.nombreRol": "Cargo",
+                "nombreRol": "Insira a Cargo"
+            },
+            "tipoComponente": {
+                "tituloEditar": "Editar Tipo de Componente",
+                "tituloAgregar": "Criar Tipo de Componente",
+                "label.nombre": "Tipo de Componente",
+                "label.descripcion": "Descrição"
+            },
+            "trabajoTarea": {
+                "tituloEditar": "Editar tarefas atribuídas",
+                "tituloAgregar": "Atribuir Tarefa",
+                "trabajo": "Trabalho",
+                "seleccioneTareas": "Selecione as Tarefas para Atribuir",
+                "tareas": "tarefas",
+                "sinTareasDisponibles": "Nenhuma tarefa disponível para atribuir",
+                "info": {
+                    "ordenTareas": "As tarefas são atribuídas na ordem em que você as seleciona, você pode alterar sua sequência arrastando as tags."
+                },
+                "verMas": "Ver mais"
+            },
+            "servicioTrabajo": {
+                "tituloAgregar": "Atribuir Trabalhos",
+                "tituloEditar": "Editar Atribuição de Trabalhos",
+                "servicio": "Serviço",
+                "seleccioneTrabajos": "Selecione os Trabalhos para Atribuir",
+                "trabajos": "Trabalhos",
+                "info": {
+                    "ordenTrabajos": "Os trabalhos são atribuídos na ordem em que você os seleciona. Você pode alterar a sequência arrastando as tags."
+                },
+                "sinTrabajosDisponibles": "Nenhum trabalho disponível para atribuir",
+                "verMas": "Ver mais",
+                "verMenos": "Ver menos"
+            }
+        }
+    },
+    "alertas": {
+        "eliminacionIndividualTitulo": "Exclusão individual",
+        "eliminacionIndividualMensaje": "Você tem certeza de que deseja excluir {{count}} item(s)? Esta ação não pode ser desfeita.",
+        "cancelar": "Cancelar",
+        "eliminar": "Excluir",
+        "toastr": {
+            "guardar": {
+                "success": "Registro inserido com sucesso"
+            },
+            "editar": {
+                "success": "Informação foi modificada com sucesso"
+            },
+            "exportar": {
+                "todo": {
+                    "success": "A exportação foi concluída com sucesso. Todos os registros foram exportados."
+                },
+                "seleccionado": {
+                    "success": "A exportação foi concluída com sucesso. Os registros selecionados foram exportados."
+                }
+            },
+            "eliminar": {
+                "success": "A exclusão foi realizada com sucesso"
+            },
+            "errors": {
+                "cliente": {
+                    "NO_ENCONTRADO": "O cliente não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "A integridade dos dados do cliente foi violada.",
+                    "REQUERIDO": "O campo cliente é obrigatório.",
+                    "DUPLICADO": "Já existe um cliente com os mesmos dados.",
+                    "CONTRASENA_REQUERIDO": "A senha do cliente é obrigatória.",
+                    "CORREO_DUPLICADO": "O e-mail do cliente já está registrado.",
+                    "CORREO_REQUERIDO": "O e-mail do cliente é obrigatório.",
+                    "CORREO_NO_ENCONTRADO": "O e-mail do cliente não foi encontrado.",
+                    "ID_REQUERIDO": "O ID do cliente é obrigatório.",
+                    "ID_INVALIDO": "O ID do cliente não é válido."
+                },
+                "contacto": {
+                    "NO_ENCONTRADO": "O contato não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "A integridade dos dados do contato foi violada.",
+                    "REQUERIDO": "O campo contato é obrigatório.",
+                    "DUPLICADO": "Já existe um contato com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do contato é obrigatório.",
+                    "ID_INVALIDO": "O ID do contato não é válido."
+                },
+                "documentoIdentificacao": {
+                    "NO_ENCONTRADO": "O documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "A integridade dos dados do documento de identificação foi violada.",
+                    "REQUERIDO": "O documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um documento de identificação com os mesmos dados.",
+                    "NUMERO_REQUERIDO": "O número do documento de identificação é obrigatório.",
+                    "DIGITO_VERIFICADOR_REQUERIDO": "O dígito verificador do documento de identificação é obrigatório."
+                },
+                "empleado": {
+                    "NO_ENCONTRADO": "O empregado não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "A integridade dos dados do empregado foi violada.",
+                    "REQUERIDO": "O campo empregado é obrigatório.",
+                    "DUPLICADO": "Já existe um empregado com os mesmos dados.",
+                    "CONTRASENA_REQUERIDO": "A senha do empregado é obrigatória.",
+                    "CORREO_DUPLICADO": "O e-mail do empregado já está registrado.",
+                    "CORREO_REQUERIDO": "O e-mail do empregado é obrigatório.",
+                    "CORREO_NO_ENCONTRADO": "O e-mail do empregado não foi encontrado.",
+                    "ID_REQUERIDO": "O ID do empregado é obrigatório.",
+                    "ID_INVALIDO": "O ID do empregado não é válido.",
+                    "CREDENCIALES_INVALIDAS": "Credenciais inválidas.",
+                    "EMPLEADO_DESVINCULADO": "Acesso negado. Entre em contato com seu administrador."
+                },
+                "general": {
+                    "ERROR_INTERNO": "Ocorreu um erro interno no servidor."
+                },
+                "tipoDireccion": {
+                    "NO_ENCONTRADO": "O tipo de endereço não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "A integridade dos dados do tipo de endereço foi violada.",
+                    "REQUERIDO": "O campo tipo de endereço é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de endereço com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de endereço é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de endereço não é válido."
+                },
+                "tipoDocumentoIdentificacao": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "A integridade dos dados do tipo de documento de identificação foi violada.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "tipoCliente": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "tipoProducto": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "agrupacionComercial": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "zona": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "tipoServicio": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "ruta": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "tipoEmpleado": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "sector": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "role": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "tipoComponente": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "servicio": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "trabajo": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                },
+                "tarea": {
+                    "NO_ENCONTRADO": "O tipo de documento de identificação não foi encontrado.",
+                    "INTEGRIDAD_VIOLADA": "O registro está atualmente atribuído e não pode ser excluído.",
+                    "REQUERIDO": "O tipo de documento de identificação é obrigatório.",
+                    "DUPLICADO": "Já existe um tipo de documento de identificação com os mesmos dados.",
+                    "ID_REQUERIDO": "O ID do tipo de documento de identificação é obrigatório.",
+                    "ID_INVALIDO": "O ID do tipo de documento de identificação não é válido."
+                }
+            }
+        }
+    }
+}

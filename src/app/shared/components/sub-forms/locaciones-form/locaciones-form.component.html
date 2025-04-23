@@ -1,0 +1,74 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4 p-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Primera fila -->
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" placeholder="Nombre">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Tipo de locación</mat-label>
+            <mat-select formControlName="tipoLocacion">
+                <mat-option value="residencial">Residencial</mat-option>
+                <mat-option value="comercial">Comercial</mat-option>
+                <mat-option value="industrial">Industrial</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Segunda fila -->
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Comuna</mat-label>
+            <mat-select formControlName="comuna">
+                <mat-option value="santiago">Santiago</mat-option>
+                <mat-option value="providencia">Providencia</mat-option>
+                <mat-option value="las_condes">Las Condes</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Sector</mat-label>
+            <mat-select formControlName="sector">
+                <mat-option value="norte">Norte</mat-option>
+                <mat-option value="sur">Sur</mat-option>
+                <mat-option value="este">Este</mat-option>
+                <mat-option value="oeste">Oeste</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Tercera fila -->
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Dirección</mat-label>
+            <input matInput #autocompleteInput placeholder="Ingrese Calle y Número" formControlName="direccion">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nº de calle</mat-label>
+            <input matInput formControlName="numeracion" placeholder="Nº de calle">
+        </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 items-start">
+        <!-- Referencia -->
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Referencia</mat-label>
+            <textarea matInput formControlName="referencia" rows="3" placeholder="Referencia"></textarea>
+        </mat-form-field>
+        <!-- Toggle para solicitar evidencia -->
+        <div class="flex items-center gap-4 py-2 text-lg">
+            <span class="text-gray-700 font-medium">Solicita evidencia</span>
+            <mat-slide-toggle formControlName="solicitaEvidencia" color="primary"></mat-slide-toggle>
+        </div>
+    </div>
+    <!-- Mapa -->
+    <div class="mt-4 border rounded-lg overflow-hidden">
+        <app-map [initialPosition]="initialPosition" [markerPosition]="currentMarkerPosition"
+            (positionChanged)="onMapPositionChanged($event)">
+        </app-map>
+    </div>
+    <!-- Botón de guardar -->
+    <div class="flex justify-end mt-6">
+        <button class="elitsoft-btn" type="submit" class="px-6">
+            Guardar
+        </button>
+    </div>
+</form>

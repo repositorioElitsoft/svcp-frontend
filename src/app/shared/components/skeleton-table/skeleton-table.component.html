@@ -1,0 +1,42 @@
+<div class="bg-white dark:bg-neutral-800 rounded-lg shadow-md w-full p-4 animate-pulse" [ngClass]="containerClass">
+    <!-- Header -->
+    <div class="w-full flex items-center mb-6 gap-4">
+        <div class="h-5 bg-gray-400 dark:bg-neutral-600 rounded w-4" *ngIf="showHeader"></div>
+        <div class="h-5 bg-gray-400 dark:bg-neutral-600 rounded" *ngFor="let col of getArray(columns - 2)"
+            [ngStyle]="{'width': col % 3 === 0 ? '15%' : col % 2 === 0 ? '25%' : '20%'}"></div>
+        <div class="h-5 bg-gray-400 dark:bg-neutral-600 rounded w-20 ml-auto" *ngIf="showHeader"></div>
+    </div>
+
+    <!-- Body Rows -->
+    <div class="space-y-4">
+        <div class="flex items-center w-full" *ngFor="let row of getArray(rows)">
+            <!-- Checkbox -->
+            <div class="h-4 bg-gray-400 dark:bg-neutral-600 rounded w-4 mr-4"></div>
+
+            <!-- Content Cells -->
+            <div class="flex-1 flex gap-4">
+                <div class="h-8 bg-gray-400 dark:bg-neutral-600 rounded"
+                    *ngFor="let col of getArray(columns - 2); let i = index"
+                    [ngStyle]="{'width': i % 3 === 0 ? '15%' : i % 2 === 0 ? '25%' : '20%'}"></div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex gap-2 ml-auto">
+                <div class="h-8 w-8 bg-gray-400 dark:bg-neutral-600 rounded-full"></div>
+                <div class="h-8 w-8 bg-gray-400 dark:bg-neutral-600 rounded-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-6 flex justify-between items-center" *ngIf="showPagination">
+        <div class="h-4 bg-gray-400 dark:bg-neutral-600 rounded w-28"></div>
+        <div class="flex gap-2 items-center">
+            <div class="h-8 w-8 bg-gray-400 dark:bg-neutral-600 rounded"></div>
+            <div class="h-4 bg-gray-400 dark:bg-neutral-600 rounded w-16"></div>
+            <div class="h-8 w-8 bg-gray-400 dark:bg-neutral-600 rounded"></div>
+        </div>
+    </div>
+
+    <span class="sr-only">Cargando...</span>
+</div>

@@ -1,0 +1,58 @@
+<form [formGroup]="form">
+    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+        <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.nombreUsuario' | translate
+            }}</mat-label>
+        <input matInput formControlName="nombreUsuario"
+            [attr.placeholder]="'mantenedores.formularios.empleado.label.nombreUsuario' | translate"
+            class="w-full dark:text-white text-base">
+        <mat-error *ngIf="form.get('nombreUsuario')?.hasError('required')" class="text-red-500 text-base">
+            {{ 'mantenedores.formularios.campoRequerido' | translate }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full dark:text-white text-base ">
+        <mat-label class="text-lg">{{ 'mantenedores.formularios.empleado.label.contrasena' | translate
+            }}</mat-label>
+        <input type="password" matInput formControlName="contrasena"
+            [attr.placeholder]="'mantenedores.formularios.empleado.label.contrasena' | translate"
+            class="w-full dark:text-white text-base">
+        <mat-error *ngIf="form.get('contrasena')?.hasError('required')" class="text-red-500 text-base">
+            {{ 'mantenedores.formularios.campoRequerido' | translate }}
+        </mat-error>
+    </mat-form-field>
+
+
+
+    <mat-form-field appearance="outline" class="full-width w-full">
+        <mat-label class="text-lg">{{
+            'mantenedores.formularios.tipoEmpleado.label.descripcionTipoEmpleado' |
+            translate }}</mat-label>
+        <mat-select formControlName="tipoEmpleado" [compareWith]="compareTipoEmpleado">
+            <mat-option class="text-base w-full" *ngFor="let option of tiposEmpleados" [value]="option">
+                {{ option.descripcionTipoEmpleado}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width w-full">
+        <mat-label class="text-lg">{{
+            'mantenedores.formularios.empleado.label.rol' |
+            translate }}</mat-label>
+        <mat-select formControlName="role" [compareWith]="compareRole">
+            <mat-option class="text-base w-full" *ngFor="let option of roles" [value]="option">
+                {{ option.nombreRol}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width w-full">
+        <mat-label class="text-lg">{{
+            'mantenedores.formularios.empleado.label.estado' |
+            translate }}</mat-label>
+        <mat-select formControlName="estado" [compareWith]="compareEstado">
+            <mat-option class="text-base w-full" *ngFor="let option of estados" [value]="option">
+                {{ option.descripcion}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>

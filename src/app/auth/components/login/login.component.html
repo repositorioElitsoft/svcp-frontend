@@ -1,0 +1,100 @@
+<div class="bg-gray-100 dark:bg-neutral-800 lg:flex justify-center items-center min-h-screen  lg:h-full">
+    <!-- Left: Image -->
+    <button (click)="openAccessibilityPanel()" class="fixed top-8 lg:top-10 right-8 lg:right-20 z-[1000]">
+        <div class="relative w-11 h-11 flex items-center justify-center bg-[#d9d9d9] rounded-full">
+            <mat-icon class="scale-150 text-gray-800 absolute">
+                accessibility
+            </mat-icon>
+        </div>
+    </button>
+
+
+    <div class="lg:w-1/2 h-[60vh] w-full lg:h-screen">
+        <div class="relative w-full h-full">
+
+            <swiper-container speed="2500" loop="true" class="mySwiper" pagination="true" pagination-clickable="true"
+                slides-per-view="1" space-between="0" free-mode="true" autoplay-delay="3500"
+                autoplay-disable-on-interaction="false">
+                <swiper-slide *ngFor="let image of images">
+                    <img [src]="getImageRoute(image)" alt="Placeholder Image"
+                        class="object-cover object-top w-full h-full transition-transform duration-300 transform-gpu hover:scale-110">
+                </swiper-slide>
+            </swiper-container>
+
+
+            <div class="z-50 absolute left-1/2 -translate-x-1/2 bottom-[8vh] lg:bottom-[6vh]">
+                <div class="h-[63px] flex-col justify-center items-center inline-flex">
+                    <div class="text-center text-white text-lg  font-medium font-['Roboto']">
+                        {{ 'login.optimizeTime' | translate }}
+                    </div>
+                    <div class="self-stretch text-center text-white text-lg font-normal font-['Roboto']">
+                        {{ 'login.oneClick' | translate }}
+                    </div>
+                </div>
+            </div>
+
+
+            <img src="assets/servicampo.png"
+                class="z-50 absolute left-1/2 -translate-x-1/2 bottom-[16vh] lg:bottom-[18vh]" />
+        </div>
+    </div>
+
+
+
+
+
+    <div class="lg:-mt[0] sm:px-44 lg:py-24 lg:px-28 lg:p-52 sm:20 p-8 w-full lg:w-1/2">
+
+
+
+        <div class="">
+            <div class="text-3xl font-medium font-['Roboto']"> {{ 'login.welcome' | translate }}</div>
+            <div class="self-stretch text-[#9e9e9e] text-lg font-normal font-['Roboto']">{{ 'login.accessAccount' |
+                translate }}</div>
+        </div>
+        <div class="my-[70px]"></div>
+        <form (ngSubmit)="login()" [formGroup]="form" class="w-full">
+            <div class="mb-4">
+                <mat-form-field appearance="outline" class="w-full dark:!text-gray-100   ">
+                    <mat-label class="text-lg">{{ 'login.username' | translate }}</mat-label>
+                    <input matInput type="email" formControlName="username" id="username"
+                        placeholder="Ingresa tu usuario" class="w-full dark:!text-gray-100 text-lg bg-transparent "
+                        required>
+                    <mat-error *ngIf="form.get('username')?.hasError('required')">
+                        {{ 'login.emptyField' | translate }}
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div class="mb-4">
+
+                <mat-form-field appearance="outline" class="w-full dark:!text-gray-100 text-lg">
+                    <mat-label class="text-lg">{{ 'login.password' | translate }}</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" id="password"
+                        placeholder="••••••••" class="w-full dark:!text-gray-100 text-lg" required>
+                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('password')?.hasError('required')">
+                        {{ 'login.emptyField' | translate }} </mat-error>
+                </mat-form-field>
+                <a [routerLink]="'/login'" class="pl-4">{{ "login.forgotPassword" | translate }}</a>
+            </div>
+
+            <button type="submit" class="elitsoft-btn !py-3 text-lg rounded px-4 w-full"
+                style="display: block; margin: 0 auto;">
+                {{ 'login.signIn' | translate }}</button>
+
+            <div class="error-message  text-red-500 py-2 px-4 rounded-lg text-base text-center" *ngIf="errorMessage">{{
+                errorMessage }}</div>
+
+            <div class="text-center mt-[4vh] text-[#9e9e9e] text-sm font-normal font-['Roboto']">© Copyright
+                Elitsoft 2025 .
+            </div>
+
+        </form>
+
+
+    </div>
+</div>

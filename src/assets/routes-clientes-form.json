@@ -1,0 +1,46 @@
+[
+    {
+        "icon": "person_edit",
+        "permission": "access.userManagement",
+        "title": "mantenedores.cliente.titulo",
+        "menus": [
+            {
+                "type": "item",
+                "permission": "access.employees",
+                "title": "mantenedores.formularios.cliente.menus.datosGenerales",
+                "link": "datos-generales"
+            },
+            {
+                "type": "item",
+                "permission": "access.employees",
+                "title": "mantenedores.formularios.cliente.menus.informacionComercial",
+                "link": "informacion-comercial"
+            },
+            {
+                "type": "item",
+                "permission": "access.employees",
+                "title": "mantenedores.formularios.cliente.menus.datosContacto",
+                "link": "datos-contacto"
+            },
+            {
+                "type": "item",
+                "permission": "access.employees",
+                "title": "mantenedores.formularios.cliente.menus.locaciones",
+                "link": "locaciones"
+            }
+        ]
+    },
+    {
+        "icon": "groups",
+        "permission": "access.userManagement",
+        "title": "mantenedores.formularios.cliente.menus.contactos",
+        "menus": [
+            {
+                "type": "item",
+                "permission": "access.employees",
+                "title": "mantenedores.formularios.cliente.menus.contactos",
+                "link": "contactos-cliente"
+            }
+        ]
+    }
+]

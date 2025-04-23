@@ -1,0 +1,378 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'swiper/swiper-bundle.css';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'ngx-toastr/toastr';
+
+:root {
+    --primary: #3F51B5;
+    --mdc-outlined-text-field-outline-color: rgb(83, 83, 83);
+    --fallback-b1: #ffffff;
+    /* Default light mode value */
+    --base-font-size: 0px;
+    --bg-neutral-800: #252525;
+
+    --main-h: 220;
+    --main-s: 14%;
+    --main-l: 96%;
+    /* Lightest (100) */
+
+
+    /*rgb hue valor           s saturation       light luz  */
+    --main-50: hsl(var(--main-h), var(--main-s), 98%);
+    --main-100: hsl(var(--main-h), var(--main-s), 96%);
+    --main-200: hsl(var(--main-h), var(--main-s), 90%);
+    --main-300: hsl(var(--main-h), var(--main-s), 80%);
+    --main-400: hsl(var(--main-h), var(--main-s), 70%);
+    --main-500: hsl(var(--main-h), var(--main-s), 60%);
+    --main-600: hsl(var(--main-h), var(--main-s), 50%);
+    --main-700: hsl(var(--main-h), var(--main-s), 40%);
+    --main-800: hsl(var(--main-h), var(--main-s), 30%);
+    --main-900: hsl(var(--main-h), var(--main-s), 20%);
+
+
+
+}
+
+
+.text-xs {
+    font-size: calc(var(--base-font-size) + 5px) !important;
+}
+
+.text-sm {
+    font-size: calc(var(--base-font-size) + 9px) !important;
+}
+
+.text-base {
+    font-size: calc(var(--base-font-size) + 12px) !important;
+}
+
+.text-lg {
+    font-size: calc(var(--base-font-size) + 16px) !important;
+}
+
+.text-xl {
+    font-size: calc(var(--base-font-size) + 21px) !important;
+}
+
+.text-2xl {
+    font-size: calc(var(--base-font-size) + 25px) !important;
+}
+
+.text-3xl {
+    font-size: calc(var(--base-font-size) + 29px) !important;
+}
+
+.text-4xl {
+    font-size: calc(var(--base-font-size) + 34px) !important;
+}
+
+.text-5xl {
+    font-size: calc(var(--base-font-size) + 39px) !important;
+}
+
+
+body.dark {
+    --primary: #2A3E5C;
+    --placeholders: #b6b6b6;
+    --fallback-b1: #252525 !important;
+    /* Force dark mode value */
+    --mdc-outlined-text-field-label-text-color: rgb(223, 223, 223);
+    --mdc-outlined-text-field-outline-color: rgb(223, 223, 223);
+    --mdc-outlined-text-field-hover-outline-color: rgb(202, 202, 202);
+    --mdc-outlined-text-field-hover-label-text-color: rgb(202, 202, 202);
+    --mat-select-enabled-trigger-text-color: rgb(223, 223, 223);
+}
+
+
+input::placeholder {
+    color: var(--placeholders) !important;
+
+}
+
+
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: var(--base-font-size)+2px;
+}
+
+.light-mode {
+    background-color: rgb(231, 231, 231);
+    color: #161616;
+    --fallback-b1: #ffffff !important;
+    /* Force light mode value */
+}
+
+.dark-mode {
+    background-color: var(--bg-neutral-800);
+    color: #e7e7e7;
+}
+
+.bg-neutral-800 {}
+
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-right-style: hidden;
+}
+
+
+html,
+body {
+
+    /*background-image: linear-gradient(16deg, rgba(116, 116, 116, 0.02) 0%, rgba(116, 116, 116, 0.02) 25%, transparent 25%, transparent 96%, rgba(177, 177, 177, 0.02) 96%, rgba(177, 177, 177, 0.02) 100%), linear-gradient(236deg, rgba(148, 148, 148, 0.02) 0%, rgba(148, 148, 148, 0.02) 53%, transparent 53%, transparent 59%, rgba(56, 56, 56, 0.02) 59%, rgba(56, 56, 56, 0.02) 100%), linear-gradient(284deg, rgba(16, 16, 16, 0.02) 0%, rgba(16, 16, 16, 0.02) 46%, transparent 46%, transparent 71%, rgba(181, 181, 181, 0.02) 71%, rgba(181, 181, 181, 0.02) 100%), linear-gradient(316deg, rgba(197, 197, 197, 0.02) 0%, rgba(197, 197, 197, 0.02) 26%, transparent 26%, transparent 49%, rgba(58, 58, 58, 0.02) 49%, rgba(58, 58, 58, 0.02) 100%), linear-gradient(90deg, rgb(255, 255, 255), rgb(255, 255, 255));
+*/
+}
+
+
+
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+}
+
+
+/* CSS de Los Botones*/
+
+.bg-servicampo {
+    background-color: var(--primary) !important;
+}
+
+input::placeholder {
+    color: var(--placeholders) !important;
+
+}
+
+.elitsoft-btn-icon {
+    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 8px;
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+
+.elitsoft-btn-icon:hover {
+    color: #3F51B5;
+    transform: scale(1.1);
+
+}
+
+.elitsoft-btn-icon:disabled {
+    color: gray;
+    cursor: not-allowed;
+    transform: none;
+    background: transparent;
+    transition: none;
+}
+
+.elitsoft-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    display: inline-flex;
+    border-radius: 0.25em;
+    padding: 0.5em 2em;
+    font-size: 0.875em;
+    cursor: pointer;
+    border: 0.0625em solid transparent;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+    gap: 0.5em;
+}
+
+.elitsoft-btn:hover {
+    background-color: #ffffff;
+    color: #3F51B5;
+    border: 0.0625em solid transparent;
+    border-color: #3F51B5;
+    box-shadow: 0 0.25em 0.75em rgba(63, 81, 181, 0.2);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.elitsoft-btn:disabled {
+    background-color: #9e9e9e;
+    color: rgba(0, 0, 0, 0.38);
+    cursor: not-allowed;
+    box-shadow: none;
+    border-color: #9e9e9e;
+}
+
+
+.elitsoft-warn {
+    background-color: #ffffff;
+    color: #3F51B5;
+    border: 0.0625em solid #3F51B5;
+    /* Asegura el borde azul */
+    display: inline-flex;
+    border-radius: 0.25em;
+    padding: 0.5em 2em;
+    font-size: 0.875em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    white-space: nowrap;
+    gap: 0.5em;
+}
+
+.elitsoft-warn:hover {
+    background-color: #3F51B5;
+    ;
+    color: #ffffff;
+    border: 0.0625em solid transparent;
+    box-shadow: 0 0.25em 0.75em rgba(63, 81, 181, 0.2);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.elitsoft-warn:disabled {
+    background-color: #9e9e9e;
+    color: rgba(0, 0, 0, 0.38);
+    cursor: not-allowed;
+    box-shadow: none;
+    border-color: #9e9e9e;
+}
+
+
+
+
+
+
+.elitsoft-warn2 {
+    background-color: red;
+    color: #ffffff;
+    border: 0.0625em solid #ff0000;
+    display: inline-flex;
+    border-radius: 0.25em;
+    padding: 0.5em 2em;
+    font-size: 0.875em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    white-space: nowrap;
+    gap: 0.5em;
+}
+
+.elitsoft-warn2:hover {
+    background-color: white;
+    ;
+    color: red;
+    border: 0.0625em solid transparent;
+    box-shadow: 0 0.25em 0.75em rgba(63, 81, 181, 0.2);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.elitsoft-warn2:disabled {
+    background-color: #9e9e9e;
+    color: rgba(0, 0, 0, 0.38);
+    cursor: not-allowed;
+    box-shadow: none;
+    border-color: #9e9e9e;
+}
+
+
+
+
+/*CSS del Swiper*/
+swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+
+/* 🔹 Cambia la variable global que controla el color del checkbox seleccionado */
+:root {
+    --mdc-checkbox-selected-icon-color: #65548f !important;
+    --mdc-checkbox-selected-checkmark-color: white !important;
+    --mdc-checkbox-selected-hover-icon-color: #65548f !important;
+    --mdc-checkbox-selected-pressed-icon-color: #65548f !important;
+}
+
+/* ✅ Aplica el color directamente al checkbox cuando está marcado o en estado indeterminado */
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control[data-indeterminate="true"]:enabled~.mdc-checkbox__background {
+    border-color: #65548f !important;
+    background-color: #65548f !important;
+}
+
+/* ✅ Cambia el color del checkmark (✔) */
+.mdc-checkbox__checkmark-path {
+    stroke: white !important;
+}
+
+/* ✅ Cambia el color del mixedmark (cuando el checkbox está en estado indeterminado) */
+.mdc-checkbox__mixedmark {
+    background-color: white !important;
+}
+
+/* ✅ Cambia el color del hover */
+.mdc-checkbox:hover .mdc-checkbox__background {
+    border-color: #65548f !important;
+}
+
+/* ✅ Cambia el efecto de onda (ripple effect) */
+.mat-mdc-checkbox.mat-accent .mat-ripple-element {
+    background-color: #65548f40 !important;
+    /* 25% de opacidad */
+}
+
+/* ✅ Elimina cualquier color rosado del checkbox nativo */
+.mdc-checkbox .mdc-checkbox__native-control {
+    accent-color: #65548f !important;
+}
+
+
+
+/* For active pagination bullet */
+swiper-container::part(bullet-active) {
+    background-color: white;
+    width: 12px;
+}
+
+/* For inactive pagination bullets */
+swiper-container::part(bullet) {
+    background-color: gray;
+    opacity: 1;
+}
+
+/* For the default (unfocused) outline */
+
+.dark {
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+        color: rgb(255, 255, 255) !important;
+    }
+}
+
+
+
+@media (min-width: 1024px) {
+    .lg\:h-screen {
+        height: 100vh !important;
+    }
+}

@@ -1,0 +1,8 @@
+export enum DocumentoIdentificacionError {
+    NO_ENCONTRADO = "DOID_000",
+    INTEGRIDAD_VIOLADA = "DOID_001",
+    REQUERIDO = "DOID_002",
+    DUPLICADO = "DOID_003",
+    NUMERO_REQUERIDO = "DOID_004",
+    DIGITO_VERIFICADOR_REQUERIDO = "DOID_005"
+}
