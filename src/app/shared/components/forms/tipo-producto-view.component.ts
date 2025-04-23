@@ -41,7 +41,7 @@ import { TipoProductoFormComponent } from './tipo-producto.component';
       <div class="p-6 space-y-4">
         <!-- Título y botón de editar -->
         <div class="flex justify-between items-center">
-          <h2 class="text-xl font-medium">{{'mantenedores.tipoProducto.descripcionTipoProducto' | translate}}</h2>
+          <h2 class="text-xl font-medium" style="text-transform: uppercase;">{{'mantenedores.tipoProducto.descripcionTipoProducto' | translate}}</h2>
           <button mat-icon-button class="text-green-500" (click)="backToAsignacion()">
             <mat-icon>edit</mat-icon>
           </button>
@@ -53,7 +53,10 @@ import { TipoProductoFormComponent } from './tipo-producto.component';
         </div>
 
         <!-- Título de tipos de componentes -->
-        <h3 class="text-xl font-medium mt-6">{{'mantenedores.tipoProducto.tipoProductoTipoComponentes' | translate}}</h3>
+        <h3 class="text-xl font-medium mt-6" style="text-transform: uppercase;">
+        {{ 'mantenedores.tipoProducto.tipoProductoTipoComponentes' | translate }}
+        </h3>
+
 
         <!-- Lista de componentes -->
         <div class="space-y-2">
@@ -69,14 +72,15 @@ import { TipoProductoFormComponent } from './tipo-producto.component';
           </ng-template>
         </div>
 
-        <!-- Botón de aceptar -->
-        <div class="mt-6">
-          <button 
-            (click)="dialogRef.close()"
-            class="text-lg elitsoft-btn w-full flex items-center justify-center py-2 text-center">
-            {{'mantenedores.botonAceptar' | translate}}
-          </button>
-        </div>
+  <!-- Botón de aceptar -->
+<div class="mt-6 flex justify-center">
+  <button 
+    (click)="dialogRef.close()"
+    class="text-lg elitsoft-btn px-6 py-2 text-center">
+    {{'mantenedores.botonAceptar' | translate}}
+  </button>
+</div>
+
       </div>
     </mat-dialog-content>
   `,
