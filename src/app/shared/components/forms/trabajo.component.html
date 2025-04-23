@@ -5,21 +5,11 @@
 
 <mat-dialog-content class="!p-0 dark:bg-neutral-800">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
-
-        <!-- Campo de solo lectura para mostrar el valor actual (en modo edición) -->
-        <mat-form-field *ngIf="data?.esActualizar" appearance="outline" class="w-full dark:text-white">
-            <mat-label>{{ 'mantenedores.formularios.trabajo.label.descripcionTrabajo' | translate }}</mat-label>
-            <input matInput [value]="data?.object?.descripcionTrabajo" readonly maxlength="50"
-                class="text-lg w-full dark:text-white bg-gray-100">
-            <mat-hint align="end">{{data?.object?.descripcionTrabajo?.length || 0}}/50</mat-hint>
-        </mat-form-field>
-
-        <!-- Campo obligatorio para el nuevo valor -->
+        <!-- Campo para descripción del trabajo (crear/actualizar) -->
         <mat-form-field appearance="outline" class="w-full dark:text-white">
-            <mat-label>{{ (data?.esActualizar ? 'mantenedores.formularios.trabajo.label.ingreseNombre' :
-                'mantenedores.formularios.trabajo.label.descripcionTrabajo') | translate }}</mat-label>
+            <mat-label>{{ 'mantenedores.formularios.trabajo.label.descripcionTrabajo' | translate }}</mat-label>
             <input matInput formControlName="descripcionTrabajo" class="text-lg w-full dark:text-white" maxlength="50"
-                [placeholder]="'mantenedores.formularios.trabajo.label.ingreseNombre' | translate">
+                [required]="true">
             <mat-hint align="end">{{form.get('descripcionTrabajo')?.value?.length || 0}}/50</mat-hint>
             <mat-error *ngIf="form.get('descripcionTrabajo')?.hasError('required')" class="text-red-500 text-base">
                 {{ 'mantenedores.formularios.campoRequerido' | translate }}
