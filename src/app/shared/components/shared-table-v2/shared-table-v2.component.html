@@ -121,19 +121,19 @@
                     </th>
                     <td mat-cell *matCellDef="let element" class="sticky-cell">
                         <div class="flex items-center justify-center gap-1 sm:gap-2">
-                            <button *ngIf="showAssignButton" class="action-icon" (click)="onAsignacion(element)">
-                                <mat-icon>push_pin</mat-icon>
+                            <button *ngIf="showAssignButton" (click)="onAsignacion(element)">
+                                <span class="material-symbols-outlined">push_pin</span>
                             </button>
 
-                            <button *ngIf="showViewButton" class="action-icon" (click)="onViewForm.emit(element)">
-                                <mat-icon>remove_red_eye</mat-icon>
+                            <button *ngIf="showViewButton" (click)="onViewForm.emit(element)">
+                                <span class="material-symbols-outlined">remove_red_eye</span>
                             </button>
 
-                            <button class="action-icon" color="accent" (click)="onEdit(element.id)">
-                                <mat-icon>edit</mat-icon>
+                            <button (click)="onEdit(element.id)">
+                                <span class="material-symbols-outlined">edit</span>
                             </button>
-                            <button class="action-icon" color="accent" (click)="onSingleDelete(element.id)">
-                                <mat-icon>delete</mat-icon>
+                            <button (click)="onSingleDelete(element.id)">
+                                <span class="material-symbols-outlined">delete</span>
                             </button>
 
                             <!-- Aquí se incluye el template adicional si existe -->
