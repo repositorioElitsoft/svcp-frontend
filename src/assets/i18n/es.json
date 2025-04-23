@@ -311,6 +311,8 @@
             "botonCancelar": "Cancelar",
             "guardar": "Guardar",
             "actualizar": "Actualizar",
+            "borrar": "Eliminar",
+            "subir": "Subir",
             "cargando": "Cargando...",
             "toastr": {
                 "error": "Error al procesar la solicitud"
