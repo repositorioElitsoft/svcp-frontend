@@ -18,11 +18,21 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
 import { BusquedaComponenteComponent } from './busqueda-componente/busqueda-componente.component';
+import { ComponenteFormComponent } from "../../../shared/components/forms/componente.component";
 
 @Component({
   selector: "app-tarea",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaComponenteComponent],
+  imports: [
+    CommonModule,
+    SharedTableComponent,
+    MatIconModule,
+    HeadTableComponent,
+    MatPaginatorModule,
+    OpcionesMantenedorComponent,
+    TranslateModule,
+    BusquedaComponenteComponent
+  ],
   templateUrl: "./componente.component.html",
   styleUrl: "./componente.component.css",
 })
@@ -452,5 +462,13 @@ export class ComponenteComponent implements OnInit {
   }
 
 
+  showClienteFn(element: any) {
+    const dialogRef = this.dialog.open(ComponenteFormComponent, {
+      width: '800px',
+      data: {
+        object: element
+      }
+    });
+  }
 
 }

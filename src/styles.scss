@@ -136,6 +136,12 @@ body {
         'opsz' 24
 }
 
+.material-symbols-outlined:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+
 
 /* CSS de Los Botones*/
 
@@ -374,5 +380,11 @@ swiper-container::part(bullet) {
 @media (min-width: 1024px) {
     .lg\:h-screen {
         height: 100vh !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .material-symbols-outlined {
+        font-size: 14px;
     }
 }
