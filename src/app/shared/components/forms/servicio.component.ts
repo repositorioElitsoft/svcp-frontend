@@ -108,7 +108,7 @@ export class ServicioFormComponent implements OnInit {
                     if (tipoServicioExiste) {
                         this.form.patchValue({
                             id: this.data.object.id,
-                            descripcion: '',
+                            descripcion: this.data.object.descripcion,
                             tipoServicioId: this.tipoServicioSeleccionado,
                             estadoId: this.data.object.estado?.id || 1
                         });
