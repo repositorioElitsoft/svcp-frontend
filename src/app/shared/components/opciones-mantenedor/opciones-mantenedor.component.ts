@@ -28,9 +28,9 @@ import { TranslateModule } from "@ngx-translate/core"
   <!-- Contenedor del botón de eliminar -->
   <div class="flex justify-end w-full sm:w-auto">
     <button [disabled]="!hasSelection"
-            class="elitsoft-btn-icon flex items-center justify-center gap-2"
+            class="flex items-center justify-center gap-2"
             (click)="onEliminar()">
-      <mat-icon>delete</mat-icon>
+      <span class="material-symbols-outlined">delete</span>
     </button>
   </div>
 
