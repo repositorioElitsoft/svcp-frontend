@@ -17,12 +17,12 @@ import { HeadTableComponent } from "../../../shared/head-table/head-table.compon
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { convertErrorMessageToI18 } from "../../../core/utils/errors.utils"
-import { BusquedaGenericaComponent } from '../../../shared/components/busqueda-generica/busqueda-generica.component';
+import { BusquedaComponenteComponent } from './busqueda-componente/busqueda-componente.component';
 
 @Component({
   selector: "app-tarea",
   standalone: true,
-  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaGenericaComponent],
+  imports: [CommonModule, SharedTableComponent, MatIconModule, HeadTableComponent, MatPaginatorModule, OpcionesMantenedorComponent, TranslateModule, BusquedaComponenteComponent],
   templateUrl: "./componente.component.html",
   styleUrl: "./componente.component.css",
 })

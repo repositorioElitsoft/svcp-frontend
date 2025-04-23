@@ -12,7 +12,7 @@
                 </button>
                 <!-- Titulo centrado en móvil y a la izquierda en desktop -->
                 <h1 class="text-xl sm:text-center sm:w-auto w-full text-center sm:text-left">
-                    {{ 'mantenedores.tarea.titulo' | translate }}
+                    {{ 'mantenedores.componente.titulo' | translate }}
                 </h1>
             </div>
             <!-- Header Section -->
@@ -33,22 +33,19 @@
 
             </div>
 
-
-            <!--Search Genérico-->
-            <app-busqueda-generica [fieldName]="'descripcionTarea'" [translationPrefix]="'mantenedores.tarea'"
-                [translationFieldKey]="'descripcionTarea'" (applyfilter)="buscar($event)"
-                [buttonText]="'mantenedores.buscar'">
-            </app-busqueda-generica>
+            <!--Búsqueda de Componente-->
+            <app-busqueda-componente (applyfilter)="buscar($event)" [filters]="activeOptionalFilters">
+            </app-busqueda-componente>
 
             <div class="bg-white p-4 rounded-lg mb-4  dark:bg-neutral-800">
                 <app-shared-table (applyfilter)="buscar($event)" [filtersLabels]="activeOptionalFilters"
-                    [translationGroup]="'mantenedores.tarea'" [displayedColumns]="displayedColumns"
+                    [translationGroup]="'mantenedores.componente'" [displayedColumns]="displayedColumns"
                     [dataSource]="dataSource" [pageNumber]="pageNumber" [totalElements]="totalElements"
                     [totalPages]="totalPages" [pageSize]="pageSize"
                     (deleteSingleSelected)="onDeleteSingleSelected($event)" (deleteSelected)="onDeleteSelected($event)"
                     (viewSelected)="onViewSelected($event)" (pageChanged)="onPageChanged($event)"
                     (sort)="sortDatos($event)" (editSelected)="onEditSelected($event)"
-                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionTarea'"
+                    (selectionChange)="onSelectionChange($event)" [simpleSearchField]="'descripcionComponente'"
                     (filterDelete)="onFilterDeleted($event)" [filters]='[]'></app-shared-table>
             </div>
         </div>
