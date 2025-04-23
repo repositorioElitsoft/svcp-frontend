@@ -213,7 +213,9 @@ export class ChipsComponent {
     if (!item) return '';
 
     if (this.nestedPath) {
-      return this.nestedPath.split('.').reduce((obj, key) => obj?.[key], item) || '';
+      const baseValue = this.nestedPath.split('.').reduce((obj, key) => obj?.[key], item) || '';
+      const cantidad = item.cantidad;
+      return cantidad ? `${baseValue} (${cantidad})` : baseValue;
     }
 
     return item[this.displayField] || '';
