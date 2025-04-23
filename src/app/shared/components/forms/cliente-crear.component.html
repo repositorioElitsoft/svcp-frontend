@@ -22,7 +22,7 @@
             class="elitsoft-warn w-full flex items-center justify-center py-4 text-center">
             {{ 'mantenedores.formularios.botonCancelar' | translate }}
         </button>
-        <button (click)="onSubmit()" [disabled]="this.isLoading || informacionPersonal?.form?.invalid"
+        <button (click)="onSubmit()" [disabled]="this.isLoading || informacionPersonal.form.invalid"
             class="elitsoft-btn w-full flex items-center justify-center py-4 text-center disabled:opacity-50">
             {{ (esActualizar() ? 'mantenedores.formularios.actualizar' :
             'mantenedores.formularios.guardar') | translate }}

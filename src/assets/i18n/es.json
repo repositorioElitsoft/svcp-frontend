@@ -272,6 +272,7 @@
             "tipoProductoTipoComponentes": "Tipo de Componente",
             "tipoComponente": "Tipo de Componente",
             "sinComponentes": "No hay componentes asignados",
+            "sinComponentesAsignados": "No hay tipos de componentes asociados. Edita para comenzar.",
             "agregarComponente": "Agregar Componente",
             "cantidad": "Cantidad",
             "resumen": "Resumen",
